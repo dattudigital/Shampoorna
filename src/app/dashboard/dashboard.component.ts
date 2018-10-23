@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { SaleUserService } from '../services/sale-user.service'
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -38,11 +38,11 @@ export class DashboardComponent implements OnInit {
   addressProofNo = '';
 
 
-  banks:any=[{
-    bankStatement:''
+  banks: any = [{
+    bankStatement: ''
   }]
 
-  constructor() { }
+  constructor(private saleUserService: SaleUserService) { }
 
   ngOnInit() {
   }
@@ -104,18 +104,47 @@ export class DashboardComponent implements OnInit {
     this.csdUser = true;
   }
 
-  addBankStatement(data,index){
+  addBankStatement(data, index) {
     console.log(index)
-    if (index !==5){
+    if (index !== 5) {
       this.banks.push({
-        bankStatement:''
+        bankStatement: ''
       })
     }
- 
+
   }
-  deleteBankStatement(index){
+  deleteBankStatement(index) {
     console.log(index);
     this.banks.splice(index, 1)
+  }
+
+  saveUserDeatils() {
+
+    console.log("came")
+    console.log(this.dob)
+    var date = new Date(this.dob);
+    this.dob = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDay();
+    console.log(this.dob);
+    var data = {
+      firstname: this.name,
+      email_id: this.nameOnRc,
+      display_name_on_rc: this.nameOnRc,
+      dob: this.dob,
+      relation: this.relationName,
+      address: this.address,
+      mobile: this.mobile,
+      mandal: this.mandal,
+      district: this.districtName,
+      proof_type: this.addressProof,
+      proof_num: this.addressProofNo,
+      sale_status: "1"
+    }
+    console.log(data)
+    this.saleUserService.saveSalesUser(data).subscribe(responce => {
+      console.log(responce.json())
+    })
+
+
   }
 
 }
