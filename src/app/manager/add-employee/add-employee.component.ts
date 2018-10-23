@@ -22,9 +22,6 @@ export class AddEmployeeComponent implements OnInit {
    phone:'';
    password:'';
 
-
- 
-
   constructor(private http:Http,private service:ManagerServiceService,private formBuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -81,6 +78,4 @@ this.service.getEmployeeDetails().subscribe(res=>{
     console.log(res.json());
   })
   }
-
-
 }
