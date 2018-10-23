@@ -40,6 +40,7 @@
 		</div>
 	</div>
 	<div class="clear"></div>
+
 	<div *ngIf="newUser || exchangeUser || csdUser">
 		<div class="personal-info">
 			<div class="container">
@@ -90,9 +91,7 @@
 							<span style="color:red">*</span>
 						</label>
 						<div class="col-sm-5">
-
 							<input type="text" name="mandal" maxlength="50" class="form-control" [(ngModel)]="mandal">
-
 						</div>
 					</div>
 					<div class="row form-group">
@@ -100,9 +99,7 @@
 							<span style="color:red">*</span>
 						</label>
 						<div class="col-sm-5">
-
 							<input type="text" name="district" maxlength="50" class="form-control" [(ngModel)]="districtName">
-
 						</div>
 					</div>
 					<div class="row form-group">
@@ -110,9 +107,7 @@
 							<span style="color:red">*</span>
 						</label>
 						<div class="col-sm-5">
-
 							<input type="text" name="mobile" maxlength="50" class="form-control" [(ngModel)]="mobile">
-
 						</div>
 					</div>
 					<div class="row form-group">
@@ -132,94 +127,72 @@
 								<option value="gas">Gas Bill</option>
 								<option value="mobile">Mobile Postpaid </option>
 							</select>
-
 						</div>
 					</div>
 					<div class="row form-group">
 						<label class="col-sm-4 col-form-label required"></label>
 						<div class="col-sm-5">
-
 							<input type="text" name="aadharNumber" maxlength="50" class="form-control" [(ngModel)]="addressProofNo">
-
 						</div>
 					</div>
-
 				</div>
 				<div class="col-sm-6">
-					<div *ngIf="newUser || exchangeUser">
-						<h3>Vehicle Information</h3>
-						<div class="row form-group">
-							<label class="col-sm-4 col-form-label required">Engine No
-								<span style="color:red">*</span>
-							</label>
-							<div class="col-sm-5">
-
-								<input type="text" name="Engine" maxlength="50" class="form-control">
-
+					<h3>Vehicle Information</h3>
+					<div class="row form-group">
+						<label class="col-sm-4 col-form-label required">Engine No
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-5">
+							<input type="text" name="Engine" maxlength="50" class="form-control">
+						</div>
+					</div>
+					<div class="row form-group">
+						<label class="col-sm-4 col-form-label required">Frame No
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-5">
+							<input type="text" name="frame" maxlength="50" class="form-control">
+						</div>
+					</div>
+					<div class="row form-group">
+						<label class="col-sm-4 col-form-label required">DC No
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-5">
+							<input type="text" name="dcnum" maxlength="50" class="form-control">
+						</div>
+					</div>
+					<div class="row form-group">
+						<label class="col-sm-4 col-form-label required">Key No
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-5">
+							<input type="text" name="keyno" maxlength="50" class="form-control">
+						</div>
+					</div>
+					<div class="row form-group">
+						<label class="col-sm-4 col-form-label required">Vehicle Color</label>
+						<div class="col-sm-5">
+							<input type="text" name="color" maxlength="50" class="form-control">
+						</div>
+					</div>
+					<div class="row form-group">
+						<label class="col-sm-4 col-form-label required">Nominee Name
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-5">
+							<input type="text" name="nomini" maxlength="50" class="form-control">
+						</div>
+					</div>
+					<div class="row form-group">
+						<label class="col-sm-4 col-form-label required">Second vehicle
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-5">
+							<div class="form-check pull-left">
+								<input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
 							</div>
 						</div>
-						<div class="row form-group">
-							<label class="col-sm-4 col-form-label required">Frame No
-								<span style="color:red">*</span>
-							</label>
-							<div class="col-sm-5">
-
-								<input type="text" name="frame" maxlength="50" class="form-control">
-
-							</div>
-						</div>
-						<div class="row form-group">
-							<label class="col-sm-4 col-form-label required">DC No
-								<span style="color:red">*</span>
-							</label>
-							<div class="col-sm-5">
-
-								<input type="text" name="dcnum" maxlength="50" class="form-control">
-
-							</div>
-						</div>
-						<div class="row form-group">
-							<label class="col-sm-4 col-form-label required">Key No
-								<span style="color:red">*</span>
-							</label>
-							<div class="col-sm-5">
-
-								<input type="text" name="keyno" maxlength="50" class="form-control">
-
-							</div>
-						</div>
-						<div class="row form-group">
-							<label class="col-sm-4 col-form-label required">Vehicle Color</label>
-							<div class="col-sm-5">
-
-								<input type="text" name="color" maxlength="50" class="form-control">
-
-							</div>
-						</div>
-						<div class="row form-group">
-							<label class="col-sm-4 col-form-label required">Nominee Name
-								<span style="color:red">*</span>
-							</label>
-							<div class="col-sm-5">
-
-								<input type="text" name="nomini" maxlength="50" class="form-control">
-
-							</div>
-						</div>
-						<div class="row form-group">
-							<label class="col-sm-4 col-form-label required">Second vehicle
-								<span style="color:red">*</span>
-							</label>
-							<div class="col-sm-5">
-
-								<div class="form-check pull-left">
-									<input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-
-								</div>
-
-							</div>
-						</div>
-
 					</div>
 					<div class="row form-group">
 						<div class="col-sm-12">
@@ -331,36 +304,28 @@
 							</select>
 						</div>
 					</div>
+				</div>
 
-					<div class="csd-form" *ngIf="csdUser">
-						<div class="container">
-							<div class="col-sm-8" style="padding-top:20px">
-								<div class=" row form-group">
-									<label class="col-sm-4 col-form-label required">Pay Order
-										<span style="color:red">*</span>
-									</label>
-									<div class="col-sm-5">
+				<div class="col-sm-12">
+					<div class="pr-style">
+						<div class="col-sm-4">
+							<label>PR-</label> &nbsp;&nbsp;
+							<input type="radio" name="pr">Yes &nbsp;&nbsp;
+							<input type="radio" name="pr">No &nbsp;&nbsp;
+						</div>
+						<div class="col-sm-4">
+							<label>Accessories-</label> &nbsp;&nbsp;
+							<input type="radio" name="accessories" [(ngModel)]="selectedRadio" value="y">Yes &nbsp;&nbsp;
 
-										<input type="file" name="idproof" accept="image/*">
-
-									</div>
-								</div>
-								<div class=" row form-group">
-									<label class="col-sm-4 col-form-label required">Delivery from showroom
-										<span style="color:red">*</span>
-									</label>
-									<div class="col-sm-5">
-										<input type="file" name="idproof" accept="image/*">
-									</div>
-								</div>
-
+							<input type="radio" name="accessories">No &nbsp;&nbsp;
+							<div class="new-text" *ngIf="selectedRadio == 'y'">
+								<textarea class="form-control" maxlength="1000" rows="2" name="address"></textarea>
 							</div>
-							<div class="clear"></div>
-							<div class="row form-group">
-								<div claas="container">
-									<button type="submit" class="btn btn-warning"  style="float:right;margin-right: 20%">Submit</button>
-								</div>
-							</div>
+						</div>
+						<div class="col-sm-4">
+							<label>Extended Warranty-</label> &nbsp;&nbsp;
+							<input type="radio" name="extended">Yes &nbsp;&nbsp;
+							<input type="radio" name="extended">No &nbsp;&nbsp;
 						</div>
 					</div>
 				</div>
@@ -369,7 +334,118 @@
 		</div>
 	</div>
 
-	<div *ngIf="newUser">
+	<div class="csd-form" *ngIf="csdUser">
+		<div class="container">
+			<div class="col-sm-8" style="padding-top:20px">
+				<div class=" row form-group">
+					<label class="col-sm-4 col-form-label required">Pay Order
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="file" name="idproof" accept="image/*">
+					</div>
+				</div>
+				<div class=" row form-group">
+					<label class="col-sm-4 col-form-label required">Delivery from showroom
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="file" name="idproof" accept="image/*">
+					</div>
+				</div>
+			</div>
+			<div class="clear"></div>
+			<div class="row form-group">
+				<div claas="container">
+					<button type="submit" class="btn btn-warning" style="float:right;margin-right: 20%">Submit</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div *ngIf="exchangeUser">
+		<div class="personal-info">
+			<div class="container">
+				<div class="col-sm-12">
+					<h3>Exchange</h3>
+				</div>
+				<div class="col-sm-6">
+					<div class="row form-group">
+						<label class="col-sm-4 col-form-label required">Vehicle No
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-5">
+							<input type="number" name="exchange" maxlength="50" class="form-control">
+						</div>
+					</div>
+					<div class="row form-group">
+						<label class="col-sm-4 col-form-label required">Engine No
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-5">
+							<input type="text" name="disbursement" maxlength="50" class="form-control">
+						</div>
+					</div>
+					<div class="row form-group">
+						<label class="col-sm-4 col-form-label required">frame No
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-5">
+							<input type="text" name="payment" maxlength="50" class="form-control">
+						</div>
+					</div>
+					<div class="row form-group">
+						<label class="col-sm-4 col-form-label required">Vehicle Color
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-5">
+							<input type="text" name="color" maxlength="50" class="form-control">
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+
+					<div class="row form-group">
+						<label class="col-sm-4 col-form-label required">Vehicle Model
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-5">
+							<input type="text" name="model" maxlength="50" class="form-control">
+						</div>
+					</div>
+					<div class="row form-group">
+						<label class="col-sm-4 col-form-label required">Customer Name
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-5">
+							<input type="text" name="vat" maxlength="50" class="form-control">
+						</div>
+					</div>
+					<div class="row form-group">
+						<label class="col-sm-4 col-form-label required"> Exchange Amount
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-5">
+							<input type="text" name="vat" maxlength="50" class="form-control">
+						</div>
+					</div>
+					<div class="row form-group">
+						<label class="col-sm-4 col-form-label required">Exchange Amount Approved By
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-5">
+							<select name="state" class="form-control">
+								<option value="" disabled select>Select</option>
+								<option value="">1</option>
+								<option value="">2</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div *ngIf="newUser || exchangeUser">
 		<div class="payment-mode">
 			<div class="container">
 				<div class="col-sm-6">
@@ -386,7 +462,6 @@
 								<option value="cash">Cash</option>
 								<option value="emi">EMI</option>
 							</select>
-
 						</div>
 					</div>
 					<div class="cash-form" *ngIf="selectedValue == 'cash'">
@@ -448,7 +523,6 @@
 											</ul>
 										</ng-template>
 									</p-fileUpload>
-
 								</div>
 							</div>
 						</div>
@@ -460,7 +534,6 @@
 							</label>
 							<div class="col-sm-3">
 								<input type="text" name="cost" maxlength="50" class="form-control">
-
 							</div>
 						</div>
 						<div class=" row form-group">
@@ -476,9 +549,7 @@
 								<span style="color:red">*</span>
 							</label>
 							<div class="col-sm-5">
-
 								<input type="file" name="address" accept="image/*">
-
 							</div>
 						</div>
 						<div class=" row form-group">
@@ -486,9 +557,7 @@
 								<span style="color:red">*</span>
 							</label>
 							<div class="col-sm-5">
-
 								<input type="file" name="idproof" accept="image/*">
-
 							</div>
 						</div>
 						<div *ngFor="let bank of banks;let i=index">
@@ -511,11 +580,8 @@
 										<button type="submit" class="btn btn-success" (click)="addBankStatement(bank,i)">Add</button>
 									</div>
 								</div>
-
-
 							</div>
 						</div>
-
 						<div class=" row form-group">
 							<label class="col-sm-4 col-form-label required">cheque
 								<span style="color:red">*</span>
@@ -524,15 +590,12 @@
 								<input type="file" name="cheque" accept="image/*">
 							</div>
 						</div>
-
 						<div class=" row form-group">
 							<label class="col-sm-4 col-form-label required">passport size photo
 								<span style="color:red">*</span>
 							</label>
 							<div class="col-sm-5">
-
 								<input type="file" name="photo" accept="image/*">
-
 							</div>
 						</div>
 					</div>
@@ -540,134 +603,20 @@
 			</div>
 		</div>
 		<div class="clear"></div>
+	</div>
+	<div *ngIf="newUser ">
 		<div class="row form-group">
 			<div claas="container">
-				<button type="submit" class="btn btn-warning" (click)="saveUserDeatils()" style="float:right;margin-right: 20%">Submit testttt</button>
+				<button type="submit" class="btn btn-warning" (click)="saveUserDeatils()" style="float:right;margin-right: 20%">Submit</button>
 			</div>
 		</div>
 	</div>
-	<div *ngIf="exchangeUser">
-		<div class="personal-info">
-			<div class="container">
-				<div class="col-sm-12">
-					<h3>Exchange</h3>
-				</div>
-				<div class="col-sm-6">
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Vehicle No
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-
-							<input type="number" name="exchange" maxlength="50" class="form-control">
-
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Engine No
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-
-							<input type="text" name="disbursement" maxlength="50" class="form-control">
-
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">frame No
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-
-							<input type="text" name="payment" maxlength="50" class="form-control">
-
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Vehicle Color
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-
-							<input type="text" name="color" maxlength="50" class="form-control">
-
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6">
-
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Vehicle Model
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<input type="text" name="model" maxlength="50" class="form-control">
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Customer Name
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<input type="text" name="vat" maxlength="50" class="form-control">
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required"> Exchange Amount
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-
-							<input type="text" name="vat" maxlength="50" class="form-control">
-
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Exchange Amount Approved By
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-
-							<select name="state" class="form-control">
-								<option value="" disabled select>Select</option>
-								<option value="">1</option>
-								<option value="">2</option>
-
-							</select>
-
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-12">
-					<div class="col-sm-4">
-						<label>PR-</label> &nbsp;&nbsp;
-						<input type="radio" name="pr">Yes &nbsp;&nbsp;
-						<input type="radio" name="pr">No &nbsp;&nbsp;
-					</div>
-					<div class="col-sm-4">
-						<label>Accessories-</label> &nbsp;&nbsp;
-						<input type="radio" name="accessories" [(ngModel)]="selectedRadio" value="y">Yes &nbsp;&nbsp;
-
-						<input type="radio" name="accessories">No &nbsp;&nbsp;
-						<div class="new-text" *ngIf="selectedRadio == 'y'">
-							<textarea class="form-control" maxlength="1000" rows="2" name="address"></textarea>
-						</div>
-					</div>
-					<div class="col-sm-4">
-						<label>Extended Warranty-</label> &nbsp;&nbsp;
-						<input type="radio" name="extended">Yes &nbsp;&nbsp;
-						<input type="radio" name="extended">No &nbsp;&nbsp;
-					</div>
-				</div>
-			</div>
-		</div>
+	<div *ngIf=" exchangeUser">
 		<div class="row form-group">
 			<div claas="container">
 				<button type="submit" class="btn btn-warning" style="float:right;margin-right: 20%">Submit</button>
 			</div>
 		</div>
 	</div>
-
-
 </div>
 <app-footer></app-footer>
