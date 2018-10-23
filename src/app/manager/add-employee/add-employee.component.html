@@ -1,0 +1,215 @@
+<div class="tabs-services">
+  <app-header></app-header>
+</div>
+<div class="new-employee">
+  <div class="row">
+    <div class="col-sm-6">
+      <h3 style="font-weight:600; padding: 7px;">Employees Details</h3>
+    </div>
+    <div class="col-sm-4"></div>
+    <div class="col-sm-2">
+      <button type="button" class="btn backBtn" (click)="backToInventory()">Back</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-10">
+    </div>
+    <div class="col-sm-2">
+      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addEmployee">ADD NEW
+      </button>
+    </div>
+  </div>&nbsp;
+
+  <p-table #dt [columns]="cols" [value]="employees" [paginator]="true" [rows]="4">
+    <ng-template pTemplate="caption">
+      <div style="text-align: right">
+        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+        <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
+          style="width:auto">
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+          {{col.header}}
+          <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+        </th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+
+    </ng-template>
+    <ng-template pTemplate="body" let-i="rowIndex" let-employee>
+      <tr>
+        <td *ngFor="let col of cols">
+          {{employee[col.field]}}
+        </td>
+        <td href="#" data-toggle="modal" data-target="#editVehicle" (click)="editVehicle(bikes,i)">
+          <i class="fa fa-edit" style="color:orange"></i>
+        </td>
+        <td href="#" data-toggle="modal" data-target="#deleteVehicle" (click)="deleteVehicle(bikes,i)">
+          <i class="fa fa-trash"></i>
+        </td>
+      </tr>
+
+    </ng-template>
+
+  </p-table>
+</div>
+
+
+
+
+<div class="modal fade" id="addEmployee" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form [formGroup]="employeeForm">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h3 class="modal-title" id="myModalLabel">Add New Employee</h3>
+        </div>
+        <div class="modal-body">
+          <br>
+          <div class="form-group">
+            <div class="col-md-1"></div>
+            <label for="input" class="col-md-3 control-label">FirstName
+              <a style="color:red">*</a>
+            </label>
+            <div class="col-md-6">
+              <input type="text" formControlName="employeeFirstName" class="form-control" id="eng" placeholder="firstName" [ngClass]="{ 'is-invalid': submitted && f.employeeFirstName.errors }"
+                [(ngModel)]="firstName">
+              <div *ngIf="submitted && f.employeeFirstName.errors" class="invalid-feedback">
+                <div *ngIf="f.employeeFirstName.errors.required" style="color:red">First Name is required</div>
+              </div>
+            </div>
+
+            <div class="clear"></div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-1"></div>
+            <label for="input" class="col-md-3 control-label">LastName
+              <a style="color:red">*</a>
+            </label>
+            <div class="col-md-6">
+              <input type="text" formControlName="employeeLastName" class="form-control" id="eng" placeholder="lastName" [ngClass]="{ 'is-invalid': submitted && f.employeeLastName.errors }"
+                [(ngModel)]="lastName">
+              <div *ngIf="submitted && f.employeeLastName.errors" class="invalid-feedback">
+                <div *ngIf="f.employeeLastName.errors.required" style="color:red">Last Name is required</div>
+              </div>
+            </div>
+
+            <div class="clear"></div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-1"></div>
+            <label for="input" class="col-md-3 control-label">Branch
+              <a style="color:red">*</a>
+            </label>
+            <div class="col-md-6">
+              <input type="text" formControlName="employeeBranch" class="form-control" id="eng" placeholder="branch" [ngClass]="{ 'is-invalid': submitted && f.employeeBranch.errors }"
+                [(ngModel)]="branch">
+              <div *ngIf="submitted && f.employeeBranch.errors" class="invalid-feedback">
+                <div *ngIf="f.employeeBranch.errors.required" style="color:red">Branch is required</div>
+              </div>
+            </div>
+
+            <div class="clear"></div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-1"></div>
+            <label for="input" class="col-md-3 control-label">Address
+              <a style="color:red">*</a>
+            </label>
+            <div class="col-md-6">
+              <input type="text" formControlName="employeeAddress" class="form-control" placeholder="address" [ngClass]="{ 'is-invalid': submitted && f.employeeAddress.errors }"
+                [(ngModel)]="address">
+              <div *ngIf="submitted && f.employeeAddress.errors" class="invalid-feedback">
+                <div *ngIf="f.employeeAddress.errors.required" style="color:red">Employee Address is required</div>
+              </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-1"></div>
+            <label for="input" class="col-md-3 control-label">PinCode
+              <a style="color:red">*</a>
+            </label>
+            <div class="col-md-6">
+              <input type="text" formControlName="employeePinCode" class="form-control" placeholder="address" [ngClass]="{ 'is-invalid': submitted && f.employeePinCode.errors }"
+                [(ngModel)]="pincode">
+              <div *ngIf="submitted && f.employeePinCode.errors" class="invalid-feedback">
+                <div *ngIf="f.employeePinCode.errors.required" style="color:red">PinCode is required</div>
+              </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-1"></div>
+            <label for="input" class="col-md-3 control-label">EmailId
+              <a style="color:red">*</a>
+            </label>
+            <div class="col-md-6">
+              <input type="text" formControlName="Email" class="form-control" placeholder="address" [ngClass]="{ 'is-invalid': submitted && f.Email.errors }"
+                [(ngModel)]="emailId">
+              <div *ngIf="submitted && f.Email.errors" class="invalid-feedback">
+                <div *ngIf="f.Email.errors.required" style="color:red">Email is required</div>
+              </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-1"></div>
+            <label for="input" class="col-md-3 control-label">Phone Number
+              <a style="color:red">*</a>
+            </label>
+            <div class="col-md-6">
+              <input type="text" formControlName="Phone" class="form-control" placeholder="address" [ngClass]="{ 'is-invalid': submitted && f.Phone.errors }"
+                [(ngModel)]="phone">
+              <div *ngIf="submitted && f.Phone.errors" class="invalid-feedback">
+                <div *ngIf="f.Phone.errors.required" style="color:red">Phone Number is required</div>
+              </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-1"></div>
+            <label for="input" class="col-md-3 control-label">Password
+              <a style="color:red">*</a>
+            </label>
+            <div class="col-md-6">
+              <input type="text" formControlName="Password" class="form-control" placeholder="address" [ngClass]="{ 'is-invalid': submitted && f.Password.errors }"
+                [(ngModel)]="password">
+              <div *ngIf="submitted && f.Password.errors" class="invalid-feedback">
+                <div *ngIf="f.Password.errors.required" style="color:red">Password is required</div>
+              </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" (click)="addEmployee()">ADD</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<app-footer></app-footer>

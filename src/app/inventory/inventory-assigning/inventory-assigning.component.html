@@ -1,0 +1,247 @@
+<div class="tabs-services">
+  <app-header></app-header>
+</div>
+
+
+<div class="add_promotions padding-20">
+    <div class="row">
+      <div class="col-sm-6">
+        <h3 style="font-weight:600; padding: 7px;">Inventory Assigning</h3>
+      </div>
+      <div class="col-sm-4"></div>
+      <div class="col-sm-2">
+        <button type="button" class="btn backBtn" (click)="backToInventory()">Back</button>
+      </div>
+    </div>
+
+<div class="inv-header">
+
+  <div class="inv-assing">
+    <form [formGroup]="InventoryAssignForm">
+      <div class="container">
+        <!-- <div class="col-sm-12">
+          <h3>Inventory Assigning</h3>
+        </div> -->
+        <div class="col-sm-6">
+
+          <div class="row form-group">
+            <label class="col-sm-4 col-form-label required">Indent
+              <span style="color:red">*</span>
+            </label>
+            <div class="col-sm-5">
+              <select class="form-control" formControlName="indentId" [(ngModel)]="indentId" [ngClass]="{ 'is-invalid': submitted && f.indentId.errors }">
+                <option value="" disabled select></option>
+                <option *ngFor="let item of indentData" [ngValue]="item.indent_id">{{item.indent_req_id}}</option>
+              </select>
+              <div *ngIf="submitted && f.indentId.errors" class="invalid-feedback">
+                <div *ngIf="f.indentId.errors.required" style="color:red">Indent is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <label class="col-sm-4 col-form-label required">Branch
+              <span style="color:red">*</span>
+            </label>
+            <div class="col-sm-5">
+              <select class="form-control" formControlName="branchId" [(ngModel)]="branchId" [ngClass]="{ 'is-invalid': submitted && f.indentId.errors }">
+                <option value="" disabled select></option>
+                <option *ngFor="let branch of branchData" [ngValue]="branch.branch_id">{{branch.branch_name}}</option>
+              </select>
+              <div *ngIf="submitted && f.branchId.errors" class="invalid-feedback">
+                <div *ngIf="f.branchId.errors.required" style="color:red">Branch is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <label class="col-sm-4 col-form-label required">Assigned By
+              <span style="color:red">*</span>
+            </label>
+            <div class="col-sm-5">
+              <select class="form-control" formControlName="empId" [(ngModel)]="empId" [ngClass]="{ 'is-invalid': submitted && f.empId.errors }">
+                <option value="" disabled select></option>
+                <option *ngFor="let employee of employeedata" [ngValue]="employee.employee_id">{{employee.employee_firstname}}</option>
+              </select>
+              <div *ngIf="submitted && f.empId.errors" class="invalid-feedback">
+                <div *ngIf="f.empId.errors.required" style="color:red">Employee is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <label class="col-sm-4 col-form-label required">Shipped By
+              <span style="color:red">*</span>
+            </label>
+            <div class="col-sm-5">
+              <select class="form-control" formControlName="shippedBy" [(ngModel)]="shippedBy" [ngClass]="{ 'is-invalid': submitted && f.shippedBy.errors }">
+                <option value="" disabled select></option>
+                <option value="0">Auto</option>
+                <option value="1">Trolley</option>
+                <option value="2">Lorry</option>
+              </select>
+              <div *ngIf="submitted && f.shippedBy.errors" class="invalid-feedback">
+                <div *ngIf="f.shippedBy.errors.required" style="color:red">ShippedBy is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <label class="col-sm-4 col-form-label required">
+            </label>
+            <div class="col-sm-5">
+              <input type="text" maxlength="50" class="form-control" formControlName="shippedBy">
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="row form-group">
+            <label class="col-sm-4 col-form-label required">Branch Manager Acknowledgement
+              <span style="color:red">*</span>
+            </label>
+            <div class="col-sm-5">
+              <select class="form-control" formControlName="managerAck" [(ngModel)]="managerAck" [ngClass]="{ 'is-invalid': submitted && f.managerAck.errors }">
+                <option value="" disabled select></option>
+                <option value="0">Yes</option>
+                <option value="1">No</option>
+              </select>
+              <div *ngIf="submitted && f.managerAck.errors" class="invalid-feedback">
+                <div *ngIf="f.managerAck.errors.required" style="color:red">Managet Acknowledgement is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <label class="col-sm-4 col-form-label required">Status
+              <span style="color:red">*</span>
+            </label>
+            <div class="col-sm-5">
+              <select class="form-control" formControlName="status" [(ngModel)]="status" [ngClass]="{ 'is-invalid': submitted && f.status.errors }">
+                <option value="" disabled select></option>
+                <option value="0">Processing</option>
+                <option value="1">Transit</option>
+                <option value="2">Delivered</option>
+              </select>
+              <div *ngIf="submitted && f.status.errors" class="invalid-feedback">
+                <div *ngIf="f.status.errors.required" style="color:red">Status is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <label class="col-sm-4 col-form-label required">Branch Manager Comment
+
+            </label>
+            <div class="col-sm-5">
+              <textarea class="form-control" maxlength="1000" rows="2" formControlName="managerNote" [(ngModel)]="managerNote"></textarea>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="new-assign">
+    <div class="container">
+      <div class="col-sm-12">
+        <h3>Vehicle details</h3>
+      </div>
+      <div *ngFor="let vehicle of vehicles;let i=index">
+        <div class="col-sm-12">
+          <div class="col-sm-4">
+            <div class="row form-group">
+              <label class="col-sm-5 col-form-label required"> Engine No
+                <span style="color:red">*</span>
+              </label>
+              <div class="col-sm-7">
+                <input type="text" maxlength="50" class="form-control" [(ngModel)]="vehicle.engineno">
+              </div>
+              <!-- <div *ngIf="submitted && f.engineno.errors" class="invalid-feedback">
+                  <div *ngIf="f.engineno.errors.required" style="color:red">Engine Number is required</div>
+                </div> -->
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="row form-group">
+              <label class="col-sm-5 col-form-label required"> Chassis No
+                <span style="color:red">*</span>
+              </label>
+              <div class="col-sm-7">
+                <input type="text" maxlength="50" class="form-control" [(ngModel)]="vehicle.chassisno">
+              </div>
+              <!-- <div *ngIf="submitted && f.chassisno.errors" class="invalid-feedback">
+                  <div *ngIf="f.chassisno.errors.required" style="color:red">Chassis Number is required</div>
+                </div> -->
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="row form-group">
+              <label class="col-sm-5 col-form-label required"> Frame No
+                <span style="color:red">*</span>
+              </label>
+              <div class="col-sm-7">
+                <input type="text" maxlength="50" class="form-control" [(ngModel)]="vehicle.frameno">
+              </div>
+              <!-- <div *ngIf="submitted && f.frameno.errors" class="invalid-feedback">
+                  <div *ngIf="f.frameno.errors.required" style="color:red">Frame Number is required</div>
+                </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <div class="col-sm-4">
+            <div class="row form-group">
+              <label class="col-sm-5 col-form-label required">Color
+                <span style="color:red">*</span>
+              </label>
+              <div class="col-sm-7">
+                <input type="text" maxlength="50" class="form-control" [(ngModel)]="vehicle.color">
+              </div>
+              <!-- <div *ngIf="submitted && f.color.errors" class="invalid-feedback">
+                  <div *ngIf="f.color.errors.required" style="color:red">Color is required</div>
+                </div> -->
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="row form-group">
+              <label class="col-sm-5 col-form-label required">Make
+                <span style="color:red">*</span>
+              </label>
+              <div class="col-sm-7">
+                <input type="text" maxlength="50" class="form-control" [(ngModel)]="vehicle.make">
+              </div>
+              <!-- <div *ngIf="submitted && f.make.errors" class="invalid-feedback">
+                  <div *ngIf="f.make.errors.required" style="color:red">Make is required</div>
+                </div> -->
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="row form-group">
+              <label class="col-sm-5 col-form-label required">Model
+                <span style="color:red">*</span>
+              </label>
+              <div class="col-sm-7">
+                <input type="text" maxlength="50" class="form-control" [(ngModel)]="vehicle.model">
+              </div>
+              <!-- <div *ngIf="submitted && f.model.errors" class="invalid-feedback">
+                  <div *ngIf="f.model.errors.required" style="color:red">Model is required</div>
+                </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="delete-button">
+          <button type="submit" class="btn btn-danger" (click)="deleteInventoryAssign(i)">Delete</button>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="col-sm-11"></div>
+        <div class="col-sm-1">
+          <button type="submit" class="btn btn-success" (click)="addInventoryAssign(vehicle,i)">Add</button>
+        </div>
+      </div>
+      <div class="inv-submit" style="float:right">
+        <button type="submit" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<br>
+<app-footer></app-footer>

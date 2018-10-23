@@ -1,0 +1,162 @@
+<div class="tabs-services">
+  <app-header></app-header>
+</div>
+
+
+
+<div class="add_promotions padding-20">
+  <div class="row">
+    <div class="col-sm-6">
+      <h3 style="font-weight:600; padding: 7px;">Indent List</h3>
+    </div>
+    <div class="col-sm-4"></div>
+    <div class="col-sm-2">
+      <button type="button" class="btn backBtn" (click)="backToInventory()">Back</button>
+    </div>
+  </div>
+
+  <div class="indent-list">
+
+    <div class="col-md-4 col-sm-4 col-xs-12">
+      <div class="form-group">
+        <label for="input" class="col-md-3 control-label">Type</label>
+        <div class="col-md-7">
+          <select class="form-control" [(ngModel)]="vehicleTypeFilter">
+              <option value="" selected>All</option>            
+            <option *ngFor="let data of this.typeData" [ngValue]=" data.vehicle_type_id">{{data.type_name}}</option>
+          </select>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-sm-4 col-xs-12">
+      <div class="form-group">
+        <label for="input" class="col-md-3 control-label">Model</label>
+        <div class="col-md-7">
+          <select class="form-control" [(ngModel)]="vehicleModelFilter">
+              <option value="" selected>All</option>            
+            <option *ngFor="let data of this.modelData" [ngValue]=" data.vehicle_model_id">{{data.model_name}}</option>
+          </select>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+    <div class="col-md-4 col-sm-4 col-xs-12">
+      <div class="form-group">
+        <label for="input" class="col-md-3 control-label">Color</label>
+        <div class="col-md-7">
+          <select class="form-control" [(ngModel)]="vehicleColorFilter">
+              <option value="" selected>All</option>
+            <option *ngFor="let data of this.colorData" [ngValue]=" data.vehicle_color_id">{{data.color_name}}</option>
+          </select>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+    <div class="col-md-4 col-sm-4 col-xs-12">
+      <div class="form-group">
+        <label for="input" class="col-md-3 control-label">Make</label>
+        <div class="col-md-7">
+          <select class="form-control" [(ngModel)]="vehicleMakeFilter">
+              <option value="" selected>All</option>
+            <option *ngFor="let data of this.makeData" [ngValue]=" data.vehicle_make_id">{{data.make_name}}</option>
+          </select>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+    <div class="col-md-4 col-sm-4 col-xs-12">
+      <div class="form-group">
+        <label for="input" class="col-md-3 control-label">From</label>
+        <div class="col-md-7">
+          <div class="input-group">
+            <p-calendar [(ngModel)]="fromDate" [inputStyle]="{'width':'190px'}" [showIcon]="true" placeholder="Select Date" name="fromDate" (ngModelChange)="fromDa($event)"
+              dateFormat="yy-mm-dd"></p-calendar>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+    <div class="col-md-4 col-sm-4 col-xs-12">
+      <div class="form-group">
+        <label for="input" class="col-md-3 control-label">To</label>
+        <div class="col-md-7">
+          <div class="input-group">
+            <p-calendar [(ngModel)]="toDate" [inputStyle]="{'width':'190px'}"   [showIcon]="true" placeholder="Select Date" name="toDate" (ngModelChange)="toDa($event)"
+              dateFormat="yy-mm-dd"></p-calendar>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+    <div class="col-md-4 col-sm-4 col-xs-12"></div>
+    <div class="col-md-4 col-sm-4 col-xs-12"></div>
+    <div class="col-md-1 col-sm-1 col-xs-12">
+      <button type="submit" class="btn btn-primary" (click)="detailsGo()">Submit</button>
+    </div>
+    <div class="col-md-1 col-sm-1 col-xs-12">
+      <button type="submit" class="btn btn-warning" (click)="detailsReset()">Reset</button>
+    </div>
+    <div class="clear"></div>
+  </div>
+  &nbsp;
+
+
+  <p-table #dt [columns]="cols" [value]="indents" [paginator]="true" [rows]="4">
+    <ng-template pTemplate="caption">
+      <div style="text-align: right">
+        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+        <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
+          style="width:auto">
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+          {{col.header}}
+          <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+        </th>
+        <!-- <th>Edit</th>
+      <th>Delete</th> -->
+      </tr>
+
+    </ng-template>
+    <ng-template pTemplate="body" let-i="rowIndex" let-bike>
+      <tr>
+        <td *ngFor="let col of cols">
+          <!-- {{bike[col.field] }} -->
+          {{ col.type ? col.type.transform(bike[col.field], col.arg1, col.arg2, col.arg3) : bike[col.field] }}
+          <!-- {{bike[col.field] | bike[col.type]}} -->
+          <!-- {{bike[col.type]}} -->
+          <!-- {{bike[col.field.color_name]}}
+        {{bike[col.field.type_name]}}
+        {{bike[col.field.make_name]}}
+        {{bike[col.field.model_name]}}.
+        {{bike[col.field.req_qty]}}
+        {{bike[col.field.assigned_qty]}} -->
+          <!-- {{bike[cols.field.req_on_date |date: 'dd/MM/yyyy']}}
+        {{bike[cols.field.assigned_on |date: 'dd/MM/yyyy']}}
+        {{bike[cols.field.updated_on  |date: 'dd/MM/yyyy' ]}} -->
+          <!-- {{bike[col.field.assignedby]}}
+        {{bike[col.field.updatedby]}} -->
+
+
+
+          <!-- {{col.type? bike[col.field] | col.type : bike[col.field] }} -->
+        </td>
+        <!-- <td href="#" data-toggle="modal" data-target="#editVehicle" (click)="editVehicle(bikes,i)"><i class="fa fa-edit"
+          style="color:orange"></i></td>
+      <td href="#" data-toggle="modal" data-target="#deleteVehicle" (click)="deleteVehicle(bikes,i)"><i class="fa fa-trash"></i>
+      </td> -->
+      </tr>
+
+    </ng-template>
+
+  </p-table>
+</div>
+
+<br>
+
+
+<app-footer></app-footer>

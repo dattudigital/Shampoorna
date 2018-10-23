@@ -1,0 +1,188 @@
+<div class="tabs-services">
+  <app-header></app-header>
+</div>
+
+
+
+<div class="add_promotions padding-20">
+  <div class="row">
+    <div class="col-sm-6">
+      <h3 style="font-weight:600;">Indent Raise</h3>
+    </div>
+    <div class="col-sm-4"></div>
+    <div class="col-sm-2">
+      <button type="button" class="btn backBtn" (click)="backToInventory()">Back</button>
+    </div>
+  </div>
+  <br>
+  <div class="add_promotions-1">
+    <form [formGroup]="IndentRaisingForm">
+      <div class="col-sm-6">
+        <div class=" row form-group">
+          <label for="input" class="col-sm-4 control-label">Indent Req ID
+            <a style="color:red">*</a>
+          </label>
+          <div class="col-sm-5">
+            <input type="text" class="form-control" [ngModelOptions]="{standalone: true}" placeholder="Auto Generated" [(ngModel)]="indentId"
+              disabled>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class=" row form-group">
+          <label for="input" class="col-sm-4 control-label">Vehicle Color
+            <a style="color:red">*</a>
+          </label>
+          <div class="col-sm-5">
+            <select class="form-control" formControlName="vehicleColor" [(ngModel)]="vehicleColor" [ngClass]="{ 'is-invalid': submitted && f.vehicleColor.errors }">
+              <option *ngFor="let data of this.colorData" [ngValue]=" data.vehicle_color_id">{{data.color_name}}</option>
+            </select>
+            <div *ngIf="submitted && f.vehicleColor.errors" class="invalid-feedback">
+              <div *ngIf="f.vehicleColor.errors.required" style="color:red">Vehicle Color is required</div>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class=" row form-group">
+          <label for="input" class="col-sm-4 control-label">Type
+            <a style="color:red">*</a>
+          </label>
+          <div class="col-sm-5">
+            <select class="form-control" formControlName="vehicleType" [(ngModel)]="vehicleType" [ngClass]="{ 'is-invalid': submitted && f.vehicleType.errors }">
+              <option *ngFor="let data of this.typeData" [ngValue]=" data.vehicle_type_id">{{data.type_name}}</option>
+            </select>
+            <div *ngIf="submitted && f.vehicleType.errors" class="invalid-feedback">
+              <div *ngIf="f.vehicleType.errors.required" style="color:red">Vehicle Type is required</div>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class=" row form-group">
+          <label for="input" class="col-sm-4 control-label">Make
+            <a style="color:red">*</a>
+          </label>
+          <div class="col-sm-5">
+            <select class="form-control" formControlName="vehicleMake" [(ngModel)]="vehicleMake" [ngClass]="{ 'is-invalid': submitted && f.vehicleMake.errors }">
+              <option *ngFor="let data of this.makeData" [ngValue]=" data.vehicle_make_id">{{data.make_name}}</option>
+            </select>
+            <div *ngIf="submitted && f.vehicleMake.errors" class="invalid-feedback">
+              <div *ngIf="f.vehicleMake.errors.required" style="color:red">Vehicle Make is required</div>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class=" row form-group">
+          <label for="input" class="col-sm-4 control-label">Vehicle Model
+            <a style="color:red">*</a>
+          </label>
+          <div class="col-sm-5">
+            <select class="form-control" formControlName="vehicleModel" [(ngModel)]="vehicleModel" [ngClass]="{ 'is-invalid': submitted && f.vehicleModel.errors }">
+              <option *ngFor="let data of this.modelData" [ngValue]=" data.vehicle_model_id">{{data.model_name}}</option>
+            </select>
+            <div *ngIf="submitted && f.vehicleModel.errors" class="invalid-feedback">
+              <div *ngIf="f.vehicleModel.errors.required" style="color:red">Vehicle Model is required</div>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+
+        <div class=" row form-group">
+          <label for="input" class="col-sm-4 control-label">Required Quantity
+            <a style="color:red">*</a>
+          </label>
+          <div class="col-sm-5">
+            <input type="text" class="form-control" formControlName="reqQuantity" placeholder="Enter Required Quantity" [(ngModel)]="reqQuantity"
+              [ngClass]="{ 'is-invalid': submitted && f.reqQuantity.errors }">
+            <div *ngIf="submitted && f.reqQuantity.errors" class="invalid-feedback">
+              <div *ngIf="f.reqQuantity.errors.required" style="color:red">Quantity is required</div>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class=" row form-group">
+          <label for="input" class="col-sm-4 control-label">Assaigned Quantity
+            <a style="color:red">*</a>
+          </label>
+          <div class="col-sm-5">
+            <input type="text" class="form-control" formControlName="assQuantity" placeholder="Enter Assaigned Quantity" [(ngModel)]="assQuantity"
+              [ngClass]="{ 'is-invalid': submitted && f.assQuantity.errors }">
+            <div *ngIf="submitted && f.assQuantity.errors" class="invalid-feedback">
+              <div *ngIf="f.assQuantity.errors.required" style="color:red">Assaigned Quantity is required</div>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+        <div class=" row form-group">
+          <label for="input" class="col-sm-4 control-label">Assaigned by
+            <a style="color:red">*</a>
+          </label>
+          <div class="col-sm-5">
+            <select class="form-control" formControlName="assBy" [(ngModel)]="assBy" [ngClass]="{ 'is-invalid': submitted && f.assBy.errors }">
+              <option *ngFor="let data of this.empData" [ngValue]=" data.employee_id">{{data.employee_firstname}}</option>
+            </select>
+            <div *ngIf="submitted && f.assBy.errors" class="invalid-feedback">
+              <div *ngIf="f.assBy.errors.required" style="color:red">Assaigned By is required</div>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+
+        <div class=" row form-group">
+          <label for="input" class="col-sm-4 control-label">Updated by
+            <a style="color:red">*</a>
+          </label>
+          <div class="col-sm-5">
+            <select class="form-control" formControlName="updateBy" [(ngModel)]="updateBy" [ngClass]="{ 'is-invalid': submitted && f.updateBy.errors }">
+              <option *ngFor="let data of this.empData" [ngValue]=" data.employee_id">{{data.employee_firstname}}</option>
+            </select>
+            <div *ngIf="submitted && f.updateBy.errors" class="invalid-feedback">
+              <div *ngIf="f.updateBy.errors.required" style="color:red">Updated By is required</div>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+
+        <div class=" row form-group">
+          <label for="input" class="col-sm-4 control-label">Required On Date</label>
+          <div class="col-sm-8">
+            <div class="input-group">
+              <p-calendar [(ngModel)]="reqDate"  (ngModelChange)="getreqDate($event)" name="reqdate" [showIcon]="true" dateFormat="yy-mm-dd" [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}"></p-calendar>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+
+        <div class=" row form-group">
+          <label for="input" class="col-sm-4 control-label">Assaigned On</label>
+          <div class="col-sm-8">
+            <div class="input-group">
+              <p-calendar [(ngModel)]="assDate" (ngModelChange)="getassDate($event)" [showIcon]="true" dateFormat="yy-mm-dd" [(ngModel)]="showMoreControls"
+                [ngModelOptions]="{standalone: true}"></p-calendar>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+
+        <div class=" row form-group">
+          <label for="input" class="col-sm-4 control-label">Updated On</label>
+          <div class="col-sm-8">
+            <div class="input-group">
+              <p-calendar [(ngModel)]="updateDate" (ngModelChange)="getupdDate($event)" [showIcon]="true" dateFormat="yy-mm-dd" [(ngModel)]="showMoreControls"
+                [ngModelOptions]="{standalone: true}"></p-calendar>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+      <div class="col-sm-12" style=" text-align: right;">
+        <button type="button" class="btn btn-primary btn-lg" (click)="addIndent()">Add</button>
+        <button type="button" class="btn basic btn-lg" (click)="cancelIndent()" style="background:#f1f1f1">Cancel</button>
+      </div>
+      <div class="clear"></div>
+    </form>
+  </div>
+</div>
+
+
+<app-footer></app-footer>
