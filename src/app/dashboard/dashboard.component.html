@@ -215,7 +215,7 @@
 						</div>
 						<div class="col-sm-2">
 							<div class="input-group">
-								<input type="text" name="basic" maxlength="50" class="form-control" [(ngModel)]="lifeTax">
+								<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="lifeTax">
 								<span>Life Tax</span>
 							</div>
 						</div>
@@ -224,7 +224,7 @@
 						</div>
 						<div class="col-sm-2">
 							<div class="input-group">
-								<input type="text" name="basic" maxlength="50" class="form-control" [(ngModel)]="VehicleInsu">
+								<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="VehicleInsu"  >
 								<span>insurance</span>
 							</div>
 						</div>
@@ -233,7 +233,7 @@
 						<label class="col-sm-3 col-form-label required"> </label>
 						<div class="col-sm-2">
 							<div class="input-group">
-								<input type="text" name="basic" maxlength="50" class="form-control" [(ngModel)]="handlingC">
+								<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="handlingC" >
 
 								<span> Handling C</span>
 							</div>
@@ -243,7 +243,7 @@
 						</div>
 						<div class="col-sm-2">
 							<div class="input-group">
-								<input type="text" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleReg">
+								<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleReg" (ngModelChange)="addTotalTax()">
 								<span> Registration</span>
 							</div>
 						</div>
@@ -252,7 +252,7 @@
 						</div>
 						<div class="col-sm-2">
 							<div class="input-group">
-								<input type="text" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleWarranty">
+								<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleWarranty" (ngModelChange)="addTotalTax()">
 								<span>warranty</span>
 							</div>
 						</div>
@@ -261,7 +261,7 @@
 						<label class="col-sm-3 col-form-label required"> </label>
 						<div class="col-sm-2">
 							<div class="input-group">
-								<input type="text" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleAcc">
+								<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleAcc" (ngModelChange)="addTotalTax()">
 
 								<span>Accessories</span>
 							</div>
@@ -271,7 +271,7 @@
 						</div>
 						<div class="col-sm-2">
 							<div class="input-group">
-								<input type="text" name="basic" maxlength="50" class="form-control" [(ngModel)]="Hp">
+								<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="Hp" (ngModelChange)="addTotalTax()">
 								<span> HP</span>
 							</div>
 						</div>
@@ -280,7 +280,7 @@
 						</div>
 						<div class="col-sm-2">
 							<div class="input-group">
-								<input type="text" name="basic" maxlength="50" class="form-control" [(ngModel)]="discount" (ngModelChange)="approvedEmpEnable()">
+								<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="discount" (ngModelChange)="approvedEmpEnable()">
 								<span>Discount</span>
 							</div>
 						</div>
@@ -623,7 +623,7 @@
 	<div *ngIf=" exchangeUser">
 		<div class="row form-group">
 			<div claas="container">
-				<button type="submit" class="btn btn-warning" style="float:right;margin-right: 20%" (click)="addExchangeVehicleDetails()">Submit</button>
+				<button type="submit" class="btn btn-warning" style="float:right;margin-right: 20%" (click)="saveUserDeatils();saveVehicleDetails();addExchangeVehicleDetails()">Submit</button>
 			</div>
 		</div>
 	</div>

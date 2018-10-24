@@ -48,9 +48,9 @@ export class DashboardComponent implements OnInit {
   vehicleColor = '';
   nomineeName = '';
   vehicleBasic: '';
-  lifeTax: '';
-  VehicleInsu: '';
-  handlingC: '';
+  lifeTax: number;
+  VehicleInsu: number;
+  handlingC: number;
   vehicleReg: '';
   vehicleWarranty: '';
   vehicleAcc: '';
@@ -102,8 +102,9 @@ export class DashboardComponent implements OnInit {
   exchangeAmountApprovedBy: '';
   taxData: any;
   employeedata: any;
-  branchManagerData:any=[];
- 
+  branchManagerData: any = [];
+  amount:number;
+
 
   constructor(private saleUserService: SaleUserService, private http: Http) { }
 
@@ -113,6 +114,8 @@ export class DashboardComponent implements OnInit {
       this.lifeTax = this.taxData[0].life_tax;
       this.VehicleInsu = this.taxData[0].insurance;
       this.handlingC = this.taxData[0].handlingc;
+      this.amount= this.taxCount + this.lifeTax +this.VehicleInsu+this.handlingC;
+    console.log(this.amount);
     });
     this.http.get(environment.host + 'employees').subscribe(employeedata => {
       console.log(employeedata.json().result);
@@ -120,12 +123,12 @@ export class DashboardComponent implements OnInit {
       console.log(this.employeedata.length);
       for (var i = 0; i < this.employeedata.length; i++) {
         if (this.employeedata[i].emp_type_id == 2) {
-         this.branchManagerData.push(this.employeedata[i])
+          this.branchManagerData.push(this.employeedata[i])
         }
       }
       console.log(this.branchManagerData)
     });
-
+   
   }
 
   triggerSomeEvent() {
@@ -373,6 +376,27 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  taxCount: number = 0
+  //calculate total tax
+  addTotalTax() {
+ this.taxCount=this.amount;
+ console.log(this.taxCount)
+
+    if (this.vehicleReg) {
+      this.taxCount =this.taxCount + this.vehicleReg;
+    }
+    if(this.vehicleWarranty){
+      this.taxCount=this.taxCount + this.vehicleWarranty;
+    }
+    if(this.vehicleAcc){
+      this.taxCount=this.taxCount + this.vehicleAcc;
+    }
+    if(this.Hp){
+      this.taxCount=this.taxCount + this.Hp;
+    }
+    console.log('after')
+    console.log(this.taxCount)
+  }
   addTotalAmount() {
     this.cashTotal = 0;
     console.log("***************")
