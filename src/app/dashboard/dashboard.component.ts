@@ -69,10 +69,13 @@ export class DashboardComponent implements OnInit {
     bankStatement: ''
   }]
 
+
   constructor(private saleUserService: SaleUserService, private http: Http) { }
 
   ngOnInit() {
   }
+
+ 
 
   triggerSomeEvent() {
     console.log(this.cheque)
