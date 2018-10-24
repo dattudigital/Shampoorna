@@ -20,4 +20,11 @@ export class SaleUserService {
   public saveSalesVehicle(vehicle:any){
     return this.http.post(environment.host +'sale-user-vechiles',vehicle)
   }
+
+  public saveExchangeVehicle(exchange:any){
+    return this.http.post(environment.host +'sale-vechile-exchanges',exchange)
+  }
+public getTax(){
+  return this.http.get(environment.host +'taxs');
+}
 }
