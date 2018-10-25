@@ -27,4 +27,8 @@ export class SaleUserService {
 public getTax(){
   return this.http.get(environment.host +'taxs');
 }
+
+public getListDetails(){
+  return this.http.get( environment.host + 'sale-users');
+}
 }

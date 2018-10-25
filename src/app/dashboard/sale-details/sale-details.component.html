@@ -1,6 +1,242 @@
-<p>
-  sale-details works!
-</p>
-dffg
+<div class="tabs-services">
+  <app-header></app-header>
+</div>
 
-dzffbfchbgesgdrfnfnfd
+
+
+
+
+<script>
+  $('tab-pane').on('click', function (e) {
+    e.preventDefault()
+    $(this).tab('show')
+  })
+</script>
+<script>
+  $(".nav-link").click(function (e) {
+    $(this).addClass("active").siblings().removeClass("active");
+  });
+</script>
+<script>
+  $(".myTabContent").click(function (e) {
+    $(this).addClass("show").siblings().removeClass("show");
+  });
+</script>
+<script>
+  $('#myTab li:first-child a').tab('show')
+</script>
+
+
+
+
+
+
+
+
+<p-table #dt [columns]="cols" [value]="lists" [paginator]="true" [rows]="4">
+  <ng-template pTemplate="caption">
+    <div style="text-align: right">
+      <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+      <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
+        style="width:auto">
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+        {{col.header}}
+        <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+          ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+      </th>
+      <th>Edit</th>
+      <th>Delete</th>
+    </tr>
+
+  </ng-template>
+  <ng-template pTemplate="body" let-i="rowIndex" let-bike>
+    <tr>
+      <td *ngFor="let col of cols">
+        {{ col.type ? col.type.transform(bike[col.field], col.arg1) : bike[col.field] }}
+      </td>
+      <td href="#" data-toggle="modal" data-target="#editList" (click)="editList(bikes,i)">
+        <i class="fa fa-edit" style="color:orange"></i>
+      </td>
+      <td href="#" data-toggle="modal" data-target="#deleteVehicle" (click)="deleteList(bikes,i)">
+        <i class="fa fa-trash"></i>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+
+
+
+
+
+
+<div class="modal fade" id="editList" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="modal-title" id="myModalLabel">Edit Details</h3>
+      </div>
+      <div class="modal-body">
+        <br>
+
+
+        <div class="tabs-services">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link" id="home-tab" data-toggle="tab" href="#sales" role="tab" aria-controls="personal"
+                aria-selected="true">Personal Info</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#time" role="tab" aria-controls="vehicle"
+                aria-selected="false">Vehicle Info</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#inventory" role="tab" aria-controls="exchange"
+                aria-selected="false">Exchange</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#setup" role="tab" aria-controls="csd"
+                aria-selected="false">CSD</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade" id="sales" role="tabpanel" aria-labelledby="personal-tab">
+              <div class="col-sm-6">
+                <h3>Personal Information</h3>
+                <div class="row form-group">
+                  <label class="col-sm-4 col-form-label required">Name of the Customer
+                    <span style="color:red">*</span>
+                  </label>
+                  <div class="col-sm-5">
+                    <input type="text" name="name" maxlength="50" class="form-control" [(ngModel)]="name">
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <label class="col-sm-4 col-form-label required">Display Name On RC
+                    <span style="color:red">*</span>
+                  </label>
+                  <div class="col-sm-5">
+                    <input type="text" name="rcname" maxlength="50" class="form-control" [(ngModel)]="nameOnRc">
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <label class="col-sm-4 col-form-label required">Date Of Birth
+                    <span style="color:red">*</span>
+                  </label>
+                  <div class="col-sm-5">
+                    <p-calendar [(ngModel)]="date1" name="dob" [inputStyle]="{'width':'190px'}" [showIcon]="true" [(ngModel)]="dob" dateFormat="yy-mm-dd"></p-calendar>
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <label class="col-sm-4 col-form-label required">Father/Daughter/Wife
+                    <span style="color:red">*</span>
+                  </label>
+                  <div class="col-sm-5">
+                    <input type="text" name="relation" maxlength="50" class="form-control" [(ngModel)]="relationName">
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <label class="col-sm-4 col-form-label required">Address
+                    <span style="color:red">*</span>
+                  </label>
+                  <div class="col-sm-5">
+                    <textarea class="form-control" maxlength="1000" rows="2" name="address" style="padding-left:1.6em" [(ngModel)]="address"></textarea>
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <label class="col-sm-4 col-form-label required">Mandal
+                    <span style="color:red">*</span>
+                  </label>
+                  <div class="col-sm-5">
+                    <input type="text" name="mandal" maxlength="50" class="form-control" [(ngModel)]="mandal">
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <label class="col-sm-4 col-form-label required">District Name
+                    <span style="color:red">*</span>
+                  </label>
+                  <div class="col-sm-5">
+                    <input type="text" name="district" maxlength="50" class="form-control" [(ngModel)]="districtName">
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <label class="col-sm-4 col-form-label required">Mobile
+                    <span style="color:red">*</span>
+                  </label>
+                  <div class="col-sm-5">
+                    <input type="text" name="mobile" maxlength="50" class="form-control" [(ngModel)]="mobile">
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <label class="col-sm-4 col-form-label required">Address Proof
+                    <span style="color:red">*</span>
+                  </label>
+                  <div class="col-sm-5">
+      
+                    <select name="state" class="form-control" [(ngModel)]="addressProof">
+                      <option value="" disabled select>Select</option>
+                      <option value="aadhar">Aadhar Card</option>
+                      <option value="license">License</option>
+                      <option value="voter">Voter Id</option>
+                      <option value="ration">Ration Card</option>
+                      <option value="current">Current Bill</option>
+                      <option value="water">Water Bill</option>
+                      <option value="gas">Gas Bill</option>
+                      <option value="mobile">Mobile Postpaid </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <label class="col-sm-4 col-form-label required"></label>
+                  <div class="col-sm-5">
+                    <input type="text" name="aadharNumber" maxlength="50" class="form-control" [(ngModel)]="addressProofNo">
+                  </div>
+                </div>
+                <div class=" row form-group">
+                  <label class="col-sm-4 col-form-label required">passport size photo
+                    <span style="color:red">*</span>
+                  </label>
+                  <div class="col-sm-5">
+                    <input type="file" name="photo" accept="image/*" (change)="getFileDetails($event,'p')">
+                  </div>
+                </div>
+              </div>              <div class="clear"></div>
+            </div>
+            <div class="tab-pane fade" id="appointments" role="tabpanel" aria-labelledby="vehicle-tab">Mustache cliche
+              tempor, williamsburg carles vegan helvetica.</div>
+            <div class="tab-pane fade" id="time" role="tabpanel" aria-labelledby="time-tab">Reprehenderit butcher retro
+              keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip
+              placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.
+            </div>
+
+            <div class="tab-pane fade" id="inventory" role="tabpanel" aria-labelledby="exchange-tab">
+              Reprehenderit butcher retro.....................0000000000
+            </div>
+            <div class="tab-pane fade" id="setup" role="tabpanel" aria-labelledby="csd-tab">
+              Reprehenderit butcher retro.....................00
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+
+
+
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" (click)=cancelVehicle()>Cancel</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="updateVehicle()">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<app-footer></app-footer>
