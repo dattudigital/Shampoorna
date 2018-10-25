@@ -147,7 +147,9 @@
           <label for="input" class="col-sm-4 control-label">Required On Date</label>
           <div class="col-sm-8">
             <div class="input-group">
-              <p-calendar [(ngModel)]="reqDate"  (ngModelChange)="getreqDate($event)" name="reqdate" [showIcon]="true" dateFormat="yy-mm-dd" [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}"></p-calendar>
+              <p-calendar [(ngModel)]="date1" name="reqdate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'190px'}"
+                [showIcon]="true" [(ngModel)]="reqDate" dateFormat="dd-mm-yy" (ngModelChange)=" getreqDate($event)" [(ngModel)]="showMoreControls"
+                [ngModelOptions]="{standalone: true}"></p-calendar>
             </div>
           </div>
           <div class="clear"></div>
@@ -157,7 +159,8 @@
           <label for="input" class="col-sm-4 control-label">Assaigned On</label>
           <div class="col-sm-8">
             <div class="input-group">
-              <p-calendar [(ngModel)]="assDate" (ngModelChange)="getassDate($event)" [showIcon]="true" dateFormat="yy-mm-dd" [(ngModel)]="showMoreControls"
+                <p-calendar [(ngModel)]="date2" name="assignedby" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'190px'}"
+                [showIcon]="true" [(ngModel)]="assDate" dateFormat="dd-mm-yy" (ngModelChange)=" getassDate($event)" [(ngModel)]="showMoreControls"
                 [ngModelOptions]="{standalone: true}"></p-calendar>
             </div>
           </div>
@@ -168,7 +171,8 @@
           <label for="input" class="col-sm-4 control-label">Updated On</label>
           <div class="col-sm-8">
             <div class="input-group">
-              <p-calendar [(ngModel)]="updateDate" (ngModelChange)="getupdDate($event)" [showIcon]="true" dateFormat="yy-mm-dd" [(ngModel)]="showMoreControls"
+                <p-calendar [(ngModel)]="date3" name="update" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'190px'}"
+                [showIcon]="true" [(ngModel)]="updateDate" dateFormat="dd-mm-yy" (ngModelChange)=" getupdDate($event)" [(ngModel)]="showMoreControls"
                 [ngModelOptions]="{standalone: true}"></p-calendar>
             </div>
           </div>

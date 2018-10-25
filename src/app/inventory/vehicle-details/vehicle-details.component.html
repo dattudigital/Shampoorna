@@ -29,9 +29,9 @@
         <label for="input" class="col-md-3 control-label">Type</label>
         <div class="col-md-7">
           <select class="form-control" [(ngModel)]="vehicleTypeFilter">
-              <option value="" selected>All</option>
+            <option value="" selected>All</option>
             <option *ngFor="let data of this.typeData" [ngValue]=" data.vehicle_type_id">{{data.type_name}}</option>
-            
+
           </select>
         </div>
         <div class="clear"></div>
@@ -43,7 +43,7 @@
         <label for="input" class="col-md-3 control-label">Model</label>
         <div class="col-md-7">
           <select class="form-control" [(ngModel)]="vehicleModelFilter">
-              <option value="" selected>All</option>
+            <option value="" selected>All</option>
             <option *ngFor="let data of this.modelData" [ngValue]=" data.vehicle_model_id">{{data.model_name}}</option>
           </select>
         </div>
@@ -55,7 +55,7 @@
         <label for="input" class="col-md-3 control-label">Color</label>
         <div class="col-md-7">
           <select class="form-control" [(ngModel)]="vehicleColorFilter">
-              <option value="" selected>All</option>
+            <option value="" selected>All</option>
             <option *ngFor="let data of this.colorData" [ngValue]=" data.vehicle_color_id">{{data.color_name}}</option>
           </select>
         </div>
@@ -67,7 +67,7 @@
         <label for="input" class="col-md-3 control-label">Make</label>
         <div class="col-md-7">
           <select class="form-control" [(ngModel)]="vehicleMakeFilter">
-              <option value="" selected>All</option>
+            <option value="" selected>All</option>
             <option *ngFor="let data of this.makeData" [ngValue]=" data.vehicle_make_id">{{data.make_name}}</option>
           </select>
         </div>
@@ -79,8 +79,8 @@
         <label for="input" class="col-md-3 control-label">From</label>
         <div class="col-md-7">
           <div class="input-group">
-            <p-calendar [(ngModel)]="fromDate" [inputStyle]="{'width':'190px'}"[showIcon]="true" placeholder="Select Date" name="fromDate" (ngModelChange)="fromDa($event)"
-              dateFormat="yy-mm-dd"></p-calendar>
+            <p-calendar [(ngModel)]="date1" name="fromDate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'190px'}"
+              [showIcon]="true" [(ngModel)]="fromDate" dateFormat="dd-mm-yy" (ngModelChange)=" fromDa($event)"></p-calendar>
           </div>
         </div>
         <div class="clear"></div>
@@ -91,8 +91,8 @@
         <label for="input" class="col-md-3 control-label">To</label>
         <div class="col-md-7">
           <div class="input-group">
-            <p-calendar [(ngModel)]="toDate" [inputStyle]="{'width':'190px'}" [showIcon]="true"  placeholder="Select Date" name="toDate" (ngModelChange)="toDa($event)"
-              dateFormat="yy-mm-dd"></p-calendar>
+              <p-calendar [(ngModel)]="date2" name="toDate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'190px'}"
+              [showIcon]="true" [(ngModel)]="toDate" dateFormat="dd-mm-yy" (ngModelChange)=" toDa($event)"></p-calendar>
           </div>
         </div>
         <div class="clear"></div>

@@ -17,6 +17,8 @@ export class VehicleDetailsComponent implements OnInit {
   cols: any[];
   deleteData: any = [];
   editData: any = [];
+  public date1: any;
+  public date2:any;
 
 
   typeData: any[];

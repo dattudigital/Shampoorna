@@ -4,6 +4,7 @@ import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { Http } from '@angular/http';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-dashboard',
@@ -38,6 +39,7 @@ export class DashboardComponent implements OnInit {
   relationName = '';
   address = '';
   mandal = '';
+  pincode = '';
   districtName = '';
   mobile = '';
   addressProof = '';
@@ -107,6 +109,10 @@ export class DashboardComponent implements OnInit {
   branchManagerData: any = [];
   amount: number;
 
+  onRoadPrice: number = 0;
+  roadTax: number = 0;
+  tempAmount: number = 0;
+  taxCount: number = 0
   constructor(private saleUserService: SaleUserService, private http: Http, private router: Router) { }
 
   ngOnInit() {
@@ -211,12 +217,14 @@ export class DashboardComponent implements OnInit {
     this.banks.splice(index, 1)
   }
 
-  saveUserDeatils() {
-    console.log("came")
+  getreqDate() {
+    let newDate = moment(this.dob).format('YYYY-DD-MM').toString();
+    this.dob = newDate;
     console.log(this.dob)
-    var date = new Date(this.dob);
-    this.dob = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDay();
-    console.log(this.dob);
+  }
+
+  saveUserDeatils() {
+
     var data = {
       firstname: this.name,
       email_id: this.nameOnRc,
@@ -226,6 +234,7 @@ export class DashboardComponent implements OnInit {
       address: this.address,
       mobile: this.mobile,
       mandal: this.mandal,
+      pincode: this.pincode,
       district: this.districtName,
       proof_type: this.addressProof,
       proof_num: this.addressProofNo,
@@ -275,7 +284,7 @@ export class DashboardComponent implements OnInit {
       this.vehicleInfo = [];
     }
   }
-  onRoadPrice: number = 0;
+
   onSelect(event: TypeaheadMatch): void {
     this.onRoadPrice = 0
     this.selectedOption = event.item;
@@ -293,6 +302,7 @@ export class DashboardComponent implements OnInit {
       console.log(this.amount);
       this.onRoadPrice = this.onRoadPrice + this.vehicleBasic * (this.amount / 100);
       console.log(this.onRoadPrice);
+      this.tempAmount = this.onRoadPrice;
     }
   }
 
@@ -423,30 +433,27 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  taxCount: number = 0
-  //calculate onroad price 
-  addTotalTax() {
 
-    console.log(this.onRoadPrice);
+  //calculate onroad price 
+  addTotalTax(){
+    this.onRoadPrice = 0;
+    console.log("********")
+    if (this.handlingC == null) {
+      this.onRoadPrice = this.onRoadPrice+ this.tempAmount;
+    } 
     if (this.handlingC) {
-      this.onRoadPrice = this.onRoadPrice + this.handlingC;
+      this.onRoadPrice = this.tempAmount + this.handlingC;
     }
 
-    // if (this.vehicleReg) {
-    //   this.taxCount = this.taxCount + this.vehicleReg;
-    // }
-    // if (this.vehicleWarranty) {
-    //   this.taxCount = this.taxCount + this.vehicleWarranty;
-    // }
-    // if (this.vehicleAcc) {
-    //   this.taxCount = this.taxCount + this.vehicleAcc;
-    // }
-    // if (this.Hp) {
-    //   this.taxCount = this.taxCount + this.Hp;
-    // }
+     
+      
+    
+
+   
     console.log('after')
     console.log(this.onRoadPrice)
   }
+
   addTotalAmount() {
     this.cashTotal = 0;
     console.log("***************")

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { IndentService } from '../../services/indent.service'
 import { DatePipe } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import { Http } from '@angular/http';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-indent-list',
@@ -14,8 +15,10 @@ import { Http } from '@angular/http';
   ]
 })
 export class IndentListComponent implements OnInit {
+  public date1: any;
+  public date2: any;
 
-  indents:any[];
+  indents: any[];
   cols: any[];
 
   typeData: any[];
@@ -23,20 +26,20 @@ export class IndentListComponent implements OnInit {
   modelData: any[];
   colorData: any[];
 
-  vehicleTypeFilter="";
-  vehicleModelFilter="";
-  vehicleColorFilter="";
-  vehicleMakeFilter="";
-  fromDate="";
-  toDate="";
+  vehicleTypeFilter = "";
+  vehicleModelFilter = "";
+  vehicleColorFilter = "";
+  vehicleMakeFilter = "";
+  fromDate = "";
+  toDate = "";
 
-  constructor(private router:Router,private service:IndentService,private dp: DatePipe, private http: Http) { }
+  constructor(private router: Router, private service: IndentService, private dp: DatePipe, private http: Http) { }
 
   ngOnInit() {
 
-    this.service.getIndentList().subscribe(res=>{
+    this.service.getIndentList().subscribe(res => {
       console.log(res.json().result)
-      this.indents=res.json().result
+      this.indents = res.json().result
     })
 
     this.http.get(environment.host + 'vehicle-makes').subscribe(data => {
@@ -59,7 +62,7 @@ export class IndentListComponent implements OnInit {
       this.typeData = data.json().result;
     });
 
-    this.cols=[
+    this.cols = [
       { field: 'indent_req_id', header: 'Indent Req ID' },
       { field: 'color_name', header: 'Color' },
       { field: 'type_name', header: 'Type' },
@@ -67,12 +70,25 @@ export class IndentListComponent implements OnInit {
       { field: 'model_name', header: 'Model' },
       { field: 'req_qty', header: 'Required Qty' },
       { field: 'assigned_qty', header: 'Assaigned Qty.' },
-      { field: 'req_on_date', header: 'Req. On Date',type: this.dp},
-      { field: 'assigned_on', header: 'Assaigned On',type: this.dp  },
-      { field: 'updated_on', header: 'Updated On',type: this.dp },
+      { field: 'req_on_date', header: 'Req. On Date', type: this.dp },
+      { field: 'assigned_on', header: 'Assaigned On', type: this.dp },
+      { field: 'updated_on', header: 'Updated On', type: this.dp },
       { field: 'assignedby', header: 'Assaigned By' },
       { field: 'updatedby', header: 'Updated By' },
     ];
+  }
+
+  fromDa() {
+    let newDate = moment(this.fromDate).format('YYYY-MM-DD').toString();
+    this.fromDate = newDate;
+    console.log(this.fromDate)
+  }
+
+  toDa() {
+    let newDate1 = moment(this.toDate).format('YYYY-MM-DD').toString();
+    this.toDate = newDate1;
+    console.log(this.toDate)
+
   }
 
   backToInventory() {
@@ -102,31 +118,31 @@ export class IndentListComponent implements OnInit {
     }
     console.log(this.vehicleMakeFilter);
     console.log(url)
-     this.service.getIndentFilter(url).subscribe(res => {
-     console.log(res.json());
-     console.log("*******")
-     console.log(res)
-     console.log(res.json().status)
+    this.service.getIndentFilter(url).subscribe(res => {
+      console.log(res.json());
+      console.log("*******")
+      console.log(res)
+      console.log(res.json().status)
 
-       if (res.json().status == true) {
-         this.indents = res.json().result;
+      if (res.json().status == true) {
+        this.indents = res.json().result;
         console.log(this.indents)
-     }
-     else {
-    this.indents = res.json()._body;
-
-    //     this.notif.error(
-    //       'Error',
-    //       'No Records Found',
-    //       {
-    //         timeOut: 3000,           
-    //         showProgressBar: true,
-    //         pauseOnHover: false,
-    //         clickToClose: true,
-    //         maxLength: 50
-    //       })
       }
-     })
+      else {
+        this.indents = res.json()._body;
+
+        //     this.notif.error(
+        //       'Error',
+        //       'No Records Found',
+        //       {
+        //         timeOut: 3000,           
+        //         showProgressBar: true,
+        //         pauseOnHover: false,
+        //         clickToClose: true,
+        //         maxLength: 50
+        //       })
+      }
+    })
   }
   detailsReset() {
     this.service.getIndentList().subscribe(res => {
@@ -134,11 +150,11 @@ export class IndentListComponent implements OnInit {
       this.indents = res.json().result
     });
     this.vehicleTypeFilter = " ";
-    this.vehicleModelFilter=" ";
-    this.vehicleColorFilter=" ";
-    this.vehicleMakeFilter=" ";
-    this.fromDate=" ";
-    this.toDate=" ";
+    this.vehicleModelFilter = " ";
+    this.vehicleColorFilter = " ";
+    this.vehicleMakeFilter = " ";
+    this.fromDate = " ";
+    this.toDate = " ";
   }
 
 
