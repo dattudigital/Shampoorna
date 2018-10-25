@@ -11,6 +11,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./indent-raising.component.css']
 })
 export class IndentRaisingComponent implements OnInit {
+  public date1: any;
+  public date2: any;
+  public date3: any;
+
   IndentRaisingForm: FormGroup;
   submitted = false;
   indentId: any;
@@ -70,7 +74,7 @@ export class IndentRaisingComponent implements OnInit {
       vehicleMake: ['', Validators.required],
       reqQuantity: ['', Validators.required],
       assQuantity: ['', Validators.required],
-  
+
       assBy: ['', Validators.required],
       updateBy: ['', Validators.required],
 
