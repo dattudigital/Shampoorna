@@ -3,6 +3,8 @@ import { SaleUserService } from '../services/sale-user.service';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { Http } from '@angular/http';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -103,19 +105,19 @@ export class DashboardComponent implements OnInit {
   taxData: any;
   employeedata: any;
   branchManagerData: any = [];
-  amount:number;
+  amount: number;
 
-
-  constructor(private saleUserService: SaleUserService, private http: Http) { }
+  constructor(private saleUserService: SaleUserService, private http: Http, private router: Router) { }
 
   ngOnInit() {
+
     this.saleUserService.getTax().subscribe(res => {
       this.taxData = res.json().result;
       this.lifeTax = this.taxData[0].life_tax;
       this.VehicleInsu = this.taxData[0].insurance;
-      this.handlingC = this.taxData[0].handlingc;
-      this.amount= this.taxCount + this.lifeTax +this.VehicleInsu+this.handlingC;
-    console.log(this.amount);
+
+      this.amount = this.taxCount + this.lifeTax + this.VehicleInsu;
+      console.log(this.amount);
     });
     this.http.get(environment.host + 'employees').subscribe(employeedata => {
       console.log(employeedata.json().result);
@@ -128,9 +130,12 @@ export class DashboardComponent implements OnInit {
       }
       console.log(this.branchManagerData)
     });
-   
+
   }
 
+  redirectToSalesDetails() {
+    this.router.navigate(['sale-details'])
+  }
   triggerSomeEvent() {
     console.log(this.cheque)
     if (this.cheque == false) {
@@ -270,8 +275,9 @@ export class DashboardComponent implements OnInit {
       this.vehicleInfo = [];
     }
   }
-
+  onRoadPrice: number = 0;
   onSelect(event: TypeaheadMatch): void {
+    this.onRoadPrice = 0
     this.selectedOption = event.item;
     console.log(this.selectedOption);
     this.vehicleFrameNo = this.selectedOption.vehicle_frameno;
@@ -280,6 +286,14 @@ export class DashboardComponent implements OnInit {
     this.vehicleColor = this.selectedOption.vehicle_color;
     this.nomineeName = this.selectedOption.Nominee_name;
     this.vehicleBasic = this.selectedOption.vehicle_cost;
+    //calculate onroadprice with only tax
+    if (this.vehicleBasic) {
+      this.onRoadPrice = 0;
+      console.log(this.vehicleBasic)
+      console.log(this.amount);
+      this.onRoadPrice = this.onRoadPrice + this.vehicleBasic * (this.amount / 100);
+      console.log(this.onRoadPrice);
+    }
   }
 
   approvedEmpEnable() {
@@ -290,7 +304,7 @@ export class DashboardComponent implements OnInit {
       this.disableApprovedBy = 'hidden'
     }
   }
-
+  //for bank statement upload files
   getBankDetails(e) {
     console.log(e.target.files);
     for (var i = 0; i < e.target.files.length; i++) {
@@ -321,12 +335,16 @@ export class DashboardComponent implements OnInit {
     this.paymentEmi.bank_statement = this.data;
     console.log(this.paymentEmi.bank_statement);
   }
-
+  //remaining files upload and preview
+  addressPreview = '';
+  idpreview = '';
+  chequepreview = '';
   getFileDetails(event, text1) {
     this.currentImage = text1;
     console.log(this.currentImage);
     var files = event.target.files;
     var file = files[0];
+
     for (var i = 0; i < files.length; i++) {
       this.uploadedFiles = files.name;
       console.log(this.uploadedFiles);
@@ -337,7 +355,36 @@ export class DashboardComponent implements OnInit {
       reader.onload = this._handleReaderLoaded.bind(this);
       reader.readAsBinaryString(file);
     }
+    if (event.target.files && event.target.files[0] && this.currentImage === 'a') {
+      var reader = new FileReader();
+
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+
+      reader.onload = (event) => { // called once readAsDataURL is completed
+        // this.addressPreview = event.target.result;
+      }
+    }
+    //for image preview
+    if (event.target.files && event.target.files[0] && this.currentImage === 'i') {
+      var reader = new FileReader();
+
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+
+      reader.onload = (event) => { // called once readAsDataURL is completed
+        //this.idpreview = event.target.result;
+      }
+    }
+    if (event.target.files && event.target.files[0] && this.currentImage === 'c') {
+      var reader = new FileReader();
+
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+
+      reader.onload = (event) => { // called once readAsDataURL is completed
+        //this.chequepreview = event.target.result;
+      }
+    }
   }
+  //image base64 format
   _handleReaderLoaded(readerEvt) {
     if (this.currentImage === 'a') {
       var binaryString = readerEvt.target.result;
@@ -377,25 +424,28 @@ export class DashboardComponent implements OnInit {
   }
 
   taxCount: number = 0
-  //calculate total tax
+  //calculate onroad price 
   addTotalTax() {
- this.taxCount=this.amount;
- console.log(this.taxCount)
 
-    if (this.vehicleReg) {
-      this.taxCount =this.taxCount + this.vehicleReg;
+    console.log(this.onRoadPrice);
+    if (this.handlingC) {
+      this.onRoadPrice = this.onRoadPrice + this.handlingC;
     }
-    if(this.vehicleWarranty){
-      this.taxCount=this.taxCount + this.vehicleWarranty;
-    }
-    if(this.vehicleAcc){
-      this.taxCount=this.taxCount + this.vehicleAcc;
-    }
-    if(this.Hp){
-      this.taxCount=this.taxCount + this.Hp;
-    }
+
+    // if (this.vehicleReg) {
+    //   this.taxCount = this.taxCount + this.vehicleReg;
+    // }
+    // if (this.vehicleWarranty) {
+    //   this.taxCount = this.taxCount + this.vehicleWarranty;
+    // }
+    // if (this.vehicleAcc) {
+    //   this.taxCount = this.taxCount + this.vehicleAcc;
+    // }
+    // if (this.Hp) {
+    //   this.taxCount = this.taxCount + this.Hp;
+    // }
     console.log('after')
-    console.log(this.taxCount)
+    console.log(this.onRoadPrice)
   }
   addTotalAmount() {
     this.cashTotal = 0;

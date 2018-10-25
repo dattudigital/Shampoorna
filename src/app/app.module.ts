@@ -35,6 +35,8 @@ import { InventoryListPipe } from './pipe/inventory-list.pipe';
 import { TimeClockComponent } from './time-clock/time-clock.component';
 import { MessageService } from 'primeng/api';
 import { AddEmployeeComponent } from './manager/add-employee/add-employee.component';
+import { SaleDetailsComponent } from './dashboard/sale-details/sale-details.component';
+
 
 
 const routes: Routes = [
@@ -50,6 +52,7 @@ const routes: Routes = [
   { path: 'inventory/inventory-acknowledge' , component:InventoryAcknowledgeComponent, canActivate: [AuthGuard] },
   { path: 'time-clocks' , component:TimeClockComponent, canActivate: [AuthGuard] },
   { path: 'manager/add-employee' , component:AddEmployeeComponent, canActivate: [AuthGuard] },
+  { path: 'sale-details' , component:SaleDetailsComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
@@ -67,7 +70,8 @@ const routes: Routes = [
     InventoryAssigningComponent,
     InventoryAcknowledgeComponent,
     TimeClockComponent,
-    AddEmployeeComponent
+    AddEmployeeComponent,
+    SaleDetailsComponent
   ],
   imports: [
     BrowserModule,

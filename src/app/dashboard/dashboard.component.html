@@ -30,6 +30,9 @@
 									<input type="radio" name="optradio" (click)="csdUserClick()">
 									<label style="font-size:16px">CSD</label>
 								</div>
+								<div class="col-sm-3">
+									<button type="button" class="btn btn-success" (click)="redirectToSalesDetails()">View Sales</button>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -135,6 +138,14 @@
 							<input type="text" name="aadharNumber" maxlength="50" class="form-control" [(ngModel)]="addressProofNo">
 						</div>
 					</div>
+					<div class=" row form-group">
+						<label class="col-sm-4 col-form-label required">passport size photo
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-5">
+							<input type="file" name="photo" accept="image/*" (change)="getFileDetails($event,'p')">
+						</div>
+					</div>
 				</div>
 				<div class="col-sm-6">
 					<h3>Vehicle Information</h3>
@@ -215,7 +226,7 @@
 						</div>
 						<div class="col-sm-2">
 							<div class="input-group">
-								<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="lifeTax">
+								<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="lifeTax" disabled>
 								<span>Life Tax</span>
 							</div>
 						</div>
@@ -224,7 +235,7 @@
 						</div>
 						<div class="col-sm-2">
 							<div class="input-group">
-								<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="VehicleInsu"  >
+								<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="VehicleInsu" disabled>
 								<span>insurance</span>
 							</div>
 						</div>
@@ -233,7 +244,7 @@
 						<label class="col-sm-3 col-form-label required"> </label>
 						<div class="col-sm-2">
 							<div class="input-group">
-								<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="handlingC" >
+								<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="handlingC" (ngModelChange)="addTotalTax()">
 
 								<span> Handling C</span>
 							</div>
@@ -303,7 +314,7 @@
 						<label class="col-sm-4 col-form-label required">Total Amount
 						</label>
 						<div class="col-sm-5">
-							<input type="text" name="model" maxlength="50" class="form-control" [(ngModel)]="totalAmount">
+							<input type="number" name="model" maxlength="50" class="form-control" [(ngModel)]="onRoadPrice">
 						</div>
 					</div>
 					<br>
@@ -519,22 +530,7 @@
 						</div>
 						<br>
 						<br>
-						<div class="row form-group">
-							<label class="col-sm-4 col-form-label required">passport size photo
-								<span style="color:rgb(77, 64, 64)">*</span>
-							</label>
-							<div class="col-sm-8">
-								<div class="input-group">
-									<p-fileUpload name="demo[]" url="./upload.php" (onUpload)="onUpload($event)" multiple="multiple" accept="image/*" maxFileSize="1000000">
-										<ng-template pTemplate="content">
-											<ul *ngIf="uploadedFiles.length">
-												<li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
-											</ul>
-										</ng-template>
-									</p-fileUpload>
-								</div>
-							</div>
-						</div>
+
 					</div>
 					<div class="emi-form" *ngIf="selectedOption == 'emi'">
 						<div class=" row form-group">
@@ -560,6 +556,10 @@
 							<div class="col-sm-5">
 								<input type="file" name="address" accept="image/*" (change)="getFileDetails($event,'a')">
 							</div>
+							<div class="col-sm-3">
+								<img [src]="addressPreview" height="50">
+								<br/>
+							</div>
 						</div>
 						<div class=" row form-group">
 							<label class="col-sm-4 col-form-label required">ID Proof
@@ -567,6 +567,9 @@
 							</label>
 							<div class="col-sm-5">
 								<input type="file" name="idproof" accept="image/*" (change)="getFileDetails($event,'i')">
+							</div>
+							<div class="col-sm-3">
+								<img [src]="idpreview" height="50">
 							</div>
 						</div>
 						<div *ngFor="let bank of banks;let i=index">
@@ -599,14 +602,7 @@
 								<input type="file" name="cheque" accept="image/*" (change)="getFileDetails($event,'c')">
 							</div>
 						</div>
-						<div class=" row form-group">
-							<label class="col-sm-4 col-form-label required">passport size photo
-								<span style="color:red">*</span>
-							</label>
-							<div class="col-sm-5">
-								<input type="file" name="photo" accept="image/*" (change)="getFileDetails($event,'p')">
-							</div>
-						</div>
+
 					</div>
 				</div>
 			</div>
