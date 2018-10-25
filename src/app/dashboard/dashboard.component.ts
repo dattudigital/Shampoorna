@@ -435,21 +435,24 @@ export class DashboardComponent implements OnInit {
 
 
   //calculate onroad price 
-  addTotalTax(){
+  handlingAmount: number = 0
+  addTotalTax() {
     this.onRoadPrice = 0;
     console.log("********")
     if (this.handlingC == null) {
-      this.onRoadPrice = this.onRoadPrice+ this.tempAmount;
-    } 
+      this.onRoadPrice = this.onRoadPrice + this.tempAmount;
+    }
     if (this.handlingC) {
       this.onRoadPrice = this.tempAmount + this.handlingC;
+     this.handlingAmount=this.handlingAmount+this.onRoadPrice
+    }
+    if (this.handlingC == null && this.vehicleReg == null) {
+      this.onRoadPrice = this.onRoadPrice + this.tempAmount;
+    }
+    if (this.vehicleReg) {
+      this.onRoadPrice = this.handlingAmount + this.vehicleReg
     }
 
-     
-      
-    
-
-   
     console.log('after')
     console.log(this.onRoadPrice)
   }

@@ -14,9 +14,11 @@ export class SaleDetailsComponent implements OnInit {
 
   lists: any[];
   cols: any[];
+  editPersonalInfo: any = [];
+  temp: any;
 
 
-  constructor(private service: SaleUserService,private dp: DatePipe) { }
+  constructor(private service: SaleUserService, private dp: DatePipe) { }
 
   ngOnInit() {
 
@@ -35,13 +37,48 @@ export class SaleDetailsComponent implements OnInit {
       { field: 'password ', header: 'Password' },
       { field: 'city', header: 'City' },
       { field: 'address', header: 'Address' },
-      { field: 'dob', header: 'DOB',type: this.dp },
+      { field: 'dob', header: 'DOB', type: this.dp },
       { field: 'mandal', header: 'Mandal' },
       { field: 'district', header: 'District' },
       { field: 'proof_type', header: 'Proof Type' }
     ];
   }
 
-  editList(){}
-  deleteList(){}
+
+
+
+  firstname: '';
+  display_name_on_rc: '';
+  email_id: '';
+  mobile: '';
+  relation: '';
+  password;'';
+  city:'';
+  address:'';
+  dob:'';
+  mandal:'';
+  district:'';
+  proof_type:'';
+  proof_num:'';
+
+  editList(data, index) {
+    console.log(index);
+    this.editPersonalInfo = data;
+    data.index = index;
+    this.temp = index;
+    this.firstname = this.editPersonalInfo[index].firstname;
+   this.display_name_on_rc=this.editPersonalInfo[index].display_name_on_rc;
+   this.email_id=this.editPersonalInfo[index].email_id;
+   this.mobile=this.editPersonalInfo[index].mobile;
+   this.relation=this.editPersonalInfo[index].relation;
+   this.password=this.editPersonalInfo[index].password;
+   this.city=this.editPersonalInfo[index].city;
+   this.address=this.editPersonalInfo[index].address;
+   this.dob=this.editPersonalInfo[index].dob;
+   this.mandal=this.editPersonalInfo.mandal;
+   this.district=this.editPersonalInfo.display_name_on_rc;
+   this.proof_type=this.editPersonalInfo.proof_type;
+   this.proof_num=this.editPersonalInfo.proof_num
+  }
+  deleteList() { }
 }

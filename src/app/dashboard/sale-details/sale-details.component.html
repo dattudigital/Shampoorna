@@ -45,8 +45,7 @@
     <tr>
       <th *ngFor="let col of cols" [pSortableColumn]="col.field">
         {{col.header}}
-        <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
-          ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+        <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
       </th>
       <th>Edit</th>
       <th>Delete</th>
@@ -58,21 +57,15 @@
       <td *ngFor="let col of cols">
         {{ col.type ? col.type.transform(bike[col.field], col.arg1) : bike[col.field] }}
       </td>
-      <td href="#" data-toggle="modal" data-target="#editList" (click)="editList(bikes,i)">
+      <td href="#" data-toggle="modal" data-target="#editList" (click)="editList(lists,i)">
         <i class="fa fa-edit" style="color:orange"></i>
       </td>
-      <td href="#" data-toggle="modal" data-target="#deleteVehicle" (click)="deleteList(bikes,i)">
+      <td href="#" data-toggle="modal" data-target="#deleteVehicle" (click)="deleteList(lists,i)">
         <i class="fa fa-trash"></i>
       </td>
     </tr>
   </ng-template>
 </p-table>
-
-
-
-
-
-
 
 <div class="modal fade" id="editList" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -90,32 +83,28 @@
         <div class="tabs-services">
           <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-              <a class="nav-link" id="home-tab" data-toggle="tab" href="#sales" role="tab" aria-controls="personal"
-                aria-selected="true">Personal Info</a>
+              <a class="nav-link" id="home-tab" data-toggle="tab" href="#sales" role="tab" aria-controls="personal" aria-selected="true">Personal Info</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#time" role="tab" aria-controls="vehicle"
-                aria-selected="false">Vehicle Info</a>
+              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#time" role="tab" aria-controls="vehicle" aria-selected="false">Vehicle Info</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#inventory" role="tab" aria-controls="exchange"
-                aria-selected="false">Exchange</a>
+              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#inventory" role="tab" aria-controls="exchange" aria-selected="false">Exchange</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#setup" role="tab" aria-controls="csd"
-                aria-selected="false">CSD</a>
+              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#setup" role="tab" aria-controls="csd" aria-selected="false">CSD</a>
             </li>
           </ul>
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade" id="sales" role="tabpanel" aria-labelledby="personal-tab">
-              <div class="col-sm-6">
+              <div class="col-sm-10">
                 <h3>Personal Information</h3>
                 <div class="row form-group">
                   <label class="col-sm-4 col-form-label required">Name of the Customer
                     <span style="color:red">*</span>
                   </label>
                   <div class="col-sm-5">
-                    <input type="text" name="name" maxlength="50" class="form-control" [(ngModel)]="name">
+                    <input type="text" name="name" maxlength="50" class="form-control" [(ngModel)]="firstname">
                   </div>
                 </div>
                 <div class="row form-group">
@@ -123,7 +112,7 @@
                     <span style="color:red">*</span>
                   </label>
                   <div class="col-sm-5">
-                    <input type="text" name="rcname" maxlength="50" class="form-control" [(ngModel)]="nameOnRc">
+                    <input type="text" name="rcname" maxlength="50" class="form-control" [(ngModel)]="display_name_on_rc">
                   </div>
                 </div>
                 <div class="row form-group">
@@ -139,7 +128,7 @@
                     <span style="color:red">*</span>
                   </label>
                   <div class="col-sm-5">
-                    <input type="text" name="relation" maxlength="50" class="form-control" [(ngModel)]="relationName">
+                    <input type="text" name="relation" maxlength="50" class="form-control" [(ngModel)]="relation">
                   </div>
                 </div>
                 <div class="row form-group">
@@ -163,7 +152,7 @@
                     <span style="color:red">*</span>
                   </label>
                   <div class="col-sm-5">
-                    <input type="text" name="district" maxlength="50" class="form-control" [(ngModel)]="districtName">
+                    <input type="text" name="district" maxlength="50" class="form-control" [(ngModel)]="district">
                   </div>
                 </div>
                 <div class="row form-group">
@@ -179,8 +168,8 @@
                     <span style="color:red">*</span>
                   </label>
                   <div class="col-sm-5">
-      
-                    <select name="state" class="form-control" [(ngModel)]="addressProof">
+
+                    <select name="state" class="form-control" [(ngModel)]="proof_type">
                       <option value="" disabled select>Select</option>
                       <option value="aadhar">Aadhar Card</option>
                       <option value="license">License</option>
@@ -196,7 +185,7 @@
                 <div class="row form-group">
                   <label class="col-sm-4 col-form-label required"></label>
                   <div class="col-sm-5">
-                    <input type="text" name="aadharNumber" maxlength="50" class="form-control" [(ngModel)]="addressProofNo">
+                    <input type="text" name="aadharNumber" maxlength="50" class="form-control" [(ngModel)]="proof_num">
                   </div>
                 </div>
                 <div class=" row form-group">
@@ -207,28 +196,297 @@
                     <input type="file" name="photo" accept="image/*" (change)="getFileDetails($event,'p')">
                   </div>
                 </div>
-              </div>              <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
             </div>
-            <div class="tab-pane fade" id="appointments" role="tabpanel" aria-labelledby="vehicle-tab">Mustache cliche
-              tempor, williamsburg carles vegan helvetica.</div>
-            <div class="tab-pane fade" id="time" role="tabpanel" aria-labelledby="time-tab">Reprehenderit butcher retro
-              keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip
-              placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.
+
+            <div class="tab-pane fade" id="time" role="tabpanel" aria-labelledby="time-tab">
+              <div class="col-sm-10">
+                <h3>Vehicle Information</h3>
+                <div class="row form-group">
+                  <label class="col-sm-4 col-form-label required">Engine No
+                    <span style="color:red">*</span>
+                  </label>
+                  <div class="col-sm-5">
+                    <input type="text" name="Engine" maxlength="50" [(ngModel)]="selectedValue" [(ngModel)]="vehicleEngineNo" (ngModelChange)='engineSearch($event)'
+                      [typeahead]="vehicleInfo" typeaheadOptionField="vehicle_engineno" (typeaheadOnSelect)="onSelect($event)"
+                      class="form-control">
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <label class="col-sm-4 col-form-label required">Frame No
+                    <span style="color:red">*</span>
+                  </label>
+                  <div class="col-sm-5">
+                    <input type="text" name="frame" maxlength="50" class="form-control" [(ngModel)]="vehicleFrameNo">
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <label class="col-sm-4 col-form-label required">DC No
+                    <span style="color:red">*</span>
+                  </label>
+                  <div class="col-sm-5">
+                    <input type="text" name="dcnum" maxlength="50" class="form-control" [(ngModel)]="vehicleDcNo">
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <label class="col-sm-4 col-form-label required">Key No
+                    <span style="color:red">*</span>
+                  </label>
+                  <div class="col-sm-5">
+                    <input type="text" name="keyno" maxlength="50" class="form-control" [(ngModel)]="vehicleKeyNo">
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <label class="col-sm-4 col-form-label required">Vehicle Color</label>
+                  <div class="col-sm-5">
+                    <input type="text" name="color" maxlength="50" class="form-control" [(ngModel)]="vehicleColor">
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <label class="col-sm-4 col-form-label required">Nominee Name
+                    <span style="color:red">*</span>
+                  </label>
+                  <div class="col-sm-5">
+                    <input type="text" name="nomini" maxlength="50" class="form-control" [(ngModel)]="nomineeName">
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <label class="col-sm-4 col-form-label required">Second vehicle
+                    <span style="color:red">*</span>
+                  </label>
+                  <div class="col-sm-5">
+                    <div class="form-check pull-left">
+                      <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                    </div>
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <div class="col-sm-12">
+                    <h3>Pricing</h3>
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <label class="col-sm-3 col-form-label required">ON ROAD PRICE
+                    <span style="color:red">*</span>
+                  </label>
+                  <div class="col-sm-2">
+                    <div class="input-group">
+                      <input type="text" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleBasic">
+                      <span>Basic Price</span>
+                    </div>
+                  </div>
+                  <div class="col-sm-1">
+                    <span>+</span>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="input-group">
+                      <input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="lifeTax" disabled>
+                      <span>Life Tax</span>
+                    </div>
+                  </div>
+                  <div class="col-sm-1">
+                    <span>+</span>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="input-group">
+                      <input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="VehicleInsu" disabled>
+                      <span>insurance</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <label class="col-sm-3 col-form-label required"> </label>
+                  <div class="col-sm-2">
+                    <div class="input-group">
+                      <input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="handlingC" (ngModelChange)="addTotalTax()">
+
+                      <span> Handling C</span>
+                    </div>
+                  </div>
+                  <div class="col-sm-1">
+                    <span>+</span>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="input-group">
+                      <input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleReg" (ngModelChange)="addTotalTax()">
+                      <span> Registration</span>
+                    </div>
+                  </div>
+                  <div class="col-sm-1">
+                    <span>+</span>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="input-group">
+                      <input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleWarranty" (ngModelChange)="addTotalTax()">
+                      <span>warranty</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <label class="col-sm-3 col-form-label required"> </label>
+                  <div class="col-sm-2">
+                    <div class="input-group">
+                      <input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleAcc" (ngModelChange)="addTotalTax()">
+
+                      <span>Accessories</span>
+                    </div>
+                  </div>
+                  <div class="col-sm-1">
+                    <span>+</span>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="input-group">
+                      <input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="Hp" (ngModelChange)="addTotalTax()">
+                      <span> HP</span>
+                    </div>
+                  </div>
+                  <div class="col-sm-1">
+                    <span>-</span>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="input-group">
+                      <input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="discount" (ngModelChange)="approvedEmpEnable()">
+                      <span>Discount</span>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <div class="tableShow" [style.visibility]="disableApprovedBy">
+                  <div class="row form-group">
+                    <label class="col-sm-4 col-form-label required">Discount Approved By
+                      <span style="color:red">*</span>
+                    </label>
+                    <div class="col-sm-5">
+                      <select name="emp" class="form-control" [(ngModel)]="discountApprovedBy">
+                        <option value="" disabled select>select</option>
+                        <option *ngFor="let manager of branchManagerData" [ngValue]="manager.employee_id">{{manager.employee_firstname}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <label class="col-sm-4 col-form-label required">Total Amount
+                  </label>
+                  <div class="col-sm-5">
+                    <input type="number" name="model" maxlength="50" class="form-control" [(ngModel)]="onRoadPrice">
+                  </div>
+                </div>
+                <br>
+
+              </div>
             </div>
 
             <div class="tab-pane fade" id="inventory" role="tabpanel" aria-labelledby="exchange-tab">
-              Reprehenderit butcher retro.....................0000000000
+
+
+
+
+              <div class="personal-info">
+                <div class="container">
+                  <div class="col-sm-12">
+                    <h3>Exchange</h3>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="row form-group">
+                      <label class="col-sm-4 col-form-label required">Vehicle No
+                        <span style="color:red">*</span>
+                      </label>
+                      <div class="col-sm-5">
+                        <input type="number" name="exchange" maxlength="50" class="form-control" [(ngModel)]="exchangevehicleNo">
+                      </div>
+                    </div>
+                    <div class="row form-group">
+                      <label class="col-sm-4 col-form-label required">Engine No
+                        <span style="color:red">*</span>
+                      </label>
+                      <div class="col-sm-5">
+                        <input type="text" name="disbursement" maxlength="50" class="form-control" [(ngModel)]="exchangeEngineNo">
+                      </div>
+                    </div>
+                    <div class="row form-group">
+                      <label class="col-sm-4 col-form-label required">frame No
+                        <span style="color:red">*</span>
+                      </label>
+                      <div class="col-sm-5">
+                        <input type="text" name="payment" maxlength="50" class="form-control" [(ngModel)]="exchangeFrameNo">
+                      </div>
+                    </div>
+                    <div class="row form-group">
+                      <label class="col-sm-4 col-form-label required">Vehicle Color
+                        <span style="color:red">*</span>
+                      </label>
+                      <div class="col-sm-5">
+                        <input type="text" name="color" maxlength="50" class="form-control" [(ngModel)]="exchangeVehicleColor">
+                      </div>
+                    </div>
+                    <div class="row form-group">
+                      <label class="col-sm-4 col-form-label required">Vehicle Model
+                        <span style="color:red">*</span>
+                      </label>
+                      <div class="col-sm-5">
+                        <input type="text" name="model" maxlength="50" class="form-control" [(ngModel)]="exchangeVehicleModel">
+                      </div>
+                    </div>
+                    <div class="row form-group">
+                      <label class="col-sm-4 col-form-label required">Customer Name
+                        <span style="color:red">*</span>
+                      </label>
+                      <div class="col-sm-5">
+                        <input type="text" name="vat" maxlength="50" class="form-control" [(ngModel)]="vehiclecustomerName">
+                      </div>
+                    </div>
+                    <div class="row form-group">
+                      <label class="col-sm-4 col-form-label required"> Exchange Amount
+                        <span style="color:red">*</span>
+                      </label>
+                      <div class="col-sm-5">
+                        <input type="text" name="vat" maxlength="50" class="form-control" [(ngModel)]="exchangeAmount">
+                      </div>
+                    </div>
+                    <div class="row form-group">
+                      <label class="col-sm-4 col-form-label required">Exchange Amount Approved By
+                        <span style="color:red">*</span>
+                      </label>
+                      <div class="col-sm-5">
+                        <select name="state" class="form-control" [(ngModel)]="exchangeAmountApprovedBy">
+                          <option value="" disabled select>select</option>
+                          <option *ngFor="let manager of branchManagerData" [ngValue]="manager.employee_id">{{manager.employee_firstname}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="tab-pane fade" id="setup" role="tabpanel" aria-labelledby="csd-tab">
-              Reprehenderit butcher retro.....................00
+              <div class="csd-form">
+                <div class="container">
+                  <div class="col-sm-8" style="padding-top:20px">
+                    <div class=" row form-group">
+                      <label class="col-sm-4 col-form-label required">Pay Order
+                        <span style="color:red">*</span>
+                      </label>
+                      <div class="col-sm-5">
+                        <input type="file" name="idproof" accept="image/*">
+                      </div>
+                    </div>
+                    <div class=" row form-group">
+                      <label class="col-sm-4 col-form-label required">Delivery from showroom
+                        <span style="color:red">*</span>
+                      </label>
+                      <div class="col-sm-5">
+                        <input type="file" name="idproof" accept="image/*">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="clear"></div>
         </div>
-
-
-
-
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal" (click)=cancelVehicle()>Cancel</button>
           <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="updateVehicle()">Update</button>
