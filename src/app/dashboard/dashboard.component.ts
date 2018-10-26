@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -113,7 +114,7 @@ export class DashboardComponent implements OnInit {
   roadTax: number = 0;
   tempAmount: number = 0;
   taxCount: number = 0
-  constructor(private saleUserService: SaleUserService, private http: Http, private router: Router) { }
+  constructor(private saleUserService: SaleUserService, private http: Http, private router: Router,) { }
 
   ngOnInit() {
 

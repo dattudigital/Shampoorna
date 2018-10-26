@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SaleUserService } from '../../services/sale-user.service'
 import { DatePipe } from '@angular/common';
-
+import { ClipboardService } from 'ngx-clipboard'
 @Component({
   selector: 'app-sale-details',
   templateUrl: './sale-details.component.html',
@@ -18,13 +18,14 @@ export class SaleDetailsComponent implements OnInit {
   temp: any;
 
 
-  constructor(private service: SaleUserService, private dp: DatePipe) { }
+  constructor(private service: SaleUserService, private dp: DatePipe,private _clipboardService: ClipboardService) { }
 
   ngOnInit() {
 
     this.service.getListDetails().subscribe(res => {
       console.log(res.json().result)
       this.lists = res.json().result
+      console.log(this.lists);
     });
 
     this.cols = [

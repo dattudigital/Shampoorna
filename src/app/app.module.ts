@@ -14,6 +14,7 @@ import {MenuItem} from 'primeng/api';                 //api
 import {CalendarModule} from 'primeng/calendar';
 import {FileUploadModule} from 'primeng/fileupload';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { ClipboardModule } from 'ngx-clipboard';
 
 // import {FormGroup,FormControl,Validators,FormBuilder} from '@angular/forms'
 import {SelectItem} from 'primeng/api';
@@ -90,6 +91,7 @@ const routes: Routes = [
     AlertModule.forRoot(),
     FileUploadModule,
     TypeaheadModule.forRoot(),
+    ClipboardModule
 
 
   ],
