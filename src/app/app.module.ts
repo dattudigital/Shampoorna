@@ -37,12 +37,14 @@ import { TimeClockComponent } from './time-clock/time-clock.component';
 import { MessageService } from 'primeng/api';
 import { AddEmployeeComponent } from './manager/add-employee/add-employee.component';
 import { SaleDetailsComponent } from './dashboard/sale-details/sale-details.component';
-
-
+import { InvoiceListComponent } from './dashboard/invoice-list/invoice-list.component';
+import { SaleDashboardComponent } from './sale-dashboard/sale-dashboard.component';
+import { DcFormComponent } from './dashboard/dc-form/dc-form.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'sale-dashboard' , component:SaleDashboardComponent, canActivate: [AuthGuard] },
   { path: 'dashboard' , component:DashboardComponent, canActivate: [AuthGuard] },
   { path: 'inventory' , component:InventoryComponent, canActivate: [AuthGuard], },
   { path: 'inventory/vehicle-details' , component:VehicleDetailsComponent, canActivate: [AuthGuard] },
@@ -54,6 +56,8 @@ const routes: Routes = [
   { path: 'time-clocks' , component:TimeClockComponent, canActivate: [AuthGuard] },
   { path: 'manager/add-employee' , component:AddEmployeeComponent, canActivate: [AuthGuard] },
   { path: 'sale-details' , component:SaleDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'invoice-list' , component:InvoiceListComponent, canActivate: [AuthGuard] },
+  { path: 'dc-form' , component:DcFormComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
@@ -72,7 +76,10 @@ const routes: Routes = [
     InventoryAcknowledgeComponent,
     TimeClockComponent,
     AddEmployeeComponent,
-    SaleDetailsComponent
+    SaleDetailsComponent,
+    InvoiceListComponent,
+    SaleDashboardComponent,
+    DcFormComponent
   ],
   imports: [
     BrowserModule,

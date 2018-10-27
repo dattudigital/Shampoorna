@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SaleUserService } from '../../services/sale-user.service'
 import { DatePipe } from '@angular/common';
-import { ClipboardService } from 'ngx-clipboard'
+import { ClipboardService } from 'ngx-clipboard';
+import {Router} from '@angular/router'
 @Component({
   selector: 'app-sale-details',
   templateUrl: './sale-details.component.html',
@@ -18,7 +19,7 @@ export class SaleDetailsComponent implements OnInit {
   temp: any;
 
 
-  constructor(private service: SaleUserService, private dp: DatePipe,private _clipboardService: ClipboardService) { }
+  constructor(private service: SaleUserService, private dp: DatePipe,private _clipboardService: ClipboardService,private router:Router) { }
 
   ngOnInit() {
 
@@ -46,8 +47,6 @@ export class SaleDetailsComponent implements OnInit {
   }
 
 
-
-
   firstname: '';
   display_name_on_rc: '';
   email_id: '';
@@ -61,6 +60,10 @@ export class SaleDetailsComponent implements OnInit {
   district:'';
   proof_type:'';
   proof_num:'';
+
+  newSaleClick(){
+    this.router.navigate(['dashboard']);
+  }
 
   editList(data, index) {
     console.log(index);

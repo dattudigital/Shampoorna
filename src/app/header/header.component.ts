@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit {
   }
 
   redirectToDashbaord() {
-    this.router.navigate(['dashboard']);
+    this.router.navigate(['sale-dashboard']);
     $("#__sale").click(function () {
       $("#__sale").addClass("active");
     });

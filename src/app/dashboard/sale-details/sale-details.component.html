@@ -1,11 +1,6 @@
 <div class="tabs-services">
   <app-header></app-header>
 </div>
-
-
-
-
-
 <script>
   $('tab-pane').on('click', function (e) {
     e.preventDefault()
@@ -28,8 +23,71 @@
 
 
 
+<div class="vehicle-search">
 
+  <div class="row">
+    <div class="container">
+      <div class="col=sm-6"></div>
+      <div class="col-sm-4"></div>
+      <div class="col-sm-2" style="float:right">
+        <button type="submit" class="btn btn-warning" (click)="newSaleClick()">New Sales</button>
+      </div>
 
+    </div>
+  </div>
+  <br/>
+  <div class="row">
+    <div class="col-md-4 col-sm-4 col-xs-12">
+      <div class="form-group">
+        <label for="input" class="col-md-3 control-label">Type</label>
+        <div class="col-md-7">
+          <select class="form-control" [(ngModel)]="vehicleTypeFilter">
+            <option value="" selected>All</option>
+            <option *ngFor="let data of this.typeData" [ngValue]=" data.vehicle_type_id">{{data.type_name}}</option>
+
+          </select>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-sm-4 col-xs-12">
+      <div class="form-group">
+        <label for="input" class="col-md-3 control-label">Model</label>
+        <div class="col-md-7">
+          <select class="form-control" [(ngModel)]="vehicleModelFilter">
+            <option value="" selected>All</option>
+            <option *ngFor="let data of this.modelData" [ngValue]=" data.vehicle_model_id">{{data.model_name}}</option>
+          </select>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+    <div class="col-md-4 col-sm-4 col-xs-12">
+      <div class="form-group">
+        <label for="input" class="col-md-3 control-label">From</label>
+        <div class="col-md-7">
+          <div class="input-group">
+            <p-calendar [(ngModel)]="date1" name="fromDate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'190px'}"
+              [showIcon]="true" [(ngModel)]="fromDate" dateFormat="dd-mm-yy" (ngModelChange)=" fromDa($event)"></p-calendar>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-sm-4 col-xs-12"></div>
+    <div class="col-md-4 col-sm-4 col-xs-12"></div>
+    <div class="col-md-1 col-sm-1 col-xs-12">
+      <button type="submit" class="btn btn-primary" (click)=" detailsGo()">Search</button>
+    </div>
+    <div class="col-md-1 col-sm-1 col-xs-12">
+      <button type="submit" class="btn btn-warning" (click)="detailsReset()">Reset</button>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>
+&nbsp;
 
 
 
@@ -49,9 +107,9 @@
       </th>
       <th>Edit</th>
       <th>Invoice</th>
+      <th>DC</th>
       <th>Delete</th>
     </tr>
-
   </ng-template>
   <ng-template pTemplate="body" let-i="rowIndex" let-bike>
     <tr>
@@ -61,8 +119,16 @@
       <td href="#" data-toggle="modal" data-target="#editList" (click)="editList(lists,i)">
         <i class="fa fa-edit" style="color:orange"></i>
       </td>
-      <td href="#" data-toggle="modal" data-target="#invoiceList" (click)="editList(lists,i)">
-        <i class="fa fa-file" style="color:rgb(243, 8, 0)"></i>
+      <td>
+        <a href="#" [routerLink]="['/invoice-list']">
+          <i class="fa fa-file" style="color:rgb(243, 8, 0)"></i>
+        </a>
+
+      </td>
+      <td>
+        <a href="#" [routerLink]="['/dc-form']">
+          <i class="fa fa-file" style="color:#6c9caf"></i>
+        </a>
       </td>
       <td href="#" data-toggle="modal" data-target="#deleteVehicle" (click)="deleteList(lists,i)">
         <i class="fa fa-trash"></i>
@@ -93,9 +159,7 @@
             <li class="nav-item">
               <a class="nav-link" id="contact-tab" data-toggle="tab" href="#inventory" role="tab" aria-controls="exchange" aria-selected="false">Exchange</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#setup" role="tab" aria-controls="dc" aria-selected="false">DC</a>
-            </li>
+            
           </ul>
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade" id="sales" role="tabpanel" aria-labelledby="personal-tab">
@@ -380,10 +444,6 @@
             </div>
 
             <div class="tab-pane fade" id="inventory" role="tabpanel" aria-labelledby="exchange-tab">
-
-
-
-
               <div class="personal-info">
                 <div class="container">
                   <div class="col-sm-12">
@@ -461,105 +521,7 @@
                 </div>
               </div>
             </div>
-            <div class="tab-pane fade" id="setup" role="tabpanel" aria-labelledby="csd-tab">
-              <div class="csd-form">
-                <div class="container">
-                  <div class="col-sm-8" style="padding-top:20px">
-                    <div class=" row form-group">
-                      <div class="col-sm-4"></div>
-                      <label class="col-sm-4">
-                        <h3>Delivery Note</h3>
-                      </label>
-                      <div class="col-sm-4"></div>
-                    </div>
-                    <div class=" row form-group">
-                      <div class="col-sm-7">
-                      </div>
-                      <div class="col-sm-5">
-                        Date:
-                        <p-calendar name="dob" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'190px'}"
-                          [showIcon]="true" dateFormat="dd-mm-yy"></p-calendar>
-                      </div>
-                    </div>
-                    <br>
-                    <div class=" row form-group">
-                      <label class="col-sm-4">Taken Delivery Of One TVS
-                        <span style="color:red">*</span>
-                      </label>
-                      <div class="col-sm-5">
-                        <input type="text" name="text" maxlength="50" class="form-control">
-                      </div>
-                      <label class="col-sm-2">Bearing
-                      </label>
-                    </div>
 
-                    <div class=" row form-group">
-                      <label class="col-sm-4"> Engine No.
-                        <span style="color:red">*</span>
-                      </label>
-                      <div class="col-sm-8">
-                        <input type="text" name="text" maxlength="50" class="form-control">
-                      </div>
-                    </div>
-
-                    <div class=" row form-group">
-                      <label class="col-sm-4"> Frame No.
-                        <span style="color:red">*</span>
-                      </label>
-                      <div class="col-sm-8">
-                        <input type="text" name="text" maxlength="50" class="form-control">
-                      </div>
-                    </div>
-
-                    <div class=" row form-group">
-                      <label class="col-sm-4"> Colour
-                        <span style="color:red">*</span>
-                      </label>
-                      <div class="col-sm-8">
-                        <input type="text" name="text" maxlength="50" class="form-control">
-                      </div>
-                    </div>
-
-                    <div class=" row form-group">
-                      <label class="col-sm-12"> Along with tools and owner manual as supplied by TVS-M for Display purpose not for sale at our showroom.
-                      </label>
-                    </div>
-
-                    <br>
-
-                    <div class=" row form-group">
-                      <label class="col-sm-4"> Toolkit/ Manual Book:
-                        <span style="color:red">*</span>
-                      </label>
-                      <div class="col-sm-8">
-                        <input type="text" name="text" maxlength="50" class="form-control">
-
-                      </div>
-                    </div>
-
-                    <div class=" row form-group">
-                      <label class="col-sm-4">Address of outlet:
-                        <span style="color:red">*</span>
-                      </label>
-                      <div class="col-sm-8">
-                        <input type="text" name="text" maxlength="50" class="form-control">
-                      </div>
-                    </div>
-                    <br>
-
-                    <div class=" row form-group">
-                      <div class="col-sm-4"></div>
-                      <label class="col-sm-4"> Signature is Electrically Generated
-                      </label>
-                      <div class="col-sm-4"></div>
-                    </div>
-
-
-                  </div>
-                  <div class="clear"></div>
-                </div>
-              </div>
-            </div>
           </div>
           <div class="clear"></div>
         </div>
@@ -573,335 +535,6 @@
 </div>
 
 
-<div class="modal fade" id="invoiceList" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h3 class="modal-title" id="myModalLabel">Invoice Details</h3>
-      </div>
-      <div class="modal-body">
 
-        <div class="personal-info">
-          <div class="container">
-            <div class="col-sm-12">
-              <h3>Personal Information</h3>
-              <div class="row form-group">
-                <label class="col-sm-4 ">Name of the Customer
-                </label>
-                <div class="col-sm-4">
-                  <div class="input-group">
-                    <input type="text" name="name" maxlength="50" class="form-control" [(ngModel)]="firstname" #inputTarget readonly>
-                    <span class="input-group-addon">
-                      <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="inputTarget" style="cursor:pointer"></i>
-                    </span>
-
-                  </div>
-                </div>
-              </div>
-              <div class="row form-group">
-                <label class="col-sm-4">Display Name On RC
-                </label>
-                <div class="col-sm-4">
-                  <div class="input-group">
-                    <input type="text" name="rcname" maxlength="50" class="form-control" [(ngModel)]="display_name_on_rc" #nameRc readonly>
-                    <span class="input-group-addon">
-                      <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="nameRc" style="cursor:pointer"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="row form-group">
-                <label class="col-sm-4">Date Of Birth
-                </label>
-                <div class="col-sm-4">
-                  <!-- <input type="date" name="dob"  [(ngModel)]="dob" placeholder="dd/mm/yy"> -->
-                  <p-calendar [(ngModel)]="date1" name="dob" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'190px'}"
-                    [showIcon]="true" [(ngModel)]="dob" dateFormat="dd-mm-yy" (ngModelChange)=" getreqDate($event)"></p-calendar>
-                </div>
-              </div>
-              <div class="row form-group">
-                <label class="col-sm-4">Father/Daughter/Wife
-                </label>
-                <div class="col-sm-4">
-                  <div class="input-group">
-                    <input type="text" name="relation" maxlength="50" class="form-control" [(ngModel)]="relation" #relationName readonly>
-                    <span class="input-group-addon">
-                      <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="relationName" style="cursor:pointer"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="row form-group">
-                <label class="col-sm-4">Address
-                </label>
-                <div class="col-sm-4">
-                  <div class="input-group">
-                    <textarea class="form-control" maxlength="1000" rows="2" name="address" style="padding-left:1.6em" [(ngModel)]="address"
-                      #custAddress readonly>
-                             
-                          </textarea>
-                    <span class="input-group-addon">
-                      <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="custAddress" style="cursor:pointer"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="row form-group">
-                <label class="col-sm-4">Mandal
-                </label>
-                <div class="col-sm-4">
-                  <div class="input-group">
-                    <input type="text" name="mandal" maxlength="50" class="form-control" [(ngModel)]="mandal" #custMandal readonly>
-                    <span class="input-group-addon">
-                      <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="custMandal" style="cursor:pointer"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="row form-group">
-                <label class="col-sm-4">Pincode
-                </label>
-                <div class="col-sm-4">
-                  <div class="input-group">
-                    <input type="text" name="pincode" maxlength="50" class="form-control" [(ngModel)]="pincode" #custPincode readonly>
-                    <span class="input-group-addon">
-                      <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="custPincode" style="cursor:pointer"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="row form-group">
-                <label class="col-sm-4">District Name
-                </label>
-                <div class="col-sm-4">
-                  <div class="input-group">
-                    <input type="text" name="district" maxlength="50" class="form-control" [(ngModel)]="districtName" #custDist readonly>
-                    <span class="input-group-addon">
-                      <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="custDist" style="cursor:pointer"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="row form-group">
-                <label class="col-sm-4">Mobile
-                </label>
-                <div class="col-sm-4">
-                  <div class="input-group">
-                    <input type="text" name="mobile" maxlength="50" class="form-control" [(ngModel)]="mobile" #custMobile readonly>
-                    <span class="input-group-addon">
-                      <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="custMobile" style="cursor:pointer"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="row form-group">
-                <label class="col-sm-4">Address Proof
-                  <span style="color:red">*</span>
-                </label>
-                <div class="col-sm-4">
-
-                  <select name="state" class="form-control" [(ngModel)]="addressProof">
-                    <option value="" disabled select>Select</option>
-                    <option value="aadhar">Aadhar Card</option>
-                    <option value="license">License</option>
-                    <option value="voter">Voter Id</option>
-                    <option value="ration">Ration Card</option>
-                    <option value="current">Current Bill</option>
-                    <option value="water">Water Bill</option>
-                    <option value="gas">Gas Bill</option>
-                    <option value="mobile">Mobile Postpaid </option>
-                  </select>
-                </div>
-              </div>
-              <div class="row form-group">
-                <label class="col-sm-4"></label>
-                <div class="col-sm-4">
-                  <input type="text" name="aadharNumber" maxlength="50" class="form-control" [(ngModel)]="addressProofNo">
-                </div>
-              </div>
-              <div class=" row form-group">
-                <label class="col-sm-4">passport size photo
-                </label>
-                <div class="col-sm-4">
-                  <input type="file" name="photo" accept="image/*" (change)="getFileDetails($event,'p')">
-                </div>
-              </div>
-              <!-- </div>
-                    <div class="col-sm-6"> -->
-              <h3>Vehicle Information</h3>
-              <div class="row form-group">
-                <label class="col-sm-4">Engine No
-                </label>
-                <div class="col-sm-4">
-                  <input type="text" name="Engine" maxlength="50" [(ngModel)]="vehicleEngineNo" (ngModelChange)='engineSearch($event)' class="form-control">
-                </div>
-              </div>
-              <div class="row form-group">
-                <label class="col-sm-4">Frame No
-                </label>
-                <div class="col-sm-4">
-                  <input type="text" name="frame" maxlength="50" class="form-control" [(ngModel)]="vehicleFrameNo">
-                </div>
-              </div>
-              <div class="row form-group">
-                <label class="col-sm-4">DC No
-                </label>
-                <div class="col-sm-4">
-                  <input type="text" name="dcnum" maxlength="50" class="form-control" [(ngModel)]="vehicleDcNo">
-                </div>
-              </div>
-              <div class="row form-group">
-                <label class="col-sm-4">Key No
-                </label>
-                <div class="col-sm-4">
-                  <input type="text" name="keyno" maxlength="50" class="form-control" [(ngModel)]="vehicleKeyNo">
-                </div>
-              </div>
-              <div class="row form-group">
-                <label class="col-sm-4">Vehicle Color</label>
-                <div class="col-sm-4">
-                  <input type="text" name="color" maxlength="50" class="form-control" [(ngModel)]="vehicleColor">
-                </div>
-              </div>
-              <div class="row form-group">
-                <label class="col-sm-4">Nominee Name
-                </label>
-                <div class="col-sm-4">
-                  <input type="text" name="nomini" maxlength="50" class="form-control" [(ngModel)]="nomineeName">
-                </div>
-              </div>
-              <div class="row form-group">
-                <label class="col-sm-4">Second vehicle
-                </label>
-                <div class="col-sm-4">
-                  <div class="form-check pull-left">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                  </div>
-                </div>
-              </div>
-              <div class="row form-group">
-                <div class="col-sm-12">
-                  <h3>Pricing</h3>
-                </div>
-              </div>
-              <div class="row form-group">
-                <label class="col-sm-12">ON ROAD PRICE
-                </label>
-              </div>
-              <div class="row form-group">
-                <div class="col-sm-2">
-                  <div class="input-group">
-                    <input type="text" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleBasic">
-                    <span>Basic Price</span>
-                  </div>
-                </div>
-                <div class="col-sm-1">
-                  <span>+</span>
-                </div>
-                <div class="col-sm-2">
-                  <div class="input-group">
-                    <input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="lifeTax" disabled>
-                    <span>Life Tax</span>
-                  </div>
-                </div>
-                <div class="col-sm-1">
-                  <span>+</span>
-                </div>
-                <div class="col-sm-2">
-                  <div class="input-group">
-                    <input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="VehicleInsu" disabled>
-                    <span>insurance</span>
-                  </div>
-                </div>
-              </div>
-              <div class="row form-group">
-                <div class="col-sm-2">
-                  <div class="input-group">
-                    <input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="handlingC" (ngModelChange)="addTotalTax()">
-
-                    <span> Handling C</span>
-                  </div>
-                </div>
-                <div class="col-sm-1">
-                  <span>+</span>
-                </div>
-                <div class="col-sm-2">
-                  <div class="input-group">
-                    <input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleReg" (ngModelChange)="addTotalTax()">
-                    <span> Registration</span>
-                  </div>
-                </div>
-                <div class="col-sm-1">
-                  <span>+</span>
-                </div>
-                <div class="col-sm-2">
-                  <div class="input-group">
-                    <input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleWarranty" (ngModelChange)="addTotalTax()">
-                    <span>Warranty</span>
-                  </div>
-                </div>
-              </div>
-              <div class="row form-group">
-                <div class="col-sm-2">
-                  <div class="input-group">
-                    <input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleAcc" (ngModelChange)="addTotalTax()">
-                    <span>Accessories</span>
-                  </div>
-                </div>
-                <div class="col-sm-1">
-                  <span>+</span>
-                </div>
-                <div class="col-sm-2">
-                  <div class="input-group">
-                    <input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="Hp" (ngModelChange)="addTotalTax()">
-                    <span> HP</span>
-                  </div>
-                </div>
-                <div class="col-sm-1">
-                  <span>-</span>
-                </div>
-                <div class="col-sm-2">
-                  <div class="input-group">
-                    <input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="discount" (ngModelChange)="approvedEmpEnable()">
-                    <span>Discount</span>
-                  </div>
-                </div>
-              </div>
-              <br>
-              <div class="tableShow" [style.visibility]="disableApprovedBy">
-                <div class="row form-group">
-                  <label class="col-sm-4">Discount Approved By
-                  </label>
-                  <div class="col-sm-4">
-                    <select name="emp" class="form-control" [(ngModel)]="discountApprovedBy">
-                      <option value="" disabled select>select</option>
-                      <option *ngFor="let manager of branchManagerData" [ngValue]="manager.employee_id">{{manager.employee_firstname}}</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="row form-group">
-                <label class="col-sm-4">Total Amount
-                </label>
-                <div class="col-sm-4">
-                  <input type="number" name="model" maxlength="50" class="form-control" [(ngModel)]="onRoadPrice">
-                </div>
-              </div>
-              <br>
-
-            </div>
-
-
-          </div>
-          <div class="clear"></div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</div>
 
 <app-footer></app-footer>

@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
       this.service.dataLogin(data).subscribe(loginData => {
         if (loginData.json().status == true) {
           sessionStorage.setItem('userSession', JSON.stringify(loginData.json()));
-          this.router.navigate(['dashboard']);
+          this.router.navigate(['sale-dashboard']);
         }
       });
     } else {
