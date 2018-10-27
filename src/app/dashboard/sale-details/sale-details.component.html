@@ -32,12 +32,11 @@
       <div class="col-sm-2" style="float:right">
         <button type="submit" class="btn btn-warning" (click)="newSaleClick()">New Sales</button>
       </div>
-
     </div>
   </div>
   <br/>
   <div class="row">
-    <div class="col-md-4 col-sm-4 col-xs-12">
+    <div class="col-md-3 col-sm-3 col-xs-12">
       <div class="form-group">
         <label for="input" class="col-md-3 control-label">Type</label>
         <div class="col-md-7">
@@ -51,9 +50,9 @@
       </div>
     </div>
 
-    <div class="col-md-4 col-sm-4 col-xs-12">
+    <div class="col-md-3 col-sm-3 col-xs-12">
       <div class="form-group">
-        <label for="input" class="col-md-3 control-label">Model</label>
+        <label for="input" class="col-md-3 control-label">Branch</label>
         <div class="col-md-7">
           <select class="form-control" [(ngModel)]="vehicleModelFilter">
             <option value="" selected>All</option>
@@ -63,7 +62,7 @@
         <div class="clear"></div>
       </div>
     </div>
-    <div class="col-md-4 col-sm-4 col-xs-12">
+    <div class="col-md-3 col-sm-3 col-xs-12">
       <div class="form-group">
         <label for="input" class="col-md-3 control-label">From</label>
         <div class="col-md-7">
@@ -76,6 +75,20 @@
       </div>
     </div>
 
+    <div class="col-md-3 col-sm-3 col-xs-12">
+      <div class="form-group">
+        <label for="input" class="col-md-3 control-label">To</label>
+        <div class="col-md-7">
+          <div class="input-group">
+            <p-calendar [(ngModel)]="date1" name="fromDate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'190px'}"
+              [showIcon]="true" [(ngModel)]="fromDate" dateFormat="dd-mm-yy" (ngModelChange)=" fromDa($event)"></p-calendar>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-md-4 col-sm-4 col-xs-12"></div>
     <div class="col-md-4 col-sm-4 col-xs-12"></div>
     <div class="col-md-1 col-sm-1 col-xs-12">
@@ -159,7 +172,7 @@
             <li class="nav-item">
               <a class="nav-link" id="contact-tab" data-toggle="tab" href="#inventory" role="tab" aria-controls="exchange" aria-selected="false">Exchange</a>
             </li>
-            
+
           </ul>
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade" id="sales" role="tabpanel" aria-labelledby="personal-tab">
@@ -186,7 +199,11 @@
                     <span style="color:red">*</span>
                   </label>
                   <div class="col-sm-5">
-                    <p-calendar [(ngModel)]="date1" name="dob" [inputStyle]="{'width':'190px'}" [showIcon]="true" [(ngModel)]="dob" dateFormat="yy-mm-dd"></p-calendar>
+
+                    <p-calendar name="date" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'190px'}"
+                      [showIcon]="true" [(ngModel)]="dob" dateFormat="dd-mm-yy" (ngModelChange)="getDob()"></p-calendar>
+
+
                   </div>
                 </div>
                 <div class="row form-group">
@@ -234,7 +251,6 @@
                     <span style="color:red">*</span>
                   </label>
                   <div class="col-sm-5">
-
                     <select name="state" class="form-control" [(ngModel)]="proof_type">
                       <option value="" disabled select>Select</option>
                       <option value="aadhar">Aadhar Card</option>
@@ -347,7 +363,7 @@
                   </div>
                   <div class="col-sm-2">
                     <div class="input-group">
-                      <input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="lifeTax" disabled>
+                      <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="lifeTax" disabled>
                       <span>Life Tax</span>
                     </div>
                   </div>
@@ -356,7 +372,7 @@
                   </div>
                   <div class="col-sm-2">
                     <div class="input-group">
-                      <input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="VehicleInsu" disabled>
+                      <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="VehicleInsu" disabled>
                       <span>insurance</span>
                     </div>
                   </div>
@@ -365,7 +381,7 @@
                   <label class="col-sm-3 col-form-label required"> </label>
                   <div class="col-sm-2">
                     <div class="input-group">
-                      <input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="handlingC" (ngModelChange)="addTotalTax()">
+                      <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="handlingC" (ngModelChange)="addTotalTax()">
 
                       <span> Handling C</span>
                     </div>
@@ -375,7 +391,7 @@
                   </div>
                   <div class="col-sm-2">
                     <div class="input-group">
-                      <input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleReg" (ngModelChange)="addTotalTax()">
+                      <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleReg" (ngModelChange)="addTotalTax()">
                       <span> Registration</span>
                     </div>
                   </div>
@@ -384,7 +400,7 @@
                   </div>
                   <div class="col-sm-2">
                     <div class="input-group">
-                      <input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleWarranty" (ngModelChange)="addTotalTax()">
+                      <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleWarranty" (ngModelChange)="addTotalTax()">
                       <span>warranty</span>
                     </div>
                   </div>
@@ -393,7 +409,7 @@
                   <label class="col-sm-3 col-form-label required"> </label>
                   <div class="col-sm-2">
                     <div class="input-group">
-                      <input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleAcc" (ngModelChange)="addTotalTax()">
+                      <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleAcc" (ngModelChange)="addTotalTax()">
 
                       <span>Accessories</span>
                     </div>
@@ -403,7 +419,7 @@
                   </div>
                   <div class="col-sm-2">
                     <div class="input-group">
-                      <input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="Hp" (ngModelChange)="addTotalTax()">
+                      <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="Hp" (ngModelChange)="addTotalTax()">
                       <span> HP</span>
                     </div>
                   </div>
@@ -412,7 +428,7 @@
                   </div>
                   <div class="col-sm-2">
                     <div class="input-group">
-                      <input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="discount" (ngModelChange)="approvedEmpEnable()">
+                      <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="discount" (ngModelChange)="approvedEmpEnable()">
                       <span>Discount</span>
                     </div>
                   </div>
@@ -435,7 +451,7 @@
                   <label class="col-sm-4 col-form-label required">Total Amount
                   </label>
                   <div class="col-sm-5">
-                    <input type="number" name="model" maxlength="50" class="form-control" [(ngModel)]="onRoadPrice">
+                    <input type="number" min="0" name="model" maxlength="50" class="form-control" [(ngModel)]="onRoadPrice">
                   </div>
                 </div>
                 <br>
@@ -455,7 +471,7 @@
                         <span style="color:red">*</span>
                       </label>
                       <div class="col-sm-5">
-                        <input type="number" name="exchange" maxlength="50" class="form-control" [(ngModel)]="exchangevehicleNo">
+                        <input type="number" min="0" name="exchange" maxlength="50" class="form-control" [(ngModel)]="exchangevehicleNo">
                       </div>
                     </div>
                     <div class="row form-group">
@@ -527,7 +543,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal" (click)=cancelVehicle()>Cancel</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="updateVehicle()">Update</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="updatePersonInfo()">Update</button>
         </div>
       </div>
     </div>

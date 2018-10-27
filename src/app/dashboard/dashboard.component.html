@@ -71,7 +71,7 @@
 						</label>
 						<div class="col-sm-5">
 							<!-- <input type="date" name="dob"  [(ngModel)]="dob" placeholder="dd/mm/yy"> -->
-							<p-calendar [(ngModel)]="date1" name="dob" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'190px'}"
+							<p-calendar [(ngModel)]="date1" name="dob" [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2030" [inputStyle]="{'width':'190px'}"
 							 [showIcon]="true" [(ngModel)]="dob" dateFormat="dd-mm-yy" (ngModelChange)=" getreqDate($event)"></p-calendar>
 						</div>
 					</div>
@@ -236,7 +236,7 @@
 						</div>
 						<div class="col-sm-2">
 							<div class="input-group">
-								<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="lifeTax" disabled>
+								<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="lifeTax" disabled>
 								<span>Life Tax</span>
 							</div>
 						</div>
@@ -245,7 +245,7 @@
 						</div>
 						<div class="col-sm-2">
 							<div class="input-group">
-								<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="VehicleInsu" disabled>
+								<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="VehicleInsu" disabled>
 								<span>insurance</span>
 							</div>
 						</div>
@@ -254,7 +254,7 @@
 						<label class="col-sm-3 col-form-label required"> </label>
 						<div class="col-sm-2">
 							<div class="input-group">
-								<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="handlingC" (ngModelChange)="addTotalTax()">
+								<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="handlingC" (ngModelChange)="addTotalTax()">
 
 								<span> Handling C</span>
 							</div>
@@ -264,7 +264,7 @@
 						</div>
 						<div class="col-sm-2">
 							<div class="input-group">
-								<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleReg" (ngModelChange)="addTotalTax()">
+								<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleReg" (ngModelChange)="addTotalTax()">
 								<span> Registration</span>
 							</div>
 						</div>
@@ -273,7 +273,7 @@
 						</div>
 						<div class="col-sm-2">
 							<div class="input-group">
-								<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleWarranty" (ngModelChange)="addTotalTax()">
+								<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleWarranty" (ngModelChange)="addTotalTax()">
 								<span>warranty</span>
 							</div>
 						</div>
@@ -282,7 +282,7 @@
 						<label class="col-sm-3 col-form-label required"> </label>
 						<div class="col-sm-2">
 							<div class="input-group">
-								<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleAcc" (ngModelChange)="addTotalTax()">
+								<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleAcc" (ngModelChange)="addTotalTax()">
 
 								<span>Accessories</span>
 							</div>
@@ -292,7 +292,7 @@
 						</div>
 						<div class="col-sm-2">
 							<div class="input-group">
-								<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="Hp" (ngModelChange)="addTotalTax()">
+								<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="Hp" (ngModelChange)="addTotalTax()">
 								<span> HP</span>
 							</div>
 						</div>
@@ -301,7 +301,7 @@
 						</div>
 						<div class="col-sm-2">
 							<div class="input-group">
-								<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="discount" (ngModelChange)="approvedEmpEnable()">
+								<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="discount" (ngModelChange)="approvedEmpEnable()">
 								<span>Discount</span>
 							</div>
 						</div>
@@ -324,7 +324,7 @@
 						<label class="col-sm-4 col-form-label required">Total Amount
 						</label>
 						<div class="col-sm-5">
-							<input type="number" name="model" maxlength="50" class="form-control" [(ngModel)]="onRoadPrice">
+							<input type="number" min="0" name="model" maxlength="50" class="form-control" [(ngModel)]="onRoadPrice">
 						</div>
 					</div>
 					<br>
@@ -400,7 +400,7 @@
 							<span style="color:red">*</span>
 						</label>
 						<div class="col-sm-5">
-							<input type="number" name="exchange" maxlength="50" class="form-control" [(ngModel)]="exchangevehicleNo">
+							<input type="number" min="0" name="exchange" maxlength="50" class="form-control" [(ngModel)]="exchangevehicleNo">
 						</div>
 					</div>
 					<div class="row form-group">
@@ -496,7 +496,7 @@
 								/>Cheque
 								<div class="tableShow" [style.visibility]="isDisabled">
 
-									<input type="number" name="myTxt" id="myTxt" value="" [(ngModel)]="chequeAmount" (ngModelChange)="addTotalAmount()">
+									<input type="number" min="0" name="myTxt" id="myTxt" value="" [(ngModel)]="chequeAmount" (ngModelChange)="addTotalAmount()">
 								</div>
 							</div>
 							<div class="col-sm-1"></div>
@@ -512,7 +512,7 @@
 								<input type="checkbox" name="myChk" id="myChk" for="credit" [(ngModel)]="creditCard" (change)="creditCardEvent();addTotalAmount()"
 								/>Credit Card
 								<div class="tableShow" [style.visibility]="disableCredit">
-									<input type="number" name="credit" id="credit" value="" [(ngModel)]="creditcardAmount" (ngModelChange)="addTotalAmount()">
+									<input type="number" min="0" name="credit" id="credit" value="" [(ngModel)]="creditcardAmount" (ngModelChange)="addTotalAmount()">
 								</div>
 							</div>
 							<div class="col-sm-1"></div>
@@ -521,20 +521,20 @@
 									<input type="checkbox" name="myChk" id="myChk" for="bank" [(ngModel)]="accountTranfer" (change)="tranferEvent();addTotalAmount()"
 									/>Account Transfer
 									<div class="tableShow" [style.visibility]="disableTransfer">
-										<input type="number" name="credit" id="bank" value="" [(ngModel)]="accountTransferAmount" (ngModelChange)="addTotalAmount()">
+										<input type="number" min="0" name="credit" id="bank" value="" [(ngModel)]="accountTransferAmount" (ngModelChange)="addTotalAmount()">
 									</div>
 								</div>
 								<div class="col-sm-1"></div>
 								<div class="col-sm-3">
 									<input type="checkbox" name="myChk" id="myChk" for="other" [(ngModel)]="other" (change)="otherEvent();addTotalAmount()" />Other
 									<div class="tableShow" [style.visibility]="disableOther">
-										<input type="number" name="other" id="other" value="" [(ngModel)]="otherAmount" (ngModelChange)="addTotalAmount()">
+										<input type="number" min="0" name="other" id="other" value="" [(ngModel)]="otherAmount" (ngModelChange)="addTotalAmount()">
 									</div>
 								</div>
 								<div class="col-sm-1"></div>
 								<div class="col-sm-3">
 									<div class="input-group">
-										<input type="number" name="total" maxlength="50" class="form-control" [(ngModel)]="cashTotal">
+										<input type="number"  min="0"name="total" maxlength="50" class="form-control" [(ngModel)]="cashTotal">
 										<span>Total</span>
 									</div>
 								</div>
