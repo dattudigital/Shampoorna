@@ -129,7 +129,7 @@
       <td *ngFor="let col of cols">
         {{ col.type ? col.type.transform(bike[col.field], col.arg1) : bike[col.field] }}
       </td>
-      <td href="#" data-toggle="modal" data-target="#editList" (click)="editList(lists,i)">
+      <td href="#" data-toggle="modal" data-target="#editList" (click)="editList(lists,i);">
         <i class="fa fa-edit" style="color:orange"></i>
       </td>
       <td>

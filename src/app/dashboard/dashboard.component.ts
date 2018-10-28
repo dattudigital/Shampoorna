@@ -219,7 +219,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getreqDate() {
-    let newDate = moment(this.dob).format('YYYY-DD-MM').toString();
+    let newDate = moment(this.dob).format('YYYY-MM-DD').toString();
     this.dob = newDate;
     console.log(this.dob)
   }
@@ -235,7 +235,7 @@ export class DashboardComponent implements OnInit {
       address: this.address,
       mobile: this.mobile,
       mandal: this.mandal,
-      pincode: this.pincode,
+     // pincode: this.pincode,
       district: this.districtName,
       proof_type: this.addressProof,
       proof_num: this.addressProofNo,

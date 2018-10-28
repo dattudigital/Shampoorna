@@ -163,6 +163,9 @@ export class SaleDetailsComponent implements OnInit {
       console.log(res.json());
     })
   }
+  editVehicle(){
+    
+  }
 
 
 
