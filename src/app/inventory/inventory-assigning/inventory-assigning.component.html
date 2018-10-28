@@ -52,7 +52,7 @@
               </div>
             </div>
           </div>
-          <div class="row form-group">
+          <!-- <div class="row form-group">
             <label class="col-sm-4 col-form-label required">Assigned By
               <span style="color:red">*</span>
             </label>
@@ -65,7 +65,7 @@
                 <div *ngIf="f.empId.errors.required" style="color:red">Employee is required</div>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="row form-group">
             <label class="col-sm-4 col-form-label required">Shipped By
               <span style="color:red">*</span>
@@ -83,18 +83,68 @@
             </div>
           </div>
           <div class="row form-group">
-            <label class="col-sm-4 col-form-label required">
+            <label class="col-sm-4 col-form-label required"> Shipped Vehicle No.
             </label>
             <div class="col-sm-5">
-              <input type="text" maxlength="50" class="form-control" formControlName="shippedBy">
+              <input type="text" maxlength="50" class="form-control"  formControlName="shippedBy"  [(ngModel)]="shippedIn">
             </div>
           </div>
+          <div class=" row form-group">
+          <label for="input" class="col-sm-4 control-label">Assaigned Quantity
+            <a style="color:red">*</a>
+          </label>
+          <div class="col-sm-5">
+            <input type="text" class="form-control" formControlName="assQuantity" placeholder="Enter Assaigned Quantity" [(ngModel)]="assQuantity"
+              [ngClass]="{ 'is-invalid': submitted && f.assQuantity.errors }">
+            <div *ngIf="submitted && f.assQuantity.errors" class="invalid-feedback">
+              <div *ngIf="f.assQuantity.errors.required" style="color:red">Assaigned Quantity is required</div>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+
+        <!-- <div class=" row form-group">
+          <label for="input" class="col-sm-4 control-label">Updated by
+            <a style="color:red">*</a>
+          </label>
+          <div class="col-sm-5">
+            <select class="form-control" formControlName="updateBy" [(ngModel)]="updateBy" [ngClass]="{ 'is-invalid': submitted && f.updateBy.errors }">
+              <option *ngFor="let data of employeedata" [ngValue]=" data.employee_id">{{data.employee_firstname}}</option>
+            </select>
+            <div *ngIf="submitted && f.updateBy.errors" class="invalid-feedback">
+              <div *ngIf="f.updateBy.errors.required" style="color:red">Updated By is required</div>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div> -->
           <div class="clear"></div>
         </div>
 
         <div class="col-sm-6">
+           <!-- <div class=" row form-group">
+          <label for="input" class="col-sm-4 control-label">Assaigned On</label>
+          <div class="col-sm-8">
+            <div class="input-group">
+                <p-calendar [(ngModel)]="date2" name="assignedby" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'190px'}"
+                [showIcon]="true" [(ngModel)]="assDate" dateFormat="dd-mm-yy" (ngModelChange)=" getassDate($event)" [(ngModel)]="showMoreControls"
+                [ngModelOptions]="{standalone: true}"></p-calendar>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div> -->
+        <!-- <div class=" row form-group">
+            <label for="input" class="col-sm-4 control-label">Updated On</label>
+            <div class="col-sm-8">
+              <div class="input-group">
+                  <p-calendar [(ngModel)]="date3" name="update" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'190px'}"
+                  [showIcon]="true" [(ngModel)]="updateDate" dateFormat="dd-mm-yy" (ngModelChange)=" getupdDate($event)" [(ngModel)]="showMoreControls"
+                  [ngModelOptions]="{standalone: true}"></p-calendar>
+              </div>
+            </div>
+            <div class="clear"></div>
+          </div> -->
           <div class="row form-group">
-            <label class="col-sm-4 col-form-label required">Branch Manager Acknowledgement
+            <label class="col-sm-4 col-form-label required">Manager Acknowledgement
               <span style="color:red">*</span>
             </label>
             <div class="col-sm-5">
@@ -104,7 +154,7 @@
                 <option value="1">No</option>
               </select>
               <div *ngIf="submitted && f.managerAck.errors" class="invalid-feedback">
-                <div *ngIf="f.managerAck.errors.required" style="color:red">Managet Acknowledgement is required</div>
+                <div *ngIf="f.managerAck.errors.required" style="color:red">Manager Acknowledgement is required</div>
               </div>
             </div>
           </div>
@@ -117,8 +167,8 @@
               <select class="form-control" formControlName="status" [(ngModel)]="status" [ngClass]="{ 'is-invalid': submitted && f.status.errors }">
                 <option value="" disabled select></option>
                 <option value="0">Processing</option>
-                <option value="1">Transit</option>
-                <option value="2">Delivered</option>
+                <!-- <option value="1">Transit</option>
+                <option value="2">Delivered</option> -->
               </select>
               <div *ngIf="submitted && f.status.errors" class="invalid-feedback">
                 <div *ngIf="f.status.errors.required" style="color:red">Status is required</div>
@@ -126,7 +176,7 @@
             </div>
           </div>
           <div class="row form-group">
-            <label class="col-sm-4 col-form-label required">Branch Manager Comment
+            <label class="col-sm-4 col-form-label required">Manager Comment
 
             </label>
             <div class="col-sm-5">

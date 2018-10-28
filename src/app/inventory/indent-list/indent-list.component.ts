@@ -26,12 +26,19 @@ export class IndentListComponent implements OnInit {
   modelData: any[];
   colorData: any[];
 
+  shipId: any;
+
   vehicleTypeFilter = "";
   vehicleModelFilter = "";
   vehicleColorFilter = "";
   vehicleMakeFilter = "";
   fromDate = "";
   toDate = "";
+
+  editData: any = [];
+  temp: any;
+
+
 
   constructor(private router: Router, private service: IndentService, private dp: DatePipe, private http: Http) { }
 
@@ -91,9 +98,51 @@ export class IndentListComponent implements OnInit {
 
   }
 
+
   backToInventory() {
     this.router.navigate(['inventory']);
 
+  }
+
+  indent_req_id = '';
+  veh_color = '';
+  veh_type = '';
+  veh_make = '';
+  veh_model = '';
+  req_qty = '';
+  assigned_qty = '';
+  req_on_date = '';
+  assigned_on = '';
+  // updated_on = '';
+  assignedby = '';
+  // updatedby = '';
+
+  editIndent(data, index){
+    console.log(data)
+    console.log(index)
+    this.editData = data;
+    data.index = index;
+    this.temp = index;
+    console.log(this.editData[index].veh_color)
+    this.indent_req_id = this.editData[index].indent_req_id;
+    this.veh_color = this.editData[index].veh_color;
+    this.veh_type = this.editData[index].veh_type;
+    this.veh_make = this.editData[index].veh_make;
+    this.veh_model = this.editData[index].veh_model;
+    this.req_qty = this.editData[index].req_qty;
+    this.assigned_qty = this.editData[index].assigned_qty;
+    this.req_on_date = this.editData[index].req_on_date;
+    this.assigned_on = this.editData[index].assigned_on;
+    // this.updated_on = this.editData[index].updated_on;
+    this.assignedby = this.editData[index].assignedby;
+    // this.updatedby = this.editData[index].updatedby;
+    this.shipId = "SHP" + Math.floor(Math.random() * 899999 + 100000);
+    console.log(this.shipId)
+
+  }
+
+  updateIndent(){
+    
   }
 
   detailsGo() {

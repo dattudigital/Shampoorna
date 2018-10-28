@@ -22,7 +22,7 @@
         <label for="input" class="col-md-3 control-label">Type</label>
         <div class="col-md-7">
           <select class="form-control" [(ngModel)]="vehicleTypeFilter">
-              <option value="" selected>All</option>            
+            <option value="" selected>All</option>
             <option *ngFor="let data of this.typeData" [ngValue]=" data.vehicle_type_id">{{data.type_name}}</option>
           </select>
         </div>
@@ -35,7 +35,7 @@
         <label for="input" class="col-md-3 control-label">Model</label>
         <div class="col-md-7">
           <select class="form-control" [(ngModel)]="vehicleModelFilter">
-              <option value="" selected>All</option>            
+            <option value="" selected>All</option>
             <option *ngFor="let data of this.modelData" [ngValue]=" data.vehicle_model_id">{{data.model_name}}</option>
           </select>
         </div>
@@ -47,7 +47,7 @@
         <label for="input" class="col-md-3 control-label">Color</label>
         <div class="col-md-7">
           <select class="form-control" [(ngModel)]="vehicleColorFilter">
-              <option value="" selected>All</option>
+            <option value="" selected>All</option>
             <option *ngFor="let data of this.colorData" [ngValue]=" data.vehicle_color_id">{{data.color_name}}</option>
           </select>
         </div>
@@ -59,7 +59,7 @@
         <label for="input" class="col-md-3 control-label">Make</label>
         <div class="col-md-7">
           <select class="form-control" [(ngModel)]="vehicleMakeFilter">
-              <option value="" selected>All</option>
+            <option value="" selected>All</option>
             <option *ngFor="let data of this.makeData" [ngValue]=" data.vehicle_make_id">{{data.make_name}}</option>
           </select>
         </div>
@@ -71,8 +71,8 @@
         <label for="input" class="col-md-3 control-label">From</label>
         <div class="col-md-7">
           <div class="input-group">
-            <p-calendar [(ngModel)]="fromDate" [inputStyle]="{'width':'190px'}" [showIcon]="true" placeholder="Select Date" name="fromDate" (ngModelChange)="fromDa($event)"
-              dateFormat="yy-mm-dd"></p-calendar>
+            <p-calendar [(ngModel)]="fromDate" [inputStyle]="{'width':'190px'}" [showIcon]="true" placeholder="Select Date"
+              name="fromDate" (ngModelChange)="fromDa($event)" dateFormat="yy-mm-dd"></p-calendar>
           </div>
         </div>
         <div class="clear"></div>
@@ -83,8 +83,8 @@
         <label for="input" class="col-md-3 control-label">To</label>
         <div class="col-md-7">
           <div class="input-group">
-            <p-calendar [(ngModel)]="toDate" [inputStyle]="{'width':'190px'}"   [showIcon]="true" placeholder="Select Date" name="toDate" (ngModelChange)="toDa($event)"
-              dateFormat="yy-mm-dd"></p-calendar>
+            <p-calendar [(ngModel)]="toDate" [inputStyle]="{'width':'190px'}" [showIcon]="true" placeholder="Select Date"
+              name="toDate" (ngModelChange)="toDa($event)" dateFormat="yy-mm-dd"></p-calendar>
           </div>
         </div>
         <div class="clear"></div>
@@ -115,10 +115,11 @@
       <tr>
         <th *ngFor="let col of cols" [pSortableColumn]="col.field">
           {{col.header}}
-          <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+            ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
         </th>
-        <!-- <th>Edit</th>
-      <th>Delete</th> -->
+        <th>Edit</th>
+        <!-- <th>Delete</th> -->
       </tr>
 
     </ng-template>
@@ -145,9 +146,9 @@
 
           <!-- {{col.type? bike[col.field] | col.type : bike[col.field] }} -->
         </td>
-        <!-- <td href="#" data-toggle="modal" data-target="#editVehicle" (click)="editVehicle(bikes,i)"><i class="fa fa-edit"
-          style="color:orange"></i></td>
-      <td href="#" data-toggle="modal" data-target="#deleteVehicle" (click)="deleteVehicle(bikes,i)"><i class="fa fa-trash"></i>
+        <td href="#" data-toggle="modal" data-target="#editIndent" (click)="editIndent(indents,i)"><i class="fa fa-edit"
+            style="color:orange"></i></td>
+        <!-- <td href="#" data-toggle="modal" data-target="#deleteVehicle" (click)="deleteVehicle(bikes,i)"><i class="fa fa-trash"></i>
       </td> -->
       </tr>
 
@@ -157,6 +158,226 @@
 </div>
 
 <br>
+
+
+<div class="modal fade" id="editIndent" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="modal-title" id="myModalLabel">Edit Indent</h3>
+      </div>
+      <div class="modal-body">
+        <br>
+
+        <div class=" row form-group">
+          <div class="col-md-1"></div>
+          <label for="input" class="col-sm-4 control-label">Indent Req ID
+            <a style="color:red">*</a>
+          </label>
+          <div class="col-sm-5">
+            <input type="text" class="form-control" [(ngModel)]="indent_req_id" disabled>
+          </div>
+          <div class="clear"></div>
+        </div>
+
+
+
+        <div class=" row form-group">
+          <div class="col-md-1"></div>
+          <label for="input" class="col-sm-4 control-label">Vehicle Color
+          </label>
+          <div class="col-sm-5">
+            <select class="form-control" [(ngModel)]="veh_color">
+              <option *ngFor="let data of this.colorData" [ngValue]=" data.vehicle_color_id">{{data.color_name}}</option>
+            </select>
+          </div>
+          <div class="clear"></div>
+        </div>
+
+        <div class=" row form-group">
+          <div class="col-md-1"></div>
+          <label for="input" class="col-sm-4 control-label">Type
+          </label>
+          <div class="col-sm-5">
+            <select class="form-control" [(ngModel)]="veh_type">
+              <option *ngFor="let data of this.typeData" [ngValue]=" data.vehicle_type_id">{{data.type_name}}</option>
+            </select>
+          </div>
+          <div class="clear"></div>
+        </div>
+
+        <div class=" row form-group">
+          <div class="col-md-1"></div>
+          <label for="input" class="col-sm-4 control-label">Make
+          </label>
+          <div class="col-sm-5">
+            <select class="form-control" [(ngModel)]="veh_make">
+              <option *ngFor="let data of this.makeData" [ngValue]=" data.vehicle_make_id">{{data.make_name}}</option>
+            </select>
+          </div>
+          <div class="clear"></div>
+        </div>
+
+        <div class=" row form-group">
+          <div class="col-md-1"></div>
+          <label for="input" class="col-sm-4 control-label">Vehicle Model
+          </label>
+          <div class="col-sm-5">
+            <select class="form-control" [(ngModel)]="veh_model">
+              <option *ngFor="let data of this.modelData" [ngValue]=" data.vehicle_model_id">{{data.model_name}}</option>
+            </select>
+          </div>
+          <div class="clear"></div>
+        </div>
+
+        <div class=" row form-group">
+          <div class="col-md-1"></div>
+          <label for="input" class="col-sm-4 control-label">Required Quantity
+          </label>
+          <div class="col-sm-5">
+            <input type="text" class="form-control" placeholder="Enter Required Quantity"
+              [(ngModel)]="req_qty">
+            <div class="clear"></div>
+          </div>
+        </div>
+
+        
+
+        <!-- <div class=" row form-group">
+          <div class="col-md-1"></div>
+          <label for="input" class="col-sm-4 control-label">Assaigned On</label>
+          <div class="col-sm-5">
+            <div class="input-group">
+              <p-calendar [(ngModel)]="date2" name="assignedby" [monthNavigator]="true" [yearNavigator]="true"
+                yearRange="1990:2030" [inputStyle]="{'width':'190px'}" [showIcon]="true" [(ngModel)]="assigned_on"
+                dateFormat="dd-mm-yy" (ngModelChange)=" getassDate($event)" [(ngModel)]="showMoreControls"></p-calendar>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div> -->
+
+        <!-- <div class=" row form-group">
+          <div class="col-md-1"></div>
+          <label for="input" class="col-sm-4 control-label">Updated On</label>
+          <div class="col-sm-5">
+            <div class="input-group">
+              <p-calendar [(ngModel)]="date3" name="update" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030"
+                [inputStyle]="{'width':'190px'}" [showIcon]="true" [(ngModel)]="updated_on" dateFormat="dd-mm-yy"
+                (ngModelChange)=" getupdDate($event)" [(ngModel)]="showMoreControls"></p-calendar>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div> -->
+
+
+
+        <div class=" row form-group">
+          <div class="col-md-1"></div>
+          <label for="input" class="col-sm-4">Assaigned Quantity
+          </label>
+          <div class="col-sm-5">
+            <input type="text" class="form-control" [(ngModel)]=assigned_qty>
+            <div class="clear"></div>
+          </div>
+        </div>
+        <!-- <div class=" row form-group">
+          <div class="col-md-1"></div>
+          <label for="input" class="col-sm-4">Assaigned by
+          </label>
+          <div class="col-sm-5">
+            <select class="form-control" [(ngModel)]=assignedby>
+              <option *ngFor="let data of this.empData" [ngValue]=" data.employee_id">{{data.employee_firstname}}</option>
+            </select>
+          </div>
+          <div class="clear"></div>
+        </div> -->
+
+        <!-- <div class=" row form-group">
+          <div class="col-md-1"></div>
+          <label for="input" class="col-sm-4">Updated by
+          </label>
+          <div class="col-sm-5">
+            <select class="form-control" [(ngModel)]=updatedby>
+              <option *ngFor="let data of this.empData" [ngValue]=" data.employee_id">{{data.employee_firstname}}</option>
+            </select>
+          </div>
+          <div class="clear"></div>
+        </div> -->
+
+        <div class=" row form-group">
+            <div class="col-md-1"></div>
+            <label for="input" class="col-sm-4 control-label">Shipping Id
+              <a style="color:red">*</a>
+            </label>
+            <div class="col-sm-5">
+              <input type="text" class="form-control" placeholder="Auto Generated" [(ngModel)]="shipId"
+                disabled>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="row form-group">
+              <div class="col-md-1"></div>
+              <label class="col-sm-4 col-form-label required">Shipped By
+              </label>
+              <div class="col-sm-5">
+                <select class="form-control"  [(ngModel)]="shippedBy" >
+                  <option value="" disabled select></option>
+                  <option value="0">Auto</option>
+                  <option value="1">Trolley</option>
+                  <option value="2">Lorry</option>
+                </select>
+                
+              </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-1"></div>
+                <label class="col-sm-4 col-form-label required">Vehicle No.
+                </label>
+                <div class="col-sm-5">
+                  <input type="text" maxlength="50" class="form-control" [(ngModel)]="shippedIn" >
+                </div>
+              </div>
+
+              <div class="row form-group">
+                  <div class="col-md-1"></div>
+                  <label class="col-sm-4 col-form-label required">Status
+                    <span style="color:red">*</span>
+                  </label>
+                  <div class="col-sm-5">
+                    <select class="form-control" [(ngModel)]="status" >
+                      <option value="" disabled select></option>
+                      <option value="0">Shipped</option>
+                      <option value="1">Rejected</option>
+                    </select>
+                  </div>
+                </div>
+
+        <div class=" row form-group">
+            <div class="col-md-1"></div>
+            <label for="input" class="col-sm-4 control-label">Required On Date</label>
+            <div class="col-sm-5">
+              <div class="input-group">
+                <p-calendar [(ngModel)]="date1" name="reqdate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030"
+                  [inputStyle]="{'width':'190px'}" [showIcon]="true" [(ngModel)]="req_on_date" dateFormat="dd-mm-yy"
+                  (ngModelChange)=" getreqDate($event)" [(ngModel)]="showMoreControls"></p-calendar>
+              </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" (click)=cancelIndent()>Cancel</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="updateIndent()">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <app-footer></app-footer>

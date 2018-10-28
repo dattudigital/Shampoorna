@@ -7,6 +7,8 @@ import { Http } from '@angular/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InventoryAssigningService } from '../../services/inventory-assigning.service'
 import {InventoryListPipe} from '../../pipe/inventory-list.pipe';
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-inventory-assigning',
   templateUrl: './inventory-assigning.component.html',
@@ -24,9 +26,18 @@ export class InventoryAssigningComponent implements OnInit {
   empId = '';
   generatedShippedId: any = '';
   shippedBy = '';
+  shippedIn = '';
   managerAck = '';
   managerNote = '';
   status = '';
+  assQuantity = '';
+  assDate = '';
+  updateBy = '';
+  updateDate = '';
+
+  newDate: any;
+  newDate2: any;
+
 
 
   vehicles: any = [
@@ -62,7 +73,9 @@ export class InventoryAssigningComponent implements OnInit {
       shippedBy: ['', Validators.required],
       managerAck: ['', Validators.required],
       managerNote: ['', Validators.required],
-      status: ['', Validators.required]
+      status: ['', Validators.required],
+      assQuantity: ['', Validators.required],
+      updateBy: ['', Validators.required]
     });
 
   }
@@ -89,6 +102,19 @@ export class InventoryAssigningComponent implements OnInit {
   backToInventory() {
     this.router.navigate(['inventory']);
   }
+  getassDate() {
+    let newDate1 = moment(this.assDate).format('YYYY-MM-DD').toString();
+    this.assDate = newDate1;
+    console.log(this.assDate)
+  }
+
+  getupdDate() {
+    let newDate2 = moment(this.updateDate).format('YYYY-MM-DD').toString();
+    this.updateDate = newDate2;
+    console.log(this.updateDate)
+  }
+
+
   get f() { return this.InventoryAssignForm.controls; }
 
   onSubmit() {
@@ -106,6 +132,7 @@ export class InventoryAssigningComponent implements OnInit {
       assgn_emp_by: this.empId,
       generated_shipping_id: this.generatedShippedId,
       shipped_by: this.shippedBy,
+      vechile_no:this.shippedIn,
       br_mgr_ack: this.managerAck,
       br_mgr_comment: this.managerNote,
       status: this.status,

@@ -23,14 +23,15 @@ export class IndentRaisingComponent implements OnInit {
   vehicleType = '';
   vehicleMake = '';
   reqQuantity = '';
-  assQuantity = '';
+  // assQuantity = '';
   reqDate = '';
-  assDate = '';
-  updateDate = '';
-  assBy = '';
-  updateBy = '';
-  newDate: any;
-  newDate2: any;
+  brComment = '';
+  //assDate = '';
+  //updateDate = '';
+  // assBy = '';
+  // updateBy = '';
+  // newDate: any;
+  // newDate2: any;
 
 
   typeData: any[];
@@ -73,10 +74,9 @@ export class IndentRaisingComponent implements OnInit {
       vehicleType: ['', Validators.required],
       vehicleMake: ['', Validators.required],
       reqQuantity: ['', Validators.required],
-      assQuantity: ['', Validators.required],
-
-      assBy: ['', Validators.required],
-      updateBy: ['', Validators.required],
+      // assQuantity: ['', Validators.required],
+      // assBy: ['', Validators.required],
+      // updateBy: ['', Validators.required],
 
 
     });
@@ -122,12 +122,12 @@ export class IndentRaisingComponent implements OnInit {
       veh_make: this.vehicleMake,
       veh_model: this.vehicleModel,
       req_qty: this.reqQuantity,
-      assigned_qty: this.assQuantity,
+      // assigned_qty: this.assQuantity,
       req_on_date: this.reqDate,
-      assigned_on: this.assDate,
-      updated_on: this.updateDate,
-      assigned_by: this.assBy,
-      updated_by: this.updateBy,
+      //assigned_on: this.assDate,
+      //updated_on: this.updateDate,
+      // assigned_by: this.assBy,
+      // updated_by: this.updateBy,
       status: "1"
     }
     console.log(data)
@@ -143,18 +143,18 @@ export class IndentRaisingComponent implements OnInit {
     console.log(this.reqDate)
   }
 
-  getassDate() {
-    let newDate1 = moment(this.assDate).format('YYYY-MM-DD').toString();
-    this.assDate = newDate1;
-    console.log(this.assDate)
+  // getassDate() {
+  //   let newDate1 = moment(this.assDate).format('YYYY-MM-DD').toString();
+  //   this.assDate = newDate1;
+  //   console.log(this.assDate)
 
-  }
+  // }
 
-  getupdDate() {
-    let newDate2 = moment(this.updateDate).format('YYYY-MM-DD').toString();
-    this.updateDate = newDate2;
-    console.log(this.updateDate)
-  }
+  // getupdDate() {
+  //   let newDate2 = moment(this.updateDate).format('YYYY-MM-DD').toString();
+  //   this.updateDate = newDate2;
+  //   console.log(this.updateDate)
+  // }
 
   cancelIndent() {
 
@@ -164,12 +164,12 @@ export class IndentRaisingComponent implements OnInit {
     this.vehicleType = " "
     this.vehicleMake = " "
     this.reqQuantity = " "
-    this.assQuantity = " "
+    // this.assQuantity = " "
     this.reqDate = " "
-    this.assDate = " "
-    this.updateDate = " "
-    this.assBy = " "
-    this.updateBy = " "
+    //this.assDate = " "
+    //this.updateDate = " "
+    // this.assBy = " "
+    // this.updateBy = " "
 
   }
 

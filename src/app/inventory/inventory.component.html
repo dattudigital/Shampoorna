@@ -1,26 +1,78 @@
 <div class="tabs-services">
-    <app-header></app-header>
+  <app-header></app-header>
+</div>
+
+
+
+
+
+<div id="myModal" class="modal fade" role="dialog" data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form>
+        <div class="form-group">
+          <div class="col-md-4 col-sm-6 login_form-left">
+            <label>User Name</label>
+          </div>
+          <div class="col-md-8 col-sm-6 login_form-right">
+            <input type="text" class="form-control" [(ngModel)]="mailId" (ngModelChange)="errorClear()" name="some"
+              placeholder="Employee Id">
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-4 login_form-left">
+            <label>Password</label>
+          </div>
+          <div class="col-md-8 col-sm-6 login_form-right">
+            <input type="password" class="form-control" [(ngModel)]="password" (ngModelChange)="errorClear()" name="password"
+              placeholder="Employee Password">
+          </div>
+          <div class="form-group">
+            <label *ngIf="errorMessage" class="alertRed">Invalid Credentials</label>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="login_form-submit">
+          <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-3">
+              <button type="submit" (click)="loginSubmite();" class="btn btn-primary submit-button">Sign In</button>
+            </div>
+            <div class="col-sm-2">
+              <button type="submit" data-dismiss="modal" class="btn btn-warning" (click)="RedirectToHome()">Cancel</button>
+            </div>
+            <div class="col-sm-3"></div>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
+</div>
+
+
+
+
+<div class="tableShow" [style.visibility]="titleStyle">
   <div class="col-md-2 col-sm-2 col-xs-12 manager-tap-left">
-   <div class="nav flex-column nav-pills rs-1-left-button" id="__inventory" role="tablist" aria-orientation="vertical">
+    <div class="nav flex-column nav-pills rs-1-left-button" id="__inventory" role="tablist" aria-orientation="vertical">
       <a class="nav-link com-mark-info" id="v-pills-home-tab" (click)="vehicleDetailClick()" data-toggle="pill" href="#vehicleDetail"
-      role="tab" aria-controls="vehicle" aria-selected="true">Vehicle Details</a>
+        role="tab" aria-controls="vehicle" aria-selected="true">Vehicle Details</a>
       <a class="nav-link com-mark-info" id="v-pills-home-tab" (click)="inventoryListClick()" data-toggle="pill" href="#inventoryList"
-      role="tab" aria-controls="suppliers" aria-selected="true">Inventory List</a>
+        role="tab" aria-controls="suppliers" aria-selected="true">Inventory List</a>
       <a class="nav-link com-mark-info" id="v-pills-home-tab" (click)="indentRaiseClick()" data-toggle="pill" href="#indentRaise"
-      role="tab" aria-controls="inventory" aria-selected="true">Indent Raising</a>
-      <a class="nav-link com-mark-info" id="v-pills-home-tab" (click)="indentListClick()"  data-toggle="pill" href="#indentList"
-      role="tab" aria-controls="update" aria-selected="true">List Of Indent</a>
+        role="tab" aria-controls="inventory" aria-selected="true">Indent Raising</a>
+      <a class="nav-link com-mark-info" id="v-pills-home-tab" (click)="indentListClick()" data-toggle="pill" href="#indentList"
+        role="tab" aria-controls="update" aria-selected="true">List Of Indent</a>
       <!-- <a class="nav-link com-mark-info" id="v-pills-home-tab" (click)="sparePartClick()" data-toggle="pill" href="#reports"
       role="tab" aria-controls="reports" aria-selected="true">Spare Parts</a> -->
       <a class="nav-link com-mark-info" id="v-pills-home-tab" (click)="invAssaignClick()" data-toggle="pill" href="#inventoryAssaign"
-      role="tab" aria-controls="reports" aria-selected="true">Inventory Assigning</a>
+        role="tab" aria-controls="reports" aria-selected="true">Inventory Assigning</a>
       <a class="nav-link com-mark-info" id="v-pills-home-tab" (click)="InventoryAckClick()" data-toggle="pill" href="#acknowledgement"
-      role="tab" aria-controls="reports" aria-selected="true">Acknowledgement</a>
+        role="tab" aria-controls="reports" aria-selected="true">Acknowledgement</a>
     </div>
   </div>
-  
-  <div class="clear"></div>
-  <app-footer></app-footer>
-  
-  
+</div>
+
+<div class="clear"></div>
+<app-footer></app-footer>
