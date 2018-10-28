@@ -143,7 +143,7 @@
           <i class="fa fa-file" style="color:#6c9caf"></i>
         </a>
       </td>
-      <td href="#" data-toggle="modal" data-target="#deleteVehicle" (click)="deleteList(lists,i)">
+      <td href="#" data-toggle="modal" data-target="#deleteVehicle" (click)="deletePersonData(lists,i)">
         <i class="fa fa-trash"></i>
       </td>
     </tr>
@@ -542,7 +542,7 @@
           <div class="clear"></div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal" (click)=cancelVehicle()>Cancel</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
           <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="updatePersonInfo()">Update</button>
         </div>
       </div>
@@ -551,6 +551,21 @@
 </div>
 
 
+<div class="modal fade" id="deleteVehicle" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="modal-title" id="myModalLabel">Are you Sure To Delete</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-warning" data-dismiss="modal" (click)="deletePerson()">Yes</button>
 
-
+      </div>
+    </div>
+  </div>
+</div>
 <app-footer></app-footer>

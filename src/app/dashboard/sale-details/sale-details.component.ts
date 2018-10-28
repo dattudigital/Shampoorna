@@ -16,6 +16,7 @@ import * as moment from 'moment';
 export class SaleDetailsComponent implements OnInit {
 
   lists: any[];
+  vehicles: any[];
   cols: any[];
   editPersonalInfo: any = [];
   temp: any;
@@ -29,6 +30,11 @@ export class SaleDetailsComponent implements OnInit {
       this.lists = res.json().result
       console.log(this.lists);
     });
+    this.service.getVehicleDetails().subscribe(res => {
+      console.log(res.json().result)
+      this.vehicles = res.json().result;
+      console.log(this.vehicles)
+    })
 
     this.cols = [
       { field: 'firstname', header: 'First Name' },
@@ -61,6 +67,7 @@ export class SaleDetailsComponent implements OnInit {
   district: '';
   proof_type: '';
   proof_num: '';
+  sale_status: '';
 
   newSaleClick() {
     this.router.navigate(['dashboard']);
@@ -97,14 +104,10 @@ export class SaleDetailsComponent implements OnInit {
   }
 
   updatePersonInfo() {
-    let newDate = moment(this.dob).format('YYYY-DD-MM').toString();
-    this.dob = newDate;
-    console.log(this.dob);
     var data = {
       sale_user_id: this.sale_user_id,
       firstname: this.firstname,
       display_name_on_rc: this.display_name_on_rc,
-      dob: this.dob,
       email_id: this.email_id,
       mobile: this.mobile,
       relation: this.relation,
@@ -115,26 +118,52 @@ export class SaleDetailsComponent implements OnInit {
       district: this.district,
       proof_type: this.proof_type,
       proof_num: this.proof_num,
-      sale_status: "1"
+      sale_status: this.sale_status
     }
-    console.log(data)
-    this.service.saveSalesUser(data).subscribe(responce => {
-      console.log(responce.json());
-      this.editPersonalInfo[this.temp].firstname = data.firstname;
-      this.editPersonalInfo[this.temp].display_name_on_rc = data.display_name_on_rc;
-      this.editPersonalInfo[this.temp].dob = data.dob;
-      this.editPersonalInfo[this.temp].email_id = data.email_id;
-      this.editPersonalInfo[this.temp].mobile = data.mobile;
-      this.editPersonalInfo[this.temp].email_id = data.email_id;
-      this.editPersonalInfo[this.temp].relation = data.relation;
-      this.editPersonalInfo[this.temp].password = data.password;
-      this.editPersonalInfo[this.temp].address = data.address;
-      this.editPersonalInfo[this.temp].mandal = data.mandal;
-      this.editPersonalInfo[this.temp].district = data.district;
-      this.editPersonalInfo[this.temp].proof_type = data.proof_type;
-      this.editPersonalInfo[this.temp].proof_num = data.proof_num;
+    this.service.saveSalesUser(data).subscribe(res => {
+      console.log(res.json());
+      console.log(this.temp);
+      this.lists[this.temp].firstname = data.firstname;
+      this.lists[this.temp].display_name_on_rc = data.display_name_on_rc;
+      this.lists[this.temp].email_id = data.email_id;
+      this.lists[this.temp].mobile = data.mobile;
+      this.lists[this.temp].relation = data.relation;
+      this.lists[this.temp].password = data.password;
+      this.lists[this.temp].city = data.city;
+      this.lists[this.temp].address = data.address;
+      this.lists[this.temp].mandal = data.mandal;
+      this.lists[this.temp].district = data.district;
+      this.lists[this.temp].proof_type = data.proof_type;
+      this.lists[this.temp].proof_num = data.proof_num;
+      this.lists[this.temp].sale_status = data.sale_status;
       this.temp = " ";
     })
+
   }
-  deleteList() { }
+  temp1: any;
+  deleteData: any = [];
+  deletePersonData(val, index) {
+    this.temp1 = index;
+    console.log(index)
+    this.deleteData = val;
+    console.log(this.deleteData)
+    val.index = index;
+    console.log("***")
+    this.sale_user_id = this.deleteData[index].sale_user_id;
+  }
+  deletePerson() {
+    this.lists.splice(this.temp1, 1)
+    console.log(this.temp1)
+    var data = {
+      sale_user_id: this.sale_user_id,
+      sale_status: "0"
+    }
+    console.log(data)
+    this.service.saveSalesUser(data).subscribe(res => {
+      console.log(res.json());
+    })
+  }
+
+
+
 }
