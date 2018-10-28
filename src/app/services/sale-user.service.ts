@@ -31,4 +31,8 @@ public getTax(){
 public getListDetails(){
   return this.http.get( environment.host + 'sale-users');
 }
+
+public getVehicleDetails(){
+  return this.http.get(environment.host + 'sale-user-vechiles');
+}
 }

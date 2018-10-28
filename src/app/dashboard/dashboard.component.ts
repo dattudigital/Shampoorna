@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -113,7 +114,7 @@ export class DashboardComponent implements OnInit {
   roadTax: number = 0;
   tempAmount: number = 0;
   taxCount: number = 0
-  constructor(private saleUserService: SaleUserService, private http: Http, private router: Router) { }
+  constructor(private saleUserService: SaleUserService, private http: Http, private router: Router,) { }
 
   ngOnInit() {
 
@@ -218,7 +219,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getreqDate() {
-    let newDate = moment(this.dob).format('YYYY-DD-MM').toString();
+    let newDate = moment(this.dob).format('YYYY-MM-DD').toString();
     this.dob = newDate;
     console.log(this.dob)
   }
@@ -234,7 +235,7 @@ export class DashboardComponent implements OnInit {
       address: this.address,
       mobile: this.mobile,
       mandal: this.mandal,
-      pincode: this.pincode,
+     // pincode: this.pincode,
       district: this.districtName,
       proof_type: this.addressProof,
       proof_num: this.addressProofNo,
