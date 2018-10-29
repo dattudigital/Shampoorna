@@ -6,7 +6,8 @@ import { environment } from '../../../environments/environment';
 import { Http } from '@angular/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InventoryAssigningService } from '../../services/inventory-assigning.service'
-import {InventoryListPipe} from '../../pipe/inventory-list.pipe';
+import { InventoryListPipe } from '../../pipe/inventory-list.pipe';
+import { InventoryAddPipe } from '../../pipe/inventory-add.pipe'
 import * as moment from 'moment';
 
 @Component({
@@ -50,7 +51,9 @@ export class InventoryAssigningComponent implements OnInit {
       model: "",
     }
   ];
-  constructor(private router: Router, private http: Http, private service: InventoryAssigningService, private formBuilder: FormBuilder,private pipe:InventoryListPipe) { }
+  constructor(private router: Router, private http: Http, private service: InventoryAssigningService, private formBuilder: FormBuilder, private pipe: InventoryListPipe, private addInvPipe: InventoryAddPipe) {
+    console.log("test");
+  }
 
   ngOnInit() {
     this.http.get(environment.host + 'indents').subscribe(res => {
@@ -120,26 +123,28 @@ export class InventoryAssigningComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     // stop here if form is invalid
-    if (this.InventoryAssignForm.invalid) {
-      return;
-    }
+    // if (this.InventoryAssignForm.invalid) {
+    //   return;
+    // }
 
     this.generatedShippedId = Math.floor(Math.random() * 899999 + 100000);
-    console.log(this.generatedShippedId)
     var data: any = {
       indent_id: this.indentId,
       branch_id: this.branchId,
-      assgn_emp_by: this.empId,
-      generated_shipping_id: this.generatedShippedId,
       shipped_by: this.shippedBy,
-      vechile_no:this.shippedIn,
+      shipped_vechile_no: this.shippedIn,
+      assign_qty: this.assQuantity,
       br_mgr_ack: this.managerAck,
-      br_mgr_comment: this.managerNote,
-      status: this.status,
+      br_mgr_comment: this.managerNote,     
+      generated_shipping_id:"9e8wf98ew", 
+      status: this.status,      
       vechile_details: JSON.stringify(this.vehicles)
     }
     console.log(data);
-    this.service.addInventoryAssign(data).subscribe(res => {
+    console.log("***************")
+    var finalData = this.addInvPipe.transform(data);
+    console.log(finalData);
+    this.service.addInventoryAssign(finalData).subscribe(res => {
       console.log(res.json().result);
     })
 

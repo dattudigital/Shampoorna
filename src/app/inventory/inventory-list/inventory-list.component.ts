@@ -34,8 +34,7 @@ export class InventoryListComponent implements OnInit {
   ngOnInit() {
     this.service.getInventoryList().subscribe(res => {
       console.log(res.json().result)
-      this.inventoryData = this.invAssignService.transform(res.json().result);
-     
+      this.inventoryData = res.json().result;     
     });
 
     this.http.get(environment.host + 'vehicle-makes').subscribe(data => {

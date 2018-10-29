@@ -10,11 +10,8 @@ export class InventoryListPipe implements PipeTransform {
     console.log(value.vechile_details)
     console.log(value.length);
     for (let i = 0; i < (value.length); i++) {
-      value[i].vechile_details = JSON.parse(value[i].vechile_details);
-      // console.log(value[i].vechile_details)
-      // console.log(value[i].vechile_details.length)
+      value[i].vechile_details = JSON.parse(value[i].vechile_details);   
       for (let j = 0; j < (value[i].vechile_details.length); j++) {
-        // console.log(value[i].vechile_details[j]);
         data.push({
           branch_name: value[i].branch_name,
           indent_req_id: value[i].indent_req_id,

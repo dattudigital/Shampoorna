@@ -41,6 +41,7 @@ import { InvoiceListComponent } from './dashboard/invoice-list/invoice-list.comp
 import { SaleDashboardComponent } from './sale-dashboard/sale-dashboard.component';
 import { DcFormComponent } from './dashboard/dc-form/dc-form.component';
 import { ReportsComponent } from './reports/reports.component';
+import { InventoryAddPipe } from './pipe/inventory-add.pipe';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -82,7 +83,9 @@ const routes: Routes = [
     InvoiceListComponent,
     SaleDashboardComponent,
     DcFormComponent,
-    ReportsComponent
+    ReportsComponent,
+    DcFormComponent
+    
   ],
   imports: [
     BrowserModule,
@@ -105,7 +108,7 @@ const routes: Routes = [
 
 
   ],
-  providers: [AuthGuard,InventoryListPipe,MessageService],
+  providers: [AuthGuard,InventoryListPipe,MessageService,InventoryAddPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

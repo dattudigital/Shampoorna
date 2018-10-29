@@ -27,7 +27,7 @@
                     </label>
                     <div class="col-sm-4">
                         <div class="input-group">
-                            <input type="text" name="name" maxlength="50" class="form-control" [(ngModel)]="firstname" #inputTarget readonly>
+                            <input type="text" name="name" maxlength="50" class="form-control" [(ngModel)]="firstName" #inputTarget readonly>
                             <span class="input-group-addon">
                                 <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="inputTarget" style="cursor:pointer"></i>
                             </span>
@@ -40,28 +40,28 @@
                     </label>
                     <div class="col-sm-4">
                         <div class="input-group">
-                            <input type="text" name="rcname" maxlength="50" class="form-control" [(ngModel)]="display_name_on_rc" #nameRc readonly>
+                            <input type="text" name="rcname" maxlength="50" class="form-control" [(ngModel)]="nameOnRc" #nameRc readonly>
                             <span class="input-group-addon">
                                 <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="nameRc" style="cursor:pointer"></i>
                             </span>
                         </div>
                     </div>
                 </div>
-                <div class="row form-group">
+                <!-- <div class="row form-group">
                     <label class="col-sm-4">Date Of Birth
                     </label>
                     <div class="col-sm-4">
-                        <!-- <input type="date" name="dob"  [(ngModel)]="dob" placeholder="dd/mm/yy"> -->
                         <p-calendar [(ngModel)]="date1" name="dob" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'190px'}"
                             [showIcon]="true" [(ngModel)]="dob" dateFormat="dd-mm-yy" (ngModelChange)=" getreqDate($event)"></p-calendar>
-                    </div>
-                </div>
+                    
+                        </div>
+                </div> -->
                 <div class="row form-group">
                     <label class="col-sm-4">Father/Daughter/Wife
                     </label>
                     <div class="col-sm-4">
                         <div class="input-group">
-                            <input type="text" name="relation" maxlength="50" class="form-control" [(ngModel)]="relation" #relationName readonly>
+                            <input type="text" name="relation" maxlength="50" class="form-control" [(ngModel)]="Relation" #relationName readonly>
                             <span class="input-group-addon">
                                 <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="relationName" style="cursor:pointer"></i>
                             </span>
@@ -73,7 +73,7 @@
                     </label>
                     <div class="col-sm-4">
                         <div class="input-group">
-                            <textarea class="form-control" maxlength="1000" rows="2" name="address" style="padding-left:1.6em" [(ngModel)]="address"
+                            <textarea class="form-control" maxlength="1000" rows="2" name="address" style="padding-left:1.6em" [(ngModel)]="Address"
                                 #custAddress readonly>
                                    
                                 </textarea>
@@ -88,7 +88,7 @@
                     </label>
                     <div class="col-sm-4">
                         <div class="input-group">
-                            <input type="text" name="mandal" maxlength="50" class="form-control" [(ngModel)]="mandal" #custMandal readonly>
+                            <input type="text" name="mandal" maxlength="50" class="form-control" [(ngModel)]="Mandal" #custMandal readonly>
                             <span class="input-group-addon">
                                 <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="custMandal" style="cursor:pointer"></i>
                             </span>
@@ -112,7 +112,7 @@
                     </label>
                     <div class="col-sm-4">
                         <div class="input-group">
-                            <input type="text" name="district" maxlength="50" class="form-control" [(ngModel)]="districtName" #custDist readonly>
+                            <input type="text" name="district" maxlength="50" class="form-control" [(ngModel)]="District" #custDist readonly>
                             <span class="input-group-addon">
                                 <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="custDist" style="cursor:pointer"></i>
                             </span>
@@ -136,24 +136,33 @@
                         <span style="color:red">*</span>
                     </label>
                     <div class="col-sm-4">
-
-                        <select name="state" class="form-control" [(ngModel)]="addressProof">
-                            <option value="" disabled select>Select</option>
-                            <option value="aadhar">Aadhar Card</option>
-                            <option value="license">License</option>
-                            <option value="voter">Voter Id</option>
-                            <option value="ration">Ration Card</option>
-                            <option value="current">Current Bill</option>
-                            <option value="water">Water Bill</option>
-                            <option value="gas">Gas Bill</option>
-                            <option value="mobile">Mobile Postpaid </option>
-                        </select>
+                        <div class="input-group">
+                            <select name="state" class="form-control" [(ngModel)]="proofType" #prType readonly>
+                                <option value="" disabled select>Select</option>
+                                <option value="aadhar">Aadhar Card</option>
+                                <option value="license">License</option>
+                                <option value="voter">Voter Id</option>
+                                <option value="ration">Ration Card</option>
+                                <option value="current">Current Bill</option>
+                                <option value="water">Water Bill</option>
+                                <option value="gas">Gas Bill</option>
+                                <option value="mobile">Mobile Postpaid </option>
+                            </select>
+                            <span class="input-group-addon">
+                                <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="prType" style="cursor:pointer"></i>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label class="col-sm-4"></label>
                     <div class="col-sm-4">
-                        <input type="text" name="aadharNumber" maxlength="50" class="form-control" [(ngModel)]="addressProofNo">
+                        <div class="input-group">
+                            <input type="text" name="aadharNumber" maxlength="50" class="form-control" [(ngModel)]="proofNum" #proofNumber readonly>
+                            <span class="input-group-addon">
+                                <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="proofNumber" style="cursor:pointer"></i>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class=" row form-group">
@@ -161,6 +170,7 @@
                     </label>
                     <div class="col-sm-4">
                         <input type="file" name="photo" accept="image/*" (change)="getFileDetails($event,'p')">
+
                     </div>
                 </div>
                 <!-- </div>
@@ -170,41 +180,73 @@
                     <label class="col-sm-4">Engine No
                     </label>
                     <div class="col-sm-4">
-                        <input type="text" name="Engine" maxlength="50" [(ngModel)]="vehicleEngineNo" (ngModelChange)='engineSearch($event)' class="form-control">
+                        <div class="input-group">
+                            <input type="text" name="Engine" maxlength="50" [(ngModel)]="EngineNo" (ngModelChange)='engineSearch($event)' class="form-control"
+                                #engineNumber readonly>
+                            <span class="input-group-addon">
+                                <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="engineNumber" style="cursor:pointer"></i>
+                            </span>
+
+                        </div>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label class="col-sm-4">Frame No
                     </label>
                     <div class="col-sm-4">
-                        <input type="text" name="frame" maxlength="50" class="form-control" [(ngModel)]="vehicleFrameNo">
+                        <div class="input-group">
+                            <input type="text" name="frame" maxlength="50" class="form-control" [(ngModel)]="FrameNo" #FrameNumber readonly>
+                            <span class="input-group-addon">
+                                <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="FrameNumber" style="cursor:pointer"></i>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label class="col-sm-4">DC No
                     </label>
                     <div class="col-sm-4">
-                        <input type="text" name="dcnum" maxlength="50" class="form-control" [(ngModel)]="vehicleDcNo">
+                        <div class="input-group">
+                            <input type="text" name="dcnum" maxlength="50" class="form-control" [(ngModel)]="DcNo" #DcNumber readonly>
+                            <span class="input-group-addon">
+                                <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="DcNumber" style="cursor:pointer"></i>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label class="col-sm-4">Key No
                     </label>
                     <div class="col-sm-4">
-                        <input type="text" name="keyno" maxlength="50" class="form-control" [(ngModel)]="vehicleKeyNo">
+                        <div class="input-group">
+                            <input type="text" name="keyno" maxlength="50" class="form-control" [(ngModel)]="KeyNo" #keyNumber readonly>
+                            <span class="input-group-addon">
+                                <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="keyNumber" style="cursor:pointer"></i>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label class="col-sm-4">Vehicle Color</label>
                     <div class="col-sm-4">
-                        <input type="text" name="color" maxlength="50" class="form-control" [(ngModel)]="vehicleColor">
+                        <div class="input-group">
+                            <input type="text" name="color" maxlength="50" class="form-control" [(ngModel)]="vehicleColor" #vehColor readonly>
+                            <span class="input-group-addon">
+                                <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="vehColor" style="cursor:pointer"></i>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label class="col-sm-4">Nominee Name
                     </label>
                     <div class="col-sm-4">
-                        <input type="text" name="nomini" maxlength="50" class="form-control" [(ngModel)]="nomineeName">
+                        <div class="input-group">
+                            <input type="text" name="nomini" maxlength="50" class="form-control" [(ngModel)]="nomineeName" #nomiName readonly>
+                            <span class="input-group-addon">
+                                <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="nomiName" style="cursor:pointer"></i>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="row form-group">
@@ -228,80 +270,107 @@
                 <div class="row form-group">
                     <div class="col-sm-2">
                         <div class="input-group">
-                            <input type="text" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleBasic">
-                            <span>Basic Price</span>
+                            <input type="text" name="basic" maxlength="50" class="form-control" [(ngModel)]="basciPrice" #vehicleCost readonly>
+                            <span class="input-group-addon">
+                                <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="vehicleCost" style="cursor:pointer"></i>
+                            </span>
                         </div>
+                        <span>Basic Price</span>
                     </div>
                     <div class="col-sm-1">
                         <span>+</span>
                     </div>
                     <div class="col-sm-2">
                         <div class="input-group">
-                            <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="lifeTax" disabled>
-                            <span>Life Tax</span>
+                            <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="lifeTax" #vehiclelifeTax readonly>
+                            <span class="input-group-addon">
+                                <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="vehiclelifeTax" style="cursor:pointer"></i>
+                            </span>
                         </div>
+                        <span>Life Tax</span>
                     </div>
                     <div class="col-sm-1">
                         <span>+</span>
                     </div>
                     <div class="col-sm-2">
                         <div class="input-group">
-                            <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="VehicleInsu" disabled>
-                            <span>insurance</span>
+                            <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="Insurence" #vehicleInsurence readonly>
+                            <span class="input-group-addon">
+                                <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="vehicleInsurence" style="cursor:pointer"></i>
+                            </span>
                         </div>
+                        <span>insurance</span>
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-sm-2">
                         <div class="input-group">
-                            <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="handlingC" (ngModelChange)="addTotalTax()">
+                            <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="Handling"  #vehicleHandling readonly>
+                            <span class="input-group-addon">
+                                <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="vehicleHandling" style="cursor:pointer"></i>
+                            </span>
 
-                            <span> Handling C</span>
                         </div>
+                        <span> Handling C</span>
                     </div>
                     <div class="col-sm-1">
                         <span>+</span>
                     </div>
                     <div class="col-sm-2">
                         <div class="input-group">
-                            <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleReg" (ngModelChange)="addTotalTax()">
-                            <span> Registration</span>
+                            <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="Registration" #vehicleReg readonly>
+                            <span class="input-group-addon">
+                                <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="vehicleReg" style="cursor:pointer"></i>
+                            </span>
                         </div>
+                        <span> Registration</span>
                     </div>
                     <div class="col-sm-1">
                         <span>+</span>
                     </div>
                     <div class="col-sm-2">
                         <div class="input-group">
-                            <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleWarranty" (ngModelChange)="addTotalTax()">
-                            <span>Warranty</span>
+                            <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="Warranty" #vehicleWarranty readonly>
+                            <span class="input-group-addon">
+                                <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="vehicleWarranty" style="cursor:pointer"></i>
+                            </span>
                         </div>
+                        <span>Warranty</span>
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-sm-2">
                         <div class="input-group">
-                            <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleAcc" (ngModelChange)="addTotalTax()">
-                            <span>Accessories</span>
+                            <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="Accessories" #vahicleAccessories readonly>
+                            <span class="input-group-addon">
+                                <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="vahicleAccessories" style="cursor:pointer"></i>
+                            </span>
                         </div>
+                        <span>Accessories</span>
                     </div>
                     <div class="col-sm-1">
                         <span>+</span>
                     </div>
                     <div class="col-sm-2">
                         <div class="input-group">
-                            <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="Hp" (ngModelChange)="addTotalTax()">
-                            <span> HP</span>
+                            <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="HpTax" #vehicleHpTax readonly>
+                            <span class="input-group-addon">
+                                <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="vehicleHpTax" style="cursor:pointer"></i>
+                            </span>
                         </div>
+                        <span> HP</span>
                     </div>
                     <div class="col-sm-1">
                         <span>-</span>
                     </div>
                     <div class="col-sm-2">
                         <div class="input-group">
-                            <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="discount" (ngModelChange)="approvedEmpEnable()">
-                            <span>Discount</span>
+                            <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="Discount" #vehicleDiscount readonly>
+                            <span class="input-group-addon">
+                                <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="vehicleDiscount" style="cursor:pointer"></i>
+                            </span>
                         </div>
+                        <span>Discount</span>
                     </div>
                 </div>
                 <br>
@@ -321,8 +390,13 @@
                     <label class="col-sm-4">Total Amount
                     </label>
                     <div class="col-sm-4">
-                        <input type="number"  min="0" name="model" maxlength="50" class="form-control" [(ngModel)]="onRoadPrice">
+                        <div class="input-group">
+                        <input type="number" min="0" name="model" maxlength="50" class="form-control" [(ngModel)]="totalAmount" #vehicleTotalAmount readonly>
+                        <span class="input-group-addon">
+                                <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="vehicleTotalAmount" style="cursor:pointer"></i>
+                            </span>
                     </div>
+                </div>
                 </div>
                 <br>
 
