@@ -29,7 +29,7 @@ public getTax(){
 }
 
 public getListDetails(){
-  return this.http.get( environment.host + 'sale-users');
+  return this.http.get( environment.host + 'complete-sale-users');
 }
 
 public getVehicleDetails(){

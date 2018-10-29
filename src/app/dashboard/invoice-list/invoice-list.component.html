@@ -27,7 +27,7 @@
                     </label>
                     <div class="col-sm-4">
                         <div class="input-group">
-                            <input type="text" name="name" maxlength="50" class="form-control" [(ngModel)]="firstname" #inputTarget readonly>
+                            <input type="text" name="name" maxlength="50" class="form-control" [(ngModel)]="firstName" #inputTarget readonly>
                             <span class="input-group-addon">
                                 <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="inputTarget" style="cursor:pointer"></i>
                             </span>
@@ -40,7 +40,7 @@
                     </label>
                     <div class="col-sm-4">
                         <div class="input-group">
-                            <input type="text" name="rcname" maxlength="50" class="form-control" [(ngModel)]="display_name_on_rc" #nameRc readonly>
+                            <input type="text" name="rcname" maxlength="50" class="form-control" [(ngModel)]="nameOnRc" #nameRc readonly>
                             <span class="input-group-addon">
                                 <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="nameRc" style="cursor:pointer"></i>
                             </span>

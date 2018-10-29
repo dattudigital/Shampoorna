@@ -19,6 +19,7 @@ export class SaleDetailsComponent implements OnInit {
   vehicles: any[];
   cols: any[];
   editPersonalInfo: any = [];
+  invoiceInfo:any=[];
   temp: any;
   public date1: any;
 
@@ -30,26 +31,23 @@ export class SaleDetailsComponent implements OnInit {
       this.lists = res.json().result
       console.log(this.lists);
     });
-    this.service.getVehicleDetails().subscribe(res => {
-      console.log(res.json().result)
-      this.vehicles = res.json().result;
-      console.log(this.vehicles)
-    })
+   
 
     this.cols = [
       { field: 'firstname', header: 'First Name' },
-      { field: 'display_name_on_rc', header: 'Display Name' },
       { field: 'email_id', header: 'Email' },
       { field: 'mobile', header: 'Mobile' },
-      { field: 'gender', header: 'Gender' },
-      { field: 'relation', header: 'Relation' },
-      { field: 'password ', header: 'Password' },
-      { field: 'city', header: 'City' },
       { field: 'address', header: 'Address' },
-      { field: 'dob', header: 'DOB', type: this.dp },
       { field: 'mandal', header: 'Mandal' },
       { field: 'district', header: 'District' },
-      { field: 'proof_type', header: 'Proof Type' }
+      { field: 'proof_type', header: 'Proof Type' },
+      { field: 'eng_no', header: 'EngineNo' },
+      { field: 'frame_no', header: 'FrameNo' },
+      { field: 'frame_no', header: 'FrameNo' },
+      { field: 'dc_no', header: 'DcNo' },
+      { field: 'dc_no', header: 'DcNo' },
+      {field:'total_amt',header:'Total Amount'}
+
     ];
   }
 
@@ -68,6 +66,32 @@ export class SaleDetailsComponent implements OnInit {
   proof_type: '';
   proof_num: '';
   sale_status: '';
+  sale_user_vechicle_id:'';
+  eng_no:'';
+  frame_no:'';
+  dc_no:'';
+  key_no:'';
+  vechicle_color:'';
+  Nominee_name:'';
+  basic_price:'';
+  life_tax:'';
+  insurance:'';
+  handling:'';
+  registration:'';
+  warranty:'';
+  accessories:'';
+  hp:'';
+  discount:'';
+  total_amt:'';
+  discount_approved_by:''
+  sale_user_vechile_exchange_id:'';
+  vechile_no:'';
+  vechile_color:'';
+  vechile_mode:'';
+  customer_name:'';
+  exchange_amt:'';
+  exchange_amt_approval_by:'';
+
 
   newSaleClick() {
     this.router.navigate(['dashboard']);
@@ -94,13 +118,53 @@ export class SaleDetailsComponent implements OnInit {
     this.mandal = this.editPersonalInfo[index].mandal;
     this.district = this.editPersonalInfo[index].district;
     this.proof_type = this.editPersonalInfo[index].proof_type;
-    this.proof_num = this.editPersonalInfo[index].proof_num
+    this.proof_num = this.editPersonalInfo[index].proof_num;
+    this.eng_no=this.editPersonalInfo[index].eng_no;
+    this.frame_no=this.editPersonalInfo[index].frame_no;
+    this.dc_no=this.editPersonalInfo[index].dc_no;
+    this.key_no=this.editPersonalInfo[index].key_no;
+    this.vechicle_color=this.editPersonalInfo[index].vechicle_color;
+    this.Nominee_name=this.editPersonalInfo[index].Nominee_name;
+    this.basic_price=this.editPersonalInfo[index].basic_price;
+    this.life_tax=this.editPersonalInfo[index].life_tax;
+    this.insurance=this.editPersonalInfo[index].insurance;
+    this.handling=this.editPersonalInfo[index].handling;
+    this.registration=this.editPersonalInfo[index].registration;
+    this.warranty=this.editPersonalInfo[index].warranty;
+    this.accessories=this.editPersonalInfo[index].accessories;
+    this.hp=this.editPersonalInfo[index].hp;
+    this.discount=this.editPersonalInfo[index].discount;
+    this.total_amt=this.editPersonalInfo[index].total_amt;
+    this.discount_approved_by=this.editPersonalInfo[index].discount_approved_by;
+    this.vechile_no=this.editPersonalInfo[index].vechile_no;
+    this.vechicle_color=this.editPersonalInfo[index].vechicle_color;
+    this.vechile_mode=this.editPersonalInfo[index].vechile_mode;
+    this.customer_name=this.editPersonalInfo[index].customer_name;
+    this.exchange_amt=this.editPersonalInfo[index].exchange_amt;
+    this.exchange_amt_approval_by=this.editPersonalInfo[index].exchange_amt_approval_by;
   }
 
   getDob() {
     let newDate = moment(this.dob).format('YYYY-DD-MM').toString();
     this.dob = newDate;
     console.log(this.dob)
+  }
+
+  invoiceList(data,index){
+
+    console.log(index);
+    this.invoiceInfo = data;
+    console.log(this.invoiceInfo)
+    data.index = index;
+    this.temp = index;
+    sessionStorage.setItem('userSaleData', JSON.stringify(this.invoiceInfo));
+    // let newDate = moment(this.invoiceInfo[index].dob).format('DD-MM-YYYY').toString();
+    // this.dob = newDate;
+    // console.log(this.dob);
+    // this.sale_user_id = this.invoiceInfo[index].sale_user_id;
+    // this.firstname = this.invoiceInfo[index].firstname;
+
+
   }
 
   updatePersonInfo() {
