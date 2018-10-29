@@ -77,7 +77,7 @@ export class TimeClockComponent implements OnInit {
   };
   msgs: Message[] = [];
   ngOnInit() {
-
+    sessionStorage.removeItem('backBtnInventory');     
     this.loginPopUp();
     this.getTimeAndDate();
     setInterval(() => {
@@ -128,7 +128,7 @@ export class TimeClockComponent implements OnInit {
 
     if (this.mailId && this.password) {
       console.log(data)
-      this.http.post('http://ec2-54-88-194-105.compute-1.amazonaws.com:3001/time-clocks/login', data).subscribe(response => {
+      this.http.post('http://ec2-54-88-194-105.compute-1.amazonaws.com:3005/time-clocks/login', data).subscribe(response => {
         console.log(response);
         this.test1 = response;
         this.data.time_clock_id = this.test1.result.time_clock_id;

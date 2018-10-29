@@ -29,7 +29,7 @@
                   <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
 
               </th>
-             <th>Recieved</th>
+             <th>Acknowledge</th>
 
           </tr>
 
@@ -39,8 +39,10 @@
               <td *ngFor="let col of cols">
                   {{car[col.field]}}
               </td>
-              <td href="#" data-toggle="modal" data-target="#editVehicle" (click)="editVehicle(bikes,i)"><i class="fa fa-check"
-                  style="color:orange"></i></td>
+              <!-- <td href="#" data-toggle="modal" data-target="#editVehicle" (click)="editVehicle(bikes,i)"><i class="fa fa-check"
+                  style="color:orange"></i></td> -->
+              <td input="button" data-toggle="modal" data-target="#editVehicle" (click)="editVehicle(bikes,i)"><i class="fa fa-check"
+                    style="color:orange"></i></td>
           </tr>
       </ng-template>
   </p-table>

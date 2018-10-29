@@ -14,6 +14,8 @@ export class InventoryComponent implements OnInit {
   mailId = "";
   titleStyle = "hidden";
   errorMessage = false;
+  btnDisable=true;
+
   alerts: any[] = [];
 
   test1: any;
@@ -22,53 +24,47 @@ export class InventoryComponent implements OnInit {
   constructor(private router: Router, private http: HttpClient) { }
 
   ngOnInit() {
+    sessionStorage.removeItem('backBtnTimeclocks');     
     this.loginPopUp();
+    if (sessionStorage.getItem('inventory-routing') == '"vehicle"') {
+      this.vehicleDetailClick()
+    } else if (sessionStorage.getItem('inventory-routing') == '"invlist"') {
+      console.log("click here");
+      this.inventoryListClick();
+    } else if (sessionStorage.getItem('inventory-routing') == '"raise"') {
+      this.indentRaiseClick();
+    } else if (sessionStorage.getItem('inventory-routing') == '"indlist"') {
+      this.indentListClick();
+    } else if (sessionStorage.getItem('inventory-routing') == '"invassn"') {
+      this.invAssaignClick();
+    } else if (sessionStorage.getItem('inventory-routing') == '"invack"') {
+      this.InventoryAckClick();
+    }
 
   }
 
-  vehicleDetailClick() {
-    this.router.navigate(['inventory/vehicle-details']);
-  }
-
-  inventoryListClick() {
-    this.router.navigate(['inventory/inventory-list'])
-  }
-
-  indentRaiseClick() {
-    this.router.navigate(['inventory/indent-raising'])
-  }
-
-  indentListClick() {
-    this.router.navigate(['inventory/indent-list'])
-  }
-
-  invAssaignClick() {
-    this.router.navigate(['inventory/inventory-assigning'])
-  }
-
-  InventoryAckClick() {
-    this.router.navigate(['inventory/inventory-acknowledge'])
-  }
-
-  RedirectToHome() {
-    this.router.navigate(['dashboard']);
-  }
 
   errorClear() {
     this.errorMessage = false;
+    if(this.password && this.mailId){
+      this.btnDisable=false;
+    }
+    else{
+      this.btnDisable=true;
+    }
   }
 
 
   loginPopUp() {
 
-    // if (sessionStorage.backBtnTimeclocks) {
-    //   $('#myModal').modal('hide');
-    //   this.titleStyle = "visible";
-    // }
+    if (sessionStorage.backBtnInventory) {
+      $('#myModal').modal('hide');
+      this.titleStyle = "visible";
+    }
 
-    // else {
+    else {
       $('#myModal').modal('show');
-    //}
+    }
   }
 
   // backLocation() {
@@ -88,12 +84,16 @@ export class InventoryComponent implements OnInit {
 
     if (this.mailId && this.password) {
       console.log(data)
-      this.http.post('http://ec2-54-88-194-105.compute-1.amazonaws.com:3001/time-clocks/login', data).subscribe(response => {
-        console.log(response);
-        this.test1 = response;
+      this.http.post('http://ec2-54-88-194-105.compute-1.amazonaws.com:3005/time-clocks/login', data).subscribe(inData => {
+        console.log(inData);
 
+        this.test1 = inData;
+        console.log(this.test1.result.emp_id)
+        console.log(this.test1.status)
 
         if (this.test1.status == true) {
+          sessionStorage.setItem('secondaryLoginData', JSON.stringify(this.test1.result));
+          sessionStorage.setItem('backBtnInventory', 'Y');
           $('#myModal').modal('hide');
           this.titleStyle = "visible";
         } else {
@@ -107,6 +107,82 @@ export class InventoryComponent implements OnInit {
         timeout: 1000
       }];
     }
+  }
+
+
+
+  redirectToVehicle() {
+    this.router.navigate(['inventory/vehicle-details']);
+  }
+
+  redirectToInvList() {
+    this.router.navigate(['inventory/inventory-list'])
+  }
+
+  redirectToIndent() {
+    this.router.navigate(['inventory/indent-raising'])
+  }
+
+  redirectToInList() {
+    this.router.navigate(['inventory/indent-list'])
+  }
+
+  redirectToInvAss() {
+    this.router.navigate(['inventory/inventory-assigning'])
+  }
+
+  redirectToInvAck() {
+    this.router.navigate(['inventory/inventory-acknowledge'])
+  }
+
+  RedirectToHome() {
+    this.router.navigate(['dashboard']);
+  }
+
+  vehicleDetailClick(){
+    sessionStorage.setItem('inventory-routing', JSON.stringify("vehicle"));
+    $(".vehicle-detail").trigger("click");
+    this.removeClass();
+    $(".vehicle-detail").addClass("active");
+  }
+  inventoryListClick(){
+    sessionStorage.setItem('inventory-routing', JSON.stringify("invlist"));
+    $(".inventory-list").trigger("click");
+    this.removeClass();
+    $(".inventory-list").addClass("active");
+  }
+  indentRaiseClick(){
+    sessionStorage.setItem('inventory-routing', JSON.stringify("raise"));
+    $(".indent-raise").trigger("click");
+    this.removeClass();
+    $(".indent-raise").addClass("active");
+  }
+  indentListClick(){
+    sessionStorage.setItem('inventory-routing', JSON.stringify("indlist"));
+    $(".indent-list").trigger("click");
+    this.removeClass();
+    $(".indent-list").addClass("active");
+  }
+  invAssaignClick(){
+    sessionStorage.setItem('inventory-routing', JSON.stringify("invassn"));
+    $(".inventory-assn").trigger("click");
+    this.removeClass();
+    $(".inventory-assn").addClass("active");
+  }
+  InventoryAckClick(){
+    sessionStorage.setItem('inventory-routing', JSON.stringify("invack"));
+    $(".inventory-ack").trigger("click");
+    this.removeClass();
+    $(".inventory-ack").addClass("active");
+  }
+  removeClass() {
+    $(".vehicle-detail").removeClass("active");
+    $(".inventory-list").removeClass("active");
+    $(".indent-raise").removeClass("active");
+    $(".indent-list").removeClass("active");
+    $(".inventory-assn").removeClass("active");
+    $(".inventory-ack").removeClass("active");
+
   }
 
 }

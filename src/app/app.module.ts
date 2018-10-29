@@ -40,12 +40,15 @@ import { SaleDetailsComponent } from './dashboard/sale-details/sale-details.comp
 import { InvoiceListComponent } from './dashboard/invoice-list/invoice-list.component';
 import { SaleDashboardComponent } from './sale-dashboard/sale-dashboard.component';
 import { DcFormComponent } from './dashboard/dc-form/dc-form.component';
+import { ReportsComponent } from './reports/reports.component';
+import { InventoryAddPipe } from './pipe/inventory-add.pipe';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'sale-dashboard' , component:SaleDashboardComponent, canActivate: [AuthGuard] },
   { path: 'dashboard' , component:DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'reports' , component:ReportsComponent, canActivate: [AuthGuard] },
   { path: 'inventory' , component:InventoryComponent, canActivate: [AuthGuard], },
   { path: 'inventory/vehicle-details' , component:VehicleDetailsComponent, canActivate: [AuthGuard] },
   { path: 'inventory/inventory-list' , component:InventoryListComponent, canActivate: [AuthGuard] },
@@ -79,7 +82,10 @@ const routes: Routes = [
     SaleDetailsComponent,
     InvoiceListComponent,
     SaleDashboardComponent,
+    DcFormComponent,
+    ReportsComponent,
     DcFormComponent
+    
   ],
   imports: [
     BrowserModule,
@@ -102,7 +108,7 @@ const routes: Routes = [
 
 
   ],
-  providers: [AuthGuard,InventoryListPipe,MessageService],
+  providers: [AuthGuard,InventoryListPipe,MessageService,InventoryAddPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
