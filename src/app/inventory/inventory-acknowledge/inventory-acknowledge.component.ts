@@ -18,9 +18,10 @@ export class InventoryAcknowledgeComponent implements OnInit {
   constructor(private router:Router, private service: InventoryAssigningService,private invAssignService: InventoryListPipe) { }
 
   ngOnInit() {
-    this.service.getInventoryList().subscribe(res => {
+    this.service.getAcknowledgeList().subscribe(res => {
       console.log(res.json().result)
-      this.inventoryData = this.invAssignService.transform(res.json().result);
+      //this.inventoryData = this.invAssignService.transform(res.json().result);
+      this.inventoryData = res.json().result
      
     });
 
@@ -33,7 +34,6 @@ export class InventoryAcknowledgeComponent implements OnInit {
       { field: 'vechile_no', header: 'Vehicle No.' },
       { field: 'br_mgr_ack', header: 'Manager ACk' },
       { field: 'br_mgr_comment', header: 'Manager Comment' },
-
       { field: 'chassisno', header: 'Chasis No.' },
       { field: 'color', header: 'Color' },
       { field: 'engineno', header: 'Engine No.' },

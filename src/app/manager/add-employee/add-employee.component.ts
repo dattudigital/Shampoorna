@@ -45,6 +45,8 @@ export class AddEmployeeComponent implements OnInit {
   constructor(private http: Http, private service: ManagerServiceService, private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit() {
+    sessionStorage.removeItem('secondaryLoginData');  
+    sessionStorage.removeItem('backBtnInventory');  
     this.service.getEmployeeDetails().subscribe(res => {
       this.employees = res.json().result;
       console.log(this.employees);

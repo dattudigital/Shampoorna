@@ -2,10 +2,6 @@
   <app-header></app-header>
 </div>
 
-
-
-
-
 <div id="myModal" class="modal fade" role="dialog" data-backdrop="static">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -50,26 +46,23 @@
   </div>
 </div>
 
-
-
-
 <div class="tableShow" [style.visibility]="titleStyle">
   <div class="col-md-2 col-sm-2 col-xs-12 manager-tap-left">
     <div class="nav flex-column nav-pills rs-1-left-button" id="__inventory" role="tablist" aria-orientation="vertical">
-      <a class="nav-link com-mark-info" id="v-pills-home-tab" (click)="vehicleDetailClick()" data-toggle="pill" href="#vehicleDetail"
+      <a class="nav-link vehicle-detail" id="v-pills-home-tab" (click)="redirectToVehicle();vehicleDetailClick()" data-toggle="pill" href="#vehicleDetail"
         role="tab" aria-controls="vehicle" aria-selected="true">Vehicle Details</a>
-      <a class="nav-link com-mark-info" id="v-pills-home-tab" (click)="inventoryListClick()" data-toggle="pill" href="#inventoryList"
-        role="tab" aria-controls="suppliers" aria-selected="true">Inventory List</a>
-      <a class="nav-link com-mark-info" id="v-pills-home-tab" (click)="indentRaiseClick()" data-toggle="pill" href="#indentRaise"
-        role="tab" aria-controls="inventory" aria-selected="true">Indent Raising</a>
-      <a class="nav-link com-mark-info" id="v-pills-home-tab" (click)="indentListClick()" data-toggle="pill" href="#indentList"
-        role="tab" aria-controls="update" aria-selected="true">List Of Indent</a>
+      <a class="nav-link inventory-list" id="v-pills-home-tab" (click)="redirectToInvList();inventoryListClick()" data-toggle="pill" href="#inventoryList"
+        role="tab" aria-controls="invlist" aria-selected="true">Inventory List</a>
+      <a class="nav-link indent-raise" id="v-pills-home-tab" (click)="redirectToIndent();indentRaiseClick()" data-toggle="pill" href="#indentRaise"
+        role="tab" aria-controls="raise" aria-selected="true">Indent Raising</a>
+      <a class="nav-link indent-list" id="v-pills-home-tab" (click)="redirectToInList();indentListClick()" data-toggle="pill" href="#indentList"
+        role="tab" aria-controls="indlist" aria-selected="true">List Of Indent</a>
       <!-- <a class="nav-link com-mark-info" id="v-pills-home-tab" (click)="sparePartClick()" data-toggle="pill" href="#reports"
       role="tab" aria-controls="reports" aria-selected="true">Spare Parts</a> -->
-      <a class="nav-link com-mark-info" id="v-pills-home-tab" (click)="invAssaignClick()" data-toggle="pill" href="#inventoryAssaign"
-        role="tab" aria-controls="reports" aria-selected="true">Inventory Assigning</a>
-      <a class="nav-link com-mark-info" id="v-pills-home-tab" (click)="InventoryAckClick()" data-toggle="pill" href="#acknowledgement"
-        role="tab" aria-controls="reports" aria-selected="true">Acknowledgement</a>
+      <a class="nav-link inventory-assn" id="v-pills-home-tab" (click)="redirectToInvAss();invAssaignClick()" data-toggle="pill" href="#inventoryAssaign"
+        role="tab" aria-controls="invassn" aria-selected="true">Inventory Assigning</a>
+      <a class="nav-link inventory-ack" id="v-pills-home-tab" (click)="redirectToInvAck();InventoryAckClick()" data-toggle="pill" href="#acknowledgement"
+        role="tab" aria-controls="invack" aria-selected="true">Acknowledgement</a>
     </div>
   </div>
 </div>

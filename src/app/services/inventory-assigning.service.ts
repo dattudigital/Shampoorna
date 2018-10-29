@@ -15,4 +15,9 @@ export class InventoryAssigningService {
   public getInventoryList(){
     return this.http.get( environment.host + 'invassigns');
   }
+
+  public getAcknowledgeList(){
+    return this.http.get( environment.host + 'invassigns?status=0');
+  }
 }
+

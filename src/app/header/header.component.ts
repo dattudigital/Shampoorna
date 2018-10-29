@@ -41,6 +41,13 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  redirectToReport(){
+    this.router.navigate(['reports'])
+    $("#__reports").click(function () {
+      $("#__reports").addClass("active");
+    });
+  }
+
   redirectToTimeClocks(){
     this.router.navigate(['time-clocks'])
     $("#__time-clocks").click(function () {
