@@ -245,7 +245,6 @@ export class DashboardComponent implements OnInit {
     this.saleUserService.saveSalesUser(data).subscribe(responce => {
       console.log(responce.json())
     })
-
   }
 
   saveVehicleDetails() {

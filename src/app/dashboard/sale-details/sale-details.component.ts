@@ -4,6 +4,8 @@ import { DatePipe } from '@angular/common';
 import { ClipboardService } from 'ngx-clipboard';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { Http } from '@angular/http'
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-sale-details',
@@ -19,19 +21,32 @@ export class SaleDetailsComponent implements OnInit {
   vehicles: any[];
   cols: any[];
   editPersonalInfo: any = [];
-  invoiceInfo:any=[];
+  invoiceInfo: any = [];
+  branchData: any = [];
   temp: any;
   public date1: any;
 
-  constructor(private service: SaleUserService, private dp: DatePipe, private _clipboardService: ClipboardService, private router: Router) { }
+  constructor(private service: SaleUserService, private dp: DatePipe, private _clipboardService: ClipboardService, private router: Router, private http: Http) { }
 
   ngOnInit() {
     this.service.getListDetails().subscribe(res => {
-      console.log(res.json().result)
-      this.lists = res.json().result
-      console.log(this.lists);
+      console.log(res.json().status);
+      if (res.json().status == true) {
+        console.log('true')
+        this.lists = res.json().result;
+        console.log(this.lists);
+      } else {
+        console.log('false')
+        this.lists = [];
+      }
     });
-   
+
+    this.http.get(environment.host + 'branches').subscribe(res => {
+      this.branchData = res.json().result;
+      console.log(this.branchData)
+    })
+
+
 
     this.cols = [
       { field: 'firstname', header: 'First Name' },
@@ -46,7 +61,7 @@ export class SaleDetailsComponent implements OnInit {
       { field: 'frame_no', header: 'FrameNo' },
       { field: 'dc_no', header: 'DcNo' },
       { field: 'dc_no', header: 'DcNo' },
-      {field:'total_amt',header:'Total Amount'}
+      { field: 'total_amt', header: 'Total Amount' }
 
     ];
   }
@@ -66,31 +81,31 @@ export class SaleDetailsComponent implements OnInit {
   proof_type: '';
   proof_num: '';
   sale_status: '';
-  sale_user_vechicle_id:'';
-  eng_no:'';
-  frame_no:'';
-  dc_no:'';
-  key_no:'';
-  vechicle_color:'';
-  Nominee_name:'';
-  basic_price:'';
-  life_tax:'';
-  insurance:'';
-  handling:'';
-  registration:'';
-  warranty:'';
-  accessories:'';
-  hp:'';
-  discount:'';
-  total_amt:'';
-  discount_approved_by:''
-  sale_user_vechile_exchange_id:'';
-  vechile_no:'';
-  vechile_color:'';
-  vechile_mode:'';
-  customer_name:'';
-  exchange_amt:'';
-  exchange_amt_approval_by:'';
+  sale_user_vechicle_id: '';
+  eng_no: '';
+  frame_no: '';
+  dc_no: '';
+  key_no: '';
+  vechicle_color: '';
+  Nominee_name: '';
+  basic_price: '';
+  life_tax: '';
+  insurance: '';
+  handling: '';
+  registration: '';
+  warranty: '';
+  accessories: '';
+  hp: '';
+  discount: '';
+  total_amt: '';
+  discount_approved_by: ''
+  sale_user_vechile_exchange_id: '';
+  vechile_no: '';
+  vechile_color: '';
+  vechile_mode: '';
+  customer_name: '';
+  exchange_amt: '';
+  exchange_amt_approval_by: '';
 
 
   newSaleClick() {
@@ -119,29 +134,29 @@ export class SaleDetailsComponent implements OnInit {
     this.district = this.editPersonalInfo[index].district;
     this.proof_type = this.editPersonalInfo[index].proof_type;
     this.proof_num = this.editPersonalInfo[index].proof_num;
-    this.eng_no=this.editPersonalInfo[index].eng_no;
-    this.frame_no=this.editPersonalInfo[index].frame_no;
-    this.dc_no=this.editPersonalInfo[index].dc_no;
-    this.key_no=this.editPersonalInfo[index].key_no;
-    this.vechicle_color=this.editPersonalInfo[index].vechicle_color;
-    this.Nominee_name=this.editPersonalInfo[index].Nominee_name;
-    this.basic_price=this.editPersonalInfo[index].basic_price;
-    this.life_tax=this.editPersonalInfo[index].life_tax;
-    this.insurance=this.editPersonalInfo[index].insurance;
-    this.handling=this.editPersonalInfo[index].handling;
-    this.registration=this.editPersonalInfo[index].registration;
-    this.warranty=this.editPersonalInfo[index].warranty;
-    this.accessories=this.editPersonalInfo[index].accessories;
-    this.hp=this.editPersonalInfo[index].hp;
-    this.discount=this.editPersonalInfo[index].discount;
-    this.total_amt=this.editPersonalInfo[index].total_amt;
-    this.discount_approved_by=this.editPersonalInfo[index].discount_approved_by;
-    this.vechile_no=this.editPersonalInfo[index].vechile_no;
-    this.vechicle_color=this.editPersonalInfo[index].vechicle_color;
-    this.vechile_mode=this.editPersonalInfo[index].vechile_mode;
-    this.customer_name=this.editPersonalInfo[index].customer_name;
-    this.exchange_amt=this.editPersonalInfo[index].exchange_amt;
-    this.exchange_amt_approval_by=this.editPersonalInfo[index].exchange_amt_approval_by;
+    this.eng_no = this.editPersonalInfo[index].eng_no;
+    this.frame_no = this.editPersonalInfo[index].frame_no;
+    this.dc_no = this.editPersonalInfo[index].dc_no;
+    this.key_no = this.editPersonalInfo[index].key_no;
+    this.vechicle_color = this.editPersonalInfo[index].vechicle_color;
+    this.Nominee_name = this.editPersonalInfo[index].Nominee_name;
+    this.basic_price = this.editPersonalInfo[index].basic_price;
+    this.life_tax = this.editPersonalInfo[index].life_tax;
+    this.insurance = this.editPersonalInfo[index].insurance;
+    this.handling = this.editPersonalInfo[index].handling;
+    this.registration = this.editPersonalInfo[index].registration;
+    this.warranty = this.editPersonalInfo[index].warranty;
+    this.accessories = this.editPersonalInfo[index].accessories;
+    this.hp = this.editPersonalInfo[index].hp;
+    this.discount = this.editPersonalInfo[index].discount;
+    this.total_amt = this.editPersonalInfo[index].total_amt;
+    this.discount_approved_by = this.editPersonalInfo[index].discount_approved_by;
+    this.vechile_no = this.editPersonalInfo[index].vechile_no;
+    this.vechicle_color = this.editPersonalInfo[index].vechicle_color;
+    this.vechile_mode = this.editPersonalInfo[index].vechile_mode;
+    this.customer_name = this.editPersonalInfo[index].customer_name;
+    this.exchange_amt = this.editPersonalInfo[index].exchange_amt;
+    this.exchange_amt_approval_by = this.editPersonalInfo[index].exchange_amt_approval_by;
   }
 
   getDob() {
@@ -150,7 +165,7 @@ export class SaleDetailsComponent implements OnInit {
     console.log(this.dob)
   }
 
-  invoiceList(data,index){
+  invoiceList(data, index) {
 
     console.log(index);
     this.invoiceInfo = data;
@@ -227,8 +242,8 @@ export class SaleDetailsComponent implements OnInit {
       console.log(res.json());
     })
   }
-  editVehicle(){
-    
+  editVehicle() {
+
   }
 
 

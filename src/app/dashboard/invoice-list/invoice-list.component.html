@@ -1,6 +1,6 @@
-<div class="tabs-services">
-    <app-header></app-header>
-</div>
+<!-- <div class="tabs-services">
+    
+</div> -->
 
 <div class="row">
     <div class="container">
@@ -305,7 +305,7 @@
                 <div class="row form-group">
                     <div class="col-sm-2">
                         <div class="input-group">
-                            <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="Handling"  #vehicleHandling readonly>
+                            <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="Handling" #vehicleHandling readonly>
                             <span class="input-group-addon">
                                 <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="vehicleHandling" style="cursor:pointer"></i>
                             </span>
@@ -341,7 +341,8 @@
                 <div class="row form-group">
                     <div class="col-sm-2">
                         <div class="input-group">
-                            <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="Accessories" #vahicleAccessories readonly>
+                            <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="Accessories" #vahicleAccessories
+                                readonly>
                             <span class="input-group-addon">
                                 <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="vahicleAccessories" style="cursor:pointer"></i>
                             </span>
@@ -391,12 +392,13 @@
                     </label>
                     <div class="col-sm-4">
                         <div class="input-group">
-                        <input type="number" min="0" name="model" maxlength="50" class="form-control" [(ngModel)]="totalAmount" #vehicleTotalAmount readonly>
-                        <span class="input-group-addon">
+                            <input type="number" min="0" name="model" maxlength="50" class="form-control" [(ngModel)]="totalAmount" #vehicleTotalAmount
+                                readonly>
+                            <span class="input-group-addon">
                                 <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="vehicleTotalAmount" style="cursor:pointer"></i>
                             </span>
+                        </div>
                     </div>
-                </div>
                 </div>
                 <br>
 
@@ -409,4 +411,3 @@
 
 </div>
 
-<app-footer></app-footer>
