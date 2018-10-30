@@ -99,7 +99,7 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   backToManager() {
-    this.router.navigate(['dashboard']);
+    this.router.navigate(['sale-dashboard']);
   }
 
   editEmployee(data, index) {

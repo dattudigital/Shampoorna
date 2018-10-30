@@ -87,10 +87,14 @@ export class DashboardComponent implements OnInit {
     'financialName': '',
     'downPayment': '',
     'addressProof': null,
+    'addressFileName': '',
     'idProof': '',
+    'idProofName': '',
     'bankStatement': [],
     'cheque': '',
+    'chequeFileName': '',
     'photo': ''
+
   }
   //paymentmode Cash
   cashAmount: number;
@@ -143,7 +147,7 @@ export class DashboardComponent implements OnInit {
     });
 
   }
-  
+
 
   redirectToSalesDetails() {
     this.router.navigate(['sale-details'])
@@ -403,6 +407,7 @@ export class DashboardComponent implements OnInit {
 
     if (files && file) {
       var reader = new FileReader();
+
       reader.onload = this._handleReaderLoaded.bind(this);
       reader.readAsBinaryString(file);
     }
@@ -410,7 +415,8 @@ export class DashboardComponent implements OnInit {
       var reader = new FileReader();
 
       reader.readAsDataURL(event.target.files[0]); // read file as data url
-
+      this.paymentEmi.addressFileName = file.name;
+      console.log( this.paymentEmi.addressFileName)
       reader.onload = (event) => { // called once readAsDataURL is completed
         // this.addressPreview = event.target.result;
       }
@@ -420,7 +426,8 @@ export class DashboardComponent implements OnInit {
       var reader = new FileReader();
 
       reader.readAsDataURL(event.target.files[0]); // read file as data url
-
+      this.paymentEmi.idProofName = file.name;
+      console.log(this.paymentEmi.idProofName)
       reader.onload = (event) => { // called once readAsDataURL is completed
         //this.idpreview = event.target.result;
       }
@@ -429,7 +436,8 @@ export class DashboardComponent implements OnInit {
       var reader = new FileReader();
 
       reader.readAsDataURL(event.target.files[0]); // read file as data url
-
+      this.paymentEmi.chequeFileName = file.name;
+      console.log(this.paymentEmi.chequeFileName);
       reader.onload = (event) => { // called once readAsDataURL is completed
         //this.chequepreview = event.target.result;
       }
@@ -464,14 +472,22 @@ export class DashboardComponent implements OnInit {
 
   savePaymentEmi() {
     var data = {
-      fanancial_name: this.paymentEmi.financialName,
-      down_payment: this.paymentEmi.downPayment,
+      //fanancial_name: this.paymentEmi.financialName,
+      //down_payment: this.paymentEmi.downPayment,
       address_proof: this.paymentEmi.address_proof,
+      address_name: this.paymentEmi.addressFileName,
       id_proof: this.paymentEmi.idProof,
-      payment_cheque: this.paymentEmi.cheque,
-      passport_photo: this.paymentEmi.photo,
-      bank_statement: this.paymentEmi.bankStatement
+      id_name:this.paymentEmi.idProofName,
+        payment_cheque: this.paymentEmi.cheque,
+      cheque_name:this.paymentEmi.chequeFileName,
+       // passport_photo: this.paymentEmi.photo,
+      //bank_statement: this.paymentEmi.bankStatement
     }
+
+    this.saleUserService.addPaymentEmi(data).subscribe(response=>{
+      console.log(response.json());
+    })
+    
   }
 
   isNumber(value: string | number): boolean {
@@ -558,12 +574,11 @@ export class DashboardComponent implements OnInit {
     }
     console.log(this.cashTotal);
   }
-  omit_special_char(event)
-  {   
+  omit_special_char(event) {
     console.log('kay press')
-     var k;  
-     k = event.charCode;  //         k = event.keyCode;  (Both can be used)
-     return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
+    var k;
+    k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+    return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
   }
 
 
