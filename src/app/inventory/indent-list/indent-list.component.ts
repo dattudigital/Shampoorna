@@ -38,6 +38,8 @@ export class IndentListComponent implements OnInit {
   editData: any = [];
   temp: any;
 
+  shippedBy= "";
+  shippedIn= "";
 
 
   constructor(private router: Router, private service: IndentService, private dp: DatePipe, private http: Http) { }
@@ -115,7 +117,9 @@ export class IndentListComponent implements OnInit {
   assigned_on = '';
   // updated_on = '';
   assignedby = '';
+  status ='';
   // updatedby = '';
+
 
   editIndent(data, index){
     console.log(data)
@@ -133,16 +137,30 @@ export class IndentListComponent implements OnInit {
     this.assigned_qty = this.editData[index].assigned_qty;
     this.req_on_date = this.editData[index].req_on_date;
     this.assigned_on = this.editData[index].assigned_on;
+    this.status = this.editData[index].status;
     // this.updated_on = this.editData[index].updated_on;
     this.assignedby = this.editData[index].assignedby;
     // this.updatedby = this.editData[index].updatedby;
     this.shipId = "SHP" + Math.floor(Math.random() * 899999 + 100000);
     console.log(this.shipId)
-
   }
 
   updateIndent(){
-    
+    var data = {
+      indent_req_id: this.indent_req_id,
+      veh_type: this.veh_type,
+      veh_color: this.veh_color,
+      veh_make: this.veh_make,
+      veh_model: this.veh_model,
+      req_qty: this.req_qty,
+      assigned_qty: this.assigned_qty,
+      req_on_date: this.req_on_date,
+      shippind_id: this.shipId,
+      shipped_by: this.shippedBy,
+      shipped_vechile_no: this.shippedIn,
+      status: this.status
+    }
+    console.log(data)
   }
 
   detailsGo() {

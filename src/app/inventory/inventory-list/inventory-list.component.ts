@@ -15,19 +15,16 @@ import * as moment from 'moment';
 export class InventoryListComponent implements OnInit {
   cols: any[];
   inventoryData: any[];
-
   typeData: any[];
   makeData: any[];
   modelData: any[];
   colorData: any[];
-
   vehicleTypeFilter = "";
   vehicleModelFilter = "";
   vehicleColorFilter = "";
   vehicleMakeFilter = "";
   fromDate = "";
   toDate = "";
-
 
   constructor(private router: Router, private service: InventoryAssigningService, private http: Http, private invAssignService: InventoryListPipe) { }
 
@@ -65,8 +62,7 @@ export class InventoryListComponent implements OnInit {
       { field: 'shipped_by', header: 'Shipped By' },
       { field: 'vechile_no', header: 'Vehicle No.' },
       { field: 'br_mgr_ack', header: 'Manager ACk' },
-      { field: 'br_mgr_comment', header: 'Manager Comment' },
-
+      { field: 'br_mgr_comment', header: 'Manager Comment'},
       { field: 'chassisno', header: 'Chasis No.' },
       { field: 'color', header: 'Color' },
       { field: 'engineno', header: 'Engine No.' },
@@ -106,10 +102,5 @@ export class InventoryListComponent implements OnInit {
     this.fromDate = " ";
     this.toDate = " ";
   }
-
-
-
-
-
 }
 

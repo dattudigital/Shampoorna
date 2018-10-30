@@ -12,7 +12,7 @@ export class InventoryAcknowledgeComponent implements OnInit {
 
   inventoryData: any[];
   cols: any[];
-
+  editData: any = [];
 
 
   constructor(private router:Router, private service: InventoryAssigningService,private invAssignService: InventoryListPipe) { }
@@ -22,7 +22,6 @@ export class InventoryAcknowledgeComponent implements OnInit {
       console.log(res.json().result)
       //this.inventoryData = this.invAssignService.transform(res.json().result);
       this.inventoryData = res.json().result
-     
     });
 
     this.cols = [
@@ -31,7 +30,7 @@ export class InventoryAcknowledgeComponent implements OnInit {
       { field: 'employee_firstname', header: 'Assaigned By' },
       { field: 'generated_shipping_id', header: 'Shipping ID' },
       { field: 'shipped_by', header: 'Shipped By' },
-      { field: 'vechile_no', header: 'Vehicle No.' },
+      { field: 'shipped_vechile_no', header: 'Vehicle No.' },
       { field: 'br_mgr_ack', header: 'Manager ACk' },
       { field: 'br_mgr_comment', header: 'Manager Comment' },
       { field: 'chassisno', header: 'Chasis No.' },
@@ -45,6 +44,52 @@ export class InventoryAcknowledgeComponent implements OnInit {
 
   backToInventory() {
     this.router.navigate(['inventory']);
+  }
+
+  status='';
+  inventory_assign_id='';
+  branch_name='';
+
+  yesAcknowledgement(data,index){
+   // this.inventoryData.splice(index,1)
+    console.log(data)
+    console.log(index)
+    this.editData = data;
+    this.inventory_assign_id = this.editData[index].inventory_assign_id;
+    this.branch_name=this.editData[index].branch_name
+    this.status = this.editData[index].status;
+    console.log(this.editData[index].branch_name)
+    console.log(this.editData[index].inventory_assign_id)
+    var val = {
+      inventory_assign_id:this.inventory_assign_id,
+      status: "1"
+    }
+    console.log("********")
+    console.log(val)
+    this.service.addInventoryAssign(val).subscribe(res => {
+      console.log(res.json());
+    });
+
+  }
+  noAcknowledgement(data,index){
+    // this.inventoryData.splice(index,1)
+    console.log(data)
+    console.log(index)
+    this.editData = data;
+    data.index = index;
+    this.inventory_assign_id = this.editData[index].inventory_assign_id;
+    this.status = this.editData[index].status;
+    console.log(this.editData[index].inventory_assign_id)
+    var val = {
+      inventory_assign_id:this.inventory_assign_id,
+      status: "2"
+    }
+    console.log("********")
+    console.log(val)
+    this.service.addInventoryAssign(val).subscribe(res => {
+      console.log(res.json());
+    });
+
   }
 
 

@@ -29,20 +29,19 @@
                   <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
 
               </th>
-             <th>Acknowledge</th>
+             <th>Ack</th>
 
           </tr>
 
       </ng-template>
-      <ng-template pTemplate="body" let-car>
+      <ng-template pTemplate="body" let-i="rowIndex" let-car>
           <tr>
               <td *ngFor="let col of cols">
                   {{car[col.field]}}
               </td>
               <!-- <td href="#" data-toggle="modal" data-target="#editVehicle" (click)="editVehicle(bikes,i)"><i class="fa fa-check"
                   style="color:orange"></i></td> -->
-              <td input="button" data-toggle="modal" data-target="#editVehicle" (click)="editVehicle(bikes,i)"><i class="fa fa-check"
-                    style="color:orange"></i></td>
+              <td><button type="submit" (click)="yesAcknowledgement(inventoryData,i)"><i class="fa fa-check" style="color:orange;font-size: 12px;"></i></button><button type="submit" (click)="noAcknowledgement(inventoryData,i)"><i class="fa fa-times"  style="color:red;font-size: 12px;"></i></button></td>
           </tr>
       </ng-template>
   </p-table>
