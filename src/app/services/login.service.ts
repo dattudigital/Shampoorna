@@ -9,6 +9,7 @@ export class LoginService {
 
   constructor(private http:Http) { }
   public dataLogin(data: any) {
+    console.log(data)
     return this.http.post(environment.host + 'auth/login', data)
   }
 }
