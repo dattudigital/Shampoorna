@@ -63,6 +63,10 @@ export class DashboardComponent implements OnInit {
   discount: any = '';
   totalAmount: '';
   discountApprovedBy: '';
+  lifeTaxAmount: number;
+  vehicleInsuAmount: number;
+  taxAmount: number;
+  basicwithTax: number;
 
   //typeahead
   selectedValue: string;
@@ -114,7 +118,7 @@ export class DashboardComponent implements OnInit {
   roadTax: number = 0;
   tempAmount: number = 0;
   taxCount: number = 0
-  constructor(private saleUserService: SaleUserService, private http: Http, private router: Router,) { }
+  constructor(private saleUserService: SaleUserService, private http: Http, private router: Router, ) { }
 
   ngOnInit() {
 
@@ -123,8 +127,8 @@ export class DashboardComponent implements OnInit {
       this.lifeTax = this.taxData[0].life_tax;
       this.VehicleInsu = this.taxData[0].insurance;
 
-      this.amount = this.taxCount + this.lifeTax + this.VehicleInsu;
-      console.log(this.amount);
+      // this.amount = this.taxCount + this.lifeTax + this.VehicleInsu;
+      // console.log(this.amount);
     });
     this.http.get(environment.host + 'employees').subscribe(employeedata => {
       console.log(employeedata.json().result);
@@ -139,6 +143,7 @@ export class DashboardComponent implements OnInit {
     });
 
   }
+  
 
   redirectToSalesDetails() {
     this.router.navigate(['sale-details'])
@@ -225,7 +230,6 @@ export class DashboardComponent implements OnInit {
   }
 
   saveUserDeatils() {
-
     var data = {
       firstname: this.name,
       email_id: this.nameOnRc,
@@ -235,44 +239,67 @@ export class DashboardComponent implements OnInit {
       address: this.address,
       mobile: this.mobile,
       mandal: this.mandal,
-     // pincode: this.pincode,
+      // pincode: this.pincode,
       district: this.districtName,
       proof_type: this.addressProof,
       proof_num: this.addressProofNo,
       sale_status: "1"
     }
     console.log(data)
-    this.saleUserService.saveSalesUser(data).subscribe(responce => {
-      console.log(responce.json())
+    this.saleUserService.saveSalesUser(data).subscribe(response => {
+      console.log(response.json().status);
+      console.log(response.json().result.sale_user_id);
+      // vehicle information send to api
+      if (response.json().status == true) {
+        var vehicledetails = {
+          sale_user_id: response.json().result.sale_user_id,
+          eng_no: this.vehicleEngineNo,
+          frame_no: this.vehicleFrameNo,
+          dc_no: this.vehicleDcNo,
+          key_no: this.vehicleKeyNo,
+          vechicle_color: this.vehicleColor,
+          Nominee_name: this.nomineeName,
+          basic_price: this.vehicleBasic,
+          life_tax: this.lifeTax,
+          insurance: this.VehicleInsu,
+          handling: this.handlingC,
+          registration: this.vehicleReg,
+          warranty: this.vehicleWarranty,
+          accessories: this.vehicleAcc,
+          hp: this.Hp,
+          discount: this.discount,
+          total_amt: this.basicwithTax,
+          discount_approved_by: this.discountApprovedBy,
+          sale_user_vechile_status: 1
+        }
+        console.log(vehicledetails)
+        this.saleUserService.saveSalesVehicle(vehicledetails).subscribe(res => {
+          console.log(res.json());
+        })
+      }
+      if (response.json().status == true) {
+        var data = {
+          sale_user_id: response.json().result.sale_user_id,
+          vechile_no: this.exchangevehicleNo,
+          eng_no: this.exchangeEngineNo,
+          frame_no: this.exchangeFrameNo,
+          vechile_color: this.exchangeVehicleColor,
+          vechile_mode: this.exchangeVehicleModel,
+          customer_name: this.vehiclecustomerName,
+          exchange_amt: this.exchangeAmount,
+          exchange_amt_approval_by: this.exchangeAmountApprovedBy,
+          sale_exchange_status: 1
+        }
+        console.log(data);
+        this.saleUserService.saveExchangeVehicle(data).subscribe(res => {
+          console.log(res.json())
+        })
+
+      }
+
     })
   }
 
-  saveVehicleDetails() {
-    var vehicledetails = {
-      eng_no: this.vehicleEngineNo,
-      frame_no: this.vehicleFrameNo,
-      dc_no: this.vehicleDcNo,
-      key_no: this.vehicleKeyNo,
-      vechicle_color: this.vehicleColor,
-      Nominee_name: this.nomineeName,
-      basic_price: this.vehicleBasic,
-      life_tax: this.lifeTax,
-      insurance: this.VehicleInsu,
-      handling: this.handlingC,
-      registration: this.vehicleReg,
-      warranty: this.vehicleWarranty,
-      accessories: this.vehicleAcc,
-      hp: this.Hp,
-      discount: this.discount,
-      total_amt: this.totalAmount,
-      discount_approved_by: this.discountApprovedBy,
-      sale_user_vechile_status: 1
-    }
-    console.log(vehicledetails)
-    this.saleUserService.saveSalesVehicle(vehicledetails).subscribe(res => {
-      console.log(res.json());
-    })
-  }
   engineSearch(val) {
     if (val.length >= 2) {
       this.saleUserService.searchEngine(val).subscribe(data => {
@@ -292,17 +319,31 @@ export class DashboardComponent implements OnInit {
     this.vehicleFrameNo = this.selectedOption.vehicle_frameno;
     this.vehicleDcNo = this.selectedOption.vechicle_dcno;
     this.vehicleKeyNo = this.selectedOption.key_no;
-    this.vehicleColor = this.selectedOption.vehicle_color;
+    this.vehicleColor = this.selectedOption.color_name;
     this.nomineeName = this.selectedOption.Nominee_name;
     this.vehicleBasic = this.selectedOption.vehicle_cost;
     //calculate onroadprice with only tax
     if (this.vehicleBasic) {
       this.onRoadPrice = 0;
+      this.lifeTaxAmount = 0;
+      this.vehicleInsuAmount = 0;
+      this.taxAmount = 0;
+
       console.log(this.vehicleBasic)
-      console.log(this.amount);
-      this.onRoadPrice = this.onRoadPrice + this.vehicleBasic * (this.amount / 100);
-      console.log(this.onRoadPrice);
-      this.tempAmount = this.onRoadPrice;
+      this.lifeTaxAmount = this.lifeTaxAmount + this.vehicleBasic * (this.lifeTax / 100);
+      console.log(this.lifeTaxAmount)
+
+      this.vehicleInsuAmount = this.vehicleInsuAmount + this.vehicleBasic * (this.VehicleInsu / 100);
+      console.log(this.vehicleInsuAmount);
+
+      this.taxAmount = this.lifeTaxAmount + this.vehicleInsuAmount;
+
+      console.log(this.taxAmount)
+
+      this.onRoadPrice = parseInt(this.vehicleBasic) + this.taxAmount;
+      console.log(this.onRoadPrice)
+
+
     }
   }
 
@@ -433,28 +474,63 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  isNumber(value: string | number): boolean {
+    if (value) {
+      return !isNaN(Number(value.toString()));
+    } else {
+      return false;
+    }
+  }
 
   //calculate onroad price 
   handlingAmount: number = 0
   addTotalTax() {
-    this.onRoadPrice = 0;
     console.log("********")
-    if (this.handlingC == null) {
-      this.onRoadPrice = this.onRoadPrice + this.tempAmount;
-    }
-    if (this.handlingC) {
-      this.onRoadPrice = this.tempAmount + this.handlingC;
-     this.handlingAmount=this.handlingAmount+this.onRoadPrice
-    }
-    if (this.handlingC == null && this.vehicleReg == null) {
-      this.onRoadPrice = this.onRoadPrice + this.tempAmount;
-    }
-    if (this.vehicleReg) {
-      this.onRoadPrice = this.handlingAmount + this.vehicleReg
-    }
 
-    console.log('after')
-    console.log(this.onRoadPrice)
+    // if(this.handlingC){
+    //   this.onRoadPrice 
+
+    // }
+    // if (this.handlingC == null) {
+    //   this.onRoadPrice = this.onRoadPrice + this.tempAmount;
+    // }
+    // if (this.handlingC) {
+    //   this.onRoadPrice = this.tempAmount + this.handlingC;
+    //  this.handlingAmount=this.handlingAmount+this.onRoadPrice
+    // }
+    // if (this.handlingC == null && this.vehicleReg == null) {
+    //   this.onRoadPrice = this.onRoadPrice + this.tempAmount;
+    // }
+    // if (this.vehicleReg) {
+    //   this.onRoadPrice = this.handlingAmount + this.vehicleReg
+    // }
+
+    // console.log('after')
+    // console.log(this.onRoadPrice)
+    let sum = 0;
+    if (this.isNumber(this.handlingC)) {
+      sum = sum + this.handlingC
+    }
+    if (this.isNumber(this.vehicleReg)) {
+      sum = sum + parseInt(this.vehicleReg)
+    }
+    if (this.isNumber(this.vehicleWarranty)) {
+      sum = sum + parseInt(this.vehicleWarranty)
+    }
+    if (this.isNumber(this.vehicleAcc)) {
+      sum = sum + parseInt(this.vehicleAcc)
+    }
+    if (this.isNumber(this.Hp)) {
+      sum = sum + parseInt(this.Hp)
+    }
+    if (this.isNumber(this.discount)) {
+      sum = sum - this.discount;
+    }
+    if (sum) {
+      this.basicwithTax = this.onRoadPrice + sum;
+    }
+    console.log("**********");
+    console.log(this.basicwithTax);
   }
 
   addTotalAmount() {
@@ -482,25 +558,13 @@ export class DashboardComponent implements OnInit {
     }
     console.log(this.cashTotal);
   }
-
-  addExchangeVehicleDetails() {
-    var data = {
-      vechile_no: this.exchangevehicleNo,
-      eng_no: this.exchangeEngineNo,
-      frame_no: this.exchangeFrameNo,
-      vechile_color: this.exchangeVehicleColor,
-      vechile_mode: this.exchangeVehicleModel,
-      customer_name: this.vehiclecustomerName,
-      exchange_amt: this.exchangeAmount,
-      exchange_amt_approval_by: this.exchangeAmountApprovedBy,
-      sale_exchange_status: 1
-    }
-    console.log(data);
-    this.saleUserService.saveExchangeVehicle(data).subscribe(res => {
-      console.log(res.json())
-    })
+  omit_special_char(event)
+  {   
+    console.log('kay press')
+     var k;  
+     k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+     return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
   }
-
 
 
 }

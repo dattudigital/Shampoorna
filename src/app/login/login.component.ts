@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AlertComponent } from 'ngx-bootstrap/alert/alert.component';
 import { LoginService } from '../services/login.service'
-
+declare var $: any;
 
 @Component({
   selector: 'app-login',
@@ -14,10 +14,13 @@ export class LoginComponent implements OnInit {
   password = "";
   mailId = "";
   alerts: any[] = [];
+ 
 
   constructor(private http: HttpClient, private router: Router, private service:LoginService) { }
 
   ngOnInit() {
+    this.loginPopUp();
+
   }
   onClosed(dismissedAlert: AlertComponent): void {
     this.alerts = this.alerts.filter(alert => alert !== dismissedAlert);
@@ -33,9 +36,11 @@ export class LoginComponent implements OnInit {
         if (loginData.json().status == true) {
           sessionStorage.setItem('userSession', JSON.stringify(loginData.json()));
           this.router.navigate(['sale-dashboard']);
+          $('#myModal').modal('hide');
         }
       });
     } else {
+     
       this.alerts = [{
         type: 'danger',
         msg: `Invalid credentials`,
@@ -44,4 +49,10 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  loginPopUp() {
+    $('#myModal').modal('show');    
+    }
+
+
+      
 }

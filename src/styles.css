@@ -7358,11 +7358,12 @@ html {
       padding: 5px 20px;
   }
   .login_form {
-      width: 60%;
+      /* width: 60%;
       margin: 0 auto 0 auto;
       padding: 80px 39px;
       background: #fff;
-      box-shadow: 0 0 0 1px #000;
+      box-shadow: 0 0 0 1px #000; */
+      margin: 0 auto 0 auto;
   }
   .login_form label {
       line-height: 1.8;

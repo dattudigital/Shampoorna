@@ -18,7 +18,6 @@ export class AddEmployeeComponent implements OnInit {
   temp: any;
   temp1:any;
 
-
   employee_id: '';
   employee_firstname: '';
   employee_lastname: '';
@@ -29,9 +28,6 @@ export class AddEmployeeComponent implements OnInit {
   phone: '';
   password: '';
   rec_status: '';
-
-
-
 
   firstName: '';
   lastName: '';
@@ -82,7 +78,6 @@ export class AddEmployeeComponent implements OnInit {
     if (this.employeeForm.invalid) {
       return;
     }
-
     var data = {
       employee_firstname: this.firstName,
       employee_lastname: this.lastName,
@@ -97,6 +92,9 @@ export class AddEmployeeComponent implements OnInit {
     console.log(data);
     this.service.saveEmployeeDetails(data).subscribe(res => {
       console.log(res.json());
+      this.employees.push(res.json().result);
+      console.log(this.employees);
+      
     })
   }
 
@@ -146,7 +144,6 @@ export class AddEmployeeComponent implements OnInit {
       console.log(res.json());
       console.log('********')
       console.log(this.temp)
-
       this.employees[this.temp].employee_firstname = data.employee_firstname;
       this.employees[this.temp].employee_lastname = data.employee_lastname;
       this.employees[this.temp].employee_branch = data.employee_branch;

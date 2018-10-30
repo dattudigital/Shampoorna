@@ -117,7 +117,9 @@ export class SaleDetailsComponent implements OnInit {
     this.editPersonalInfo = data;
     console.log(this.editPersonalInfo)
     data.index = index;
+    console.log(data.index);
     this.temp = index;
+    console.log(this.temp);
     let newDate = moment(this.editPersonalInfo[index].dob).format('DD-MM-YYYY').toString();
     this.dob = newDate;
     console.log(this.dob);
@@ -173,6 +175,7 @@ export class SaleDetailsComponent implements OnInit {
     data.index = index;
     this.temp = index;
     sessionStorage.setItem('userSaleData', JSON.stringify(this.invoiceInfo));
+    sessionStorage.setItem('indexValue',JSON.stringify(data.index))
     // let newDate = moment(this.invoiceInfo[index].dob).format('DD-MM-YYYY').toString();
     // this.dob = newDate;
     // console.log(this.dob);
