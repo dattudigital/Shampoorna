@@ -196,7 +196,7 @@
             </label>
             <div class="col-md-6">
               <select class="form-control" formControlName="vehicleType" [(ngModel)]="vehicleType" [ngClass]="{ 'is-invalid': submitted && f.vehicleType.errors }">
-                <option *ngFor="let data of this.typeData" [ngValue]=" data.vehicle_type_id">{{data.type_name}}</option>
+                <option *ngFor="let data of this.typeData" [ngValue]=" data">{{data.type_name}}</option>
               </select>
               <div *ngIf="submitted && f.vehicleType.errors" class="invalid-feedback">
                 <div *ngIf="f.vehicleType.errors.required" style="color:red">Vehicle Type is required</div>
@@ -211,7 +211,7 @@
             </label>
             <div class="col-md-6">
               <select class="form-control" formControlName="vehicleColor" [(ngModel)]="vehicleColor" [ngClass]="{ 'is-invalid': submitted && f.vehicleColor.errors }">
-                <option *ngFor="let data of this.colorData" [ngValue]=" data.vehicle_color_id">{{data.color_name}}</option>
+                <option *ngFor="let data of this.colorData" [ngValue]=" data">{{data.color_name}}</option>
               </select>
               <div *ngIf="submitted && f.vehicleColor.errors" class="invalid-feedback">
                 <div *ngIf="f.vehicleColor.errors.required" style="color:red">Vehicle color is required</div>
@@ -226,7 +226,7 @@
             </label>
             <div class="col-md-6">
               <select class="form-control" formControlName="vehicleMake" [(ngModel)]="vehicleMake" [ngClass]="{ 'is-invalid': submitted && f.vehicleMake.errors }">
-                <option *ngFor="let data of this.makeData" [ngValue]=" data.vehicle_make_id">{{data.make_name}}</option>
+                <option *ngFor="let data of this.makeData" [ngValue]=" data">{{data.make_name}}</option>
               </select>
               <div *ngIf="submitted && f.vehicleMake.errors" class="invalid-feedback">
                 <div *ngIf="f.vehicleMake.errors.required" style="color:red">Vehicle make is required</div>
@@ -242,7 +242,7 @@
             </label>
             <div class="col-md-6">
               <select class="form-control" formControlName="vehicleModel" [(ngModel)]="vehicleModel" [ngClass]="{ 'is-invalid': submitted && f.vehicleModel.errors }">
-                <option *ngFor="let data of this.modelData" [ngValue]=" data.vehicle_model_id">{{data.model_name}}</option>
+                <option *ngFor="let data of this.modelData" [ngValue]=" data">{{data.model_name}}</option>
               </select>
               <div *ngIf="submitted && f.vehicleModel.errors" class="invalid-feedback">
                 <div *ngIf="f.vehicleModel.errors.required" style="color:red">Vehicle model is required</div>
@@ -318,7 +318,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" (click)="addVehicle()">ADD</button>
+          <button type="button" class="btn btn-primary" (click)="addVehicle()" data-dismiss="modal">ADD</button>
         </div>
       </form>
     </div>

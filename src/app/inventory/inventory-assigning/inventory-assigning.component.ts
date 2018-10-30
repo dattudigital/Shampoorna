@@ -136,7 +136,7 @@ export class InventoryAssigningComponent implements OnInit {
       assign_qty: this.assQuantity,
       br_mgr_ack: this.managerAck,
       br_mgr_comment: this.managerNote,     
-      generated_shipping_id:"9e8wf98ew", 
+      generated_shipping_id:this.generatedShippedId, 
       status: this.status,      
       vechile_details: JSON.stringify(this.vehicles)
     }

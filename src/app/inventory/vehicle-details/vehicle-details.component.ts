@@ -28,10 +28,10 @@ export class VehicleDetailsComponent implements OnInit {
 
   engineNumber = "";
   vehicleName = "";
-  vehicleType = "";
-  vehicleColor = "";
-  vehicleMake = "";
-  vehicleModel = "";
+  vehicleType:any;
+  vehicleColor:any;
+  vehicleMake:any;
+  vehicleModel:any;
   vehicleCost = "";
   frameNumber = "";
   dcNumber = "";
@@ -103,18 +103,6 @@ export class VehicleDetailsComponent implements OnInit {
       console.log(data.json())
       this.typeData = data.json().result;
     });
-
-
-
-    // this.bikes=[
-    //   { "name": "Apache RR 310", "type":" Motor Cycle", "colour":"Red" ,"make":"2017","engine no.":"Ch10008956","frame no.":"258522","dc no.":"dcap1258526","invoice":"Apac20170251"},
-    //   { "name": "Jupitor", "type":" Mopad", "colour":"Blue" ,"make":"2018","engine no.":"Ch10008956","frame no.":"258522","dc no.":"dcap1258526","invoice":"Apac20170252"},
-    //   { "name": "Apache RTR 180", "type":" Motor Cycle", "colour":"Red" ,"make":"2017","engine no.":"Ch10008956","frame no.":"258522","dc no.":"dcap1258526","invoice":"Apac20170253"},
-    //   { "name": "Apache RTR 160", "type":" Motor Cycle", "colour":"Red" ,"make":"2017","engine no.":"Ch10008956","frame no.":"258522","dc no.":"dcap1258526","invoice":"Apac20170254"},
-    //   { "name": "Apache RR 310", "type":" Motor Cycle", "colour":"Red" ,"make":"2017","engine no.":"Ch10008956","frame no.":"258522","dc no.":"dcap1258526","invoice":"Apac20170255"},
-    //   { "name": "Apache RR 310", "type":" Motor Cycle", "colour":"Red" ,"make":"2017","engine no.":"Ch10008956","frame no.":"258522","dc no.":"dcap1258526","invoice":"Apac20170256"}
-
-    // ]
   }
 
   backToInventory() {
@@ -129,7 +117,15 @@ export class VehicleDetailsComponent implements OnInit {
 
   addVehicle() {
     this.submitted = true;
-
+    console.log(this.engineNumber,
+     this.vehicleName,
+      this.vehicleType.type_name,
+     this.vehicleMake.make_name,
+      this.vehicleModel.model_name,
+    this.vehicleColor.color_name,
+    this.vehicleCost);
+    // console.log(this.vehicleType)
+    // console.log(this.vehicleType.vehicle_type_id)
     // stop here if form is invalid
     if (this.vehicleForm.invalid) {
       return;
@@ -137,20 +133,57 @@ export class VehicleDetailsComponent implements OnInit {
     var data = {
       vehicle_engineno: this.engineNumber,
       vehicle_name: this.vehicleName,
-      vehicle_color: this.vehicleColor,
-      vehicle_type: this.vehicleType,
-      vehicle_make: this.vehicleMake,
-      vehicle_model: this.vehicleModel,
+      vehicle_color: this.vehicleColor.vehicle_color_id,
+      vehicle_type: this.vehicleType.vehicle_type_id,
+      vehicle_make: this.vehicleMake.vehicle_make_id,
+      vehicle_model: this.vehicleModel.vehicle_model_id,
       vehicle_cost: this.vehicleCost,
       vehicle_frameno: this.frameNumber,
       vechicle_dcno: this.dcNumber,
       vechicle_invoiceno: this.invoiceNumber,
       status: "1"
     }
-    console.log(data)
+
+    console.log(data);
+
+var insertData = {
+  color_name:this.vehicleColor.color_name
+}
+
     this.service.addVehicleDetails(data).subscribe(res => {
       console.log(res.json());
-      console.log(res.json().result);
+      console.log("******************");
+      console.log(insertData);
+      insertData =  res.json().result;     
+      this.bikes.push(res.json().result)
+      // let data;
+      // data.vehicle_engineno = res.json().result.engineNumber,
+      // data.vehicle_name = res.json().result.vehicleName,
+      // data.vehicle_type = res.json().result.vehicleType,
+      // data.vehicle_make = res.json().result.vehicleMake,
+      // data.vehicle_model = res.json().result.vehicleModel,
+      // data.vehicle_color = res.json().result.vehicleColor,
+      // data.vehicle_cost = res.json().result.vehicleCost,
+      // data.vehicle_frameno = res.json().result.frameNumber,
+      // data.vechicle_dcno = res.json().result.dcNumber,
+      // data.vechicle_invoiceno = res.json().result.invoiceNumber
+   
+      // this.bikes.push({vehicle_engineno: this.engineNumber,
+      //                  vehicle_name: this.vehicleName,
+      //                  vehicle_type:this.vehicleType.type_name,
+      //                  vehicle_make:this.vehicleMake.make_name,
+      //                  vehicle_model: this.vehicleModel.model_name,
+      //                  vehicle_color: this.vehicleColor.color_name,
+      //                  vehicle_cost: this.vehicleCost,
+      //                  vehicle_frameno: this.frameNumber,
+      //                  vechicle_dcno: this.dcNumber,
+      //                  vechicle_invoiceno: this.invoiceNumber})
+      // this.bikes.push(data);
+      // console.log("******")
+      // console.log(data)
+      // console.log(this.bikes)
+
+
     })
 
     this.engineNumber = " ";

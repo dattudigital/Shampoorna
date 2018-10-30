@@ -66,13 +66,13 @@ export class InventoryAcknowledgeComponent implements OnInit {
     }
     console.log("********")
     console.log(val)
+    this.inventoryData.splice(index,1)
     this.service.addInventoryAssign(val).subscribe(res => {
       console.log(res.json());
     });
 
   }
   noAcknowledgement(data,index){
-    // this.inventoryData.splice(index,1)
     console.log(data)
     console.log(index)
     this.editData = data;
@@ -86,11 +86,9 @@ export class InventoryAcknowledgeComponent implements OnInit {
     }
     console.log("********")
     console.log(val)
+    this.inventoryData.splice(index,1)
     this.service.addInventoryAssign(val).subscribe(res => {
       console.log(res.json());
     });
-
   }
-
-
 }

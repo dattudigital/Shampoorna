@@ -38,8 +38,9 @@ export class IndentListComponent implements OnInit {
   editData: any = [];
   temp: any;
 
-  shippedBy= "";
-  shippedIn= "";
+  // shippedBy= "";
+  // shippedIn= "";
+  // shipStatus="";
 
 
   constructor(private router: Router, private service: IndentService, private dp: DatePipe, private http: Http) { }
@@ -105,8 +106,10 @@ export class IndentListComponent implements OnInit {
     this.router.navigate(['inventory']);
 
   }
-
+  indent_id ='';
   indent_req_id = '';
+  emp_id ='';
+  br_id ='';
   veh_color = '';
   veh_type = '';
   veh_make = '';
@@ -118,6 +121,9 @@ export class IndentListComponent implements OnInit {
   // updated_on = '';
   assignedby = '';
   status ='';
+  shipping_status='';
+  shipped_vechile_no='';
+  shipped_by='';
   // updatedby = '';
 
 
@@ -128,7 +134,10 @@ export class IndentListComponent implements OnInit {
     data.index = index;
     this.temp = index;
     console.log(this.editData[index].veh_color)
+    this.indent_id = this.editData[index].indent_id
     this.indent_req_id = this.editData[index].indent_req_id;
+    this.emp_id=this.editData[index].emp_id;
+    this.br_id=this.editData[index].br_id;
     this.veh_color = this.editData[index].veh_color;
     this.veh_type = this.editData[index].veh_type;
     this.veh_make = this.editData[index].veh_make;
@@ -137,6 +146,9 @@ export class IndentListComponent implements OnInit {
     this.assigned_qty = this.editData[index].assigned_qty;
     this.req_on_date = this.editData[index].req_on_date;
     this.assigned_on = this.editData[index].assigned_on;
+    this.shipping_status = this.editData[index].shipping_status;
+    this.shipped_vechile_no = this.editData[index].shipped_vechile_no;
+    this.shipped_by = this.editData[index].shipped_by;
     this.status = this.editData[index].status;
     // this.updated_on = this.editData[index].updated_on;
     this.assignedby = this.editData[index].assignedby;
@@ -147,20 +159,32 @@ export class IndentListComponent implements OnInit {
 
   updateIndent(){
     var data = {
+      indent_id:this.indent_id,
       indent_req_id: this.indent_req_id,
+      emp_id: this.emp_id,
+      br_id:this.br_id,
       veh_type: this.veh_type,
       veh_color: this.veh_color,
       veh_make: this.veh_make,
       veh_model: this.veh_model,
       req_qty: this.req_qty,
       assigned_qty: this.assigned_qty,
-      req_on_date: this.req_on_date,
+      //req_on_date: this.req_on_date,
       shippind_id: this.shipId,
-      shipped_by: this.shippedBy,
-      shipped_vechile_no: this.shippedIn,
-      status: this.status
+      shipped_by: this.shipped_by,
+      shipped_vechile_no: this.shipped_vechile_no,
+      shipping_status:this.shipping_status,
+      status:"0"
     }
     console.log(data)
+    this.service.addIndent(data).subscribe(res => {
+      console.log(res.json())
+      console.log(res.json().result)
+      console.log(this.temp)
+      this.indents.splice(this.temp, 1)
+      //this.indents.push(res,this.temp)
+      //this.indents[this.temp].indent_req_id = data.indent_req_id;
+    })
   }
 
   detailsGo() {
