@@ -15,7 +15,6 @@ export class LoginComponent implements OnInit {
   mailId = "";
   alerts: any[] = [];
  
-
   constructor(private http: HttpClient, private router: Router, private service:LoginService) { }
 
   ngOnInit() {
@@ -40,7 +39,6 @@ export class LoginComponent implements OnInit {
         }
       });
     } else {
-     
       this.alerts = [{
         type: 'danger',
         msg: `Invalid credentials`,
@@ -51,8 +49,5 @@ export class LoginComponent implements OnInit {
 
   loginPopUp() {
     $('#myModal').modal('show');    
-    }
-
-
-      
+    }   
 }

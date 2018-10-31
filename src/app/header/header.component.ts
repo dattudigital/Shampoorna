@@ -12,11 +12,12 @@ export class HeaderComponent implements OnInit {
 
 
   constructor(private router: Router) {
-    // if (this.router.url == '/sale-dashboard') {
-    //   $(document).ready(function () {
-    //     $("#__sale").addClass("active");
-    //   });
-    // }
+    
+    if (this.router.url == '/sale-dashboard') {
+      $(document).ready(function () {
+        $("#__sale").addClass("active");
+      });
+    }
 
     // if (this.router.url == '/inventory') {
     //   $(document).ready(function () {
@@ -31,18 +32,21 @@ export class HeaderComponent implements OnInit {
       });
     }
 
-    if (this.router.url == '/dashboard') {
-      this.removeActiveClass();
-      $(document).ready(function () {
-        $("#__sale").addClass("active");
-      });
-    }
+    // if (this.router.url == '/dashboard') {
+    //   this.removeActiveClass();
+    //   $(document).ready(function () {
+    //     $("#__sale").addClass("active");
+    //   });
+    // }
+
+    
     if (this.router.url == '/time-clocks') {
       this.removeActiveClass();
       $(document).ready(function () {
-        $("#__timeclock").addClass("active");
+        $("#__time-clocks").addClass("active");
       });
     }
+
     if (this.router.url == '/schedule') {
       this.removeActiveClass();
       $(document).ready(function () {
@@ -87,7 +91,7 @@ export class HeaderComponent implements OnInit {
     $(document).ready(function () {
       $("#__sale").removeClass("active");
       $("#__appt").removeClass("active");
-      $("#__timeclock").removeClass("active");
+      $("#__time-clocks").removeClass("active");
       $("#__schedule").removeClass("active");
       $("#__reports").removeClass("active");
       $("#__manager").removeClass("active");
@@ -136,4 +140,27 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  redirectToSetup(){
+    this.removeActiveClass();
+    this.router.navigate(['setup'])
+    $("#__setup").click(function () {
+      $("#__setup").addClass("active");
+    });
+  }
+
+  redirectToSchedule(){
+    this.removeActiveClass();
+    this.router.navigate(['schedule'])
+    $("#__schedule").click(function () {
+      $("#__schedule").addClass("active");
+    });
+  }
+
+  redirectToAppointment(){
+    this.removeActiveClass();
+    this.router.navigate(['appointments'])
+    $("#__appt").click(function () {
+      $("#__appt").addClass("active");
+    });
+  }
 }

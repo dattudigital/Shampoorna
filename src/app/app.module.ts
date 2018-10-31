@@ -42,22 +42,28 @@ import { SaleDashboardComponent } from './sale-dashboard/sale-dashboard.componen
 import { DcFormComponent } from './dashboard/dc-form/dc-form.component';
 import { ReportsComponent } from './reports/reports.component';
 import { InventoryAddPipe } from './pipe/inventory-add.pipe';
+import { AppointmentsComponent } from './appointments/appointments.component';
+import { ScheduleComponent } from './schedule/schedule.component';
+import { SetupComponent } from './setup/setup.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'sale-dashboard' , component:SaleDashboardComponent, canActivate: [AuthGuard] },
   { path: 'dashboard' , component:DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'appointments' , component:AppointmentsComponent, canActivate: [AuthGuard] },
+  { path: 'time-clocks' , component:TimeClockComponent, canActivate: [AuthGuard] },
+  { path: 'schedule' , component:ScheduleComponent, canActivate: [AuthGuard] },
   { path: 'reports' , component:ReportsComponent, canActivate: [AuthGuard] },
+  { path: 'manager/add-employee' , component:AddEmployeeComponent, canActivate: [AuthGuard] },
   { path: 'inventory' , component:InventoryComponent, canActivate: [AuthGuard], },
+  { path: 'setup' , component:SetupComponent, canActivate: [AuthGuard] },
   { path: 'inventory/vehicle-details' , component:VehicleDetailsComponent, canActivate: [AuthGuard] },
   { path: 'inventory/inventory-list' , component:InventoryListComponent, canActivate: [AuthGuard] },
   { path: 'inventory/indent-raising' , component:IndentRaisingComponent, canActivate: [AuthGuard] },
   { path: 'inventory/indent-list' , component:IndentListComponent, canActivate: [AuthGuard] },
   { path: 'inventory/inventory-assigning' , component:InventoryAssigningComponent, canActivate: [AuthGuard] },
   { path: 'inventory/inventory-acknowledge' , component:InventoryAcknowledgeComponent, canActivate: [AuthGuard] },
-  { path: 'time-clocks' , component:TimeClockComponent, canActivate: [AuthGuard] },
-  { path: 'manager/add-employee' , component:AddEmployeeComponent, canActivate: [AuthGuard] },
   { path: 'sale-details' , component:SaleDetailsComponent, canActivate: [AuthGuard] },
   { path: 'invoice-list' , component:InvoiceListComponent, canActivate: [AuthGuard] },
   { path: 'dc-form' , component:DcFormComponent, canActivate: [AuthGuard] },
@@ -84,7 +90,10 @@ const routes: Routes = [
     SaleDashboardComponent,
     DcFormComponent,
     ReportsComponent,
-    DcFormComponent
+    DcFormComponent,
+    AppointmentsComponent,
+    ScheduleComponent,
+    SetupComponent
     
   ],
   imports: [
