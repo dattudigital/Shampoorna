@@ -14,22 +14,18 @@ export class InventoryComponent implements OnInit {
   mailId = "";
   titleStyle = "hidden";
   errorMessage = false;
-  btnDisable=true;
-
+  btnDisable = true;
   alerts: any[] = [];
-
   test1: any;
-
 
   constructor(private router: Router, private http: HttpClient) { }
 
   ngOnInit() {
-    sessionStorage.removeItem('backBtnTimeclocks');     
+    sessionStorage.removeItem('backBtnTimeclocks');
     this.loginPopUp();
     if (sessionStorage.getItem('inventory-routing') == '"vehicle"') {
       this.vehicleDetailClick()
     } else if (sessionStorage.getItem('inventory-routing') == '"invlist"') {
-      console.log("click here");
       this.inventoryListClick();
     } else if (sessionStorage.getItem('inventory-routing') == '"raise"') {
       this.indentRaiseClick();
@@ -40,28 +36,23 @@ export class InventoryComponent implements OnInit {
     } else if (sessionStorage.getItem('inventory-routing') == '"invack"') {
       this.InventoryAckClick();
     }
-
   }
-
 
   errorClear() {
     this.errorMessage = false;
-    if(this.password && this.mailId){
-      this.btnDisable=false;
+    if (this.password && this.mailId) {
+      this.btnDisable = false;
     }
-    else{
-      this.btnDisable=true;
+    else {
+      this.btnDisable = true;
     }
   }
 
-
   loginPopUp() {
-
     if (sessionStorage.backBtnInventory) {
       $('#myModal').modal('hide');
       this.titleStyle = "visible";
     }
-
     else {
       $('#myModal').modal('show');
     }
@@ -75,18 +66,15 @@ export class InventoryComponent implements OnInit {
     if (sessionStorage.secondaryLoginData) {
       window.sessionStorage.removeItem('secondaryLoginData');
       //console.log('secondaryLoginData')
-
     }
     var data = {
       password: this.password,
       email_id: this.mailId
     }
-
     if (this.mailId && this.password) {
       console.log(data)
       this.http.post('http://ec2-54-88-194-105.compute-1.amazonaws.com:3005/time-clocks/login', data).subscribe(inData => {
         console.log(inData);
-
         this.test1 = inData;
         console.log(this.test1.result.emp_id)
         console.log(this.test1.status)
@@ -108,8 +96,6 @@ export class InventoryComponent implements OnInit {
       }];
     }
   }
-
-
 
   redirectToVehicle() {
     this.router.navigate(['inventory/vehicle-details']);
@@ -139,42 +125,48 @@ export class InventoryComponent implements OnInit {
     this.router.navigate(['dashboard']);
   }
 
-  vehicleDetailClick(){
+  vehicleDetailClick() {
     sessionStorage.setItem('inventory-routing', JSON.stringify("vehicle"));
     $(".vehicle-detail").trigger("click");
     this.removeClass();
     $(".vehicle-detail").addClass("active");
   }
-  inventoryListClick(){
+
+  inventoryListClick() {
     sessionStorage.setItem('inventory-routing', JSON.stringify("invlist"));
     $(".inventory-list").trigger("click");
     this.removeClass();
     $(".inventory-list").addClass("active");
   }
-  indentRaiseClick(){
+
+  indentRaiseClick() {
     sessionStorage.setItem('inventory-routing', JSON.stringify("raise"));
     $(".indent-raise").trigger("click");
     this.removeClass();
     $(".indent-raise").addClass("active");
   }
-  indentListClick(){
+
+  indentListClick() {
     sessionStorage.setItem('inventory-routing', JSON.stringify("indlist"));
     $(".indent-list").trigger("click");
     this.removeClass();
     $(".indent-list").addClass("active");
   }
-  invAssaignClick(){
+
+  invAssaignClick() {
     sessionStorage.setItem('inventory-routing', JSON.stringify("invassn"));
     $(".inventory-assn").trigger("click");
     this.removeClass();
     $(".inventory-assn").addClass("active");
   }
-  InventoryAckClick(){
+
+  InventoryAckClick() {
     sessionStorage.setItem('inventory-routing', JSON.stringify("invack"));
     $(".inventory-ack").trigger("click");
     this.removeClass();
     $(".inventory-ack").addClass("active");
   }
+
   removeClass() {
     $(".vehicle-detail").removeClass("active");
     $(".inventory-list").removeClass("active");
@@ -182,7 +174,6 @@ export class InventoryComponent implements OnInit {
     $(".indent-list").removeClass("active");
     $(".inventory-assn").removeClass("active");
     $(".inventory-ack").removeClass("active");
-
   }
 
 }
