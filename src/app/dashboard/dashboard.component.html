@@ -30,7 +30,7 @@
 								<input type="radio" name="optradio" (click)="csdUserClick()">
 								<label style="font-size:16px">CSD</label>
 							</div>
-							<div class="col-sm-3" style="margin-bottom: 5px;" >
+							<div class="col-sm-3" style="margin-bottom: 5px;">
 								<button type="button" class="btn btn-success" (click)="redirectToSalesDetails()">View Sales</button>
 							</div>
 						</div>
@@ -588,7 +588,7 @@
 							<input type="file" name="address" accept="image/*" (change)="getFileDetails($event,'a')">
 						</div>
 						<div class="col-sm-3">
-							<img [src]="addressPreview" height="50">
+							<img *ngIf="addressPreview" [src]="addressPreview.result" height="50">
 							<br/>
 						</div>
 					</div>
@@ -600,7 +600,7 @@
 							<input type="file" name="idproof" accept="image/*" (change)="getFileDetails($event,'i')">
 						</div>
 						<div class="col-sm-3">
-							<img [src]="idpreview" height="50">
+							<img *ngIf="idpreview" [src]="idpreview.result" height="50">
 						</div>
 					</div>
 					<div *ngFor="let bank of banks;let i=index">
@@ -631,6 +631,10 @@
 						</label>
 						<div class="col-sm-5">
 							<input type="file" name="cheque" accept="image/*" (change)="getFileDetails($event,'c')">
+						</div>
+						<div class="col-sm-3">
+							<img *ngIf="chequepreview" [src]="chequepreview.result" height="50">
+							<br/>
 						</div>
 					</div>
 
