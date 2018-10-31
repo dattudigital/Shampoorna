@@ -347,7 +347,6 @@ export class DashboardComponent implements OnInit {
       this.onRoadPrice = parseInt(this.vehicleBasic) + this.taxAmount;
       console.log(this.onRoadPrice)
 
-
     }
   }
 
@@ -391,9 +390,9 @@ export class DashboardComponent implements OnInit {
     console.log(this.paymentEmi.bank_statement);
   }
   //remaining files upload and preview
-  addressPreview = '';
-  idpreview = '';
-  chequepreview = '';
+  addressPreview :any;
+  idpreview :any;
+  chequepreview :any;
   getFileDetails(event, text1) {
     this.currentImage = text1;
     console.log(this.currentImage);
@@ -418,7 +417,7 @@ export class DashboardComponent implements OnInit {
       this.paymentEmi.addressFileName = file.name;
       console.log( this.paymentEmi.addressFileName)
       reader.onload = (event) => { // called once readAsDataURL is completed
-        // this.addressPreview = event.target.result;
+        this.addressPreview = event.target;
       }
     }
     //for image preview
@@ -429,17 +428,16 @@ export class DashboardComponent implements OnInit {
       this.paymentEmi.idProofName = file.name;
       console.log(this.paymentEmi.idProofName)
       reader.onload = (event) => { // called once readAsDataURL is completed
-        //this.idpreview = event.target.result;
+        this.idpreview = event.target;   
       }
     }
     if (event.target.files && event.target.files[0] && this.currentImage === 'c') {
       var reader = new FileReader();
-
       reader.readAsDataURL(event.target.files[0]); // read file as data url
       this.paymentEmi.chequeFileName = file.name;
       console.log(this.paymentEmi.chequeFileName);
       reader.onload = (event) => { // called once readAsDataURL is completed
-        //this.chequepreview = event.target.result;
+        this.chequepreview = event.target;
       }
     }
   }
@@ -452,7 +450,9 @@ export class DashboardComponent implements OnInit {
     }
 
     if (this.currentImage === 'i') {
+    
       var binaryString = readerEvt.target.result;
+    
       this.paymentEmi.idProof = btoa(binaryString);
       console.log(this.paymentEmi.idProof)
     }
