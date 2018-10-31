@@ -1,642 +1,656 @@
 <!-- <div class="tabs-services"> -->
-	
-	<div class="tab-content" id="myTabContent">
-		<div id="sales" role="tabpanel" aria-labelledby="sales-tab">
-			<div class="sales-tab">
-				<div class="sales-tab1">
-					<div class="col-md-12 col-sm-12 sales-tab-left">
-						<div class="stl-title">
-							<h2>Welcome - Shampoorna
-								<span>
-									<span id="demonew"></span>&nbsp;&nbsp;
-									<strong>
-										<span id="demo"></span>
-									</strong>
-								</span>
-							</h2>
-						</div>
-						<br>
-						<div class="row">
-							<div class="container">
-								<div class="col-sm-3">
-									<input type="radio" name="optradio" (click)="newUserClick() " checked>
-									<label style="font-size:16px">New</label>
-								</div>
-								<div class="col-sm-3">
-									<input type="radio" name="optradio" (click)="exchangeUserClick()">
-									<label style="font-size:16px">Exchange</label>
-								</div>
-								<div class="col-sm-3">
-									<input type="radio" name="optradio" (click)="csdUserClick()">
-									<label style="font-size:16px">CSD</label>
-								</div>
-								<div class="col-sm-3">
-									<button type="button" class="btn btn-success" (click)="redirectToSalesDetails()">View Sales</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="clear"></div>
-				</div>
-			</div>
-			<div class="clear"></div>
-		</div>
-	</div>
-	<div class="clear"></div>
 
-	<div *ngIf="newUser || exchangeUser || csdUser">
-		<div class="personal-info">
-			<div class="container">
-				<div class="col-sm-6">
-					<h3>Personal Information</h3>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Name of the Customer
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<input type="text" (keypress)="omit_special_char($event)"  name="name" maxlength="50" class="form-control" [(ngModel)]="name" >
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Display Name On RC
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<input type="text" (keypress)="omit_special_char($event)" name="rcname" maxlength="50" class="form-control" [(ngModel)]="nameOnRc">
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Date Of Birth
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<!-- <input type="date" name="dob"  [(ngModel)]="dob" placeholder="dd/mm/yy"> -->
-							<p-calendar [(ngModel)]="date1" name="dob" [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2030" [inputStyle]="{'width':'190px'}"
-							 [showIcon]="true" [(ngModel)]="dob" dateFormat="dd-mm-yy" (ngModelChange)=" getreqDate($event)"></p-calendar>
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Father/Daughter/Wife
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<input type="text" (keypress)="omit_special_char($event)" name="relation" maxlength="50" class="form-control" [(ngModel)]="relationName">
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Address
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<textarea class="form-control" (keypress)="omit_special_char($event)" maxlength="1000" rows="2" name="address" style="padding-left:1.6em" [(ngModel)]="address"></textarea>
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Mandal
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<input type="text"  (keypress)="omit_special_char($event)" name="mandal" maxlength="50" class="form-control" [(ngModel)]="mandal">
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Pincode
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<input type="number" (keypress)="omit_special_char($event)" min="0"  name="pincode" maxlength="50" class="form-control" [(ngModel)]="pincode">
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">District Name
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<input type="text" (keypress)="omit_special_char($event)" name="district" maxlength="50" class="form-control" [(ngModel)]="districtName">
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Mobile
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<input type="number" (keypress)="omit_special_char($event)" min="0" name="mobile"  maxlength="50" class="form-control" [(ngModel)]="mobile">
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Address Proof
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-
-							<select name="state" class="form-control" [(ngModel)]="addressProof">
-								<option value="" disabled select>Select</option>
-								<option value="aadhar">Aadhar Card</option>
-								<option value="license">License</option>
-								<option value="voter">Voter Id</option>
-								<option value="ration">Ration Card</option>
-								<option value="current">Current Bill</option>
-								<option value="water">Water Bill</option>
-								<option value="gas">Gas Bill</option>
-								<option value="mobile">Mobile Postpaid </option>
-							</select>
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required"></label>
-						<div class="col-sm-5">
-							<input type="text" (keypress)="omit_special_char($event)" name="aadharNumber" maxlength="50" class="form-control" [(ngModel)]="addressProofNo">
-						</div>
-					</div>
-					<div class=" row form-group">
-						<label class="col-sm-4 col-form-label required">passport size photo
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<input type="file" name="photo" accept="image/*" (change)="getFileDetails($event,'p')">
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6">
-					<h3>Vehicle Information</h3>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Engine No
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<input type="text" (keypress)="omit_special_char($event)" name="Engine" maxlength="50" [(ngModel)]="selectedValue" [(ngModel)]="vehicleEngineNo" (ngModelChange)='engineSearch($event)'
-							 [typeahead]="vehicleInfo" typeaheadOptionField="vehicle_engineno" (typeaheadOnSelect)="onSelect($event)" class="form-control">
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Frame No
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<input type="text" (keypress)="omit_special_char($event)" name="frame" maxlength="50" class="form-control" [(ngModel)]="vehicleFrameNo">
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">DC No
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<input type="text" (keypress)="omit_special_char($event)" name="dcnum" maxlength="50" class="form-control" [(ngModel)]="vehicleDcNo">
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Key No
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<input type="text" (keypress)="omit_special_char($event)" name="keyno" maxlength="50" class="form-control"  [(ngModel)]="vehicleKeyNo">
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Vehicle Color</label>
-						<div class="col-sm-5">
-							<input type="text" (keypress)="omit_special_char($event)" name="color" maxlength="50" class="form-control" [(ngModel)]="vehicleColor">
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Nominee Name
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<input type="text" (keypress)="omit_special_char($event)" name="nomini" maxlength="50" class="form-control" [(ngModel)]="nomineeName">
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Second vehicle
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<div class="form-check pull-left">
-								<input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-							</div>
-						</div>
-					</div>
-					<div class="row form-group">
-						<div class="col-sm-12">
-							<h3>Pricing</h3>
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-3 col-form-label required">ON ROAD PRICE
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-2">
-							<div class="input-group">
-								<input type="text" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleBasic">
-								<span>Basic Price</span>
-							</div>
-						</div>
-						<div class="col-sm-1">
-							<span>+</span>
-						</div>
-						<div class="col-sm-2">
-							<div class="input-group">
-								<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="lifeTaxAmount" readonly>
-								<span>Life Tax</span>
-							</div>
-						</div>
-						<div class="col-sm-1">
-							<span>+</span>
-						</div>
-						<div class="col-sm-2">
-							<div class="input-group">
-								<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleInsuAmount" readonly>
-								<span>insurance</span>
-							</div>
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-3 col-form-label required"> </label>
-						<div class="col-sm-2">
-							<div class="input-group">
-								<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="handlingC" (ngModelChange)="addTotalTax()">
-
-								<span> Handling C</span>
-							</div>
-						</div>
-						<div class="col-sm-1">
-							<span>+</span>
-						</div>
-						<div class="col-sm-2">
-							<div class="input-group">
-								<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleReg" (ngModelChange)="addTotalTax()">
-								<span> Registration</span>
-							</div>
-						</div>
-						<div class="col-sm-1">
-							<span>+</span>
-						</div>
-						<div class="col-sm-2">
-							<div class="input-group">
-								<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleWarranty" (ngModelChange)="addTotalTax()">
-								<span>warranty</span>
-							</div>
-						</div>
-					</div>
-					<div class="row form-group">
-						<label class="col-sm-3 col-form-label required"> </label>
-						<div class="col-sm-2">
-							<div class="input-group">
-								<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleAcc" (ngModelChange)="addTotalTax()">
-
-								<span>Accessories</span>
-							</div>
-						</div>
-						<div class="col-sm-1">
-							<span>+</span>
-						</div>
-						<div class="col-sm-2">
-							<div class="input-group">
-								<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="Hp" (ngModelChange)="addTotalTax()">
-								<span> HP</span>
-							</div>
-						</div>
-						<div class="col-sm-1">
-							<span>-</span>
-						</div>
-						<div class="col-sm-2">
-							<div class="input-group">
-								<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="discount" (ngModelChange)="addTotalTax();approvedEmpEnable()">
-								<span>Discount</span>
-							</div>
-						</div>
+<div class="tab-content" id="myTabContent">
+	<div id="sales" role="tabpanel" aria-labelledby="sales-tab">
+		<div class="sales-tab">
+			<div class="sales-tab1">
+				<div class="col-md-12 col-sm-12 sales-tab-left">
+					<div class="stl-title">
+						<h2>Welcome - Shampoorna
+							<span>
+								<span id="demonew"></span>&nbsp;&nbsp;
+								<strong>
+									<span id="demo"></span>
+								</strong>
+							</span>
+						</h2>
 					</div>
 					<br>
-					<div class="tableShow" [style.visibility]="disableApprovedBy">
-						<div class="row form-group">
-							<label class="col-sm-4 col-form-label required">Discount Approved By
-								<span style="color:red">*</span>
-							</label>
-							<div class="col-sm-5">
-								<select name="emp" class="form-control" [(ngModel)]="discountApprovedBy">
-									<option value="" disabled select>select</option>
-									<option *ngFor="let manager of branchManagerData" [ngValue]="manager.employee_id">{{manager.employee_firstname}}</option>
-								</select>
+					<div class="row">
+						<div class="container">
+							<div class="col-sm-3">
+								<input type="radio" name="optradio" (click)="newUserClick() " checked>
+								<label style="font-size:16px">New</label>
+							</div>
+							<div class="col-sm-3">
+								<input type="radio" name="optradio" (click)="exchangeUserClick()">
+								<label style="font-size:16px">Exchange</label>
+							</div>
+							<div class="col-sm-3">
+								<input type="radio" name="optradio" (click)="csdUserClick()">
+								<label style="font-size:16px">CSD</label>
+							</div>
+							<div class="col-sm-3" style="margin-bottom: 5px;" >
+								<button type="button" class="btn btn-success" (click)="redirectToSalesDetails()">View Sales</button>
 							</div>
 						</div>
 					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Total Amount
-						</label>
-						<div class="col-sm-5">
-							<input type="number" min="0" name="model" maxlength="50" class="form-control" [(ngModel)]="basicwithTax">
-						</div>
-					</div>
-					<br>
-
 				</div>
-
-				<div class="col-sm-12">
-					<div class="pr-style">
-						<div class="col-sm-4">
-							<label>PR-</label> &nbsp;&nbsp;
-							<input type="radio" name="pr">Yes &nbsp;&nbsp;
-							<input type="radio" name="pr">No &nbsp;&nbsp;
-						</div>
-						<div class="col-sm-4">
-							<label>Accessories-</label> &nbsp;&nbsp;
-							<input type="radio" name="accessories" [(ngModel)]="selectedRadio" value="y">Yes &nbsp;&nbsp;
-
-							<input type="radio" name="accessories">No &nbsp;&nbsp;
-							<div class="new-text" *ngIf="selectedRadio == 'y'">
-								<textarea class="form-control" maxlength="1000" rows="2" name="address"></textarea>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<label>Extended Warranty-</label> &nbsp;&nbsp;
-							<input type="radio" name="extended">Yes &nbsp;&nbsp;
-							<input type="radio" name="extended">No &nbsp;&nbsp;
-						</div>
-					</div>
-				</div>
+				<div class="clear"></div>
 			</div>
-			<div class="clear"></div>
 		</div>
+		<div class="clear"></div>
 	</div>
+</div>
+<div class="clear"></div>
 
-	<div class="csd-form" *ngIf="csdUser">
+<div *ngIf="newUser || exchangeUser || csdUser">
+	<div class="personal-info">
 		<div class="container">
-			<div class="col-sm-8" style="padding-top:20px">
-				<div class=" row form-group">
-					<label class="col-sm-4 col-form-label required">Pay Order
+			<div class="col-sm-6">
+				<h3>Personal Information</h3>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Name of the Customer
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="file" name="idproof" accept="image/*">
+						<input type="text" (keypress)="omit_special_char($event)" name="name" maxlength="50" class="form-control" [(ngModel)]="name">
 					</div>
 				</div>
-				<div class=" row form-group">
-					<label class="col-sm-4 col-form-label required">Delivery from showroom
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Display Name On RC
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="file" name="idproof" accept="image/*">
+						<input type="text" (keypress)="omit_special_char($event)" name="rcname" maxlength="50" class="form-control" [(ngModel)]="nameOnRc">
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Date Of Birth
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<!-- <input type="date" name="dob"  [(ngModel)]="dob" placeholder="dd/mm/yy"> -->
+						<p-calendar [(ngModel)]="date1" name="dob" [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2030" [inputStyle]="{'width':'190px'}"
+						 [showIcon]="true" [(ngModel)]="dob" dateFormat="dd-mm-yy" (ngModelChange)=" getreqDate($event)"></p-calendar>
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Father/Daughter/Wife
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="text" (keypress)="omit_special_char($event)" name="relation" maxlength="50" class="form-control" [(ngModel)]="relationName">
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Address
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<textarea class="form-control" (keypress)="omit_special_char($event)" maxlength="1000" rows="2" name="address" style="padding-left:1.6em"
+						 [(ngModel)]="address"></textarea>
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Mandal
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="text" (keypress)="omit_special_char($event)" name="mandal" maxlength="50" class="form-control" [(ngModel)]="mandal">
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Pincode
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="number" (keypress)="omit_special_char($event)" min="0" name="pincode" maxlength="50" class="form-control" [(ngModel)]="pincode">
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">District Name
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="text" (keypress)="omit_special_char($event)" name="district" maxlength="50" class="form-control" [(ngModel)]="districtName">
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Mobile
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="number" (keypress)="omit_special_char($event)" min="0" name="mobile" maxlength="50" class="form-control" [(ngModel)]="mobile">
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Address Proof
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+
+						<select name="state" class="form-control" [(ngModel)]="addressProof">
+							<option value="" disabled select>Select</option>
+							<option value="aadhar">Aadhar Card</option>
+							<option value="license">License</option>
+							<option value="voter">Voter Id</option>
+							<option value="ration">Ration Card</option>
+							<option value="current">Current Bill</option>
+							<option value="water">Water Bill</option>
+							<option value="gas">Gas Bill</option>
+							<option value="mobile">Mobile Postpaid </option>
+						</select>
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required"></label>
+					<div class="col-sm-5">
+						<input type="text" (keypress)="omit_special_char($event)" name="aadharNumber" maxlength="50" class="form-control" [(ngModel)]="addressProofNo">
+					</div>
+				</div>
+				<div class=" row form-group">
+					<label class="col-sm-4 col-form-label required">passport size photo
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="file" name="photo" accept="image/*" (change)="getFileDetails($event,'p')">
 					</div>
 				</div>
 			</div>
-			<div class="clear"></div>
-			<div class="row form-group">
-				<div claas="container">
-					<button type="submit" class="btn btn-warning" style="float:right;margin-right: 20%">Submit</button>
+			<div class="col-sm-6">
+				<h3>Vehicle Information</h3>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Engine No
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="text" (keypress)="omit_special_char($event)" name="Engine" maxlength="50" [(ngModel)]="selectedValue" [(ngModel)]="vehicleEngineNo"
+						 (ngModelChange)='engineSearch($event)' [typeahead]="vehicleInfo" typeaheadOptionField="vehicle_engineno" (typeaheadOnSelect)="onSelect($event)"
+						 class="form-control">
+					</div>
 				</div>
-			</div>
-		</div>
-	</div>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Frame No
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="text" (keypress)="omit_special_char($event)" name="frame" maxlength="50" class="form-control" [(ngModel)]="vehicleFrameNo">
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">DC No
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="text" (keypress)="omit_special_char($event)" name="dcnum" maxlength="50" class="form-control" [(ngModel)]="vehicleDcNo">
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Key No
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="text" (keypress)="omit_special_char($event)" name="keyno" maxlength="50" class="form-control" [(ngModel)]="vehicleKeyNo">
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Vehicle Color</label>
+					<div class="col-sm-5">
+						<input type="text" (keypress)="omit_special_char($event)" name="color" maxlength="50" class="form-control" [(ngModel)]="vehicleColor">
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Nominee Name
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="text" (keypress)="omit_special_char($event)" name="nomini" maxlength="50" class="form-control" [(ngModel)]="nomineeName">
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Second vehicle
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<div class="form-check pull-left">
+							<input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+						</div>
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-sm-12">
+						<h3>Pricing</h3>
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-3 col-form-label required">ON ROAD PRICE
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-2">
+						<div class="input-group">
+							<input type="text" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleBasic">
+							<span>Basic Price</span>
+						</div>
+					</div>
+					<div class="col-sm-1">
+						<span>+</span>
+					</div>
+					<div class="col-sm-2">
+						<div class="input-group">
+							<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="lifeTaxAmount" readonly>
+							<span>Life Tax</span>
+						</div>
+					</div>
+					<div class="col-sm-1">
+						<span>+</span>
+					</div>
+					<div class="col-sm-2">
+						<div class="input-group">
+							<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleInsuAmount" readonly>
+							<span>insurance</span>
+						</div>
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-3 col-form-label required"> </label>
+					<div class="col-sm-2">
+						<div class="input-group">
+							<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="handlingC" (ngModelChange)="addTotalTax()">
 
-	<div *ngIf="exchangeUser">
-		<div class="personal-info">
-			<div class="container">
-				<div class="col-sm-12">
-					<h3>Exchange</h3>
-				</div>
-				<div class="col-sm-6">
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Vehicle No
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<input type="number" min="0" name="exchange" maxlength="50" class="form-control" [(ngModel)]="exchangevehicleNo">
+							<span> Handling C</span>
 						</div>
 					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Engine No
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<input type="text" name="disbursement" maxlength="50" class="form-control" [(ngModel)]="exchangeEngineNo">
+					<div class="col-sm-1">
+						<span>+</span>
+					</div>
+					<div class="col-sm-2">
+						<div class="input-group">
+							<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleReg" (ngModelChange)="addTotalTax()">
+							<span> Registration</span>
 						</div>
 					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">frame No
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<input type="text" name="payment" maxlength="50" class="form-control" [(ngModel)]="exchangeFrameNo">
-						</div>
+					<div class="col-sm-1">
+						<span>+</span>
 					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Vehicle Color
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<input type="text" name="color" maxlength="50" class="form-control" [(ngModel)]="exchangeVehicleColor">
+					<div class="col-sm-2">
+						<div class="input-group">
+							<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleWarranty" (ngModelChange)="addTotalTax()">
+							<span>warranty</span>
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-6">
+				<div class="row form-group">
+					<label class="col-sm-3 col-form-label required"> </label>
+					<div class="col-sm-2">
+						<div class="input-group">
+							<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleAcc" (ngModelChange)="addTotalTax()">
 
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Vehicle Model
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<input type="text" name="model" maxlength="50" class="form-control" [(ngModel)]="exchangeVehicleModel">
+							<span>Accessories</span>
 						</div>
 					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Customer Name
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<input type="text" name="vat" maxlength="50" class="form-control" [(ngModel)]="vehiclecustomerName">
+					<div class="col-sm-1">
+						<span>+</span>
+					</div>
+					<div class="col-sm-2">
+						<div class="input-group">
+							<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="Hp" (ngModelChange)="addTotalTax()">
+							<span> HP</span>
 						</div>
 					</div>
-					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required"> Exchange Amount
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-5">
-							<input type="text" name="vat" maxlength="50" class="form-control" [(ngModel)]="exchangeAmount">
+					<div class="col-sm-1">
+						<span>-</span>
+					</div>
+					<div class="col-sm-2">
+						<div class="input-group">
+							<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="discount" (ngModelChange)="addTotalTax();approvedEmpEnable()">
+							<span>Discount</span>
 						</div>
 					</div>
+				</div>
+				<br>
+				<div class="tableShow" [style.visibility]="disableApprovedBy">
 					<div class="row form-group">
-						<label class="col-sm-4 col-form-label required">Exchange Amount Approved By
+						<label class="col-sm-4 col-form-label required">Discount Approved By
 							<span style="color:red">*</span>
 						</label>
 						<div class="col-sm-5">
-							<select name="state" class="form-control" [(ngModel)]="exchangeAmountApprovedBy">
+							<select name="emp" class="form-control" [(ngModel)]="discountApprovedBy">
 								<option value="" disabled select>select</option>
 								<option *ngFor="let manager of branchManagerData" [ngValue]="manager.employee_id">{{manager.employee_firstname}}</option>
 							</select>
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
-	</div>
-	<div *ngIf="newUser || exchangeUser">
-		<div class="payment-mode">
-			<div class="container">
-				<div class="col-sm-6">
-					<h3>Payment Mode</h3>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Total Amount
+					</label>
+					<div class="col-sm-5">
+						<input type="number" min="0" name="model" maxlength="50" class="form-control" [(ngModel)]="basicwithTax">
+					</div>
 				</div>
-				<div class="col-sm-12">
-					<div class="row form-group">
-						<label class="col-sm-3 col-form-label required">Payment Mode
-							<span style="color:red">*</span>
-						</label>
-						<div class="col-sm-3">
-							<select name="state" class="form-control" [(ngModel)]="selectedOption">
-								<option value="select" disabled select>Select</option>
-								<option value="cash">Cash</option>
-								<option value="emi">EMI</option>
-							</select>
+				<br>
+
+			</div>
+
+			<div class="col-sm-12">
+				<div class="pr-style">
+					<div class="col-sm-4">
+						<label>PR-</label> &nbsp;&nbsp;
+						<input type="radio" name="pr">Yes &nbsp;&nbsp;
+						<input type="radio" name="pr">No &nbsp;&nbsp;
+					</div>
+					<div class="col-sm-4">
+						<label>Accessories-</label> &nbsp;&nbsp;
+						<input type="radio" name="accessories" [(ngModel)]="selectedRadio" value="y">Yes &nbsp;&nbsp;
+
+						<input type="radio" name="accessories">No &nbsp;&nbsp;
+						<div class="new-text" *ngIf="selectedRadio == 'y'">
+							<textarea class="form-control" maxlength="1000" rows="2" name="address"></textarea>
 						</div>
 					</div>
-					<div class="cash-form" *ngIf="selectedOption == 'cash'">
-
-						<div class="row form-group">
-							<div class="col-sm-3">
-								<input type="checkbox" name="myChk" id="myChk" for="myTxt" [(ngModel)]="cheque" (change)="triggerSomeEvent();addTotalAmount()"
-								/>Cheque
-								<div class="tableShow" [style.visibility]="isDisabled">
-									   
-									<span>Amount:</span>
-									<input type="number" min="0" name="myTxt" id="myTxt" value="" [(ngModel)]="chequeAmount" (ngModelChange)="addTotalAmount()">
-										 <br/><br/>
-										 <span>ChequNo:</span>
-									<input type="text" name="chequeNo">
-								</div>
-							</div>
-							<div class="col-sm-1"></div>
-							<div class="col-sm-3">
-								<input type="checkbox" name="myChk" id="myChk" for="cash" [(ngModel)]="cash" (change)="cashChangeEvent();addTotalAmount()"
-								/>Cash
-								<div class="tableShow" [style.visibility]="disableCash">
-									<input type="number" name="cash" id="cash" value="" [(ngModel)]="cashAmount" (ngModelChange)="addTotalAmount()">
-								</div>
-							</div>
-							<div class="col-sm-1"></div>
-							<div class="col-sm-3">
-								<input type="checkbox" name="myChk" id="myChk" for="credit" [(ngModel)]="creditCard" (change)="creditCardEvent();addTotalAmount()"
-								/>Credit Card
-								<div class="tableShow" [style.visibility]="disableCredit">
-									<input type="number" min="0" name="credit" id="credit" value="" [(ngModel)]="creditcardAmount" (ngModelChange)="addTotalAmount()">
-								</div>
-							</div>
-							<div class="col-sm-1"></div>
-							<div class="payment">
-								<div class="col-sm-3">
-									<input type="checkbox" name="myChk" id="myChk" for="bank" [(ngModel)]="accountTranfer" (change)="tranferEvent();addTotalAmount()"
-									/>Account Transfer
-									<div class="tableShow" [style.visibility]="disableTransfer">
-										<input type="number" min="0" name="credit" id="bank" value="" [(ngModel)]="accountTransferAmount" (ngModelChange)="addTotalAmount()">
-									</div>
-								</div>
-								<div class="col-sm-1"></div>
-								<div class="col-sm-3">
-									<input type="checkbox" name="myChk" id="myChk" for="other" [(ngModel)]="other" (change)="otherEvent();addTotalAmount()" />Other
-									<div class="tableShow" [style.visibility]="disableOther">
-										<input type="number" min="0" name="other" id="other" value="" [(ngModel)]="otherAmount" (ngModelChange)="addTotalAmount()">
-									</div>
-								</div>
-								<div class="col-sm-1"></div>
-								<div class="col-sm-3">
-									<div class="input-group">
-										<input type="number"  min="0"name="total" maxlength="50" class="form-control" [(ngModel)]="cashTotal">
-										<span>Total</span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<br>
-						<br>
-
-					</div>
-					<div class="emi-form" *ngIf="selectedOption == 'emi'">
-						<div class=" row form-group">
-							<label class="col-sm-4 col-form-label required">Financial Name
-								<span style="color:red">*</span>
-							</label>
-							<div class="col-sm-3">
-								<input type="text" (keypress)="omit_special_char($event)" name="cost" maxlength="50" class="form-control" [(ngModel)]="paymentEmi.financialName">
-							</div>
-						</div>
-						<div class=" row form-group">
-							<label class="col-sm-4 col-form-label required">Down Payment
-								<span style="color:red">*</span>
-							</label>
-							<div class="col-sm-3">
-								<input type="number" min="0" name="down" maxlength="50" class="form-control" [(ngModel)]="paymentEmi.downPayment">
-							</div>
-						</div>
-						<div class=" row form-group">
-							<label class="col-sm-4 col-form-label required">Address Proof
-								<span style="color:red">*</span>
-							</label>
-							<div class="col-sm-5">
-								<input type="file" name="address" accept="image/*" (change)="getFileDetails($event,'a')">
-							</div>
-							<div class="col-sm-3">
-								<img [src]="addressPreview" height="50">
-								<br/>
-							</div>
-						</div>
-						<div class=" row form-group">
-							<label class="col-sm-4 col-form-label required">ID Proof
-								<span style="color:red">*</span>
-							</label>
-							<div class="col-sm-5">
-								<input type="file" name="idproof" accept="image/*" (change)="getFileDetails($event,'i')">
-							</div>
-							<div class="col-sm-3">
-								<img [src]="idpreview" height="50">
-							</div>
-						</div>
-						<div *ngFor="let bank of banks;let i=index">
-							<div class=" row form-group">
-								<label class="col-sm-4 col-form-label required">Bank statement
-									<span style="color:red">*</span>
-								</label>
-								<div class="col-sm-5">
-									<input type="file" name="bank" multiple accept="image/*" (change)="getBankDetails($event)">
-								</div>
-								<div *ngIf="i !==0">
-									<div class="col-sm-1">
-										<div class="delete-button">
-											<button type="submit" class="btn btn-danger" (click)="deleteBankStatement(i)">Delete</button>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-1">
-									<div class="add-button">
-										<button type="submit" class="btn btn-success" (click)="addBankStatement(bank,i)">Add</button>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class=" row form-group">
-							<label class="col-sm-4 col-form-label required">cheque
-								<span style="color:red">*</span>
-							</label>
-							<div class="col-sm-5">
-								<input type="file" name="cheque" accept="image/*" (change)="getFileDetails($event,'c')">
-							</div>
-						</div>
-
+					<div class="col-sm-4">
+						<label>Extended Warranty-</label> &nbsp;&nbsp;
+						<input type="radio" name="extended">Yes &nbsp;&nbsp;
+						<input type="radio" name="extended">No &nbsp;&nbsp;
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="clear"></div>
 	</div>
-	<div *ngIf="newUser ">
-		<div class="row form-group">
-			<div claas="container">
-				<button type="submit" class="btn btn-warning" (click)="savePaymentEmi()" style="float:right;margin-right: 20%">Submit</button>
-			</div>
-		</div>
-	</div>
-	<div *ngIf=" exchangeUser">
-		<div class="row form-group">
-			<div claas="container">
-				<button type="submit" class="btn btn-warning" style="float:right;margin-right: 20%" (click)="saveUserDeatils()">Submit</button>
-			</div>
-		</div>
-	</div>
+</div>
 
+<div class="csd-form" *ngIf="csdUser">
+	<div class="container">
+		<div class="col-sm-8" style="padding-top:20px">
+			<div class=" row form-group">
+				<label class="col-sm-4 col-form-label required">Pay Order
+					<span style="color:red">*</span>
+				</label>
+				<div class="col-sm-5">
+					<input type="file" name="idproof" accept="image/*">
+				</div>
+			</div>
+			<div class=" row form-group">
+				<label class="col-sm-4 col-form-label required">Delivery from showroom
+					<span style="color:red">*</span>
+				</label>
+				<div class="col-sm-5">
+					<input type="file" name="idproof" accept="image/*">
+				</div>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="row form-group">
+			<div claas="container">
+				<button type="submit" class="btn btn-warning" style="float:right;margin-right: 20%">Submit</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div *ngIf="exchangeUser">
+	<div class="personal-info">
+		<div class="container">
+			<div class="col-sm-12">
+				<h3>Exchange</h3>
+			</div>
+			<div class="col-sm-6">
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Vehicle No
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="number" min="0" name="exchange" maxlength="50" class="form-control" [(ngModel)]="exchangevehicleNo">
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Engine No
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="text" name="disbursement" maxlength="50" class="form-control" [(ngModel)]="exchangeEngineNo">
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">frame No
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="text" name="payment" maxlength="50" class="form-control" [(ngModel)]="exchangeFrameNo">
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Vehicle Color
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="text" name="color" maxlength="50" class="form-control" [(ngModel)]="exchangeVehicleColor">
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Vehicle Model
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="text" name="model" maxlength="50" class="form-control" [(ngModel)]="exchangeVehicleModel">
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Customer Name
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="text" name="vat" maxlength="50" class="form-control" [(ngModel)]="vehiclecustomerName">
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required"> Exchange Amount
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="text" name="vat" maxlength="50" class="form-control" [(ngModel)]="exchangeAmount">
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Exchange Amount Approved By
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<select name="state" class="form-control" [(ngModel)]="exchangeAmountApprovedBy">
+							<option value="" disabled select>select</option>
+							<option *ngFor="let manager of branchManagerData" [ngValue]="manager.employee_id">{{manager.employee_firstname}}</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div *ngIf="newUser || exchangeUser">
+	<div class="payment-mode">
+		<div class="container">
+			<div class="col-sm-6">
+				<h3>Payment Mode</h3>
+			</div>
+			<div class="col-sm-12">
+				<div class="row form-group">
+					<label class="col-sm-3 col-form-label required">Payment Mode
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-3">
+						<select name="state" class="form-control" [(ngModel)]="selectedOption">
+							<option value="select" disabled select>Select</option>
+							<option value="cash">Cash</option>
+							<option value="emi">EMI</option>
+						</select>
+					</div>
+				</div>
+				<div class="cash-form" *ngIf="selectedOption == 'cash'">
+
+					<div class="row form-group">
+						<div class="col-sm-3">
+							<input type="checkbox" name="myChk" id="myChk" for="myTxt" [(ngModel)]="cheque" (change)="triggerSomeEvent();addTotalAmount()"
+							/>Cheque
+							<div class="tableShow" [style.visibility]="isDisabled">
+
+								<span>Amount:</span>
+								<input type="number" min="0" name="myTxt" id="myTxt" value="" [(ngModel)]="chequeAmount" (ngModelChange)="addTotalAmount()">
+								<br/>
+								<br/>
+								<span>ChequNo:</span>
+								<input type="text" name="chequeNo">
+							</div>
+						</div>
+						<div class="col-sm-1"></div>
+						<div class="col-sm-3">
+							<input type="checkbox" name="myChk" id="myChk" for="cash" [(ngModel)]="cash" (change)="cashChangeEvent();addTotalAmount()"
+							/>Cash
+							<div class="tableShow" [style.visibility]="disableCash">
+								<span>Amount:</span>
+								<input type="number" name="cash" id="cash" value="" [(ngModel)]="cashAmount" (ngModelChange)="addTotalAmount()">
+							</div>
+						</div>
+						<div class="col-sm-1"></div>
+						<div class="col-sm-3">
+							<input type="checkbox" name="myChk" id="myChk" for="credit" [(ngModel)]="creditCard" (change)="creditCardEvent();addTotalAmount()"
+							/>Credit Card
+							<div class="tableShow" [style.visibility]="disableCredit">
+								<span>Amount:</span>
+								<input type="number" min="0" name="credit" id="credit" value="" [(ngModel)]="creditcardAmount" (ngModelChange)="addTotalAmount()">
+								<br/>
+								<br/>
+								<span>TransactionId:</span>
+								<input type="text" name="transactionId" value="">
+
+							</div>
+						</div>
+						<div class="col-sm-1"></div>
+						<div class="payment">
+							<div class="col-sm-3">
+								<input type="checkbox" name="myChk" id="myChk" for="bank" [(ngModel)]="accountTranfer" (change)="tranferEvent();addTotalAmount()"
+								/>Account Transfer
+								<div class="tableShow" [style.visibility]="disableTransfer">
+									<span>Amount:</span>
+									<input type="number" min="0" name="credit" id="bank" value="" [(ngModel)]="accountTransferAmount" (ngModelChange)="addTotalAmount()">
+									<br/>
+									<br/>
+									<span>TransactionId:</span>
+									<input type="text" name="id" value="">
+								</div>
+							</div>
+							<div class="col-sm-1"></div>
+							<div class="col-sm-3">
+								<input type="checkbox" name="myChk" id="myChk" for="other" [(ngModel)]="other" (change)="otherEvent();addTotalAmount()" />Other
+								<div class="tableShow" [style.visibility]="disableOther">
+									<input type="number" min="0" name="other" id="other" value="" [(ngModel)]="otherAmount" (ngModelChange)="addTotalAmount()">
+								</div>
+							</div>
+							<div class="col-sm-1"></div>
+							<div class="col-sm-3">
+								<div class="input-group">
+									<input type="number" min="0" name="total" maxlength="50" class="form-control" [(ngModel)]="cashTotal">
+									<span>Total</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<br>
+					<br>
+
+				</div>
+				<div class="emi-form" *ngIf="selectedOption == 'emi'">
+					<div class=" row form-group">
+						<label class="col-sm-3 col-form-label required">Financial Name
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-3">
+							<input type="text" (keypress)="omit_special_char($event)" name="cost" maxlength="50" class="form-control" [(ngModel)]="paymentEmi.financialName">
+						</div>
+					</div>
+					<div class=" row form-group">
+						<label class="col-sm-3 col-form-label required">Down Payment
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-3">
+							<input type="number" min="0" name="down" maxlength="50" class="form-control" [(ngModel)]="paymentEmi.downPayment">
+						</div>
+					</div>
+					<div class=" row form-group">
+						<label class="col-sm-3 col-form-label required">Address Proof
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-5">
+							<input type="file" name="address" accept="image/*" (change)="getFileDetails($event,'a')">
+						</div>
+						<div class="col-sm-3">
+							<img [src]="addressPreview" height="50">
+							<br/>
+						</div>
+					</div>
+					<div class=" row form-group">
+						<label class="col-sm-3 col-form-label required">ID Proof
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-5">
+							<input type="file" name="idproof" accept="image/*" (change)="getFileDetails($event,'i')">
+						</div>
+						<div class="col-sm-3">
+							<img [src]="idpreview" height="50">
+						</div>
+					</div>
+					<div *ngFor="let bank of banks;let i=index">
+						<div class=" row form-group">
+							<label class="col-sm-3 col-form-label required">Bank statement
+								<span style="color:red">*</span>
+							</label>
+							<div class="col-sm-3">
+								<input type="file" name="bank" multiple accept="image/*" (change)="getBankDetails($event)">
+							</div>
+							<div *ngIf="i !==0">
+								<div class="col-sm-1">
+									<div class="delete-button">
+										<button type="submit" class="btn btn-danger" (click)="deleteBankStatement(i)">Delete</button>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-1">
+								<div class="add-button">
+									<button type="submit" class="btn btn-success" (click)="addBankStatement(bank,i)">Add</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class=" row form-group">
+						<label class="col-sm-3 col-form-label required">cheque
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-5">
+							<input type="file" name="cheque" accept="image/*" (change)="getFileDetails($event,'c')">
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+<div *ngIf="newUser ">
+	<div class="row form-group">
+		<div claas="container">
+			<button type="submit" class="btn btn-warning" (click)=" savePaymentEmi()" style="float:right;margin-right: 20%">Submit</button>
+		</div>
+	</div>
+</div>
+<div *ngIf=" exchangeUser">
+	<div class="row form-group">
+		<div claas="container">
+			<button type="submit" class="btn btn-warning" style="float:right;margin-right: 20%" (click)="saveUserDeatils()">Submit</button>
+		</div>
+	</div>
+</div>

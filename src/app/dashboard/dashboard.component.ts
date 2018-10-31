@@ -474,7 +474,7 @@ export class DashboardComponent implements OnInit {
     var data = {
       //fanancial_name: this.paymentEmi.financialName,
       //down_payment: this.paymentEmi.downPayment,
-      address_proof: this.paymentEmi.address_proof,
+      address_proof: this.paymentEmi.addressProof,
       address_name: this.paymentEmi.addressFileName,
       id_proof: this.paymentEmi.idProof,
       id_name:this.paymentEmi.idProofName,
@@ -483,7 +483,7 @@ export class DashboardComponent implements OnInit {
        // passport_photo: this.paymentEmi.photo,
       //bank_statement: this.paymentEmi.bankStatement
     }
-
+     console.log(data);
     this.saleUserService.addPaymentEmi(data).subscribe(response=>{
       console.log(response.json());
     })
