@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 
 
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -45,6 +46,8 @@ export class DashboardComponent implements OnInit {
   mobile = '';
   addressProof = '';
   addressProofNo = '';
+  userImage ='';
+  userImageName ='';
   //vehicle information
   vehicleEngineNo = '';
   vehicleFrameNo = '';
@@ -55,14 +58,14 @@ export class DashboardComponent implements OnInit {
   vehicleBasic: '';
   lifeTax: number;
   VehicleInsu: number;
-  handlingC: number;
+
+  discountApprovedBy: ''; handlingC: number;
   vehicleReg: '';
   vehicleWarranty: '';
   vehicleAcc: '';
   Hp: '';
   discount: any = '';
   totalAmount: '';
-  discountApprovedBy: '';
   lifeTaxAmount: number;
   vehicleInsuAmount: number;
   taxAmount: number;
@@ -84,6 +87,7 @@ export class DashboardComponent implements OnInit {
   data = []
   //paymentmode EMI
   paymentEmi: any = {
+    'paymentMode': '',
     'financialName': '',
     'downPayment': '',
     'addressProof': null,
@@ -125,14 +129,10 @@ export class DashboardComponent implements OnInit {
   constructor(private saleUserService: SaleUserService, private http: Http, private router: Router, ) { }
 
   ngOnInit() {
-
     this.saleUserService.getTax().subscribe(res => {
       this.taxData = res.json().result;
       this.lifeTax = this.taxData[0].life_tax;
       this.VehicleInsu = this.taxData[0].insurance;
-
-      // this.amount = this.taxCount + this.lifeTax + this.VehicleInsu;
-      // console.log(this.amount);
     });
     this.http.get(environment.host + 'employees').subscribe(employeedata => {
       console.log(employeedata.json().result);
@@ -147,7 +147,6 @@ export class DashboardComponent implements OnInit {
     });
 
   }
-
 
   redirectToSalesDetails() {
     this.router.navigate(['sale-details'])
@@ -199,16 +198,22 @@ export class DashboardComponent implements OnInit {
   }
 
   newUserClick() {
+    console.log(this.exchange);
     this.newUser = true;
     this.exchangeUser = false;
     this.csdUser = false;
   }
+  exchange: '';
+
   exchangeUserClick() {
+    console.log(this.exchange);
     this.newUser = false;
     this.exchangeUser = true;
     this.csdUser = false;
   }
+
   csdUserClick() {
+    console.log(this.exchange);
     this.newUser = false;
     this.exchangeUser = false;
     this.csdUser = true;
@@ -232,8 +237,9 @@ export class DashboardComponent implements OnInit {
     this.dob = newDate;
     console.log(this.dob)
   }
-
-  saveUserDeatils() {
+  //complete sale details
+  saveUserDeatils(val) {
+    console.log(val)
     var data = {
       firstname: this.name,
       email_id: this.nameOnRc,
@@ -243,20 +249,24 @@ export class DashboardComponent implements OnInit {
       address: this.address,
       mobile: this.mobile,
       mandal: this.mandal,
-      // pincode: this.pincode,
+      pincode: this.pincode,
       district: this.districtName,
       proof_type: this.addressProof,
       proof_num: this.addressProofNo,
+      user_image :this.userImage,
+      user_image_name :this.userImageName,
+      user_type: val,
       sale_status: "1"
+
     }
     console.log(data)
     this.saleUserService.saveSalesUser(data).subscribe(response => {
       console.log(response.json().status);
       console.log(response.json().result.sale_user_id);
-      // vehicle information send to api
+      // vehicle information send to sale-user api
       if (response.json().status == true) {
         var vehicledetails = {
-          sale_user_id: response.json().result.sale_user_id,
+          vech_sale_user_id: response.json().result.sale_user_id,
           eng_no: this.vehicleEngineNo,
           frame_no: this.vehicleFrameNo,
           dc_no: this.vehicleDcNo,
@@ -275,32 +285,49 @@ export class DashboardComponent implements OnInit {
           total_amt: this.basicwithTax,
           discount_approved_by: this.discountApprovedBy,
           sale_user_vechile_status: 1
+
         }
         console.log(vehicledetails)
         this.saleUserService.saveSalesVehicle(vehicledetails).subscribe(res => {
           console.log(res.json());
-        })
-      }
-      if (response.json().status == true) {
-        var data = {
-          sale_user_id: response.json().result.sale_user_id,
-          vechile_no: this.exchangevehicleNo,
-          eng_no: this.exchangeEngineNo,
-          frame_no: this.exchangeFrameNo,
-          vechile_color: this.exchangeVehicleColor,
-          vechile_mode: this.exchangeVehicleModel,
-          customer_name: this.vehiclecustomerName,
-          exchange_amt: this.exchangeAmount,
-          exchange_amt_approval_by: this.exchangeAmountApprovedBy,
-          sale_exchange_status: 1
+        });
+
+        if (val == '1') {
+          var exchangeDetails = {
+            exc_sale_user_id: response.json().result.sale_user_id,
+            exc_vechile_no: this.exchangevehicleNo,
+            exc_eng_no: this.exchangeEngineNo,
+            exc_frame_no: this.exchangeFrameNo,
+            exc_vechile_color: this.exchangeVehicleColor,
+            exc_vechile_mode: this.exchangeVehicleModel,
+            exc_customer_name: this.vehiclecustomerName,
+            exchange_amt: this.exchangeAmount,
+            exchange_amt_approval_by: this.exchangeAmountApprovedBy,
+            exc_sale_exchange_status: 1
+          }
+          console.log(exchangeDetails);
+          this.saleUserService.saveExchangeVehicle(exchangeDetails).subscribe(res => {
+            console.log(res.json())
+          })
         }
-        console.log(data);
-        this.saleUserService.saveExchangeVehicle(data).subscribe(res => {
-          console.log(res.json())
+        var paymentDetails = {
+          pay_sale_user_id: response.json().result.sale_user_id,
+          mode_of_payment: this.paymentEmi.paymentmode,
+          emi_financial_name: this.paymentEmi.financialName,
+          emi_financial_down_payment: this.paymentEmi.downPayment,
+          emi_addresss_proof: this.paymentEmi.addressProof,
+          address_name: this.paymentEmi.addressFileName,
+          emi_id_proof: this.paymentEmi.idProof,
+          id_name: this.paymentEmi.idProofName,
+          emi_cheque: this.paymentEmi.cheque,
+          cheque_name: this.paymentEmi.chequeFileName
+          //bank_statement: this.paymentEmi.bankStatement
+        }
+        console.log(paymentDetails);
+        this.saleUserService.addPaymentEmi(paymentDetails).subscribe(response => {
+          console.log(response.json());
         })
-
       }
-
     })
   }
 
@@ -310,12 +337,10 @@ export class DashboardComponent implements OnInit {
         this.temp.push(data.json().result);
         this.vehicleInfo = this.temp.pop()
       })
-
     } else {
       this.vehicleInfo = [];
     }
   }
-
   onSelect(event: TypeaheadMatch): void {
     this.onRoadPrice = 0
     this.selectedOption = event.item;
@@ -341,7 +366,6 @@ export class DashboardComponent implements OnInit {
       console.log(this.vehicleInsuAmount);
 
       this.taxAmount = this.lifeTaxAmount + this.vehicleInsuAmount;
-
       console.log(this.taxAmount)
 
       this.onRoadPrice = parseInt(this.vehicleBasic) + this.taxAmount;
@@ -349,15 +373,14 @@ export class DashboardComponent implements OnInit {
 
     }
   }
-
   approvedEmpEnable() {
-
     if (this.discount >= 1) {
       this.disableApprovedBy = 'visible'
     } else {
       this.disableApprovedBy = 'hidden'
     }
   }
+
   //for bank statement upload files
   getBankDetails(e) {
     console.log(e.target.files);
@@ -382,7 +405,6 @@ export class DashboardComponent implements OnInit {
     }
   }
   _handleReader(readerEvt) {
-
     var binaryString = readerEvt.target.result;
     this.paymentEmi.bank_statement = btoa(binaryString);
     this.data.push(this.paymentEmi.bank_statement);
@@ -390,9 +412,10 @@ export class DashboardComponent implements OnInit {
     console.log(this.paymentEmi.bank_statement);
   }
   //remaining files upload and preview
-  addressPreview :any;
-  idpreview :any;
-  chequepreview :any;
+  addressPreview: any;
+  idpreview: any;
+  chequepreview: any;
+  userimagePreview:any;
   getFileDetails(event, text1) {
     this.currentImage = text1;
     console.log(this.currentImage);
@@ -406,38 +429,44 @@ export class DashboardComponent implements OnInit {
 
     if (files && file) {
       var reader = new FileReader();
-
       reader.onload = this._handleReaderLoaded.bind(this);
       reader.readAsBinaryString(file);
     }
     if (event.target.files && event.target.files[0] && this.currentImage === 'a') {
       var reader = new FileReader();
-
-      reader.readAsDataURL(event.target.files[0]); // read file as data url
+      reader.readAsDataURL(event.target.files[0]);
       this.paymentEmi.addressFileName = file.name;
-      console.log( this.paymentEmi.addressFileName)
-      reader.onload = (event) => { // called once readAsDataURL is completed
+      console.log(this.paymentEmi.addressFileName)
+      reader.onload = (event) => {
         this.addressPreview = event.target;
       }
     }
     //for image preview
     if (event.target.files && event.target.files[0] && this.currentImage === 'i') {
       var reader = new FileReader();
-
-      reader.readAsDataURL(event.target.files[0]); // read file as data url
+      reader.readAsDataURL(event.target.files[0]);
       this.paymentEmi.idProofName = file.name;
       console.log(this.paymentEmi.idProofName)
-      reader.onload = (event) => { // called once readAsDataURL is completed
-        this.idpreview = event.target;   
+      reader.onload = (event) => {
+        this.idpreview = event.target;
       }
     }
     if (event.target.files && event.target.files[0] && this.currentImage === 'c') {
       var reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]); // read file as data url
+      reader.readAsDataURL(event.target.files[0]);
       this.paymentEmi.chequeFileName = file.name;
       console.log(this.paymentEmi.chequeFileName);
-      reader.onload = (event) => { // called once readAsDataURL is completed
+      reader.onload = (event) => {
         this.chequepreview = event.target;
+      }
+    }
+    if (event.target.files && event.target.files[0] && this.currentImage === 'p') {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      this.userImageName = file.name;
+      console.log(this.userImageName);
+      reader.onload = (event) => {
+        this.userimagePreview = event.target;
       }
     }
   }
@@ -446,49 +475,26 @@ export class DashboardComponent implements OnInit {
     if (this.currentImage === 'a') {
       var binaryString = readerEvt.target.result;
       this.paymentEmi.addressProof = btoa(binaryString);
-      console.log(this.paymentEmi.addressProof)
     }
 
     if (this.currentImage === 'i') {
-    
       var binaryString = readerEvt.target.result;
-    
       this.paymentEmi.idProof = btoa(binaryString);
-      console.log(this.paymentEmi.idProof)
     }
     if (this.currentImage === 'c') {
       var binaryString = readerEvt.target.result;
       this.paymentEmi.cheque = btoa(binaryString);
-      console.log(this.paymentEmi.cheque)
     }
 
     if (this.currentImage === 'p') {
       var binaryString = readerEvt.target.result;
-      this.paymentEmi.photo = btoa(binaryString);
-      console.log(this.paymentEmi.photo)
+      this.userImage = btoa(binaryString);
+      console.log(this.userImage)
     }
     this.currentImage = ''
   }
 
-  savePaymentEmi() {
-    var data = {
-      //fanancial_name: this.paymentEmi.financialName,
-      //down_payment: this.paymentEmi.downPayment,
-      address_proof: this.paymentEmi.addressProof,
-      address_name: this.paymentEmi.addressFileName,
-      id_proof: this.paymentEmi.idProof,
-      id_name:this.paymentEmi.idProofName,
-        payment_cheque: this.paymentEmi.cheque,
-      cheque_name:this.paymentEmi.chequeFileName,
-       // passport_photo: this.paymentEmi.photo,
-      //bank_statement: this.paymentEmi.bankStatement
-    }
-     console.log(data);
-    this.saleUserService.addPaymentEmi(data).subscribe(response=>{
-      console.log(response.json());
-    })
-    
-  }
+
 
   isNumber(value: string | number): boolean {
     if (value) {
@@ -502,27 +508,6 @@ export class DashboardComponent implements OnInit {
   handlingAmount: number = 0
   addTotalTax() {
     console.log("********")
-
-    // if(this.handlingC){
-    //   this.onRoadPrice 
-
-    // }
-    // if (this.handlingC == null) {
-    //   this.onRoadPrice = this.onRoadPrice + this.tempAmount;
-    // }
-    // if (this.handlingC) {
-    //   this.onRoadPrice = this.tempAmount + this.handlingC;
-    //  this.handlingAmount=this.handlingAmount+this.onRoadPrice
-    // }
-    // if (this.handlingC == null && this.vehicleReg == null) {
-    //   this.onRoadPrice = this.onRoadPrice + this.tempAmount;
-    // }
-    // if (this.vehicleReg) {
-    //   this.onRoadPrice = this.handlingAmount + this.vehicleReg
-    // }
-
-    // console.log('after')
-    // console.log(this.onRoadPrice)
     let sum = 0;
     if (this.isNumber(this.handlingC)) {
       sum = sum + this.handlingC

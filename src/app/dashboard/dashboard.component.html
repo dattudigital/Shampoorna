@@ -19,7 +19,7 @@
 					<div class="row">
 						<div class="container">
 							<div class="col-sm-3">
-								<input type="radio" name="optradio" (click)="newUserClick() " checked>
+								<input type="radio" name="optradio" (click)="newUserClick()" checked>
 								<label style="font-size:16px">New</label>
 							</div>
 							<div class="col-sm-3">
@@ -156,6 +156,10 @@
 					<div class="col-sm-5">
 						<input type="file" name="photo" accept="image/*" (change)="getFileDetails($event,'p')">
 					</div>
+					<div class="col-sm-3">
+							<img *ngIf="userimagePreview" [src]="userimagePreview.result" height="50">
+							<br/>
+						</div>
 				</div>
 			</div>
 			<div class="col-sm-6">
@@ -483,14 +487,14 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-3">
-						<select name="state" class="form-control" [(ngModel)]="selectedOption">
+						<select name="state" class="form-control" [(ngModel)]="selectedOption" [(ngModel)]="paymentEmi.paymentmode">
 							<option value="select" disabled select>Select</option>
-							<option value="cash">Cash</option>
-							<option value="emi">EMI</option>
+							<option value="0">Cash</option>
+							<option value="1">EMI</option>
 						</select>
 					</div>
 				</div>
-				<div class="cash-form" *ngIf="selectedOption == 'cash'">
+				<div class="cash-form" *ngIf="selectedOption == '0'">
 
 					<div class="row form-group">
 						<div class="col-sm-3">
@@ -563,7 +567,7 @@
 					<br>
 
 				</div>
-				<div class="emi-form" *ngIf="selectedOption == 'emi'">
+				<div class="emi-form" *ngIf="selectedOption == '1'">
 					<div class=" row form-group">
 						<label class="col-sm-3 col-form-label required">Financial Name
 							<span style="color:red">*</span>
@@ -647,14 +651,14 @@
 <div *ngIf="newUser ">
 	<div class="row form-group">
 		<div claas="container">
-			<button type="submit" class="btn btn-warning" (click)=" savePaymentEmi()" style="float:right;margin-right: 20%">Submit</button>
+			<button type="submit" class="btn btn-warning" (click)="saveUserDeatils('0')" style="float:right;margin-right: 20%">Submit</button>
 		</div>
 	</div>
 </div>
 <div *ngIf=" exchangeUser">
 	<div class="row form-group">
 		<div claas="container">
-			<button type="submit" class="btn btn-warning" style="float:right;margin-right: 20%" (click)="saveUserDeatils()">Submit</button>
+			<button type="submit" class="btn btn-warning" style="float:right;margin-right: 20%" (click)="saveUserDeatils('1')">Submit</button>
 		</div>
 	</div>
 </div>
