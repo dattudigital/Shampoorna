@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { LoginService } from '../services/login.service'
 declare var $: any;
 
 @Component({
@@ -17,14 +18,22 @@ export class InventoryComponent implements OnInit {
   btnDisable = true;
   alerts: any[] = [];
   test1: any;
+  inventorylist = false;
+  indentraise = false;
+  listindent = false;
+  inventoryass = false;
+  acknowledgement = false;
 
-  constructor(private router: Router, private http: HttpClient) { }
+
+  constructor(private router: Router, private http: HttpClient, private service: LoginService) { }
 
   ngOnInit() {
     sessionStorage.removeItem('backBtnTimeclocks');
     this.loginPopUp();
+    this.roleLogin();
+
     if (sessionStorage.getItem('inventory-routing') == '"vehicle"') {
-      this.vehicleDetailClick()
+      this.vehicleDetailClick();
     } else if (sessionStorage.getItem('inventory-routing') == '"invlist"') {
       this.inventoryListClick();
     } else if (sessionStorage.getItem('inventory-routing') == '"raise"') {
@@ -35,6 +44,35 @@ export class InventoryComponent implements OnInit {
       this.invAssaignClick();
     } else if (sessionStorage.getItem('inventory-routing') == '"invack"') {
       this.InventoryAckClick();
+    }
+  }
+
+  roleLogin() {
+    console.log("##########")
+    let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
+    console.log(loginData);
+    if (loginData.status == true && loginData._results.emp_type_id == 1) {
+      console.log("1111111")
+      this.inventorylist = true;
+      this.indentraise = true;
+      this.listindent = true;
+      this.inventoryass = true;
+      this.acknowledgement = true;
+      sessionStorage.setItem('backBtnInventory', 'Y');
+      this.titleStyle = "visible";
+    } else if (loginData.status == true && loginData._results.emp_type_id == 2) {
+      console.log("2222222")
+      this.inventorylist = true;
+      this.indentraise = true;
+      this.acknowledgement = true;
+      sessionStorage.setItem('backBtnInventory', 'Y');
+      this.titleStyle = "visible";
+    } else if (loginData.status == true && loginData._results.emp_type_id == 3) {
+      console.log("3333333")
+      this.listindent = true;
+      this.inventoryass = true;
+      sessionStorage.setItem('backBtnInventory', 'Y');
+      this.titleStyle = "visible";
     }
   }
 
@@ -73,20 +111,12 @@ export class InventoryComponent implements OnInit {
     }
     if (this.mailId && this.password) {
       console.log(data)
-      this.http.post('http://ec2-54-88-194-105.compute-1.amazonaws.com:3005/time-clocks/login', data).subscribe(inData => {
-        console.log(inData);
-        this.test1 = inData;
-        console.log(this.test1.result.emp_id)
-        console.log(this.test1.status)
-
-        if (this.test1.status == true) {
-          sessionStorage.setItem('secondaryLoginData', JSON.stringify(this.test1.result));
-          sessionStorage.setItem('backBtnInventory', 'Y');
-          $('#myModal').modal('hide');
-          this.titleStyle = "visible";
-        } else {
-          this.errorMessage = true;
-        }
+      this.service.dataLogin(data).subscribe(inData => {
+        this.test1 = inData.json()._results;
+        sessionStorage.setItem('secondaryLoginData', JSON.stringify(inData.json()));
+        $('#myModal').modal('hide');
+        this.roleLogin();
+        console.log("*****************")
       });
     } else {
       this.alerts = [{
