@@ -111,6 +111,7 @@ export class DashboardComponent implements OnInit {
     'accounttranferAmount': '',
     'accountTranferId': '',
     'othersSelect': '',
+    'mobileWallet':'',
     'othersAmount': '',
   }
   //paymentmode Cash
@@ -369,11 +370,8 @@ export class DashboardComponent implements OnInit {
           emi_financial_name: this.paymentEmi.financialName,
           emi_financial_down_payment: this.paymentEmi.downPayment,
           emi_addresss_proof: this.paymentEmi.addressProof,
-          // address_name: this.paymentEmi.addressFileName,
           emi_id_proof: this.paymentEmi.idProof,
-          //id_name: this.paymentEmi.idProofName,
           emi_cheque: this.paymentEmi.cheque,
-          //cheque_name: this.paymentEmi.chequeFileName,
           cheque: chequeSelect,
           cheque_no: this.paymentEmi.chequeNo,
           cheque_date: this.paymentEmi.chequeDate,
@@ -386,7 +384,8 @@ export class DashboardComponent implements OnInit {
           account_transfer: accountSelect,
           account_trasaction_id: this.paymentEmi.accountTranferId,
           account_transfer_amt: this.paymentEmi.accounttranferAmount,
-          others: otherSelect,
+          other: otherSelect,
+          others_type:this.paymentEmi.mobileWallet,
           others_amt: this.paymentEmi.othersAmount,
           total: this.cashTotal
           //bank_statement: this.paymentEmi.bankStatement
@@ -425,7 +424,6 @@ export class DashboardComponent implements OnInit {
       this.lifeTaxAmount = 0;
       this.vehicleInsuAmount = 0;
       this.taxAmount = 0;
-
       console.log(this.vehicleBasic)
       this.lifeTaxAmount = this.lifeTaxAmount + this.vehicleBasic * (this.lifeTax / 100);
       console.log(this.lifeTaxAmount)
@@ -562,8 +560,6 @@ export class DashboardComponent implements OnInit {
     this.currentImage = ''
   }
 
-
-
   isNumber(value: string | number): boolean {
     if (value) {
       return !isNaN(Number(value.toString()));
@@ -634,6 +630,4 @@ export class DashboardComponent implements OnInit {
     k = event.charCode;  //         k = event.keyCode;  (Both can be used)
     return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
   }
-
-
 }
