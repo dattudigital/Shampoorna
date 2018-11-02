@@ -38,38 +38,39 @@ export class InvoiceListComponent implements OnInit {
   newIndex:'';
   constructor(private router: Router) { }
   ngOnInit() {
-    this.editPersonalInfo = JSON.parse(sessionStorage.getItem('userSaleData'));
+    this.editPersonalInfo = JSON.parse(sessionStorage.getItem('invoiceData'));
 
-    this.newIndex = JSON.parse(sessionStorage.getItem('indexValue'));
-    console.log(this.newIndex)
     console.log(this.editPersonalInfo);
-    this.firstName = this.editPersonalInfo[this.newIndex].firstname;
-    this.nameOnRc = this.editPersonalInfo[this.newIndex].display_name_on_rc;
-    this.Relation = this.editPersonalInfo[this.newIndex].relation;
-    this.Address = this.editPersonalInfo[this.newIndex].address;
-    this.Mandal = this.editPersonalInfo[this.newIndex].mandal;
-    this.District = this.editPersonalInfo[this.newIndex].district;
-    this.Mobile = this.editPersonalInfo[this.newIndex].mobile;
-    this.proofType = this.editPersonalInfo[this.newIndex].proof_type;
-    this.proofNum = this.editPersonalInfo[this.newIndex].proof_num;
-    this.EngineNo = this.editPersonalInfo[this.newIndex].eng_no;
-    this.FrameNo = this.editPersonalInfo[this.newIndex].frame_no;
-    this.DcNo = this.editPersonalInfo[this.newIndex].dc_no;
-    this.KeyNo = this.editPersonalInfo[this.newIndex].key_no;
-    this.vehicleColor = this.editPersonalInfo[this.newIndex].vechicle_color;
-    this.nomineeName = this.editPersonalInfo[this.newIndex].Nominee_name;
-    this.basciPrice = this.editPersonalInfo[this.newIndex].basic_price;
-    this.lifeTax = this.editPersonalInfo[this.newIndex].life_tax;
-    this.Insurence = this.editPersonalInfo[this.newIndex].insurance;
-    this.Handling = this.editPersonalInfo[this.newIndex].handling;
-    this.Registration = this.editPersonalInfo[this.newIndex].registration;
-    this.Warranty = this.editPersonalInfo[this.newIndex].Warranty;
-    this.Accessories = this.editPersonalInfo[this.newIndex].accessories;
-    this.HpTax = this.editPersonalInfo[this.newIndex].hp;
-    this.Discount = this.editPersonalInfo[this.newIndex].discount;
-    this.totalAmount = this.editPersonalInfo[this.newIndex].total_amt;
+    this.firstName = this.editPersonalInfo.firstname;
+    this.nameOnRc = this.editPersonalInfo.display_name_on_rc;
+    this.Relation = this.editPersonalInfo.relation;
+    this.Address = this.editPersonalInfo.address;
+    this.Mandal = this.editPersonalInfo.mandal;
+    this.District = this.editPersonalInfo.district;
+    this.Mobile = this.editPersonalInfo.mobile;
+    this.proofType = this.editPersonalInfo.proof_type;
+    this.proofNum = this.editPersonalInfo.proof_num;
+    this.EngineNo = this.editPersonalInfo.eng_no;
+    this.FrameNo = this.editPersonalInfo.frame_no;
+    console.log(this.editPersonalInfo.frame_no);
+    console.log(this.FrameNo)
+    this.DcNo = this.editPersonalInfo.dc_no;
+    this.KeyNo = this.editPersonalInfo.key_no;
+    this.vehicleColor = this.editPersonalInfo.vechicle_color;
+    this.nomineeName = this.editPersonalInfo.Nominee_name;
+    this.basciPrice = this.editPersonalInfo.basic_price;
+    this.lifeTax = this.editPersonalInfo.life_tax;
+    this.Insurence = this.editPersonalInfo.insurance;
+    this.Handling = this.editPersonalInfo.handling;
+    this.Registration = this.editPersonalInfo.registration;
+    this.Warranty = this.editPersonalInfo.Warranty;
+    this.Accessories = this.editPersonalInfo.accessories;
+    this.HpTax = this.editPersonalInfo.hp;
+    this.Discount = this.editPersonalInfo.discount;
+    this.totalAmount = this.editPersonalInfo.total_amt;
   }
   backsaleDetails() {
+    sessionStorage.removeItem('invoiceData'); 
     this.router.navigate(['sale-details'])
   }
 }

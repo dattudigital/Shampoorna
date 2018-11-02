@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { Http } from '@angular/http'
 import { environment } from 'src/environments/environment';
+import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 
 @Component({
   selector: 'app-sale-details',
@@ -22,9 +23,36 @@ export class SaleDetailsComponent implements OnInit {
   cols: any[];
   editPersonalInfo: any = [];
   invoiceInfo: any = [];
+  dcFormInfo: any = [];
   branchData: any = [];
   temp: any;
+  excTemp: any;
   public date1: any;
+
+  selectedOption: any = '';
+
+  taxData: any;
+  lifeTax: number;
+  VehicleInsu: number;
+  temp1: any[] = new Array();
+
+
+  onRoadPrice: number = 0;
+  vehicleFrameNo = '';
+  vehicleDcNo = '';
+  vehicleKeyNo = ''
+  vehicleColor = '';
+  nomineeName = '';
+  vehicleBasic: '';
+  lifeTaxAmount: number;
+  vehicleInsuAmount: number;
+  taxAmount: number;
+  basicwithTax: number;
+  employeedata: any;
+  branchManagerData: any = [];
+  isShowOriginalImg: boolean = false;
+  url: any;
+  profile_name: any;
 
   constructor(private service: SaleUserService, private dp: DatePipe, private _clipboardService: ClipboardService, private router: Router, private http: Http) { }
 
@@ -46,26 +74,39 @@ export class SaleDetailsComponent implements OnInit {
       console.log(this.branchData)
     })
 
+    this.service.getTax().subscribe(res => {
+      this.taxData = res.json().result;
+      this.lifeTax = this.taxData[0].life_tax;
+      this.VehicleInsu = this.taxData[0].insurance;
 
+    });
+    this.http.get(environment.host + 'employees').subscribe(employeedata => {
+      console.log(employeedata.json().result);
+      this.employeedata = employeedata.json().result;
+      console.log(this.employeedata.length);
+      for (var i = 0; i < this.employeedata.length; i++) {
+        if (this.employeedata[i].emp_type_id == 2) {
+          this.branchManagerData.push(this.employeedata[i])
+        }
+      }
+      console.log(this.branchManagerData)
+    });
 
     this.cols = [
       { field: 'firstname', header: 'First Name' },
       { field: 'email_id', header: 'Email' },
-      { field: 'mobile', header: 'Mobile' },
       { field: 'address', header: 'Address' },
       { field: 'mandal', header: 'Mandal' },
       { field: 'district', header: 'District' },
       { field: 'proof_type', header: 'Proof Type' },
       { field: 'eng_no', header: 'EngineNo' },
       { field: 'frame_no', header: 'FrameNo' },
-      { field: 'frame_no', header: 'FrameNo' },
-      { field: 'dc_no', header: 'DcNo' },
       { field: 'dc_no', header: 'DcNo' },
       { field: 'total_amt', header: 'Total Amount' }
 
     ];
   }
-
+  user_type: '';
   sale_user_id: '';
   firstname: '';
   display_name_on_rc: '';
@@ -75,13 +116,14 @@ export class SaleDetailsComponent implements OnInit {
   password; '';
   city: '';
   address: '';
-  dob = '';
+  dob: any;
   mandal: '';
   district: '';
   proof_type: '';
   proof_num: '';
+  user_image: '';
   sale_status: '';
-  sale_user_vechicle_id: '';
+  vech_sale_user_id: '';
   eng_no: '';
   frame_no: '';
   dc_no: '';
@@ -96,17 +138,18 @@ export class SaleDetailsComponent implements OnInit {
   warranty: '';
   accessories: '';
   hp: '';
-  discount: '';
-  total_amt: '';
+  discount: any;
+  total_amt: number;
   discount_approved_by: ''
   sale_user_vechile_exchange_id: '';
-  vechile_no: '';
-  vechile_color: '';
-  vechile_mode: '';
-  customer_name: '';
+  exc_vechile_no: '';
+  exc_eng_no: '';
+  exc_frame_no: '';
+  exc_vechile_color: '';
+  exc_vechile_mode: '';
+  exc_customer_name: '';
   exchange_amt: '';
   exchange_amt_approval_by: '';
-
 
   newSaleClick() {
     this.router.navigate(['dashboard']);
@@ -123,6 +166,7 @@ export class SaleDetailsComponent implements OnInit {
     let newDate = moment(this.editPersonalInfo[index].dob).format('DD-MM-YYYY').toString();
     this.dob = newDate;
     console.log(this.dob);
+    this.user_type = this.editPersonalInfo[index].user_type;
     this.sale_user_id = this.editPersonalInfo[index].sale_user_id;
     this.firstname = this.editPersonalInfo[index].firstname;
     this.display_name_on_rc = this.editPersonalInfo[index].display_name_on_rc;
@@ -136,6 +180,8 @@ export class SaleDetailsComponent implements OnInit {
     this.district = this.editPersonalInfo[index].district;
     this.proof_type = this.editPersonalInfo[index].proof_type;
     this.proof_num = this.editPersonalInfo[index].proof_num;
+    this.user_image = this.editPersonalInfo[index].user_image;
+    console.log(this.user_image);
     this.eng_no = this.editPersonalInfo[index].eng_no;
     this.frame_no = this.editPersonalInfo[index].frame_no;
     this.dc_no = this.editPersonalInfo[index].dc_no;
@@ -153,44 +199,77 @@ export class SaleDetailsComponent implements OnInit {
     this.discount = this.editPersonalInfo[index].discount;
     this.total_amt = this.editPersonalInfo[index].total_amt;
     this.discount_approved_by = this.editPersonalInfo[index].discount_approved_by;
-    this.vechile_no = this.editPersonalInfo[index].vechile_no;
-    this.vechicle_color = this.editPersonalInfo[index].vechicle_color;
-    this.vechile_mode = this.editPersonalInfo[index].vechile_mode;
-    this.customer_name = this.editPersonalInfo[index].customer_name;
+    console.log(this.discount_approved_by);
+    this.sale_user_vechile_exchange_id = this.editPersonalInfo[index].sale_user_vechile_exchange_id
+    this.exc_vechile_no = this.editPersonalInfo[index].exc_vechile_no;
+    this.exc_eng_no = this.editPersonalInfo[index].exc_eng_no;
+    this.exc_frame_no = this.editPersonalInfo[index].exc_frame_no;
+    this.exc_vechile_color = this.editPersonalInfo[index].exc_vechile_color;
+    this.exc_vechile_mode = this.editPersonalInfo[index].exc_vechile_mode;
+    this.exc_customer_name = this.editPersonalInfo[index].exc_customer_name;
     this.exchange_amt = this.editPersonalInfo[index].exchange_amt;
     this.exchange_amt_approval_by = this.editPersonalInfo[index].exchange_amt_approval_by;
   }
-
+  update: any;
   getDob() {
-    let newDate = moment(this.dob).format('YYYY-DD-MM').toString();
-    this.dob = newDate;
-    console.log(this.dob)
+    // let newDate = moment(this.dob).format('YYYY-DD-MM').toString();
+    // this.dob = newDate;
+    // console.log(this.dob)
+
+    let newdate = new Date(this.dob)
+    console.log(newdate)
+
+    this.update = newdate.getFullYear() + '-' + (newdate.getMonth() + 1) + '-' + newdate.getDate();
+    console.log(this.update)
+
+
   }
 
   invoiceList(data, index) {
-
     console.log(index);
     this.invoiceInfo = data;
-    console.log(this.invoiceInfo)
-    data.index = index;
-    this.temp = index;
-    sessionStorage.setItem('userSaleData', JSON.stringify(this.invoiceInfo));
-    sessionStorage.setItem('indexValue',JSON.stringify(data.index))
-    // let newDate = moment(this.invoiceInfo[index].dob).format('DD-MM-YYYY').toString();
-    // this.dob = newDate;
-    // console.log(this.dob);
-    // this.sale_user_id = this.invoiceInfo[index].sale_user_id;
-    // this.firstname = this.invoiceInfo[index].firstname;
-
-
+    console.log(this.invoiceInfo);
+    sessionStorage.setItem('invoiceData', JSON.stringify(this.invoiceInfo));
   }
+  dcFormList(data, index) {
+    console.log(index);
+    this.dcFormInfo = data;
+    console.log(this.dcFormInfo);
+    sessionStorage.setItem('dcFormData', JSON.stringify(this.dcFormInfo));
+  }
+ 
 
+  onFileChanged(event) {
+    var files = event.target.files;
+    var file = files[0];
+    if (files && file) {
+      var reader = new FileReader();
+      var reader1 = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      this.profile_name = file.name;
+      reader.onload = this._handleReaderLoaded.bind(this);
+      reader1.readAsBinaryString(file);
+    }
+  }
+  _handleReaderLoaded(readerEvt) {
+    var binaryString = readerEvt.target.result;
+    binaryString = binaryString.replace(/^data:image\/png;base64,/, "");
+    binaryString = binaryString.replace(/^data:image\/jpg;base64,/, "");
+    // binaryString = binaryString.replace(/^data:image\/jpeg;base64,/, "");
+    this.url = event.target;
+    this.isShowOriginalImg = true;
+    this.user_image = binaryString;
+    console.log(this.user_image)
+  }
   updatePersonInfo() {
+    console.log('personalUpd')
     var data = {
       sale_user_id: this.sale_user_id,
+      user_type: this.user_type,
       firstname: this.firstname,
       display_name_on_rc: this.display_name_on_rc,
       email_id: this.email_id,
+      dob: this.update,
       mobile: this.mobile,
       relation: this.relation,
       password: this.password,
@@ -200,6 +279,7 @@ export class SaleDetailsComponent implements OnInit {
       district: this.district,
       proof_type: this.proof_type,
       proof_num: this.proof_num,
+      user_image:this.user_image,
       sale_status: this.sale_status
     }
     this.service.saveSalesUser(data).subscribe(res => {
@@ -209,6 +289,7 @@ export class SaleDetailsComponent implements OnInit {
       this.lists[this.temp].display_name_on_rc = data.display_name_on_rc;
       this.lists[this.temp].email_id = data.email_id;
       this.lists[this.temp].mobile = data.mobile;
+      this.lists[this.temp].dob = data.dob;
       this.lists[this.temp].relation = data.relation;
       this.lists[this.temp].password = data.password;
       this.lists[this.temp].city = data.city;
@@ -220,35 +301,72 @@ export class SaleDetailsComponent implements OnInit {
       this.lists[this.temp].sale_status = data.sale_status;
       this.temp = " ";
     })
+  }
 
-  }
-  temp1: any;
-  deleteData: any = [];
-  deletePersonData(val, index) {
-    this.temp1 = index;
-    console.log(index)
-    this.deleteData = val;
-    console.log(this.deleteData)
-    val.index = index;
-    console.log("***")
-    this.sale_user_id = this.deleteData[index].sale_user_id;
-  }
-  deletePerson() {
-    this.lists.splice(this.temp1, 1)
-    console.log(this.temp1)
+  updateVehicleInfo() {
     var data = {
       sale_user_id: this.sale_user_id,
-      sale_status: "0"
+      user_type: this.user_type,
+      vech_sale_user_id: this.vech_sale_user_id,
+      eng_no: this.eng_no,
+      frame_no: this.frame_no,
+      dc_no: this.dc_no,
+      key_no: this.key_no,
+      vechicle_color: this.vechicle_color,
+      Nominee_name: this.Nominee_name,
+      basic_price: this.basic_price,
+      life_tax: this.life_tax,
+      insurance: this.insurance,
+      handling: this.handling,
+      registration: this.registration,
+      warranty: this.warranty,
+      accessories: this.accessories,
+      hp: this.hp,
+      discount: this.discount,
+      discount_approved_by: this.discount_approved_by,
+      total_amt: this.total_amt
     }
-    console.log(data)
-    this.service.saveSalesUser(data).subscribe(res => {
+    this.service.saveSalesVehicle(data).subscribe(res => {
       console.log(res.json());
     })
   }
-  editVehicle() {
+  //sale_user_vechile_exchange_id:'';
+  exc_sale_user_id: '';
+  exchangevehicleNo: '';
+  exchangeEngineNo: '';
+  exchangeFrameNo: '';
+  exchangeVehicleColor: '';
+  exchangeVehicleModel: '';
+  vehiclecustomerName: '';
+  exchangeAmount: '';
+  exchangeAmountApprovedBy: '';
+  updateExchangeInfo(val, index) {
+    console.log(data);
+    var data = {
+      exc_sale_user_id: this.sale_user_id,
+      sale_user_vechile_exchange_id: this.sale_user_vechile_exchange_id,
+      exc_vechile_no: this.exc_vechile_no,
+      exc_eng_no: this.exc_eng_no,
+      exc_frame_no: this.exc_frame_no,
+      exc_vechile_color: this.exc_vechile_color,
+      exc_vechile_mode: this.exc_vechile_mode,
+      exc_customer_name: this.exc_customer_name,
+      exchange_amt: this.exchange_amt,
+      exchange_amt_approval_by: this.exchange_amt_approval_by,
+      exc_sale_exchange_status: 1
+    }
+    console.log(data);
+    this.service.saveExchangeVehicle(data).subscribe(res => {
+      console.log(res.json());
+      this.lists[this.temp].exc_vechile_no = data.exc_vechile_no;
+      this.lists[this.temp].exc_eng_no = data.exc_eng_no;
+      this.lists[this.temp].exc_frame_no = data.exc_frame_no;
+      this.lists[this.temp].exc_vechile_color = data.exc_vechile_color;
+      this.lists[this.temp].exc_vechile_mode = data.exc_vechile_mode;
+      this.lists[this.temp].exc_customer_name = data.exc_customer_name;
+      this.lists[this.temp].exchange_amt = data.exchange_amt;
+      this.lists[this.temp].exchange_amt_approval_by = data.exchange_amt_approval_by;
 
+    })
   }
-
-
-
 }

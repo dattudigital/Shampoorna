@@ -19,7 +19,7 @@
 					<div class="row">
 						<div class="container">
 							<div class="col-sm-3">
-								<input type="radio" name="optradio" (click)="newUserClick() " checked>
+								<input type="radio" name="optradio" (click)="newUserClick()" checked>
 								<label style="font-size:16px">New</label>
 							</div>
 							<div class="col-sm-3">
@@ -155,6 +155,10 @@
 					</label>
 					<div class="col-sm-5">
 						<input type="file" name="photo" accept="image/*" (change)="getFileDetails($event,'p')">
+					</div>
+					<div class="col-sm-3">
+						<img *ngIf="userimagePreview" [src]="userimagePreview.result" height="50">
+						<br/>
 					</div>
 				</div>
 			</div>
@@ -483,71 +487,72 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-3">
-						<select name="state" class="form-control" [(ngModel)]="selectedOption">
+						<select name="state" class="form-control" [(ngModel)]="selectedOption" [(ngModel)]="paymentEmi.paymentmode">
 							<option value="select" disabled select>Select</option>
-							<option value="cash">Cash</option>
-							<option value="emi">EMI</option>
+							<option value="0">Cash</option>
+							<option value="1">EMI</option>
 						</select>
 					</div>
 				</div>
-				<div class="cash-form" *ngIf="selectedOption == 'cash'">
+				<div class="cash-form" *ngIf="selectedOption == '0'">
 
 					<div class="row form-group">
 						<div class="col-sm-3">
-							<input type="checkbox" name="myChk" id="myChk" for="myTxt" [(ngModel)]="cheque" (change)="triggerSomeEvent();addTotalAmount()"
+							<input type="checkbox" name="myChk" id="myChk" for="myTxt" [(ngModel)]="paymentEmi.chequeSelect" (change)="triggerSomeEvent();addTotalAmount()"
 							/>Cheque
 							<div class="tableShow" [style.visibility]="isDisabled">
 
 								<span>Amount:</span>
-								<input type="number" min="0" name="myTxt" id="myTxt" value="" [(ngModel)]="chequeAmount" (ngModelChange)="addTotalAmount()">
+								<input type="number" min="0" name="myTxt" id="myTxt" value="" [(ngModel)]="paymentEmi.chequeAmount" (ngModelChange)="addTotalAmount()">
 								<br/>
 								<br/>
 								<span>ChequNo:</span>
-								<input type="text" name="chequeNo">
+								<input type="text" name="chequeNo" [(ngModel)]="paymentEmi.chequeNo">
 							</div>
 						</div>
 						<div class="col-sm-1"></div>
 						<div class="col-sm-3">
-							<input type="checkbox" name="myChk" id="myChk" for="cash" [(ngModel)]="cash" (change)="cashChangeEvent();addTotalAmount()"
+							<input type="checkbox" name="myChk" id="myChk" for="cash" [(ngModel)]="paymentEmi.cashSelect" (change)="cashChangeEvent();addTotalAmount()"
 							/>Cash
 							<div class="tableShow" [style.visibility]="disableCash">
 								<span>Amount:</span>
-								<input type="number" name="cash" id="cash" value="" [(ngModel)]="cashAmount" (ngModelChange)="addTotalAmount()">
+								<input type="number" name="cash" id="cash" value="" [(ngModel)]="paymentEmi.cashAmount" (ngModelChange)="addTotalAmount()">
 							</div>
 						</div>
 						<div class="col-sm-1"></div>
 						<div class="col-sm-3">
-							<input type="checkbox" name="myChk" id="myChk" for="credit" [(ngModel)]="creditCard" (change)="creditCardEvent();addTotalAmount()"
+							<input type="checkbox" name="myChk" id="myChk" for="credit" [(ngModel)]="paymentEmi.creditcardSelect" (change)="creditCardEvent();addTotalAmount()"
 							/>Credit Card
 							<div class="tableShow" [style.visibility]="disableCredit">
 								<span>Amount:</span>
-								<input type="number" min="0" name="credit" id="credit" value="" [(ngModel)]="creditcardAmount" (ngModelChange)="addTotalAmount()">
+								<input type="number" min="0" name="credit" id="credit" value="" [(ngModel)]="paymentEmi.creditcardAmount" (ngModelChange)="addTotalAmount()">
 								<br/>
 								<br/>
 								<span>TransactionId:</span>
-								<input type="text" name="transactionId" value="">
+								<input type="text" name="transactionId" value="" [(ngModel)]="paymentEmi.creditTransId">
 
 							</div>
 						</div>
 						<div class="col-sm-1"></div>
 						<div class="payment">
 							<div class="col-sm-3">
-								<input type="checkbox" name="myChk" id="myChk" for="bank" [(ngModel)]="accountTranfer" (change)="tranferEvent();addTotalAmount()"
+								<input type="checkbox" name="myChk" id="myChk" for="bank" [(ngModel)]="paymentEmi.accountTranferSelect" (change)="tranferEvent();addTotalAmount()"
 								/>Account Transfer
 								<div class="tableShow" [style.visibility]="disableTransfer">
 									<span>Amount:</span>
-									<input type="number" min="0" name="credit" id="bank" value="" [(ngModel)]="accountTransferAmount" (ngModelChange)="addTotalAmount()">
+									<input type="number" min="0" name="credit" id="bank" value="" [(ngModel)]="paymentEmi.accounttranferAmount" (ngModelChange)="addTotalAmount()">
 									<br/>
 									<br/>
 									<span>TransactionId:</span>
-									<input type="text" name="id" value="">
+									<input type="text" name="id" value="" [(ngModel)]="paymentEmi.accountTranferId">
 								</div>
 							</div>
 							<div class="col-sm-1"></div>
 							<div class="col-sm-3">
-								<input type="checkbox" name="myChk" id="myChk" for="other" [(ngModel)]="other" (change)="otherEvent();addTotalAmount()" />Other
+								<input type="checkbox" name="myChk" id="myChk" for="other" [(ngModel)]="paymentEmi.othersSelect" (change)="otherEvent();addTotalAmount()"
+								/>Other
 								<div class="tableShow" [style.visibility]="disableOther">
-									<input type="number" min="0" name="other" id="other" value="" [(ngModel)]="otherAmount" (ngModelChange)="addTotalAmount()">
+									<input type="number" min="0" name="other" id="other" value="" [(ngModel)]="paymentEmi.othersAmount" (ngModelChange)="addTotalAmount()">
 								</div>
 							</div>
 							<div class="col-sm-1"></div>
@@ -563,7 +568,7 @@
 					<br>
 
 				</div>
-				<div class="emi-form" *ngIf="selectedOption == 'emi'">
+				<div class="emi-form" *ngIf="selectedOption == '1'">
 					<div class=" row form-group">
 						<label class="col-sm-3 col-form-label required">Financial Name
 							<span style="color:red">*</span>
@@ -647,14 +652,14 @@
 <div *ngIf="newUser ">
 	<div class="row form-group">
 		<div claas="container">
-			<button type="submit" class="btn btn-warning" (click)=" savePaymentEmi()" style="float:right;margin-right: 20%">Submit</button>
+			<button type="submit" class="btn btn-warning" (click)="saveUserDeatils('0')" style="float:right;margin-right: 20%">Submit</button>
 		</div>
 	</div>
 </div>
 <div *ngIf=" exchangeUser">
 	<div class="row form-group">
 		<div claas="container">
-			<button type="submit" class="btn btn-warning" style="float:right;margin-right: 20%" (click)="saveUserDeatils()">Submit</button>
+			<button type="submit" class="btn btn-warning" style="float:right;margin-right: 20%" (click)="saveUserDeatils('1')">Submit</button>
 		</div>
 	</div>
 </div>

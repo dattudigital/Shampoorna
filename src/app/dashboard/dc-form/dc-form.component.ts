@@ -15,15 +15,17 @@ export class DcFormComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    this.dcFormInfo = JSON.parse(sessionStorage.getItem('userSaleData'));
+    this.dcFormInfo = JSON.parse(sessionStorage.getItem('dcFormData'));
+    console.log("********");
     console.log(this.dcFormInfo);
-    this.vehicleModel=this.dcFormInfo[0].vechile_mode
-    this.engineNo = this.dcFormInfo[0].eng_no;
-    this.frameNo = this.dcFormInfo[0].frame_no;
-    this.vehicleColor = this.dcFormInfo[0].vechile_color
+    this.vehicleModel=this.dcFormInfo.vechile_mode
+    this.engineNo = this.dcFormInfo.eng_no;
+    this.frameNo = this.dcFormInfo.frame_no;
+    this.vehicleColor = this.dcFormInfo.vechile_color
     console.log(this.vehicleColor);
   }
   backsaleDetails() {
+    sessionStorage.removeItem('dcFormData'); 
     this.router.navigate(['sale-details'])
   }
 }
