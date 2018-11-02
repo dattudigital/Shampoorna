@@ -14,7 +14,7 @@ export class SaleDashboardComponent implements OnInit {
   ngOnInit() {
     sessionStorage.removeItem('secondaryLoginData');  
     sessionStorage.removeItem('backBtnInventory');  
-       
+    sessionStorage.removeItem('backBtnManager'); 
 
   }
   todaySaleClick()

@@ -50,7 +50,7 @@
   <div class="col-md-2 col-sm-2 col-xs-12 manager-tap-left">
     <div class="nav flex-column nav-pills rs-1-left-button" id="__inventory" role="tablist" aria-orientation="vertical">
       <a class="nav-link vehicle-detail" id="v-pills-home-tab" (click)="redirectToVehicle();vehicleDetailClick()" data-toggle="pill" href="#vehicleDetail"
-        role="tab" aria-controls="vehicle" aria-selected="true" >Vehicle Details</a>
+        role="tab" aria-controls="vehicle" aria-selected="true" *ngIf="vehicledetails" >Vehicle Details</a>
       <a class="nav-link inventory-list" id="v-pills-home-tab" (click)="redirectToInvList();inventoryListClick()" data-toggle="pill" href="#inventoryList"
         role="tab" aria-controls="invlist" aria-selected="true" *ngIf="inventorylist">Inventory List</a>
       <a class="nav-link indent-raise" id="v-pills-home-tab" (click)="redirectToIndent();indentRaiseClick()" data-toggle="pill" href="#indentRaise"
@@ -68,3 +68,11 @@
 </div>
 
 <div class="clear"></div>
+
+<ngx-spinner
+bdColor="rgba(51,51,51,0.8)"
+size="medium"
+color="#f5c585"
+type="ball-scale-multiple">
+<p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

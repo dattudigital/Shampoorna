@@ -1,7 +1,52 @@
 <!-- <div class="tabs-services">
   
 </div> -->
-<div class="add_promotions padding-20">
+
+<div id="myModal" class="modal fade" role="dialog" data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form>
+        <div class="form-group">
+          <div class="col-md-4 col-sm-6 login_form-left">
+            <label>User Name</label>
+          </div>
+          <div class="col-md-8 col-sm-6 login_form-right">
+            <input type="text" class="form-control" [(ngModel)]="mailId" (ngModelChange)="errorClear()" name="some" placeholder="Employee Id">
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-4 login_form-left">
+            <label>Password</label>
+          </div>
+          <div class="col-md-8 col-sm-6 login_form-right">
+            <input type="password" class="form-control" [(ngModel)]="passwordLogin" (ngModelChange)="errorClear()" name="password" placeholder="Employee Password">
+          </div>
+          <div class="form-group">
+            <label *ngIf="errorMessage" class="alertRed">Invalid Credentials</label>
+          </div>
+
+          <div class="clear"></div>
+        </div>
+        <div class="login_form-submit">
+          <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-3">
+              <button type="submit" [disabled]="btnDisable"  (click)="loginSubmite();" class="btn btn-primary submit-button">Sign In</button>
+            </div>
+            <div class="col-sm-2">
+              <button type="submit" data-dismiss="modal" class="btn btn-warning" (click)="RedirectToHome()">Cancel</button>
+            </div>
+            <div class="col-sm-3"></div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="tableShow" [style.visibility]="titleStyle">
+  <div class="add_promotions padding-20">
   <div class="row">
     <div class="col-sm-6">
       <h3 style="font-weight:600; padding: 7px;">Employees Details</h3>
@@ -56,6 +101,7 @@
     </ng-template>
 
   </p-table>
+</div>
 </div>
 
 <div class="modal fade" id="addEmployee" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel">
@@ -361,6 +407,15 @@
     </div>
   </div>
 </div>
+
+
+<ngx-spinner
+bdColor="rgba(51,51,51,0.8)"
+size="medium"
+color="#f5c585"
+type="ball-scale-multiple">
+<p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
 
 
 

@@ -46,11 +46,13 @@ export class VehicleDetailsComponent implements OnInit {
   vehicleMakeFilter="";
   fromDate="";
   toDate="";
+  addnewvehicle = false;
 
 
   constructor(private router: Router, private service: VehicleDetailService, private http: Http, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.roleLogin1();
 
     this.service.getVehicleDetails().subscribe(res => {
       console.log(res.json().result)
@@ -103,6 +105,23 @@ export class VehicleDetailsComponent implements OnInit {
       console.log(data.json())
       this.typeData = data.json().result;
     });
+  }
+
+  roleLogin1() {
+    console.log("###111#####")
+    let loginData1 = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
+    console.log(loginData1);
+    if (loginData1.status == true && loginData1._results.emp_type_id == 1) {
+      console.log("1111")
+      this.addnewvehicle = true;
+      sessionStorage.setItem('backBtnInventory', 'Y');
+      // this.titleStyle = "visible";
+    }else if (loginData1.status == true && loginData1._results.emp_type_id == 3) {
+      console.log("33333")
+      this.addnewvehicle = true;
+      sessionStorage.setItem('backBtnInventory', 'Y');
+      // this.titleStyle = "visible";
+    }
   }
 
   backToInventory() {

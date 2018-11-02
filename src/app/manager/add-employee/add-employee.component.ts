@@ -3,6 +3,10 @@ import { Http } from '@angular/http';
 import { ManagerServiceService } from '../../services/manager-service.service'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router'
+import { LoginService } from '../../services/login.service'
+import { NgxSpinnerService } from 'ngx-spinner';
+declare var $: any;
+
 @Component({
   selector: 'app-add-employee',
   templateUrl: './add-employee.component.html',
@@ -38,11 +42,23 @@ export class AddEmployeeComponent implements OnInit {
   Phone: '';
   Password: '';
 
-  constructor(private http: Http, private service: ManagerServiceService, private formBuilder: FormBuilder, private router: Router) { }
+  passwordLogin = "";
+  mailId = "";
+  titleStyle = "hidden";
+  errorMessage = false;
+  btnDisable = true;
+  test1: any;
+
+
+
+  constructor(private http: Http,private spinner: NgxSpinnerService, private service: ManagerServiceService, private formBuilder: FormBuilder, private router: Router, private loginservice: LoginService) { }
 
   ngOnInit() {
+    
     sessionStorage.removeItem('secondaryLoginData');  
-    sessionStorage.removeItem('backBtnInventory');  
+    sessionStorage.removeItem('backBtnInventory');
+    sessionStorage.removeItem('inventory-routing');
+    this.loginPopUp(); 
     this.service.getEmployeeDetails().subscribe(res => {
       this.employees = res.json().result;
       console.log(this.employees);
@@ -68,6 +84,67 @@ export class AddEmployeeComponent implements OnInit {
 
     });
   }
+
+  errorClear() {
+    this.errorMessage = false;
+    if (this.passwordLogin && this.mailId) {
+      this.btnDisable = false;
+    }
+    else {
+      this.btnDisable = true;
+    }
+  }
+
+  loginPopUp() {
+    if (sessionStorage.backBtnManager) {
+      $('#myModal').modal('hide');
+      this.titleStyle = "visible";
+    }
+    else {
+      $('#myModal').modal('show');
+    }
+  }
+
+  loginSubmite() {
+    if (sessionStorage.secondaryLoginData) {
+      window.sessionStorage.removeItem('secondaryLoginData');
+      //console.log('secondaryLoginData')
+    }
+    var data = {
+      password: this.passwordLogin,
+      email_id: this.mailId
+    }
+    this.spinner.show();
+    if (this.mailId && this.passwordLogin) {
+      this.loginservice.dataLogin(data).subscribe(loginData => {
+        console.log(loginData)
+        console.log(loginData.json().status)
+        if (loginData.json().status == false) {
+          this.errorMessage = true;
+        }
+        this.test1 = loginData.json()._results;
+        console.log(this.test1);
+        console.log(this.test1.emp_type_id);
+
+        if (loginData.json().status == true && this.test1.emp_type_id == 1) {
+          //console.log(loginData.json().result[0])
+          sessionStorage.setItem('secondaryLoginData', JSON.stringify(loginData.json()));
+          sessionStorage.setItem('backBtnManager', 'Y');
+          $('#myModal').modal('hide');
+          this.titleStyle = "visible";
+          this.spinner.hide();
+        } else {
+          this.errorMessage = true;
+          this.spinner.hide();
+        }
+      });
+    }
+  }
+
+  RedirectToHome() {
+    this.router.navigate(['dashboard']);
+  }
+
 
 
   get f() { return this.employeeForm.controls; }

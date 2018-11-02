@@ -6,6 +6,8 @@ declare var $: any;
 import { Location } from '@angular/common';
 import { Message } from 'primeng/components/common/api';
 import { MessageService } from 'primeng/components/common/messageservice';
+import { NgxSpinnerService } from 'ngx-spinner';
+
 @Component({
   selector: 'app-time-clock',
   templateUrl: './time-clock.component.html',
@@ -29,7 +31,7 @@ export class TimeClockComponent implements OnInit {
   totalMin;
   finalHours;
 
-  constructor(private service: TimeClocksService, private router: Router, private _location: Location, private messageService: MessageService, private http: HttpClient) { }
+  constructor(private service: TimeClocksService,private spinner: NgxSpinnerService, private router: Router, private _location: Location, private messageService: MessageService, private http: HttpClient) { }
 
 
   emp_id = '';
@@ -77,7 +79,8 @@ export class TimeClockComponent implements OnInit {
   };
   msgs: Message[] = [];
   ngOnInit() {
-    sessionStorage.removeItem('backBtnInventory');     
+    sessionStorage.removeItem('backBtnInventory');    
+    sessionStorage.removeItem('backBtnManager');  
     this.loginPopUp();
     this.getTimeAndDate();
     setInterval(() => {
@@ -125,7 +128,7 @@ export class TimeClockComponent implements OnInit {
       password: this.password,
       email_id: this.mailId
     }
-
+    this.spinner.show();
     if (this.mailId && this.password) {
       console.log(data)
       this.http.post('http://ec2-54-88-194-105.compute-1.amazonaws.com:3005/time-clocks/login', data).subscribe(response => {
@@ -151,6 +154,7 @@ export class TimeClockComponent implements OnInit {
         if (this.test1.status == true) {
           $('#myModal').modal('hide');
           this.titleStyle = "visible";
+          this.spinner.hide();
         } else {
           this.errorMessage = true;
         }
@@ -165,6 +169,7 @@ export class TimeClockComponent implements OnInit {
         }
       });
     } else {
+      this.spinner.hide();
       this.alerts = [{
         type: 'danger',
         msg: `Invalid credentials`,

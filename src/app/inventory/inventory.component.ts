@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoginService } from '../services/login.service'
+import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
 
 @Component({
@@ -18,6 +19,7 @@ export class InventoryComponent implements OnInit {
   btnDisable = true;
   alerts: any[] = [];
   test1: any;
+  vehicledetails = false;
   inventorylist = false;
   indentraise = false;
   listindent = false;
@@ -25,10 +27,13 @@ export class InventoryComponent implements OnInit {
   acknowledgement = false;
 
 
-  constructor(private router: Router, private http: HttpClient, private service: LoginService) { }
+  constructor(private router: Router,private spinner: NgxSpinnerService, private http: HttpClient, private service: LoginService) { }
 
   ngOnInit() {
+    sessionStorage.removeItem('secondaryLoginData');  
     sessionStorage.removeItem('backBtnTimeclocks');
+    sessionStorage.removeItem('backBtnManager'); 
+
     this.loginPopUp();
     this.roleLogin();
 
@@ -51,8 +56,10 @@ export class InventoryComponent implements OnInit {
     console.log("##########")
     let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
     console.log(loginData);
+    if(loginData){
     if (loginData.status == true && loginData._results.emp_type_id == 1) {
       console.log("1111111")
+      this.vehicledetails = true;
       this.inventorylist = true;
       this.indentraise = true;
       this.listindent = true;
@@ -60,6 +67,7 @@ export class InventoryComponent implements OnInit {
       this.acknowledgement = true;
       sessionStorage.setItem('backBtnInventory', 'Y');
       this.titleStyle = "visible";
+      this.spinner.hide();
     } else if (loginData.status == true && loginData._results.emp_type_id == 2) {
       console.log("2222222")
       this.inventorylist = true;
@@ -67,14 +75,21 @@ export class InventoryComponent implements OnInit {
       this.acknowledgement = true;
       sessionStorage.setItem('backBtnInventory', 'Y');
       this.titleStyle = "visible";
+      this.spinner.hide();
     } else if (loginData.status == true && loginData._results.emp_type_id == 3) {
       console.log("3333333")
+      this.vehicledetails = true;
       this.listindent = true;
       this.inventoryass = true;
       sessionStorage.setItem('backBtnInventory', 'Y');
       this.titleStyle = "visible";
+      this.spinner.hide();
     }
+    // else if (loginData.status == false ){
+    //   this.errorMessage = true;
+    // }
   }
+}
 
   errorClear() {
     this.errorMessage = false;
@@ -109,16 +124,24 @@ export class InventoryComponent implements OnInit {
       password: this.password,
       email_id: this.mailId
     }
+    this.spinner.show();
     if (this.mailId && this.password) {
       console.log(data)
       this.service.dataLogin(data).subscribe(inData => {
         this.test1 = inData.json()._results;
         sessionStorage.setItem('secondaryLoginData', JSON.stringify(inData.json()));
-        $('#myModal').modal('hide');
-        this.roleLogin();
+        
         console.log("*****************")
+        if (inData.json().status == false){
+          this.errorMessage = true;
+          this.spinner.hide();
+        } else {
+          this.roleLogin();
+          $('#myModal').modal('hide');
+        }
       });
     } else {
+      this.spinner.hide();
       this.alerts = [{
         type: 'danger',
         msg: `Invalid credentials`,

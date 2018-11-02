@@ -15,7 +15,7 @@ import {CalendarModule} from 'primeng/calendar';
 import {FileUploadModule} from 'primeng/fileupload';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { ClipboardModule } from 'ngx-clipboard';
-
+import { NgxSpinnerModule } from 'ngx-spinner'
 // import {FormGroup,FormControl,Validators,FormBuilder} from '@angular/forms'
 import {SelectItem} from 'primeng/api';
 import { SimpleNotificationsModule } from 'angular2-notifications';
@@ -113,7 +113,8 @@ const routes: Routes = [
     AlertModule.forRoot(),
     FileUploadModule,
     TypeaheadModule.forRoot(),
-    ClipboardModule
+    ClipboardModule,
+    NgxSpinnerModule
 
 
   ],
