@@ -26,6 +26,7 @@ export class DashboardComponent implements OnInit {
   disableOther = 'hidden';
   disableApprovedBy = 'hidden';
   public date1: any;
+  public date2: any;
   uploadedFiles: any[] = [];
 
   cheque: any = '';
@@ -100,7 +101,7 @@ export class DashboardComponent implements OnInit {
     'chequeSelect': '',
     'chequeNo': '',
     'chequeAmount': '',
-    'chequeDate': '2018-10-15',
+    'chequeDate': '',
     'cashSelect': '',
     'cashAmount': '',
     'creditcardSelect': '',
@@ -194,9 +195,10 @@ export class DashboardComponent implements OnInit {
   }
 
   tranferEvent() {
-    if (this.paymentEmi.accountTransferSelect == false) {
+    console.log(this.paymentEmi.accountTranferSelect)
+    if (this.paymentEmi.accountTranferSelect == false) {
       this.disableTransfer = 'hidden';
-      this.paymentEmi.accountTransferAmount = null
+      this.paymentEmi.accountTranferSelect = null
     } else {
       this.disableTransfer = 'visible';
     }
@@ -250,6 +252,12 @@ export class DashboardComponent implements OnInit {
     let newDate = moment(this.dob).format('YYYY-MM-DD').toString();
     this.dob = newDate;
     console.log(this.dob)
+  }
+
+  getChequedate() {
+    let newDate = moment(this.paymentEmi.chequeDate).format('YYYY-MM-DD').toString();
+    this.paymentEmi.chequeDate = newDate;
+    console.log(this.paymentEmi.chequeDate)
   }
   //complete sale details
   saveUserDeatils(val) {
@@ -361,7 +369,7 @@ export class DashboardComponent implements OnInit {
           emi_financial_name: this.paymentEmi.financialName,
           emi_financial_down_payment: this.paymentEmi.downPayment,
           emi_addresss_proof: this.paymentEmi.addressProof,
-         // address_name: this.paymentEmi.addressFileName,
+          // address_name: this.paymentEmi.addressFileName,
           emi_id_proof: this.paymentEmi.idProof,
           //id_name: this.paymentEmi.idProofName,
           emi_cheque: this.paymentEmi.cheque,
