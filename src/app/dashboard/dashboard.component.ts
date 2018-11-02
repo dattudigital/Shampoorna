@@ -46,8 +46,8 @@ export class DashboardComponent implements OnInit {
   mobile = '';
   addressProof = '';
   addressProofNo = '';
-  userImage ='';
-  userImageName ='';
+  userImage = '';
+  userImageName = '';
   //vehicle information
   vehicleEngineNo = '';
   vehicleFrameNo = '';
@@ -97,8 +97,20 @@ export class DashboardComponent implements OnInit {
     'bankStatement': [],
     'cheque': '',
     'chequeFileName': '',
-    'photo': ''
-
+    'chequeSelect': '',
+    'chequeNo': '',
+    'chequeAmount': '',
+    'chequeDate': '2018-10-15',
+    'cashSelect': '',
+    'cashAmount': '',
+    'creditcardSelect': '',
+    'creditTransId': '',
+    'creditAmount': '',
+    'accountTranferSelect': '',
+    'accounttranferAmount': '',
+    'accountTranferId': '',
+    'othersSelect': '',
+    'othersAmount': '',
   }
   //paymentmode Cash
   cashAmount: number;
@@ -126,6 +138,7 @@ export class DashboardComponent implements OnInit {
   roadTax: number = 0;
   tempAmount: number = 0;
   taxCount: number = 0
+
   constructor(private saleUserService: SaleUserService, private http: Http, private router: Router, ) { }
 
   ngOnInit() {
@@ -152,46 +165,47 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['sale-details'])
   }
   triggerSomeEvent() {
-    console.log(this.cheque)
-    if (this.cheque == false) {
+    console.log(this.paymentEmi.chequeSelect)
+    if (this.paymentEmi.chequeSelect == false) {
       this.isDisabled = 'hidden';
-      this.chequeAmount = null;
+      this.paymentEmi.chequeAmount = null;
     } else {
       this.isDisabled = 'visible';
     }
   }
 
   cashChangeEvent() {
-    if (this.cash == false) {
+    console.log(this.paymentEmi.cashSelect);
+    if (this.paymentEmi.cashSelect == false) {
       this.disableCash = 'hidden';
-      this.cashAmount = null;
+      this.paymentEmi.cashAmount = null;
     } else {
       this.disableCash = 'visible';
     }
   }
 
   creditCardEvent() {
-    if (this.creditCard == false) {
+    if (this.paymentEmi.creditcardSelect == false) {
       this.disableCredit = 'hidden';
-      this.creditcardAmount = null
+      this.paymentEmi.creditcardAmount = null
     } else {
       this.disableCredit = 'visible';
     }
   }
 
   tranferEvent() {
-    if (this.accountTranfer == false) {
+    if (this.paymentEmi.accountTransferSelect == false) {
       this.disableTransfer = 'hidden';
-      this.accountTransferAmount = null
+      this.paymentEmi.accountTransferAmount = null
     } else {
       this.disableTransfer = 'visible';
     }
   }
 
   otherEvent() {
-    if (this.other == false) {
+    if (this.paymentEmi.othersSelect == false) {
       this.disableOther = 'hidden';
-      this.otherAmount = null;
+      this.paymentEmi.othersAmount = null;
     } else {
       this.disableOther = 'visible';
     }
@@ -253,11 +267,10 @@ export class DashboardComponent implements OnInit {
       district: this.districtName,
       proof_type: this.addressProof,
       proof_num: this.addressProofNo,
-      user_image :this.userImage,
-      user_image_name :this.userImageName,
+      user_image: this.userImage,
+      user_image_name: this.userImageName,
       user_type: val,
       sale_status: "1"
-
     }
     console.log(data)
     this.saleUserService.saveSalesUser(data).subscribe(response => {
@@ -310,17 +323,64 @@ export class DashboardComponent implements OnInit {
             console.log(res.json())
           })
         }
+        let chequeSelect;
+        let cashSelect;
+        let creditcardSelect;
+        let accountSelect;
+        let otherSelect;
+        console.log(this.paymentEmi.chequeSelect)
+        if (this.paymentEmi.chequeSelect == true) {
+          chequeSelect = '1'
+        } else {
+          chequeSelect = '0'
+        }
+
+        if (this.paymentEmi.cashSelect == true) {
+          cashSelect = '1'
+        } else {
+          cashSelect = '0'
+        }
+        if (this.paymentEmi.credicardSelect == true) {
+          creditcardSelect = '1'
+        } else {
+          creditcardSelect = '0'
+        }
+        if (this.paymentEmi.accountTransferSelect == true) {
+          accountSelect = '1'
+        } else {
+          accountSelect = '0'
+        }
+        if (this.paymentEmi.othersSelect.toString() == 'true') {
+          otherSelect = '1'
+        } else {
+          otherSelect = '0'
+        }
         var paymentDetails = {
           pay_sale_user_id: response.json().result.sale_user_id,
           mode_of_payment: this.paymentEmi.paymentmode,
           emi_financial_name: this.paymentEmi.financialName,
           emi_financial_down_payment: this.paymentEmi.downPayment,
           emi_addresss_proof: this.paymentEmi.addressProof,
-          address_name: this.paymentEmi.addressFileName,
+         // address_name: this.paymentEmi.addressFileName,
           emi_id_proof: this.paymentEmi.idProof,
-          id_name: this.paymentEmi.idProofName,
+          //id_name: this.paymentEmi.idProofName,
           emi_cheque: this.paymentEmi.cheque,
-          cheque_name: this.paymentEmi.chequeFileName
+          //cheque_name: this.paymentEmi.chequeFileName,
+          cheque: chequeSelect,
+          cheque_no: this.paymentEmi.chequeNo,
+          cheque_date: this.paymentEmi.chequeDate,
+          cheque_amt: this.paymentEmi.chequeAmount,
+          cash: cashSelect,
+          cash_amount: this.paymentEmi.cashAmount,
+          credit_card: creditcardSelect,
+          credit_card_tranactionid: this.paymentEmi.creditTransId,
+          credit_card_amt: this.paymentEmi.creditcardAmount,
+          account_transfer: accountSelect,
+          account_trasaction_id: this.paymentEmi.accountTranferId,
+          account_transfer_amt: this.paymentEmi.accounttranferAmount,
+          others: otherSelect,
+          others_amt: this.paymentEmi.othersAmount,
+          total: this.cashTotal
           //bank_statement: this.paymentEmi.bankStatement
         }
         console.log(paymentDetails);
@@ -415,7 +475,7 @@ export class DashboardComponent implements OnInit {
   addressPreview: any;
   idpreview: any;
   chequepreview: any;
-  userimagePreview:any;
+  userimagePreview: any;
   getFileDetails(event, text1) {
     this.currentImage = text1;
     console.log(this.currentImage);
@@ -540,22 +600,23 @@ export class DashboardComponent implements OnInit {
     console.log(this.chequeAmount);
     console.log(this.cashAmount);
     // console.log(this.cashTotal);
-    if (this.chequeAmount && this.cheque) {
-      this.cashTotal = this.cashTotal + this.chequeAmount;
+    if (this.paymentEmi.chequeAmount && this.paymentEmi.chequeSelect) {
+      this.cashTotal = this.cashTotal + this.paymentEmi.chequeAmount;
     }
-    if (this.cashAmount && this.cash) {
-      this.cashTotal = this.cashTotal + this.cashAmount
+    if (this.paymentEmi.cashAmount && this.paymentEmi.cashSelect) {
+      this.cashTotal = this.cashTotal + this.paymentEmi.cashAmount
     }
-    if (this.creditcardAmount && this.creditCard) {
-      this.cashTotal = this.cashTotal + this.creditcardAmount
-    }
-
-    if (this.accountTransferAmount && this.accountTranfer) {
-      this.cashTotal = this.cashTotal + this.accountTransferAmount
+    if (this.paymentEmi.creditcardAmount && this.paymentEmi.creditcardSelect) {
+      this.cashTotal = this.cashTotal + this.paymentEmi.creditcardAmount
     }
 
-    if (this.otherAmount && this.other) {
-      this.cashTotal = this.cashTotal + this.otherAmount
+    if (this.paymentEmi.accounttranferAmount && this.paymentEmi.accountTranferSelect) {
+      console.log('account tranfer')
+      this.cashTotal = this.cashTotal + this.paymentEmi.accounttranferAmount;
+    }
+
+    if (this.paymentEmi.othersAmount && this.paymentEmi.othersSelect) {
+      this.cashTotal = this.cashTotal + this.paymentEmi.othersAmount
     }
     console.log(this.cashTotal);
   }

@@ -50,6 +50,9 @@ export class SaleDetailsComponent implements OnInit {
   basicwithTax: number;
   employeedata: any;
   branchManagerData: any = [];
+  isShowOriginalImg: boolean = false;
+  url: any;
+  profile_name: any;
 
   constructor(private service: SaleUserService, private dp: DatePipe, private _clipboardService: ClipboardService, private router: Router, private http: Http) { }
 
@@ -234,6 +237,30 @@ export class SaleDetailsComponent implements OnInit {
     console.log(this.dcFormInfo);
     sessionStorage.setItem('dcFormData', JSON.stringify(this.dcFormInfo));
   }
+ 
+
+  onFileChanged(event) {
+    var files = event.target.files;
+    var file = files[0];
+    if (files && file) {
+      var reader = new FileReader();
+      var reader1 = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      this.profile_name = file.name;
+      reader.onload = this._handleReaderLoaded.bind(this);
+      reader1.readAsBinaryString(file);
+    }
+  }
+  _handleReaderLoaded(readerEvt) {
+    var binaryString = readerEvt.target.result;
+    binaryString = binaryString.replace(/^data:image\/png;base64,/, "");
+    binaryString = binaryString.replace(/^data:image\/jpg;base64,/, "");
+    // binaryString = binaryString.replace(/^data:image\/jpeg;base64,/, "");
+    this.url = event.target;
+    this.isShowOriginalImg = true;
+    this.user_image = binaryString;
+    console.log(this.user_image)
+  }
   updatePersonInfo() {
     console.log('personalUpd')
     var data = {
@@ -252,6 +279,7 @@ export class SaleDetailsComponent implements OnInit {
       district: this.district,
       proof_type: this.proof_type,
       proof_num: this.proof_num,
+      user_image:this.user_image,
       sale_status: this.sale_status
     }
     this.service.saveSalesUser(data).subscribe(res => {
@@ -274,10 +302,6 @@ export class SaleDetailsComponent implements OnInit {
       this.temp = " ";
     })
   }
-
-
-
-
 
   updateVehicleInfo() {
     var data = {
