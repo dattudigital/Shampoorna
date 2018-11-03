@@ -602,11 +602,10 @@
 								<label>Other</label>
 								<div class="tableShow" [style.visibility]="disableOther">
 									<div class="row form-group">
-										<label class="col-sm-4 col-form-label required">Mobile wallet
+										<span class="col-sm-4  required">Mobile wallet
 											<span style="color:red">*</span>
-										</label>
+										</span>
 										<div class="col-sm-5">
-
 											<select name="state" class="form-control" [(ngModel)]="addressProof">
 												<option value="" disabled select>Select</option>
 												<option value="Paytm">Paytm</option>
@@ -625,7 +624,6 @@
 											<input type="number" min="0" name="other" id="other" value="" [(ngModel)]="paymentEmi.othersAmount" (ngModelChange)="addTotalAmount()">
 										</div>
 									</div>
-
 								</div>
 							</div>
 							<div class="col-sm-4">
@@ -685,7 +683,7 @@
 								<span style="color:red">*</span>
 							</label>
 							<div class="col-sm-3">
-								<input type="file" name="bank" multiple accept=".pdf,.doc,.docx,image/*" (change)="getBankDetails($event)">
+								<input type="file" name="bank" multiple accept=".pdf,.doc,.docx,image/*" (change)="getFileDetails($event,'b')">
 							</div>
 							<div *ngIf="i !==0">
 								<div class="col-sm-1">
@@ -694,13 +692,16 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-sm-1">
-								<div class="add-button">
-									<button type="submit" class="btn btn-success" (click)="addBankStatement(bank,i)">Add</button>
+							<div class="row form-group">
+									<div class="col-sm-1">
+										<div class="add-button">
+											<button type="submit" class="btn btn-success" (click)="addBankStatement(bank,i)">Add</button>
+										</div>
+									</div>
 								</div>
-							</div>
 						</div>
 					</div>
+				
 					<div class=" row form-group">
 						<label class="col-sm-3 col-form-label required">cheque
 							<span style="color:red">*</span>
@@ -713,7 +714,6 @@
 							<br/>
 						</div>
 					</div>
-
 				</div>
 			</div>
 		</div>
