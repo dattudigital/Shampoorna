@@ -45,7 +45,7 @@ export class VehicleDetailsComponent implements OnInit {
   vehicleMakeFilter="";
   fromDate="";
   toDate="";
-  addnewvehicle = false;
+  // addnewvehicle = false;
 
   constructor(private router: Router, private service: VehicleDetailService, private http: Http, private formBuilder: FormBuilder) { }
 
