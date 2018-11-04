@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router'
 import { LoginService } from '../../services/login.service'
 import { NgxSpinnerService } from 'ngx-spinner';
+import { environment } from '../../../environments/environment';
 declare var $: any;
 
 @Component({
@@ -21,6 +22,7 @@ export class AddEmployeeComponent implements OnInit {
   deleteData:any=[];
   temp: any;
   temp1:any;
+  empData:any;
 
   employee_id: '';
   employee_firstname: '';
@@ -41,6 +43,7 @@ export class AddEmployeeComponent implements OnInit {
   emailId: '';
   Phone: '';
   Password: '';
+  employeeType: '';
 
   passwordLogin = "";
   mailId = "";
@@ -63,6 +66,13 @@ export class AddEmployeeComponent implements OnInit {
       this.employees = res.json().result;
       console.log(this.employees);
     })
+
+    this.http.get(environment.host + 'emp-types').subscribe(data => {
+      console.log(data.json())
+      this.empData = data.json().result;
+    });
+
+    
     this.cols = [
       { field: 'employee_firstname', header: 'FirstName' },
       { field: 'employee_lastname', header: 'LastName' },
@@ -78,6 +88,7 @@ export class AddEmployeeComponent implements OnInit {
       employeeBranch: ['', Validators.required],
       employeeAddress: ['', Validators.required],
       employeePinCode: ['', Validators.required],
+      empType: ['', Validators.required],
       Email: ['', Validators.required],
       Phone: ['', Validators.required],
       Password: ['', Validators.required]
@@ -128,7 +139,7 @@ export class AddEmployeeComponent implements OnInit {
 
         if (loginData.json().status == true && this.test1.emp_type_id == 1) {
           //console.log(loginData.json().result[0])
-          sessionStorage.setItem('secondaryLoginData', JSON.stringify(loginData.json()));
+          sessionStorage.setItem('secondaryLoginData1', JSON.stringify(loginData.json()));
           sessionStorage.setItem('backBtnManager', 'Y');
           $('#myModal').modal('hide');
           this.titleStyle = "visible";
@@ -162,6 +173,7 @@ export class AddEmployeeComponent implements OnInit {
       employee_address: this.address,
       employee_pincode: this.pincode,
       email_id: this.emailId,
+      emp_type_id:this.employeeType,
       phone: this.Phone,
       password: this.Password,
       rec_status: 1

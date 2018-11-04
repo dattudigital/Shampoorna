@@ -46,10 +46,14 @@ export class IndentListComponent implements OnInit {
   constructor(private router: Router, private service: IndentService, private dp: DatePipe, private http: Http) { }
 
   ngOnInit() {
-
-    this.service.getIndentList().subscribe(res => {
-      console.log(res.json().result)
-      this.indents = res.json().result
+    let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
+    console.log("#####")
+    console.log(loginData._results.branch_id)
+    var brurl = '';
+    brurl = brurl + '?branchid=' + loginData._results.branch_id;
+    this.service.getIndentList(brurl).subscribe(res => {
+    console.log(res.json().result)
+    this.indents = res.json().result
     })
 
     this.http.get(environment.host + 'vehicle-makes').subscribe(data => {
@@ -106,10 +110,10 @@ export class IndentListComponent implements OnInit {
     this.router.navigate(['inventory']);
 
   }
-  indent_id ='';
+  indent_id = '';
   indent_req_id = '';
-  emp_id ='';
-  br_id ='';
+  emp_id = '';
+  br_id = '';
   veh_color = '';
   veh_type = '';
   veh_make = '';
@@ -120,14 +124,14 @@ export class IndentListComponent implements OnInit {
   assigned_on = '';
   // updated_on = '';
   assignedby = '';
-  status ='';
-  shipping_status='';
-  shipped_vechile_no='';
-  shipped_by='';
+  status = '';
+  shipping_status = '';
+  shipped_vechile_no = '';
+  shipped_by = '';
   // updatedby = '';
 
 
-  editIndent(data, index){
+  editIndent(data, index) {
     console.log(data)
     console.log(index)
     this.editData = data;
@@ -136,8 +140,8 @@ export class IndentListComponent implements OnInit {
     console.log(this.editData[index].veh_color)
     this.indent_id = this.editData[index].indent_id
     this.indent_req_id = this.editData[index].indent_req_id;
-    this.emp_id=this.editData[index].emp_id;
-    this.br_id=this.editData[index].br_id;
+    this.emp_id = this.editData[index].emp_id;
+    this.br_id = this.editData[index].br_id;
     this.veh_color = this.editData[index].veh_color;
     this.veh_type = this.editData[index].veh_type;
     this.veh_make = this.editData[index].veh_make;
@@ -157,12 +161,12 @@ export class IndentListComponent implements OnInit {
     console.log(this.shipId)
   }
 
-  updateIndent(){
+  updateIndent() {
     var data = {
-      indent_id:this.indent_id,
+      indent_id: this.indent_id,
       indent_req_id: this.indent_req_id,
       emp_id: this.emp_id,
-      br_id:this.br_id,
+      br_id: this.br_id,
       veh_type: this.veh_type,
       veh_color: this.veh_color,
       veh_make: this.veh_make,
@@ -173,8 +177,8 @@ export class IndentListComponent implements OnInit {
       shippind_id: this.shipId,
       shipped_by: this.shipped_by,
       shipped_vechile_no: this.shipped_vechile_no,
-      shipping_status:this.shipping_status,
-      status:"0"
+      shipping_status: this.shipping_status,
+      status: "0"
     }
     console.log(data)
     this.service.addIndent(data).subscribe(res => {
@@ -236,7 +240,12 @@ export class IndentListComponent implements OnInit {
     })
   }
   detailsReset() {
-    this.service.getIndentList().subscribe(res => {
+    let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
+    console.log("#####")
+    console.log(loginData._results.branch_id)
+    var brurl= '';
+      brurl = brurl + '?branchid='+loginData._results.branch_id;
+    this.service.getIndentList(brurl).subscribe(res => {
       console.log(res.json().result)
       this.indents = res.json().result
     });

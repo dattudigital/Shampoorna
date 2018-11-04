@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router} from '@angular/router';
 import { InventoryAssigningService } from '../../services/inventory-assigning.service'
 import { InventoryListPipe } from '../../pipe/inventory-list.pipe';
+import { Http } from '@angular/http'
+import { environment } from '../../../environments/environment';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-inventory-acknowledge',
@@ -13,15 +16,51 @@ export class InventoryAcknowledgeComponent implements OnInit {
   inventoryData: any[];
   cols: any[];
   editData: any = [];
+  typeData: any[];
+  makeData: any[];
+  modelData: any[];
+  colorData: any[];
+
+  //vehicleTypeFilter = "";
+  vehicleModelFilter = "";
+  vehicleColorFilter = "";
+  vehicleMakeFilter = "";
+  fromDate = "";
+  toDate = "";
 
 
-  constructor(private router:Router, private service: InventoryAssigningService,private invAssignService: InventoryListPipe) { }
+  constructor(private router:Router, private service: InventoryAssigningService,private invAssignService: InventoryListPipe, private http: Http) { }
 
   ngOnInit() {
-    this.service.getAcknowledgeList().subscribe(res => {
+    let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
+    console.log("#####")
+    console.log(loginData._results.branch_id)
+    var brurl= '';
+      brurl = brurl + '&branchid='+loginData._results.branch_id;
+    this.service.getAcknowledgeList(brurl).subscribe(res => {
       console.log(res.json().result)
       //this.inventoryData = this.invAssignService.transform(res.json().result);
       this.inventoryData = res.json().result
+    });
+
+    this.http.get(environment.host + 'vehicle-makes').subscribe(data => {
+      console.log(data.json())
+      this.makeData = data.json().result;
+    });
+
+    this.http.get(environment.host + 'vehicle-models').subscribe(data => {
+      console.log(data.json())
+      this.modelData = data.json().result;
+    });
+
+    this.http.get(environment.host + 'vehicle-colors').subscribe(data => {
+      console.log(data.json())
+      this.colorData = data.json().result;
+    });
+
+    this.http.get(environment.host + 'vehicle-types').subscribe(data => {
+      console.log(data.json())
+      this.typeData = data.json().result;
     });
 
     this.cols = [
@@ -46,12 +85,84 @@ export class InventoryAcknowledgeComponent implements OnInit {
     this.router.navigate(['inventory']);
   }
 
+  fromDa() {
+    let newDate = moment(this.fromDate).format('YYYY-MM-DD').toString();
+    this.fromDate = newDate;
+    console.log(this.fromDate)
+  }
+
+  toDa() {
+    let newDate1 = moment(this.toDate).format('YYYY-MM-DD').toString();
+    this.toDate = newDate1;
+    console.log(this.toDate)
+
+  }
+
+  detailsGo() {
+    let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
+    console.log(loginData._results.branch_id)
+    var url = '';
+    if (this.fromDate) {
+      url = url + 'startdate=' + this.fromDate;
+    }
+    if (this.toDate) {
+      url = url + '&enddate=' + this.toDate;
+    }
+    // if (this.vehicleTypeFilter) {
+    //   url = url + '&type=' + '"' + this.vehicleTypeFilter + '"';
+    // }
+    if (this.vehicleMakeFilter) {
+      url = url + '&make=' + this.vehicleMakeFilter;
+    }
+    if (this.vehicleModelFilter) {
+      url = url + '&model=' + '"'+ this.vehicleModelFilter + '"';
+    }
+    if (this.vehicleColorFilter) {
+      url = url + '&color=' + '"'+ this.vehicleColorFilter + '"';
+    }
+    url = url + '&branchid='+loginData._results.branch_id;
+    console.log(this.vehicleMakeFilter);
+    console.log(url)
+    this.service.getAcknowledgeFilter(url).subscribe(res => {
+      console.log(res.json());
+      console.log("*******")
+      console.log(res)
+      console.log(res.json().status)
+
+      if (res.json().status == true) {
+        this.inventoryData = res.json().result;
+        console.log(this.inventoryData)
+      }
+      else {
+        this.inventoryData = res.json()._body;
+      }
+    })
+  }
+
+  detailsReset() {
+    let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
+    console.log("#####")
+    console.log(loginData._results.branch_id)
+    var brurl= '';
+      brurl = brurl + '&branchid='+loginData._results.branch_id;
+    this.service.getAcknowledgeList(brurl).subscribe(res => {
+      console.log(res.json().result)
+      this.inventoryData = res.json().result
+    });
+    //this.vehicleTypeFilter = " ";
+    this.vehicleModelFilter = " ";
+    this.vehicleColorFilter = " ";
+    this.vehicleMakeFilter = " ";
+    this.fromDate = " ";
+    this.toDate = " ";
+  }
+
   status='';
   inventory_assign_id='';
   branch_name='';
 
   yesAcknowledgement(data,index){
-   // this.inventoryData.splice(index,1)
+   //this.inventoryData.splice(index,1)
     console.log(data)
     console.log(index)
     this.editData = data;
@@ -68,9 +179,8 @@ export class InventoryAcknowledgeComponent implements OnInit {
     console.log(val)
     this.inventoryData.splice(index,1)
     this.service.addInventoryAssign(val).subscribe(res => {
-      console.log(res.json());
+    console.log(res.json());
     });
-
   }
   noAcknowledgement(data,index){
     console.log(data)
