@@ -6,8 +6,6 @@ import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 
-
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -26,6 +24,7 @@ export class DashboardComponent implements OnInit {
   disableOther = 'hidden';
   disableApprovedBy = 'hidden';
   public date1: any;
+  public date2: any;
   uploadedFiles: any[] = [];
 
   cheque: any = '';
@@ -48,6 +47,7 @@ export class DashboardComponent implements OnInit {
   addressProofNo = '';
   userImage = '';
   userImageName = '';
+  bankStatementname= '';
   //vehicle information
   vehicleEngineNo = '';
   vehicleFrameNo = '';
@@ -75,10 +75,9 @@ export class DashboardComponent implements OnInit {
   selectedValue: string;
   temp: any[] = new Array();
   vehicleInfo: any[] = new Array();
+  pdfName: any;
 
-  banks: any = [{
-    bankStatement: ''
-  }]
+
   //image uploads
   currentImage: any = '';
   bankuploadedFiles: any;
@@ -100,7 +99,7 @@ export class DashboardComponent implements OnInit {
     'chequeSelect': '',
     'chequeNo': '',
     'chequeAmount': '',
-    'chequeDate': '2018-10-15',
+    'chequeDate': '',
     'cashSelect': '',
     'cashAmount': '',
     'creditcardSelect': '',
@@ -110,8 +109,16 @@ export class DashboardComponent implements OnInit {
     'accounttranferAmount': '',
     'accountTranferId': '',
     'othersSelect': '',
+    'mobileWallet': '',
     'othersAmount': '',
   }
+
+  banks: any = [
+    {
+      name: '',
+      bankStatement: ''
+    }
+  ];
   //paymentmode Cash
   cashAmount: number;
   chequeAmount: number;
@@ -138,6 +145,7 @@ export class DashboardComponent implements OnInit {
   roadTax: number = 0;
   tempAmount: number = 0;
   taxCount: number = 0
+  bankStatemet: any;
 
   constructor(private saleUserService: SaleUserService, private http: Http, private router: Router, ) { }
 
@@ -158,7 +166,6 @@ export class DashboardComponent implements OnInit {
       }
       console.log(this.branchManagerData)
     });
-
   }
 
   redirectToSalesDetails() {
@@ -194,9 +201,10 @@ export class DashboardComponent implements OnInit {
   }
 
   tranferEvent() {
-    if (this.paymentEmi.accountTransferSelect == false) {
+    console.log(this.paymentEmi.accountTranferSelect)
+    if (this.paymentEmi.accountTranferSelect == false) {
       this.disableTransfer = 'hidden';
-      this.paymentEmi.accountTransferAmount = null
+      this.paymentEmi.accountTranferSelect = null
     } else {
       this.disableTransfer = 'visible';
     }
@@ -234,22 +242,33 @@ export class DashboardComponent implements OnInit {
   }
 
   addBankStatement(data, index) {
+    console.log(data)
     console.log(index)
+
     if (index !== 5) {
       this.banks.push({
-        bankStatement: ''
+        name: this.pdfName,
+        bankStatement: this.bankStatemet
       })
     }
+    console.log(this.banks)
   }
   deleteBankStatement(index) {
     console.log(index);
-    this.banks.splice(index, 1)
+    this.banks.splice(index - 1, 1)
+    console.log(this.banks)
   }
 
   getreqDate() {
     let newDate = moment(this.dob).format('YYYY-MM-DD').toString();
     this.dob = newDate;
     console.log(this.dob)
+  }
+
+  getChequedate() {
+    let newDate = moment(this.paymentEmi.chequeDate).format('YYYY-MM-DD').toString();
+    this.paymentEmi.chequeDate = newDate;
+    console.log(this.paymentEmi.chequeDate)
   }
   //complete sale details
   saveUserDeatils(val) {
@@ -361,11 +380,8 @@ export class DashboardComponent implements OnInit {
           emi_financial_name: this.paymentEmi.financialName,
           emi_financial_down_payment: this.paymentEmi.downPayment,
           emi_addresss_proof: this.paymentEmi.addressProof,
-         // address_name: this.paymentEmi.addressFileName,
           emi_id_proof: this.paymentEmi.idProof,
-          //id_name: this.paymentEmi.idProofName,
           emi_cheque: this.paymentEmi.cheque,
-          //cheque_name: this.paymentEmi.chequeFileName,
           cheque: chequeSelect,
           cheque_no: this.paymentEmi.chequeNo,
           cheque_date: this.paymentEmi.chequeDate,
@@ -378,10 +394,11 @@ export class DashboardComponent implements OnInit {
           account_transfer: accountSelect,
           account_trasaction_id: this.paymentEmi.accountTranferId,
           account_transfer_amt: this.paymentEmi.accounttranferAmount,
-          others: otherSelect,
+          other: otherSelect,
+          others_type: this.paymentEmi.mobileWallet,
           others_amt: this.paymentEmi.othersAmount,
-          total: this.cashTotal
-          //bank_statement: this.paymentEmi.bankStatement
+          total: this.cashTotal,
+          bank_statement: JSON.stringify(this.banks)
         }
         console.log(paymentDetails);
         this.saleUserService.addPaymentEmi(paymentDetails).subscribe(response => {
@@ -401,6 +418,7 @@ export class DashboardComponent implements OnInit {
       this.vehicleInfo = [];
     }
   }
+
   onSelect(event: TypeaheadMatch): void {
     this.onRoadPrice = 0
     this.selectedOption = event.item;
@@ -417,7 +435,6 @@ export class DashboardComponent implements OnInit {
       this.lifeTaxAmount = 0;
       this.vehicleInsuAmount = 0;
       this.taxAmount = 0;
-
       console.log(this.vehicleBasic)
       this.lifeTaxAmount = this.lifeTaxAmount + this.vehicleBasic * (this.lifeTax / 100);
       console.log(this.lifeTaxAmount)
@@ -440,37 +457,43 @@ export class DashboardComponent implements OnInit {
       this.disableApprovedBy = 'hidden'
     }
   }
-
   //for bank statement upload files
-  getBankDetails(e) {
-    console.log(e.target.files);
-    for (var i = 0; i < e.target.files.length; i++) {
-      this.myFiles.push(e.target.files[i]);
-      console.log(this.myFiles);
-    }
-    this.uploadFiles(e);
-    this.bankstmtImage = this.bankstmtImage + 1;
-  }
-  uploadFiles(val) {
-    var frmData: any = '';
-    console.log(this.myFiles.length);
-    for (var i = 0; i < this.myFiles.length; i++) {
-      this.bankuploadedFiles = this.myFiles[i];
-      console.log(this.bankuploadedFiles);
-    }
-    if (this.uploadedFiles) {
-      var reader = new FileReader();
-      reader.onload = this._handleReader.bind(this);
-      reader.readAsBinaryString(this.bankuploadedFiles);
-    }
-  }
-  _handleReader(readerEvt) {
-    var binaryString = readerEvt.target.result;
-    this.paymentEmi.bank_statement = btoa(binaryString);
-    this.data.push(this.paymentEmi.bank_statement);
-    this.paymentEmi.bank_statement = this.data;
-    console.log(this.paymentEmi.bank_statement);
-  }
+  // getBankDetails(e) {
+  //   console.log(e)
+  //   console.log(e.target.files);
+  //   for (var i = 0; i < e.target.files.length; i++) {
+  //     this.myFiles.push(e.target.files[i]);
+  //     console.log(this.myFiles);
+
+  //   }
+  //   this.uploadFiles(e);
+  //   this.bankstmtImage = this.bankstmtImage + 1;
+  // }
+
+  // uploadFiles(val) {
+  //   var frmData: any = '';
+  //   console.log(this.myFiles.length);
+  //   for (var i = 0; i < this.myFiles.length; i++) {
+  //     this.bankuploadedFiles = this.myFiles[i];
+  //     this.pdfName = this.myFiles[i]
+  //     console.log(this.pdfName);
+  //     console.log(this.bankuploadedFiles);
+  //   }
+  //   if (this.uploadedFiles) {
+  //     var reader = new FileReader();
+  //     reader.onload = this._handleReader.bind(this);
+  //     reader.readAsBinaryString(this.bankuploadedFiles);
+  //   }
+  // }
+
+  // _handleReader(readerEvt) {
+  //   var binaryString = readerEvt.target.result;
+  //   this.bankStatemet = btoa(binaryString);
+  //   this.data.push(this.bankStatemet);
+  //   this.paymentEmi.bank_statement = this.data;
+  //   console.log(this.paymentEmi.bank_statement);
+  // }
+
   //remaining files upload and preview
   addressPreview: any;
   idpreview: any;
@@ -529,6 +552,23 @@ export class DashboardComponent implements OnInit {
         this.userimagePreview = event.target;
       }
     }
+    if (event.target.files && event.target.files[0] && this.currentImage === 'b') {
+      // for (var i = 0; i < event.target.files.length; i++) {
+      //   this.myFiles.push(event.target.files[i]);
+      //   console.log(this.myFiles);
+
+      // }
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      this.pdfName = file.name;
+      console.log(this.pdfName);
+       
+      reader.onload = (event) => {
+        // this.userimagePreview = event.target;
+      }
+    }
+
+
   }
   //image base64 format
   _handleReaderLoaded(readerEvt) {
@@ -551,10 +591,16 @@ export class DashboardComponent implements OnInit {
       this.userImage = btoa(binaryString);
       console.log(this.userImage)
     }
+    if (this.currentImage === 'b') {
+      var binaryString = readerEvt.target.result;
+      this.bankStatemet = btoa(binaryString);
+      this.data.push(this.bankStatemet);
+      this.paymentEmi.bank_statement = this.data;
+      console.log(this.paymentEmi.bank_statement);
+    }
+
     this.currentImage = ''
   }
-
-
 
   isNumber(value: string | number): boolean {
     if (value) {
@@ -626,6 +672,4 @@ export class DashboardComponent implements OnInit {
     k = event.charCode;  //         k = event.keyCode;  (Both can be used)
     return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
   }
-
-
 }

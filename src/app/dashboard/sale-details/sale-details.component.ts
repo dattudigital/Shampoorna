@@ -221,8 +221,6 @@ export class SaleDetailsComponent implements OnInit {
 
     this.update = newdate.getFullYear() + '-' + (newdate.getMonth() + 1) + '-' + newdate.getDate();
     console.log(this.update)
-
-
   }
 
   invoiceList(data, index) {
@@ -237,7 +235,7 @@ export class SaleDetailsComponent implements OnInit {
     console.log(this.dcFormInfo);
     sessionStorage.setItem('dcFormData', JSON.stringify(this.dcFormInfo));
   }
- 
+
 
   onFileChanged(event) {
     var files = event.target.files;
@@ -279,7 +277,7 @@ export class SaleDetailsComponent implements OnInit {
       district: this.district,
       proof_type: this.proof_type,
       proof_num: this.proof_num,
-      user_image:this.user_image,
+      user_image: this.user_image,
       sale_status: this.sale_status
     }
     this.service.saveSalesUser(data).subscribe(res => {
