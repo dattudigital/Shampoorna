@@ -33,6 +33,7 @@ export class AddEmployeeComponent implements OnInit {
   email_id: '';
   phone: '';
   password: '';
+  emp_type_id:'';
   rec_status: '';
 
   firstName: '';
@@ -168,7 +169,8 @@ removeFields(){
   this.branch = '',
   this.phone ='',
   this.address = '',
-  this.pincode = ''
+  this.pincode = '',
+  this.employeeType =''
 }
 
 
@@ -221,17 +223,13 @@ removeFields(){
       this.employee_pincode = this.editData[index].employee_pincode,
       this.email_id = this.editData[index].email_id,
       this.phone = this.editData[index].phone,
-      this.password = this.editData[index].password
+      this.emp_type_id =this.editData[index].emp_type_id,
+      this.password = this.editData[index].password,
+
     this.rec_status = this.editData[index].rec_status
   }
 
   updateEmployee() {
-    this.submitted = true;
-
-    if (this.employeeForm.invalid) {
-      return;
-    }
-
     var data = {
       employee_id: this.employee_id,
       employee_firstname: this.employee_firstname,
@@ -241,7 +239,7 @@ removeFields(){
       employee_pincode: this.employee_pincode,
       email_id: this.email_id,
       phone: this.phone,
-      password: this.password,
+      emp_type_id:this.emp_type_id,
       rec_status: this.rec_status
     }
     this.service.saveEmployeeDetails(data).subscribe(res => {
@@ -255,11 +253,12 @@ removeFields(){
       this.employees[this.temp].employee_pincode = data.employee_pincode;
       this.employees[this.temp].email_id = data.email_id;
       this.employees[this.temp].phone = data.phone;
-      this.employees[this.temp].password = data.password;
+      this.employees[this.temp].emp_type_id =data.emp_type_id
       this.employees[this.temp].rec_status = data.rec_status;
       this.temp = " ";
     });
     this.removeFields();
+    $('#editEmployee').modal('hide')
   }
 
   deleteEmployee(val,index){

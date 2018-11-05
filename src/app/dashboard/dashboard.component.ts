@@ -48,7 +48,11 @@ export class DashboardComponent implements OnInit {
   addressProofNo = '';
   userImage = '';
   userImageName = '';
-  bankStatementname= '';
+  payOrder = '';
+  payOrderName = '';
+  deliveryFromShowroom = '';
+  deliveryFileName = '';
+  bankStatementname = '';
   //vehicle information
   vehicleEngineNo = '';
   vehicleFrameNo = '';
@@ -56,8 +60,8 @@ export class DashboardComponent implements OnInit {
   vehicleKeyNo = ''
   vehicleColor = '';
   nomineeName = '';
-  secondVehicle ='';
-  vehicleBasic:any= '';
+  secondVehicle = '';
+  vehicleBasic: any = '';
   lifeTax: number;
   VehicleInsu: number;
 
@@ -113,7 +117,7 @@ export class DashboardComponent implements OnInit {
     'othersSelect': '',
     'mobileWallet': null,
     'othersAmount': 0,
-    
+
   }
 
   banks: any = [
@@ -153,7 +157,7 @@ export class DashboardComponent implements OnInit {
   constructor(private saleUserService: SaleUserService, private http: Http, private router: Router, ) { }
 
   ngOnInit() {
-    
+
     this.saleUserService.getTax().subscribe(res => {
       this.taxData = res.json().result;
       this.lifeTax = this.taxData[0].life_tax;
@@ -180,7 +184,7 @@ export class DashboardComponent implements OnInit {
     if (this.paymentEmi.chequeSelect == false) {
       this.isDisabled = 'hidden';
       this.paymentEmi.chequeAmount = null;
-      this.paymentEmi.chequeNo =null;
+      this.paymentEmi.chequeNo = null;
     } else {
       this.isDisabled = 'visible';
     }
@@ -200,7 +204,7 @@ export class DashboardComponent implements OnInit {
     if (this.paymentEmi.creditcardSelect == false) {
       this.disableCredit = 'hidden';
       this.paymentEmi.creditcardAmount = null;
-      this.paymentEmi.creditTransId =null
+      this.paymentEmi.creditTransId = null
     } else {
       this.disableCredit = 'visible';
     }
@@ -221,7 +225,7 @@ export class DashboardComponent implements OnInit {
     if (this.paymentEmi.othersSelect == false) {
       this.disableOther = 'hidden';
       this.paymentEmi.othersAmount = null;
-      this.paymentEmi.othersSelect ='';
+      this.paymentEmi.othersSelect = '';
     } else {
       this.disableOther = 'visible';
     }
@@ -313,7 +317,7 @@ export class DashboardComponent implements OnInit {
           key_no: this.vehicleKeyNo,
           vechicle_color: this.vehicleColor,
           Nominee_name: this.nomineeName,
-          second_vechile:this.secondVehicle,
+          second_vechile: this.secondVehicle,
           basic_price: this.vehicleBasic,
           life_tax: this.lifeTax,
           insurance: this.VehicleInsu,
@@ -333,6 +337,22 @@ export class DashboardComponent implements OnInit {
           console.log(res.json());
         });
 
+        //csd files send to api
+        if (response.json().result.user_type == 2) {
+          var csdDetails = {
+            vech_sale_user_id: response.json().result.sale_user_id,
+            user_type:response.json().result.user_type,
+            csd_pay_order: this.payOrder,
+            csd_pay_order_name: this.payOrderName,
+            csd_delivery_showroom: this.deliveryFromShowroom,
+            csd_delivery_showroom_name: this.deliveryFileName,
+          }
+          console.log(csdDetails);
+          this.saleUserService.addPaymentEmi(csdDetails).subscribe(response => {
+            console.log(response.json());
+          })
+        }
+
         if (val == '1') {
           var exchangeDetails = {
             exc_sale_user_id: response.json().result.sale_user_id,
@@ -351,82 +371,83 @@ export class DashboardComponent implements OnInit {
             console.log(res.json())
           })
         }
-        let chequeSelect;
-        let cashSelect;
-        let creditcardSelect;
-        let accountSelect;
-        let otherSelect;
-        console.log(this.paymentEmi.chequeSelect)
-        if (this.paymentEmi.chequeSelect == true) {
-          chequeSelect = '1'
-        } else {
-          chequeSelect = '0'
-        }
+        if (val == 0 && val == 1) {
+          let chequeSelect;
+          let cashSelect;
+          let creditcardSelect;
+          let accountSelect;
+          let otherSelect;
+          console.log(this.paymentEmi.chequeSelect)
+          if (this.paymentEmi.chequeSelect == true) {
+            chequeSelect = '1'
+          } else {
+            chequeSelect = '0'
+          }
 
-        if (this.paymentEmi.cashSelect == true) {
-          cashSelect = '1'
-        } else {
-          cashSelect = '0'
-        }
-        if (this.paymentEmi.creditcardSelect == true) {
-          creditcardSelect = '1'
-        } else {
-          creditcardSelect = '0'
-        }
-        if (this.paymentEmi.accountTransferSelect == true) {
-          accountSelect = '1'
-        } else {
-          accountSelect = '0'
-        }
-       
+          if (this.paymentEmi.cashSelect == true) {
+            cashSelect = '1'
+          } else {
+            cashSelect = '0'
+          }
+          if (this.paymentEmi.creditcardSelect == true) {
+            creditcardSelect = '1'
+          } else {
+            creditcardSelect = '0'
+          }
+          if (this.paymentEmi.accountTransferSelect == true) {
+            accountSelect = '1'
+          } else {
+            accountSelect = '0'
+          }
+
           if (this.paymentEmi.othersSelect == true) {
             otherSelect = '1'
           } else {
             otherSelect = '0'
           }
 
-          if(!this.paymentEmi.creditAmount){
-             this.paymentEmi.creditAmount = 0;
+          if (!this.paymentEmi.creditAmount) {
+            this.paymentEmi.creditAmount = 0;
           }
-          
-        
-        var paymentDetails = {
-          pay_sale_user_id: response.json().result.sale_user_id,
-          mode_of_payment: this.paymentEmi.paymentmode,
-          emi_financial_name: this.paymentEmi.financialName,
-          emi_financial_down_payment: this.paymentEmi.downPayment,
-          emi_addresss_proof: this.paymentEmi.addressProof,
-          address_name:this.paymentEmi.addressFileName,
-          emi_id_proof: this.paymentEmi.idProof,
-          id_name :this.paymentEmi.idProofName,
-          emi_cheque: this.paymentEmi.cheque,
-          cheque_name:this.paymentEmi.chequeFileName,
-          cheque: chequeSelect,
-          cheque_no: this.paymentEmi.chequeNo,
-          cheque_date: this.paymentEmi.chequeDate,
-          cheque_amt: this.paymentEmi.chequeAmount,
-          cash: cashSelect,
-          cash_amount: this.paymentEmi.cashAmount,
-          credit_card: creditcardSelect,
-          credit_card_tranactionid: this.paymentEmi.creditTransId,
-          credit_card_amt: this.paymentEmi.creditAmount,
-          account_transfer: accountSelect,
-          account_trasaction_id: this.paymentEmi.accountTranferId,
-          account_transfer_amt: this.paymentEmi.accounttranferAmount,
-          other: otherSelect,
-          others_type: this.paymentEmi.mobileWallet,
-          others_amt: this.paymentEmi.othersAmount,
-          total: this.cashTotal,
-          emi_bank_stmt:'',
-          bank_statement:this.banks
+          var paymentDetails = {
+            pay_sale_user_id: response.json().result.sale_user_id,
+            mode_of_payment: this.paymentEmi.paymentmode,
+            emi_financial_name: this.paymentEmi.financialName,
+            emi_financial_down_payment: this.paymentEmi.downPayment,
+            emi_addresss_proof: this.paymentEmi.addressProof,
+            address_name: this.paymentEmi.addressFileName,
+            emi_id_proof: this.paymentEmi.idProof,
+            id_name: this.paymentEmi.idProofName,
+            emi_cheque: this.paymentEmi.cheque,
+            cheque_name: this.paymentEmi.chequeFileName,
+            cheque: chequeSelect,
+            cheque_no: this.paymentEmi.chequeNo,
+            cheque_date: this.paymentEmi.chequeDate,
+            cheque_amt: this.paymentEmi.chequeAmount,
+            cash: cashSelect,
+            cash_amount: this.paymentEmi.cashAmount,
+            credit_card: creditcardSelect,
+            credit_card_tranactionid: this.paymentEmi.creditTransId,
+            credit_card_amt: this.paymentEmi.creditAmount,
+            account_transfer: accountSelect,
+            account_trasaction_id: this.paymentEmi.accountTranferId,
+            account_transfer_amt: this.paymentEmi.accounttranferAmount,
+            other: otherSelect,
+            others_type: this.paymentEmi.mobileWallet,
+            others_amt: this.paymentEmi.othersAmount,
+            total: this.cashTotal,
+            emi_bank_stmt: '',
+            bank_statement: this.banks
+          }
+          if (this.paymentEmi.mobileWallet) {
+            delete paymentDetails.others_type;
+          }
+          console.log(paymentDetails);
+          this.saleUserService.addPaymentEmi(paymentDetails).subscribe(response => {
+            console.log(response.json());
+          })
         }
-        if(this.paymentEmi.mobileWallet){
-         delete paymentDetails.others_type;
-        }
-        console.log(paymentDetails);
-        this.saleUserService.addPaymentEmi(paymentDetails).subscribe(response => {
-          console.log(response.json());
-        })
+
       }
     })
   }
@@ -441,19 +462,19 @@ export class DashboardComponent implements OnInit {
       this.vehicleInfo = [];
     }
   }
-  
-  secondVehicleClick(){
-    this.lifeTaxAmount =0;
+
+  secondVehicleClick() {
+    this.lifeTaxAmount = 0;
     console.log(this.secondVehicle);
-    if(this.secondVehicle.toString() == 'true'){
+    if (this.secondVehicle.toString() == 'true') {
       this.lifeTaxAmount = this.lifeTaxAmount + this.vehicleBasic * (14 / 100);
-      if(this.lifeTaxAmount){
-        this.lifeTaxAmount =parseFloat(this.lifeTaxAmount.toFixed(2));
+      if (this.lifeTaxAmount) {
+        this.lifeTaxAmount = parseFloat(this.lifeTaxAmount.toFixed(2));
         console.log(this.lifeTaxAmount)
       }
-    console.log(this.lifeTaxAmount.toFixed(2));
+      console.log(this.lifeTaxAmount.toFixed(2));
     }
-    if(this.secondVehicle.toString() == 'false') {
+    if (this.secondVehicle.toString() == 'false') {
       this.lifeTaxAmount = this.lifeTaxAmount + this.vehicleBasic * (this.lifeTax / 100);
       console.log(this.lifeTaxAmount)
     }
@@ -475,10 +496,10 @@ export class DashboardComponent implements OnInit {
       this.vehicleInsuAmount = 0;
       this.taxAmount = 0;
       console.log(this.vehicleBasic)
-      
-        this.lifeTaxAmount = this.lifeTaxAmount + this.vehicleBasic * (this.lifeTax / 100);
-        console.log(this.lifeTaxAmount)
-    
+
+      this.lifeTaxAmount = this.lifeTaxAmount + this.vehicleBasic * (this.lifeTax / 100);
+      console.log(this.lifeTaxAmount)
+
       this.vehicleInsuAmount = this.vehicleInsuAmount + this.vehicleBasic * (this.VehicleInsu / 100);
       console.log(this.vehicleInsuAmount);
 
@@ -487,7 +508,7 @@ export class DashboardComponent implements OnInit {
 
       this.onRoadPrice = parseInt(this.vehicleBasic) + this.taxAmount;
       console.log(this.onRoadPrice)
-
+      // this.basicwithTax = this.onRoadPrice
     }
   }
   approvedEmpEnable() {
@@ -539,6 +560,8 @@ export class DashboardComponent implements OnInit {
   idpreview: any;
   chequepreview: any;
   userimagePreview: any;
+  payOrderPerview: any;
+  deliveryFormPreview: any;
   getFileDetails(event, text1) {
     this.currentImage = text1;
     console.log(this.currentImage);
@@ -593,21 +616,33 @@ export class DashboardComponent implements OnInit {
       }
     }
     if (event.target.files && event.target.files[0] && this.currentImage === 'b') {
-      // for (var i = 0; i < event.target.files.length; i++) {
-      //   this.myFiles.push(event.target.files[i]);
-      //   console.log(this.myFiles);
-
-      // }
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       this.pdfName = file.name;
       console.log(this.pdfName);
-       
+
       reader.onload = (event) => {
         // this.userimagePreview = event.target;
       }
     }
-
+    if (event.target.files && event.target.files[0] && this.currentImage === 'pay') {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      this.payOrderName = file.name;
+      console.log(this.payOrderName);
+      reader.onload = (event) => {
+        this.payOrderPerview = event.target;
+      }
+    }
+    if (event.target.files && event.target.files[0] && this.currentImage === 'delivery') {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      this.deliveryFileName = file.name;
+      console.log(this.deliveryFileName);
+      reader.onload = (event) => {
+        this.deliveryFormPreview = event.target;
+      }
+    }
 
   }
   //image base64 format
@@ -638,7 +673,16 @@ export class DashboardComponent implements OnInit {
       this.paymentEmi.bank_statement = this.data;
       console.log(this.paymentEmi.bank_statement);
     }
-
+    if (this.currentImage === 'pay') {
+      var binaryString = readerEvt.target.result;
+      this.payOrder = btoa(binaryString);
+      console.log(this.payOrder)
+    }
+    if (this.currentImage === 'delivery') {
+      var binaryString = readerEvt.target.result;
+      this.deliveryFromShowroom = btoa(binaryString);
+      console.log(this.deliveryFromShowroom)
+    }
     this.currentImage = ''
   }
 
@@ -683,7 +727,7 @@ export class DashboardComponent implements OnInit {
   addTotalAmount() {
     this.cashTotal = 0;
     console.log("***************")
-  
+
     // console.log(this.cashTotal);
     if (this.paymentEmi.chequeAmount && this.paymentEmi.chequeSelect) {
       this.cashTotal = this.cashTotal + this.paymentEmi.chequeAmount;
