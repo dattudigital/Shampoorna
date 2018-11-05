@@ -12,7 +12,8 @@ export class SaleDashboardComponent implements OnInit {
   constructor( private router:Router) { }
 
   ngOnInit() {
-    sessionStorage.removeItem('secondaryLoginData');  
+    sessionStorage.removeItem('secondaryLoginData'); 
+    sessionStorage.removeItem('secondaryLoginData1');   
     sessionStorage.removeItem('backBtnInventory');  
     sessionStorage.removeItem('backBtnManager'); 
 

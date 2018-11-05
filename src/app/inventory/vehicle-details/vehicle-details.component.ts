@@ -20,7 +20,6 @@ export class VehicleDetailsComponent implements OnInit {
   public date1: any;
   public date2:any;
 
-
   typeData: any[];
   makeData: any[];
   modelData: any[];
@@ -46,13 +45,12 @@ export class VehicleDetailsComponent implements OnInit {
   vehicleMakeFilter="";
   fromDate="";
   toDate="";
-  addnewvehicle = false;
-
+  // addnewvehicle = false;
 
   constructor(private router: Router, private service: VehicleDetailService, private http: Http, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.roleLogin1();
+    // this.roleLogin1();
 
     this.service.getVehicleDetails().subscribe(res => {
       console.log(res.json().result)
@@ -69,7 +67,6 @@ export class VehicleDetailsComponent implements OnInit {
       frameNumber: ['', Validators.required],
       dcNumber: ['', Validators.required],
       invoiceNumber: ['', Validators.required],
-
     });
 
     this.cols = [
@@ -80,10 +77,9 @@ export class VehicleDetailsComponent implements OnInit {
       { field: 'make_name', header: 'Make' },
       { field: 'model_name', header: 'Model' },
       { field: 'vehicle_cost', header: 'Cost' },
+      { field: 'vechicle_dcno', header: 'DC No.' }, 
       { field: 'vehicle_frameno', header: 'Frame No.' },
-      { field: 'vechicle_dcno', header: 'DC No.' },
       { field: 'vechicle_invoiceno', header: 'Invoice No.' },
-
     ];
 
     this.http.get(environment.host + 'vehicle-makes').subscribe(data => {
@@ -107,22 +103,22 @@ export class VehicleDetailsComponent implements OnInit {
     });
   }
 
-  roleLogin1() {
-    console.log("###111#####")
-    let loginData1 = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
-    console.log(loginData1);
-    if (loginData1.status == true && loginData1._results.emp_type_id == 1) {
-      console.log("1111")
-      this.addnewvehicle = true;
-      sessionStorage.setItem('backBtnInventory', 'Y');
-      // this.titleStyle = "visible";
-    }else if (loginData1.status == true && loginData1._results.emp_type_id == 3) {
-      console.log("33333")
-      this.addnewvehicle = true;
-      sessionStorage.setItem('backBtnInventory', 'Y');
-      // this.titleStyle = "visible";
-    }
-  }
+  // roleLogin1() {
+  //   console.log("###111#####")
+  //   let loginData1 = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
+  //   console.log(loginData1);
+  //   if (loginData1.status == true && loginData1._results.emp_type_id == 1) {
+  //     console.log("1111")
+  //     this.addnewvehicle = true;
+  //     sessionStorage.setItem('backBtnInventory', 'Y');
+  //     // this.titleStyle = "visible";
+  //   }else if (loginData1.status == true && loginData1._results.emp_type_id == 3) {
+  //     console.log("33333")
+  //     this.addnewvehicle = true;
+  //     sessionStorage.setItem('backBtnInventory', 'Y');
+  //     // this.titleStyle = "visible";
+  //   }
+  // }
 
   backToInventory() {
     this.router.navigate(['inventory']);
@@ -137,12 +133,12 @@ export class VehicleDetailsComponent implements OnInit {
   addVehicle() {
     this.submitted = true;
     console.log(this.engineNumber,
-     this.vehicleName,
+      this.vehicleName,
       this.vehicleType.type_name,
-     this.vehicleMake.make_name,
+      this.vehicleMake.make_name,
       this.vehicleModel.model_name,
-    this.vehicleColor.color_name,
-    this.vehicleCost);
+      this.vehicleColor.color_name,
+      this.vehicleCost);
     // console.log(this.vehicleType)
     // console.log(this.vehicleType.vehicle_type_id)
     // stop here if form is invalid

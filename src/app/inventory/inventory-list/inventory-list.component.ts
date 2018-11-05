@@ -19,7 +19,7 @@ export class InventoryListComponent implements OnInit {
   makeData: any[];
   modelData: any[];
   colorData: any[];
-  vehicleTypeFilter = "";
+  //vehicleTypeFilter = "";
   vehicleModelFilter = "";
   vehicleColorFilter = "";
   vehicleMakeFilter = "";
@@ -29,7 +29,20 @@ export class InventoryListComponent implements OnInit {
   constructor(private router: Router, private service: InventoryAssigningService, private http: Http, private invAssignService: InventoryListPipe) { }
 
   ngOnInit() {
-    this.service.getInventoryList().subscribe(res => {
+    let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
+    console.log("#####")
+    console.log(loginData._results.branch_id)
+    var brurl= '';
+    //if (loginData._results.branch_id==999) {
+      brurl = brurl + '&branchid='+loginData._results.branch_id;
+    //}
+    // }else if (loginData._results.branch_id==1) {
+    //   brurl = brurl + '&branchid='+loginData._results.branch_id;
+    // }else if (loginData._results.branch_id==2) {
+    //   brurl = brurl + '&branchid='+loginData._results.branch_id;
+    // }
+    console.log()
+    this.service.getInventoryList(brurl).subscribe(res =>   {
       console.log(res.json().result)
       this.inventoryData = res.json().result;     
     });
@@ -71,6 +84,7 @@ export class InventoryListComponent implements OnInit {
       { field: 'model', header: 'Model' }
     ];
   }
+
   backToInventory() {
     this.router.navigate(['inventory']);
   }
@@ -88,14 +102,58 @@ export class InventoryListComponent implements OnInit {
 
   }
 
-  detailsGo(){}
+  detailsGo() {
+    let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
+    console.log(loginData._results.branch_id)
+    var url= '';
+    if (this.fromDate) {
+      url = url + '&startdate=' + this.fromDate;
+    }
+    if (this.toDate) {
+      url = url + '&enddate=' + this.toDate;
+    }
+    // if (this.vehicleTypeFilter) {
+    //   url = url + '&type=' + '"' + this.vehicleTypeFilter + '"';
+    // }
+    if (this.vehicleMakeFilter) {
+      url = url + '&make=' + this.vehicleMakeFilter;
+    }
+    if (this.vehicleModelFilter) {
+      url = url + '&model=' + '"'+ this.vehicleModelFilter + '"';
+    }
+    if (this.vehicleColorFilter) {
+      url = url + '&color=' + '"'+ this.vehicleColorFilter + '"';
+    }
+    url = url + '&branchid='+loginData._results.branch_id;
+    console.log(this.vehicleMakeFilter);
+    console.log(url)
+    this.service.getInventoryFilter(url).subscribe(res => {
+      console.log(res.json());
+      console.log("*******")
+      console.log(res)
+      console.log(res.json().status)
+
+      if (res.json().status == true) {
+        this.inventoryData = res.json().result;
+        console.log(this.inventoryData)
+      }
+      else {
+        this.inventoryData = res.json()._body;
+      }
+    })
+  }
 
   detailsReset() {
-    this.service.getInventoryList().subscribe(res => {
-      console.log(res.json().result)
-      this.inventoryData = res.json().result
+    let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
+    console.log(loginData._results.branch_id)
+    var brurl= '';
+    brurl = brurl + '&branchid='+loginData._results.branch_id;
+    console.log()
+    this.service.getInventoryList(brurl).subscribe(res => {
+    console.log(res.json().result)
+    this.inventoryData = res.json().result
     });
-    this.vehicleTypeFilter = " ";
+    //this.vehicleTypeFilter = " ";
     this.vehicleModelFilter = " ";
     this.vehicleColorFilter = " ";
     this.vehicleMakeFilter = " ";

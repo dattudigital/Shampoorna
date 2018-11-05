@@ -17,12 +17,13 @@
     <div class="col-sm-10">
     </div>
     <div class="col-sm-2">
-      <button type="button" class="btn btn-success" data-toggle="modal" *ngIf="addnewvehicle" data-target="#addVehicle">ADD NEW
+      <button type="button" class="btn btn-success" data-toggle="modal"  data-target="#addVehicle">ADD NEW
       </button>
     </div>
   </div>&nbsp;
 
   <div class="vehicle details">
+
     <div class="col-md-4 col-sm-4 col-xs-12">
       <div class="form-group">
         <label for="input" class="col-md-3 control-label">Type</label>
@@ -30,7 +31,6 @@
           <select class="form-control" [(ngModel)]="vehicleTypeFilter">
             <option value="" selected>All</option>
             <option *ngFor="let data of this.typeData" [ngValue]=" data.vehicle_type_id">{{data.type_name}}</option>
-
           </select>
         </div>
         <div class="clear"></div>

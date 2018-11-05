@@ -13,8 +13,9 @@ export class IndentService {
     return this.http.post(environment.host + 'indents', data)
   }
 
-  public getIndentList(){
-    return this.http.get( environment.host + 'indents');
+  public getIndentList(brurl:any){
+    console.log(environment.host + 'indents'+brurl)
+    return this.http.get( environment.host + 'indents'+brurl);
   }
 
   public getIndentFilter(url:any ){

@@ -79,6 +79,7 @@ export class TimeClockComponent implements OnInit {
   };
   msgs: Message[] = [];
   ngOnInit() {
+    sessionStorage.removeItem('secondaryLoginData1');  
     sessionStorage.removeItem('backBtnInventory');    
     sessionStorage.removeItem('backBtnManager');  
     this.loginPopUp();
@@ -157,7 +158,7 @@ export class TimeClockComponent implements OnInit {
           this.spinner.hide();
         } else {
           this.errorMessage = true;
-        }
+          }
 
         if (this.data.check_in_time) {
           this.disable_time_in = true;

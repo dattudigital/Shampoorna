@@ -10,7 +10,8 @@ export class SetupComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    sessionStorage.removeItem('secondaryLoginData');  
+    sessionStorage.removeItem('secondaryLoginData'); 
+    sessionStorage.removeItem('secondaryLoginData1');   
     sessionStorage.removeItem('backBtnInventory');
     sessionStorage.removeItem('backBtnManager'); 
 

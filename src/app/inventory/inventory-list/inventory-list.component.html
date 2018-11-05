@@ -14,19 +14,18 @@
     </div>
 
     <div class="indent-list">
-
-            <div class="col-md-4 col-sm-4 col-xs-12">
+            <!-- <div class="col-md-4 col-sm-4 col-xs-12">
               <div class="form-group">
                 <label for="input" class="col-md-3 control-label">Type</label>
                 <div class="col-md-7">
                   <select class="form-control" [(ngModel)]="vehicleTypeFilter">
                       <option value="" selected>All</option>            
-                    <option *ngFor="let data of this.typeData" [ngValue]=" data.vehicle_type_id">{{data.type_name}}</option>
+                    <option *ngFor="let data of this.typeData" [ngValue]=" data.type_name">{{data.type_name}}</option>
                   </select>
                 </div>
                 <div class="clear"></div>
               </div>
-            </div>
+            </div> -->
         
             <div class="col-md-4 col-sm-4 col-xs-12">
               <div class="form-group">
@@ -34,7 +33,7 @@
                 <div class="col-md-7">
                   <select class="form-control" [(ngModel)]="vehicleModelFilter">
                       <option value="" selected>All</option>            
-                    <option *ngFor="let data of this.modelData" [ngValue]=" data.vehicle_model_id">{{data.model_name}}</option>
+                    <option *ngFor="let data of this.modelData" [ngValue]=" data.model_name">{{data.model_name}}</option>
                   </select>
                 </div>
                 <div class="clear"></div>
@@ -46,7 +45,7 @@
                 <div class="col-md-7">
                   <select class="form-control" [(ngModel)]="vehicleColorFilter">
                       <option value="" selected>All</option>
-                    <option *ngFor="let data of this.colorData" [ngValue]=" data.vehicle_color_id">{{data.color_name}}</option>
+                    <option *ngFor="let data of this.colorData" [ngValue]=" data.color_name">{{data.color_name}}</option>
                   </select>
                 </div>
                 <div class="clear"></div>
@@ -58,7 +57,7 @@
                 <div class="col-md-7">
                   <select class="form-control" [(ngModel)]="vehicleMakeFilter">
                       <option value="" selected>All</option>
-                    <option *ngFor="let data of this.makeData" [ngValue]=" data.vehicle_make_id">{{data.make_name}}</option>
+                    <option *ngFor="let data of this.makeData" [ngValue]=" data.make_name">{{data.make_name}}</option>
                   </select>
                 </div>
                 <div class="clear"></div>
