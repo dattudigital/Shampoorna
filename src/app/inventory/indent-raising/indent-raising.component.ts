@@ -5,6 +5,8 @@ import { Http } from '@angular/http';
 import { IndentService } from '../../services/indent.service'
 import * as moment from 'moment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NotificationsService } from 'angular2-notifications';
+
 @Component({
   selector: 'app-indent-raising',
   templateUrl: './indent-raising.component.html',
@@ -23,26 +25,17 @@ export class IndentRaisingComponent implements OnInit {
   vehicleType = '';
   vehicleMake = '';
   reqQuantity = '';
-  // assQuantity = '';
   reqDate = '';
   brComment = '';
-  //assDate = '';
-  //updateDate = '';
-  // assBy = '';
-  // updateBy = '';
-  // newDate: any;
-  // newDate2: any;
-
-
+ 
   typeData: any[];
   makeData: any[];
   modelData: any[];
   colorData: any[];
   empData: any[];
+  public options = { position: ["top", "right"] }
 
-
-
-  constructor(private router: Router, private http: Http, private service: IndentService, private formBuilder: FormBuilder) { }
+  constructor(private router: Router, private http: Http, private service: IndentService, private formBuilder: FormBuilder, private notif: NotificationsService) { }
 
   ngOnInit() {
     this.http.get(environment.host + 'vehicle-makes').subscribe(data => {
@@ -134,6 +127,19 @@ export class IndentRaisingComponent implements OnInit {
     this.service.addIndent(data).subscribe(res => {
       console.log(res.json());
       console.log(res.json().result);
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Indent Raised Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
     })
   }
 

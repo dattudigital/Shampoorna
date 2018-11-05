@@ -6,6 +6,8 @@ import { environment } from '../../../environments/environment';
 import { InventoryAssigningService } from '../../services/inventory-assigning.service'
 import { InventoryListPipe } from '../../pipe/inventory-list.pipe';
 import * as moment from 'moment';
+import { NotificationsService } from 'angular2-notifications';
+
 
 @Component({
   selector: 'app-inventory-list',
@@ -25,8 +27,10 @@ export class InventoryListComponent implements OnInit {
   vehicleMakeFilter = "";
   fromDate = "";
   toDate = "";
+  public options = { position: ["top", "right"] }
 
-  constructor(private router: Router, private service: InventoryAssigningService, private http: Http, private invAssignService: InventoryListPipe) { }
+
+  constructor(private router: Router, private service: InventoryAssigningService, private http: Http, private invAssignService: InventoryListPipe, private notif: NotificationsService) { }
 
   ngOnInit() {
     let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
@@ -129,6 +133,30 @@ export class InventoryListComponent implements OnInit {
     console.log(url)
     this.service.getInventoryFilter(url).subscribe(res => {
       console.log(res.json());
+      if(res.json().status ==true){
+        this.notif.success(
+          'Success',
+          'Filter Applied Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }else{
+        this.notif.warn(
+          'OOPS',
+          'NO Records Found',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )    } 
       console.log("*******")
       console.log(res)
       console.log(res.json().status)
@@ -152,6 +180,19 @@ export class InventoryListComponent implements OnInit {
     this.service.getInventoryList(brurl).subscribe(res => {
     console.log(res.json().result)
     this.inventoryData = res.json().result
+    if(res.json().status ==true){
+      this.notif.success(
+        'Success',
+        'Reset Applied Successfully',
+        {
+          timeOut: 3000,
+          showProgressBar: true,
+          pauseOnHover: false,
+          clickToClose: true,
+          maxLength: 50
+        }
+      )
+    }
     });
     //this.vehicleTypeFilter = " ";
     this.vehicleModelFilter = " ";

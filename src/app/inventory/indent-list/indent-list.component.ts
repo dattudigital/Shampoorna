@@ -4,6 +4,7 @@ import { IndentService } from '../../services/indent.service'
 import { DatePipe } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import { Http } from '@angular/http';
+import { NotificationsService } from 'angular2-notifications';
 import * as moment from 'moment';
 
 @Component({
@@ -27,7 +28,6 @@ export class IndentListComponent implements OnInit {
   colorData: any[];
 
   shipId: any;
-
   vehicleTypeFilter = "";
   vehicleModelFilter = "";
   vehicleColorFilter = "";
@@ -37,13 +37,12 @@ export class IndentListComponent implements OnInit {
 
   editData: any = [];
   temp: any;
-
+  public options = { position: ["top", "right"] }
   // shippedBy= "";
   // shippedIn= "";
   // shipStatus="";
 
-
-  constructor(private router: Router, private service: IndentService, private dp: DatePipe, private http: Http) { }
+  constructor(private router: Router, private service: IndentService, private dp: DatePipe, private http: Http, private notif: NotificationsService) { }
 
   ngOnInit() {
     let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
@@ -108,8 +107,8 @@ export class IndentListComponent implements OnInit {
 
   backToInventory() {
     this.router.navigate(['inventory']);
-
   }
+
   indent_id = '';
   indent_req_id = '';
   emp_id = '';
@@ -129,7 +128,6 @@ export class IndentListComponent implements OnInit {
   shipped_vechile_no = '';
   shipped_by = '';
   // updatedby = '';
-
 
   editIndent(data, index) {
     console.log(data)
@@ -186,6 +184,19 @@ export class IndentListComponent implements OnInit {
       console.log(res.json().result)
       console.log(this.temp)
       this.indents.splice(this.temp, 1)
+      if(res.json().status ==true){
+        this.notif.success(
+          'Success',
+          'Inventory Assaigned Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
       //this.indents.push(res,this.temp)
       //this.indents[this.temp].indent_req_id = data.indent_req_id;
     })
@@ -222,20 +233,31 @@ export class IndentListComponent implements OnInit {
       if (res.json().status == true) {
         this.indents = res.json().result;
         console.log(this.indents)
+        this.notif.success(
+          'Success',
+          'Filter Applied Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
       }
       else {
         this.indents = res.json()._body;
-
-        //     this.notif.error(
-        //       'Error',
-        //       'No Records Found',
-        //       {
-        //         timeOut: 3000,           
-        //         showProgressBar: true,
-        //         pauseOnHover: false,
-        //         clickToClose: true,
-        //         maxLength: 50
-        //       })
+        this.notif.warn(
+          'Sorry',
+          'No Records Found',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
       }
     })
   }
@@ -248,6 +270,19 @@ export class IndentListComponent implements OnInit {
     this.service.getIndentList(brurl).subscribe(res => {
       console.log(res.json().result)
       this.indents = res.json().result
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Reset Applied Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
     });
     this.vehicleTypeFilter = " ";
     this.vehicleModelFilter = " ";

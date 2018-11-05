@@ -424,30 +424,30 @@ var insertData = {
     console.log(url)
      this.service.getVehicleFilter(url).subscribe(res => {
      console.log(res.json());
-     if(res.json().status ==true){
-      this.notif.success(
-        'Success',
-        'Filter Applied Successfully',
-        {
-          timeOut: 3000,
-          showProgressBar: true,
-          pauseOnHover: false,
-          clickToClose: true,
-          maxLength: 50
-        }
-      )
-    }else{
-      this.notif.warn(
-        'OOPS',
-        'NO Records Found',
-        {
-          timeOut: 3000,
-          showProgressBar: true,
-          pauseOnHover: false,
-          clickToClose: true,
-          maxLength: 50
-        }
-      )    } 
+    //  if(res.json().status ==true){
+    //   this.notif.success(
+    //     'Success',
+    //     'Filter Applied Successfully',
+    //     {
+    //       timeOut: 3000,
+    //       showProgressBar: true,
+    //       pauseOnHover: false,
+    //       clickToClose: true,
+    //       maxLength: 50
+    //     }
+    //   )
+    // }else{
+    //   this.notif.warn(
+    //     'Sorry',
+    //     'No Records Found',
+    //     {
+    //       timeOut: 3000,
+    //       showProgressBar: true,
+    //       pauseOnHover: false,
+    //       clickToClose: true,
+    //       maxLength: 50
+    //     }
+    //   )    } 
      console.log("*******")
      console.log(res)
      console.log(res.json().status)
@@ -455,20 +455,31 @@ var insertData = {
        if (res.json().status == true) {
          this.bikes = res.json().result;
         console.log(this.bikes)
+        this.notif.success(
+              'Success',
+              'Filter Applied Successfully',
+              {
+                timeOut: 3000,
+                showProgressBar: true,
+                pauseOnHover: false,
+                clickToClose: true,
+                maxLength: 50
+              }
+            )
      }
      else {
     this.bikes = res.json()._body;
-
-    //     this.notif.error(
-    //       'Error',
-    //       'No Records Found',
-    //       {
-    //         timeOut: 3000,           
-    //         showProgressBar: true,
-    //         pauseOnHover: false,
-    //         clickToClose: true,
-    //         maxLength: 50
-    //       })
+    this.notif.warn(
+          'Sorry',
+          'No Records Found',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        ) 
       }
      })
   }
@@ -476,6 +487,19 @@ var insertData = {
     this.service.getVehicleDetails().subscribe(res => {
       console.log(res.json().result)
       this.bikes = res.json().result
+      if(res.json().status ==true){
+        this.notif.success(
+          'Success',
+          'Reset Applied Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
     });
     this.vehicleTypeFilter = " ";
     this.vehicleModelFilter=" ";
