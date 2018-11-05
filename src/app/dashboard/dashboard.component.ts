@@ -99,18 +99,18 @@ export class DashboardComponent implements OnInit {
     'chequeSelect': '',
     'chequeNo': '',
     'chequeAmount': '',
-    'chequeDate': '',
+    'chequeDate': '2018-10-15',
     'cashSelect': '',
-    'cashAmount': '',
+    'cashAmount': 0,
     'creditcardSelect': '',
     'creditTransId': '',
-    'creditAmount': '',
+    'creditcardAmount': 0,
     'accountTranferSelect': '',
-    'accounttranferAmount': '',
+    'accounttranferAmount': 0,
     'accountTranferId': '',
     'othersSelect': '',
-    'mobileWallet': '',
-    'othersAmount': '',
+    'mobileWallet': 2,
+    'othersAmount': 0,
   }
 
   banks: any = [
@@ -120,11 +120,11 @@ export class DashboardComponent implements OnInit {
     }
   ];
   //paymentmode Cash
-  cashAmount: number;
-  chequeAmount: number;
-  creditcardAmount: number;
-  accountTransferAmount: number;
-  otherAmount: number;
+  // cashAmount: number;
+  // chequeAmount: number;
+  // creditcardAmount: number;
+  // accountTransferAmount: number;
+  // otherAmount: number;
   cashTotal = 0;
 
   //exchangevehicle details
@@ -176,6 +176,7 @@ export class DashboardComponent implements OnInit {
     if (this.paymentEmi.chequeSelect == false) {
       this.isDisabled = 'hidden';
       this.paymentEmi.chequeAmount = null;
+      this.paymentEmi.chequeNo =null;
     } else {
       this.isDisabled = 'visible';
     }
@@ -194,7 +195,8 @@ export class DashboardComponent implements OnInit {
   creditCardEvent() {
     if (this.paymentEmi.creditcardSelect == false) {
       this.disableCredit = 'hidden';
-      this.paymentEmi.creditcardAmount = null
+      this.paymentEmi.creditcardAmount = null;
+      this.paymentEmi.creditTransId =null
     } else {
       this.disableCredit = 'visible';
     }
@@ -204,7 +206,8 @@ export class DashboardComponent implements OnInit {
     console.log(this.paymentEmi.accountTranferSelect)
     if (this.paymentEmi.accountTranferSelect == false) {
       this.disableTransfer = 'hidden';
-      this.paymentEmi.accountTranferSelect = null
+      this.paymentEmi.accounttranferAmount = null
+      this.paymentEmi.accountTranferId = null
     } else {
       this.disableTransfer = 'visible';
     }
@@ -359,7 +362,7 @@ export class DashboardComponent implements OnInit {
         } else {
           cashSelect = '0'
         }
-        if (this.paymentEmi.credicardSelect == true) {
+        if (this.paymentEmi.creditcardSelect == true) {
           creditcardSelect = '1'
         } else {
           creditcardSelect = '0'
@@ -380,8 +383,11 @@ export class DashboardComponent implements OnInit {
           emi_financial_name: this.paymentEmi.financialName,
           emi_financial_down_payment: this.paymentEmi.downPayment,
           emi_addresss_proof: this.paymentEmi.addressProof,
+          address_name:this.paymentEmi.addressFileName,
           emi_id_proof: this.paymentEmi.idProof,
+          id_name :this.paymentEmi.idProofName,
           emi_cheque: this.paymentEmi.cheque,
+          cheque_name:this.paymentEmi.chequeFileName,
           cheque: chequeSelect,
           cheque_no: this.paymentEmi.chequeNo,
           cheque_date: this.paymentEmi.chequeDate,
@@ -390,7 +396,7 @@ export class DashboardComponent implements OnInit {
           cash_amount: this.paymentEmi.cashAmount,
           credit_card: creditcardSelect,
           credit_card_tranactionid: this.paymentEmi.creditTransId,
-          credit_card_amt: this.paymentEmi.creditcardAmount,
+          credit_card_amt: this.paymentEmi.creditAmount,
           account_transfer: accountSelect,
           account_trasaction_id: this.paymentEmi.accountTranferId,
           account_transfer_amt: this.paymentEmi.accounttranferAmount,
@@ -398,7 +404,7 @@ export class DashboardComponent implements OnInit {
           others_type: this.paymentEmi.mobileWallet,
           others_amt: this.paymentEmi.othersAmount,
           total: this.cashTotal,
-          bank_statement: JSON.stringify(this.banks)
+          bank_statement:this.banks
         }
         console.log(paymentDetails);
         this.saleUserService.addPaymentEmi(paymentDetails).subscribe(response => {
@@ -494,7 +500,7 @@ export class DashboardComponent implements OnInit {
   //   console.log(this.paymentEmi.bank_statement);
   // }
 
-  //remaining files upload and preview
+  // files upload and preview
   addressPreview: any;
   idpreview: any;
   chequepreview: any;
@@ -643,8 +649,7 @@ export class DashboardComponent implements OnInit {
   addTotalAmount() {
     this.cashTotal = 0;
     console.log("***************")
-    console.log(this.chequeAmount);
-    console.log(this.cashAmount);
+  
     // console.log(this.cashTotal);
     if (this.paymentEmi.chequeAmount && this.paymentEmi.chequeSelect) {
       this.cashTotal = this.cashTotal + this.paymentEmi.chequeAmount;
