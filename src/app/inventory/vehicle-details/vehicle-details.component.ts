@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { VehicleDetailService } from '../../services/vehicle-detail.service'
 import { environment } from '../../../environments/environment';
 import { Http } from '@angular/http';
+import { NotificationsService } from 'angular2-notifications';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 declare var $: any;
@@ -33,6 +34,7 @@ export class VehicleDetailsComponent implements OnInit {
   vehicleMake:any;
   vehicleModel:any;
   vehicleCost = "";
+  keyNumber ="";
   frameNumber = "";
   dcNumber = "";
   invoiceNumber = "";
@@ -46,9 +48,10 @@ export class VehicleDetailsComponent implements OnInit {
   vehicleMakeFilter="";
   fromDate="";
   toDate="";
+  public options = { position: ["top", "right"] }
   // addnewvehicle = false;
 
-  constructor(private router: Router, private service: VehicleDetailService, private http: Http, private formBuilder: FormBuilder) { }
+  constructor(private router: Router, private service: VehicleDetailService, private http: Http, private formBuilder: FormBuilder, private notif: NotificationsService) { }
 
   ngOnInit() {
     // this.roleLogin1();
@@ -65,6 +68,7 @@ export class VehicleDetailsComponent implements OnInit {
       vehicleMake: ['', Validators.required],
       vehicleModel: ['', Validators.required],
       vehicleCost: ['', Validators.required],
+      keyNumber: ['',Validators.required],
       frameNumber: ['', Validators.required],
       dcNumber: ['', Validators.required],
       invoiceNumber: ['', Validators.required],
@@ -78,6 +82,7 @@ export class VehicleDetailsComponent implements OnInit {
       { field: 'make_name', header: 'Make' },
       { field: 'model_name', header: 'Model' },
       { field: 'vehicle_cost', header: 'Cost' },
+      { field: 'vechile_key' , header:'Key No.'},
       { field: 'vechicle_dcno', header: 'DC No.' }, 
       { field: 'vehicle_frameno', header: 'Frame No.' },
       { field: 'vechicle_invoiceno', header: 'Invoice No.' },
@@ -154,6 +159,7 @@ export class VehicleDetailsComponent implements OnInit {
       vehicle_make: this.vehicleMake.vehicle_make_id,
       vehicle_model: this.vehicleModel.vehicle_model_id,
       vehicle_cost: this.vehicleCost,
+      vechile_key: this.keyNumber,
       vehicle_frameno: this.frameNumber,
       vechicle_dcno: this.dcNumber,
       vechicle_invoiceno: this.invoiceNumber,
@@ -168,10 +174,24 @@ var insertData = {
 
     this.service.addVehicleDetails(data).subscribe(res => {
       console.log(res.json());
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Vehicle Added Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
       console.log("******************");
       console.log(insertData);
       insertData =  res.json().result;     
       this.bikes.push(res.json().result)
+   
       // let data;
       // data.vehicle_engineno = res.json().result.engineNumber,
       // data.vehicle_name = res.json().result.vehicleName,
@@ -209,6 +229,7 @@ var insertData = {
     this.vehicleMake = " ";
     this.vehicleModel = " ";
     this.vehicleCost = " ";
+    this.keyNumber = " ";
     this.frameNumber = " ";
     this.dcNumber = " ";
     this.invoiceNumber = " ";
@@ -222,6 +243,7 @@ var insertData = {
   vehicle_make = '';
   vehicle_model = '';
   vehicle_cost = '';
+  vechile_key ='';
   vehicle_frameno = '';
   vechicle_dcno = '';
   vechicle_invoiceno = '';
@@ -245,6 +267,7 @@ var insertData = {
     this.vehicle_model = this.editData[index].vehicle_model;
     this.vehicle_make = this.editData[index].vehicle_make;
     this.vehicle_cost = this.editData[index].vehicle_cost;
+    this.vechile_key = this.editData[index].vechile_key;
     this.vehicle_frameno = this.editData[index].vehicle_frameno;
     this.vechicle_dcno = this.editData[index].vechicle_dcno;
     this.vechicle_invoiceno = this.editData[index].vechicle_invoiceno;
@@ -264,6 +287,7 @@ var insertData = {
       vehicle_make: this.vehicle_make,
       vehicle_model: this.vehicle_model,
       vehicle_cost: this.vehicle_cost,
+      vechile_key: this.vechile_key,
       vehicle_frameno: this.vehicle_frameno,
       vechicle_dcno: this.vechicle_dcno,
       vechicle_invoiceno: this.vechicle_invoiceno,
@@ -272,6 +296,19 @@ var insertData = {
     console.log(data)
     this.service.addVehicleDetails(data).subscribe(res => {
       console.log(res.json());
+      if(res.json().status ==true){
+        this.notif.success(
+          'Success',
+          'Vehicle Updated Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
       console.log("*******")
       console.log(this.temp)
       // console.log(res.json().result);
@@ -285,6 +322,7 @@ var insertData = {
       this.bikes[this.temp].vehicle_make = data.vehicle_make;
       this.bikes[this.temp].vehicle_model = data.vehicle_model;
       this.bikes[this.temp].vehicle_cost = data.vehicle_cost;
+      this.bikes[this.temp].vechile_key = data.vechile_key;
       this.bikes[this.temp].vehicle_frameno = data.vehicle_frameno;
       this.bikes[this.temp].vechicle_dcno = data.vechicle_dcno;
       this.bikes[this.temp].vechicle_invoiceno = data.vechicle_invoiceno;
@@ -331,6 +369,19 @@ var insertData = {
     console.log(data)
     this.service.addVehicleDetails(data).subscribe(res => {
       console.log(res.json());
+      if(res.json().status ==true){
+        this.notif.success(
+          'Success',
+          'Vehicle Deleted Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
     })
 
   }
@@ -373,6 +424,30 @@ var insertData = {
     console.log(url)
      this.service.getVehicleFilter(url).subscribe(res => {
      console.log(res.json());
+     if(res.json().status ==true){
+      this.notif.success(
+        'Success',
+        'Filter Applied Successfully',
+        {
+          timeOut: 3000,
+          showProgressBar: true,
+          pauseOnHover: false,
+          clickToClose: true,
+          maxLength: 50
+        }
+      )
+    }else{
+      this.notif.warn(
+        'OOPS',
+        'NO Records Found',
+        {
+          timeOut: 3000,
+          showProgressBar: true,
+          pauseOnHover: false,
+          clickToClose: true,
+          maxLength: 50
+        }
+      )    } 
      console.log("*******")
      console.log(res)
      console.log(res.json().status)

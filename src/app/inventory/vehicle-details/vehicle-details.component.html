@@ -1,6 +1,7 @@
 <!-- <div class="tabs-services">
   
 </div> -->
+<simple-notifications [options]="options"></simple-notifications>
 
 <div class="add_promotions padding-20">
   <div class="row">
@@ -79,7 +80,7 @@
         <div class="col-md-7">
           <div class="input-group">
             <p-calendar [(ngModel)]="date1" name="fromDate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'190px'}"
-              [showIcon]="true" [(ngModel)]="fromDate" dateFormat="dd-mm-yy" (ngModelChange)=" fromDa($event)"></p-calendar>
+              [showIcon]="true" placeholder="Select Date" [(ngModel)]="fromDate" dateFormat="dd-mm-yy" (ngModelChange)=" fromDa($event)"></p-calendar>
           </div>
         </div>
         <div class="clear"></div>
@@ -91,7 +92,7 @@
         <div class="col-md-7">
           <div class="input-group">
               <p-calendar [(ngModel)]="date2" name="toDate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'190px'}"
-              [showIcon]="true" [(ngModel)]="toDate" dateFormat="dd-mm-yy" (ngModelChange)=" toDa($event)"></p-calendar>
+              [showIcon]="true" [(ngModel)]="toDate" placeholder="Select Date" dateFormat="dd-mm-yy" (ngModelChange)=" toDa($event)"></p-calendar>
           </div>
         </div>
         <div class="clear"></div>
@@ -260,6 +261,20 @@
                 [ngClass]="{ 'is-invalid': submitted && f.vehicleCost.errors }" (ngModelChange)="enableSave($event)">
               <div *ngIf="submitted && f.vehicleCost.errors" class="invalid-feedback">
                 <div *ngIf="f.vehicleCost.errors.required" style="color:red">Vehicle cost is required</div>
+              </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-1"></div>
+            <label for="input" class="col-md-3 control-label">Key No.
+              <a style="color:red">*</a>
+            </label>
+            <div class="col-md-6">
+              <input type="text" class="form-control" formControlName="keyNumber" id="key" placeholder="Key Number" [(ngModel)]="keyNumber"
+                [ngClass]="{ 'is-invalid': submitted && f.keyNumber.errors }" (ngModelChange)="enableSave($event)">
+              <div *ngIf="submitted && f.keyNumber.errors" class="invalid-feedback">
+                <div *ngIf="f.keyNumber.errors.required" style="color:red">Vehicle cost is required</div>
               </div>
             </div>
             <div class="clear"></div>
