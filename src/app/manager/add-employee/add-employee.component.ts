@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef  } from '@angular/core';
 import { Http } from '@angular/http';
 import { ManagerServiceService } from '../../services/manager-service.service'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -54,8 +54,12 @@ export class AddEmployeeComponent implements OnInit {
 
 
 
-  constructor(private http: Http,private spinner: NgxSpinnerService, private service: ManagerServiceService, private formBuilder: FormBuilder, private router: Router, private loginservice: LoginService) { }
+  constructor(private cdr: ChangeDetectorRef,private http: Http,private spinner: NgxSpinnerService, private service: ManagerServiceService, private formBuilder: FormBuilder, private router: Router, private loginservice: LoginService) { }
 
+  ngAfterViewChecked(){
+    
+    this.cdr.detectChanges();
+ }
   ngOnInit() {
     
     sessionStorage.removeItem('secondaryLoginData');  
@@ -74,8 +78,8 @@ export class AddEmployeeComponent implements OnInit {
 
     
     this.cols = [
-      { field: 'employee_firstname', header: 'FirstName' },
-      { field: 'employee_lastname', header: 'LastName' },
+      { field: 'employee_firstname', header: 'First Name' },
+      { field: 'employee_lastname', header: 'Last Name' },
       { field: 'employee_branch', header: 'Branch' },
       { field: 'employee_address', header: 'Address' },
       { field: 'email_id', header: 'Email' },
@@ -155,7 +159,17 @@ export class AddEmployeeComponent implements OnInit {
   RedirectToHome() {
     this.router.navigate(['dashboard']);
   }
-
+removeFields(){
+  this.firstName = '',
+  this.lastName = '',
+  this.email_id = '',
+  this.password = '',
+  this.employeeType = '',
+  this.branch = '',
+  this.phone ='',
+  this.address = '',
+  this.pincode = ''
+}
 
 
   get f() { return this.employeeForm.controls; }
@@ -184,7 +198,8 @@ export class AddEmployeeComponent implements OnInit {
       this.employees.push(res.json().result);
       console.log(this.employees);
       
-    })
+    });
+    this.removeFields()
   }
 
   backToManager() {
@@ -243,7 +258,8 @@ export class AddEmployeeComponent implements OnInit {
       this.employees[this.temp].password = data.password;
       this.employees[this.temp].rec_status = data.rec_status;
       this.temp = " ";
-    })
+    });
+    this.removeFields();
   }
 
   deleteEmployee(val,index){

@@ -54,7 +54,7 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="text" (keypress)="omit_special_char($event)" name="name" maxlength="50" class="form-control" [(ngModel)]="name">
+						<input type="text" (keypress)="omit_special_char($event)" name="name" maxlength="50" placeholder="Customer Name" class="form-control" [(ngModel)]="name">
 					</div>
 				</div>
 				<div class="row form-group">
@@ -62,7 +62,7 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="text" (keypress)="omit_special_char($event)" name="rcname" maxlength="50" class="form-control" [(ngModel)]="nameOnRc">
+						<input type="text" (keypress)="omit_special_char($event)" name="rcname" placeholder="Display name on Rc" maxlength="50" class="form-control" [(ngModel)]="nameOnRc">
 					</div>
 				</div>
 				<div class="row form-group">
@@ -71,7 +71,7 @@
 					</label>
 					<div class="col-sm-5">
 						<!-- <input type="date" name="dob"  [(ngModel)]="dob" placeholder="dd/mm/yy"> -->
-						<p-calendar [(ngModel)]="date1" name="dob" [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2030" [inputStyle]="{'width':'190px'}"
+						<p-calendar [(ngModel)]="date1" name="dob" placeholder="Date Of Birth" [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2030" [inputStyle]="{'width':'190px'}"
 						 [showIcon]="true" [(ngModel)]="dob" dateFormat="dd-mm-yy" (ngModelChange)=" getreqDate($event)"></p-calendar>
 					</div>
 				</div>
@@ -80,7 +80,7 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="text" (keypress)="omit_special_char($event)" name="relation" maxlength="50" class="form-control" [(ngModel)]="relationName">
+						<input type="text" (keypress)="omit_special_char($event)" placeholder="Relation Name" name="relation" maxlength="50" class="form-control" [(ngModel)]="relationName">
 					</div>
 				</div>
 				<div class="row form-group">
@@ -88,7 +88,7 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<textarea class="form-control" (keypress)="omit_special_char($event)" maxlength="1000" rows="2" name="address" style="padding-left:1.6em"
+						<textarea class="form-control" placeholder="Address" (keypress)="omit_special_char($event)" maxlength="1000" rows="2" name="address" style="padding-left:1.6em"
 						 [(ngModel)]="address"></textarea>
 					</div>
 				</div>
@@ -97,7 +97,7 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="text" (keypress)="omit_special_char($event)" name="mandal" maxlength="50" class="form-control" [(ngModel)]="mandal">
+						<input type="text" placeholder="Mandal" (keypress)="omit_special_char($event)" name="mandal" maxlength="50" class="form-control" [(ngModel)]="mandal">
 					</div>
 				</div>
 				<div class="row form-group">
@@ -105,7 +105,7 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="number" (keypress)="omit_special_char($event)" min="0" name="pincode" maxlength="50" class="form-control" [(ngModel)]="pincode">
+						<input type="number" (keypress)="omit_special_char($event)" placeholder="Pincode" min="0" name="pincode" maxlength="50" class="form-control" [(ngModel)]="pincode">
 					</div>
 				</div>
 				<div class="row form-group">
@@ -113,7 +113,7 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="text" (keypress)="omit_special_char($event)" name="district" maxlength="50" class="form-control" [(ngModel)]="districtName">
+						<input type="text" (keypress)="omit_special_char($event)" placeholder="District Name" name="district" maxlength="50" class="form-control" [(ngModel)]="districtName">
 					</div>
 				</div>
 				<div class="row form-group">
@@ -121,16 +121,24 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="number" (keypress)="omit_special_char($event)" min="0" name="mobile" maxlength="50" class="form-control" [(ngModel)]="mobile">
+						<input type="number" (keypress)="omit_special_char($event)" placeholder="Mobile" min="0" name="mobile" maxlength="50" class="form-control" [(ngModel)]="mobile">
 					</div>
 				</div>
+				<div class="row form-group">
+						<label class="col-sm-4 col-form-label required">Email Id
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-5">
+							<input type="text"  placeholder="email id" min="0" name="mobile" maxlength="50" class="form-control" [(ngModel)]="email">
+						</div>
+					</div>
 				<div class="row form-group">
 					<label class="col-sm-4 col-form-label required">Address Proof
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
 
-						<select name="state" class="form-control" [(ngModel)]="addressProof">
+						<select name="state" class="form-control"  [(ngModel)]="addressProof">
 							<option value="" disabled select>Select</option>
 							<option value="aadhar">Aadhar Card</option>
 							<option value="license">License</option>
@@ -146,7 +154,7 @@
 				<div class="row form-group">
 					<label class="col-sm-4 col-form-label required"></label>
 					<div class="col-sm-5">
-						<input type="text" (keypress)="omit_special_char($event)" name="aadharNumber" maxlength="50" class="form-control" [(ngModel)]="addressProofNo">
+						<input type="text" (keypress)="omit_special_char($event)" placeholder="Address proof Number" name="aadharNumber" maxlength="50" class="form-control" [(ngModel)]="addressProofNo">
 					</div>
 				</div>
 				<div class=" row form-group">
@@ -169,7 +177,7 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="text" (keypress)="omit_special_char($event)" name="Engine" maxlength="50" [(ngModel)]="selectedValue" [(ngModel)]="vehicleEngineNo"
+						<input type="text" (keypress)="omit_special_char($event)" placeholder="Enter Engine Number" name="Engine" maxlength="50" [(ngModel)]="selectedValue" [(ngModel)]="vehicleEngineNo"
 						 (ngModelChange)='engineSearch($event)' [typeahead]="vehicleInfo" typeaheadOptionField="vehicle_engineno" (typeaheadOnSelect)="onSelect($event)"
 						 class="form-control">
 					</div>
@@ -218,7 +226,7 @@
 					</label>
 					<div class="col-sm-5">
 						<div class="form-check pull-left">
-							<input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+							<input class="form-check-input" type="checkbox" value="" id="defaultCheck1" [(ngModel)]="secondVehicle" (change)="secondVehicleClick()">
 						</div>
 					</div>
 				</div>
@@ -243,7 +251,8 @@
 					<div class="col-sm-2">
 						<div class="input-group">
 							<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="lifeTaxAmount" readonly>
-							<span>Life Tax</span>
+							<span *ngIf="secondVehicle == undefind ||secondVehicle == false " >LifeTax(9%)</span>
+							<span *ngIf="secondVehicle == true">LifeTax(14%)</span>
 						</div>
 					</div>
 					<div class="col-sm-1">
@@ -252,7 +261,7 @@
 					<div class="col-sm-2">
 						<div class="input-group">
 							<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleInsuAmount" readonly>
-							<span>insurance</span>
+							<span>insurance(9%)</span>
 						</div>
 					</div>
 				</div>
@@ -555,7 +564,7 @@
 											<span style="color:red">*</span>
 										</span>
 										<div class="col-sm-5">
-											<input type="number" min="0" name="credit" id="credit" value="" [(ngModel)]="paymentEmi.creditcardAmount" (ngModelChange)="addTotalAmount()">
+											<input type="number" min="0" name="credit" id="credit" value="" [(ngModel)]="paymentEmi.creditAmount" (ngModelChange)="addTotalAmount()">
 										</div>
 									</div>
 									<div class="row form-group">
@@ -642,7 +651,7 @@
 							<span style="color:red">*</span>
 						</label>
 						<div class="col-sm-3">
-							<input type="text" (keypress)="omit_special_char($event)" name="cost" maxlength="50" class="form-control" [(ngModel)]="paymentEmi.financialName">
+							<input type="text" (keypress)="omit_special_char($event)" placeholder="Financial Name" name="cost" maxlength="50" class="form-control" [(ngModel)]="paymentEmi.financialName">
 						</div>
 					</div>
 					<div class=" row form-group">
@@ -650,7 +659,7 @@
 							<span style="color:red">*</span>
 						</label>
 						<div class="col-sm-3">
-							<input type="number" min="0" name="down" maxlength="50" class="form-control" [(ngModel)]="paymentEmi.downPayment">
+							<input type="number" min="0" name="down" maxlength="50" class="form-control" placeholder="Down Payment" [(ngModel)]="paymentEmi.downPayment">
 						</div>
 					</div>
 					<div class=" row form-group">

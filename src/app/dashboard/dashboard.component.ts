@@ -43,6 +43,7 @@ export class DashboardComponent implements OnInit {
   pincode = '';
   districtName = '';
   mobile = '';
+  email = '';
   addressProof = '';
   addressProofNo = '';
   userImage = '';
@@ -55,7 +56,8 @@ export class DashboardComponent implements OnInit {
   vehicleKeyNo = ''
   vehicleColor = '';
   nomineeName = '';
-  vehicleBasic: '';
+  secondVehicle ='';
+  vehicleBasic:any= '';
   lifeTax: number;
   VehicleInsu: number;
 
@@ -64,7 +66,7 @@ export class DashboardComponent implements OnInit {
   vehicleWarranty: '';
   vehicleAcc: '';
   Hp: '';
-  discount: any = '';
+  discount = 0;
   totalAmount: '';
   lifeTaxAmount: number;
   vehicleInsuAmount: number;
@@ -88,8 +90,8 @@ export class DashboardComponent implements OnInit {
   paymentEmi: any = {
     'paymentMode': '',
     'financialName': '',
-    'downPayment': '',
-    'addressProof': null,
+    'downPayment': 0,
+    'addressProof': '',
     'addressFileName': '',
     'idProof': '',
     'idProofName': '',
@@ -99,7 +101,7 @@ export class DashboardComponent implements OnInit {
     'chequeSelect': '',
     'chequeNo': '',
     'chequeAmount': '',
-    'chequeDate': '2018-10-15',
+    'chequeDate': null,
     'cashSelect': '',
     'cashAmount': 0,
     'creditcardSelect': '',
@@ -109,8 +111,9 @@ export class DashboardComponent implements OnInit {
     'accounttranferAmount': 0,
     'accountTranferId': '',
     'othersSelect': '',
-    'mobileWallet': 2,
+    'mobileWallet': null,
     'othersAmount': 0,
+    
   }
 
   banks: any = [
@@ -150,6 +153,7 @@ export class DashboardComponent implements OnInit {
   constructor(private saleUserService: SaleUserService, private http: Http, private router: Router, ) { }
 
   ngOnInit() {
+    
     this.saleUserService.getTax().subscribe(res => {
       this.taxData = res.json().result;
       this.lifeTax = this.taxData[0].life_tax;
@@ -217,6 +221,7 @@ export class DashboardComponent implements OnInit {
     if (this.paymentEmi.othersSelect == false) {
       this.disableOther = 'hidden';
       this.paymentEmi.othersAmount = null;
+      this.paymentEmi.othersSelect ='';
     } else {
       this.disableOther = 'visible';
     }
@@ -278,7 +283,7 @@ export class DashboardComponent implements OnInit {
     console.log(val)
     var data = {
       firstname: this.name,
-      email_id: this.nameOnRc,
+      email_id: this.email,
       display_name_on_rc: this.nameOnRc,
       dob: this.dob,
       relation: this.relationName,
@@ -308,6 +313,7 @@ export class DashboardComponent implements OnInit {
           key_no: this.vehicleKeyNo,
           vechicle_color: this.vehicleColor,
           Nominee_name: this.nomineeName,
+          second_vechile:this.secondVehicle,
           basic_price: this.vehicleBasic,
           life_tax: this.lifeTax,
           insurance: this.VehicleInsu,
@@ -372,11 +378,18 @@ export class DashboardComponent implements OnInit {
         } else {
           accountSelect = '0'
         }
-        if (this.paymentEmi.othersSelect.toString() == 'true') {
-          otherSelect = '1'
-        } else {
-          otherSelect = '0'
-        }
+       
+          if (this.paymentEmi.othersSelect == true) {
+            otherSelect = '1'
+          } else {
+            otherSelect = '0'
+          }
+
+          if(!this.paymentEmi.creditAmount){
+             this.paymentEmi.creditAmount = 0;
+          }
+          
+        
         var paymentDetails = {
           pay_sale_user_id: response.json().result.sale_user_id,
           mode_of_payment: this.paymentEmi.paymentmode,
@@ -404,7 +417,11 @@ export class DashboardComponent implements OnInit {
           others_type: this.paymentEmi.mobileWallet,
           others_amt: this.paymentEmi.othersAmount,
           total: this.cashTotal,
+          emi_bank_stmt:'',
           bank_statement:this.banks
+        }
+        if(this.paymentEmi.mobileWallet){
+         delete paymentDetails.others_type;
         }
         console.log(paymentDetails);
         this.saleUserService.addPaymentEmi(paymentDetails).subscribe(response => {
@@ -424,7 +441,23 @@ export class DashboardComponent implements OnInit {
       this.vehicleInfo = [];
     }
   }
-
+  
+  secondVehicleClick(){
+    this.lifeTaxAmount =0;
+    console.log(this.secondVehicle);
+    if(this.secondVehicle.toString() == 'true'){
+      this.lifeTaxAmount = this.lifeTaxAmount + this.vehicleBasic * (14 / 100);
+      if(this.lifeTaxAmount){
+        this.lifeTaxAmount =parseFloat(this.lifeTaxAmount.toFixed(2));
+        console.log(this.lifeTaxAmount)
+      }
+    console.log(this.lifeTaxAmount.toFixed(2));
+    }
+    if(this.secondVehicle.toString() == 'false') {
+      this.lifeTaxAmount = this.lifeTaxAmount + this.vehicleBasic * (this.lifeTax / 100);
+      console.log(this.lifeTaxAmount)
+    }
+  }
   onSelect(event: TypeaheadMatch): void {
     this.onRoadPrice = 0
     this.selectedOption = event.item;
@@ -442,9 +475,10 @@ export class DashboardComponent implements OnInit {
       this.vehicleInsuAmount = 0;
       this.taxAmount = 0;
       console.log(this.vehicleBasic)
-      this.lifeTaxAmount = this.lifeTaxAmount + this.vehicleBasic * (this.lifeTax / 100);
-      console.log(this.lifeTaxAmount)
-
+      
+        this.lifeTaxAmount = this.lifeTaxAmount + this.vehicleBasic * (this.lifeTax / 100);
+        console.log(this.lifeTaxAmount)
+    
       this.vehicleInsuAmount = this.vehicleInsuAmount + this.vehicleBasic * (this.VehicleInsu / 100);
       console.log(this.vehicleInsuAmount);
 

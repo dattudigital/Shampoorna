@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 import { Http } from '@angular/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
+declare var $: any;
 
 @Component({
   selector: 'app-vehicle-details',
@@ -197,7 +198,7 @@ var insertData = {
       // console.log("******")
       // console.log(data)
       // console.log(this.bikes)
-
+      $('#addVehicle').modal('hide');
 
     })
 

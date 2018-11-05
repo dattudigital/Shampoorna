@@ -179,9 +179,9 @@ export class SaleDetailsComponent implements OnInit {
     this.mandal = this.editPersonalInfo[index].mandal;
     this.district = this.editPersonalInfo[index].district;
     this.proof_type = this.editPersonalInfo[index].proof_type;
+    console.log(this.proof_type )
     this.proof_num = this.editPersonalInfo[index].proof_num;
     this.user_image = this.editPersonalInfo[index].user_image;
-    console.log(this.user_image);
     this.eng_no = this.editPersonalInfo[index].eng_no;
     this.frame_no = this.editPersonalInfo[index].frame_no;
     this.dc_no = this.editPersonalInfo[index].dc_no;

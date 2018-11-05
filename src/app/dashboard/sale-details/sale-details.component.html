@@ -439,11 +439,7 @@
                         <span style="color:red">*</span>
                       </label>
                       <div class="col-sm-5">
-                        <!-- <select name="emp" class="form-control" [(ngModel)]="discount_approved_by">
-                        <option value="" disabled select>select</option>
-                        <option *ngFor="let manager of branchManagerData" [ngValue]="manager.employee_id">{{manager.employee_firstname}}</option>
-                      </select> -->
-                        <select name="emp" class="form-control" [(ngModel)]="discount_approved_by" readonly>
+                        <select name="emp" class="form-control" [(ngModel)]="discount_approved_by" disabled>
                           <option value="" disabled select>select</option>
                           <option *ngFor="let manager of branchManagerData" [ngValue]="manager.employee_id">{{manager.employee_firstname}}</option>
                         </select>
