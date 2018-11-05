@@ -5,6 +5,8 @@ import { InventoryListPipe } from '../../pipe/inventory-list.pipe';
 import { Http } from '@angular/http'
 import { environment } from '../../../environments/environment';
 import * as moment from 'moment';
+import { NotificationsService } from 'angular2-notifications';
+
 
 @Component({
   selector: 'app-inventory-acknowledge',
@@ -27,9 +29,9 @@ export class InventoryAcknowledgeComponent implements OnInit {
   vehicleMakeFilter = "";
   fromDate = "";
   toDate = "";
+  public options = { position: ["top", "right"] }
 
-
-  constructor(private router:Router, private service: InventoryAssigningService,private invAssignService: InventoryListPipe, private http: Http) { }
+  constructor(private router:Router, private service: InventoryAssigningService,private invAssignService: InventoryListPipe, private http: Http, private notif: NotificationsService) { }
 
   ngOnInit() {
     let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
@@ -132,9 +134,31 @@ export class InventoryAcknowledgeComponent implements OnInit {
       if (res.json().status == true) {
         this.inventoryData = res.json().result;
         console.log(this.inventoryData)
+        this.notif.success(
+          'Success',
+          'Filter Applied Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
       }
       else {
         this.inventoryData = res.json()._body;
+        this.notif.warn(
+          'Sorry',
+          'No Records Found',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        ) 
       }
     })
   }
@@ -148,6 +172,19 @@ export class InventoryAcknowledgeComponent implements OnInit {
     this.service.getAcknowledgeList(brurl).subscribe(res => {
       console.log(res.json().result)
       this.inventoryData = res.json().result
+      if(res.json().status ==true){
+        this.notif.success(
+          'Success',
+          'Reset Applied Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
     });
     //this.vehicleTypeFilter = " ";
     this.vehicleModelFilter = " ";
@@ -180,6 +217,19 @@ export class InventoryAcknowledgeComponent implements OnInit {
     this.inventoryData.splice(index,1)
     this.service.addInventoryAssign(val).subscribe(res => {
     console.log(res.json());
+    if(res.json().status ==true){
+      this.notif.success(
+        'Success',
+        'Added Successfully',
+        {
+          timeOut: 3000,
+          showProgressBar: true,
+          pauseOnHover: false,
+          clickToClose: true,
+          maxLength: 50
+        }
+      )
+    }
     });
   }
   noAcknowledgement(data,index){
@@ -199,6 +249,19 @@ export class InventoryAcknowledgeComponent implements OnInit {
     this.inventoryData.splice(index,1)
     this.service.addInventoryAssign(val).subscribe(res => {
       console.log(res.json());
+      if(res.json().status ==true){
+        this.notif.success(
+          'Success',
+          'Rejected Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
     });
   }
 }

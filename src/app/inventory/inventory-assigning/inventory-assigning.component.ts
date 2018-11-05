@@ -7,7 +7,8 @@ import { Http } from '@angular/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InventoryAssigningService } from '../../services/inventory-assigning.service'
 import { InventoryListPipe } from '../../pipe/inventory-list.pipe';
-import { InventoryAddPipe } from '../../pipe/inventory-add.pipe'
+import { InventoryAddPipe } from '../../pipe/inventory-add.pipe';
+import { NotificationsService } from 'angular2-notifications';
 import * as moment from 'moment';
 
 @Component({
@@ -38,8 +39,7 @@ export class InventoryAssigningComponent implements OnInit {
 
   newDate: any;
   newDate2: any;
-
-
+  public options = { position: ["top", "right"] }
 
   vehicles: any = [
     {
@@ -51,7 +51,7 @@ export class InventoryAssigningComponent implements OnInit {
       model: "",
     }
   ];
-  constructor(private router: Router, private http: Http, private service: InventoryAssigningService, private formBuilder: FormBuilder, private pipe: InventoryListPipe, private addInvPipe: InventoryAddPipe) {
+  constructor(private router: Router, private http: Http, private service: InventoryAssigningService, private formBuilder: FormBuilder, private pipe: InventoryListPipe, private addInvPipe: InventoryAddPipe, private notif: NotificationsService) {
     console.log("test");
   }
 
@@ -80,9 +80,7 @@ export class InventoryAssigningComponent implements OnInit {
       assQuantity: ['', Validators.required],
       updateBy: ['', Validators.required]
     });
-
   }
-
 
   deleteInventoryAssign(index) {
     console.log(index);
@@ -146,6 +144,19 @@ export class InventoryAssigningComponent implements OnInit {
     console.log(finalData);
     this.service.addInventoryAssign(finalData).subscribe(res => {
       console.log(res.json().result);
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Inventory Assaigned Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
     })
 
   }
