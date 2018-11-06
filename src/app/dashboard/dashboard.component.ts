@@ -493,7 +493,7 @@ export class DashboardComponent implements OnInit {
     console.log(this.selectedOption);
     this.vehicleFrameNo = this.selectedOption.vehicle_frameno;
     this.vehicleDcNo = this.selectedOption.vechicle_dcno;
-    this.vehicleKeyNo = this.selectedOption.key_no;
+    this.vehicleKeyNo = this.selectedOption.vechile_key;
     this.vehicleColor = this.selectedOption.color_name;
     this.nomineeName = this.selectedOption.Nominee_name;
     this.vehicleBasic = this.selectedOption.vehicle_cost;

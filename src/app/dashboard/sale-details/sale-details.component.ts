@@ -57,6 +57,7 @@ export class SaleDetailsComponent implements OnInit {
   constructor(private service: SaleUserService, private dp: DatePipe, private _clipboardService: ClipboardService, private router: Router, private http: Http) { }
 
   ngOnInit() {
+
     this.service.getListDetails().subscribe(res => {
       console.log(res.json().status);
       if (res.json().status == true) {
@@ -179,7 +180,7 @@ export class SaleDetailsComponent implements OnInit {
     this.mandal = this.editPersonalInfo[index].mandal;
     this.district = this.editPersonalInfo[index].district;
     this.proof_type = this.editPersonalInfo[index].proof_type;
-    console.log(this.proof_type )
+    console.log(this.proof_type)
     this.proof_num = this.editPersonalInfo[index].proof_num;
     this.user_image = this.editPersonalInfo[index].user_image;
     this.eng_no = this.editPersonalInfo[index].eng_no;
@@ -223,6 +224,23 @@ export class SaleDetailsComponent implements OnInit {
     console.log(this.update)
   }
 
+  amountChecked = ''
+  amountCheckedClick(val,_index) { 
+    // this.service.saveSalesUser({ sale_user_id: val, sale_account_check: 1 }).subscribe(res => {
+    //   console.log(res.json())
+    //   if(res.json().status == true){
+    //     this.editPersonalInfo[_index].sale_account_check = 1;
+    //   }      
+    // })
+  }
+  redirectToInvoice(val,_index) {
+    this.service.saveSalesUser({ sale_user_id: val, sale_account_check: 1 }).subscribe(res => {
+      console.log(res.json())
+      if(res.json().status == true){
+        this.editPersonalInfo[_index].sale_account_check = 1;
+      }      
+    })
+  }
   invoiceList(data, index) {
     console.log(index);
     this.invoiceInfo = data;
