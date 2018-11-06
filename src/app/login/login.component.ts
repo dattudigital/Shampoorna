@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   password = "";
   mailId = "";
   alerts: any[] = [];
+  errorMessage = false;
  
   constructor(private http: HttpClient, private router: Router, private service:LoginService) { }
 
@@ -32,6 +33,9 @@ export class LoginComponent implements OnInit {
     }
     if (this.mailId && this.password) {
       this.service.dataLogin(data).subscribe(loginData => {
+        if (loginData.json().status == false) {
+          this.errorMessage = true;
+        }
         if (loginData.json().status == true) {
           sessionStorage.setItem('userSession', JSON.stringify(loginData.json()));
           this.router.navigate(['sale-dashboard']);
@@ -39,11 +43,7 @@ export class LoginComponent implements OnInit {
         }
       });
     } else {
-      this.alerts = [{
-        type: 'danger',
-        msg: `Invalid credentials`,
-        timeout: 1000
-      }];
+      this.errorMessage = true;
     }
   }
 
