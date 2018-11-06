@@ -25,6 +25,7 @@ export class DashboardComponent implements OnInit {
   disableApprovedBy = 'hidden';
   public date1: any;
   public date2: any;
+  public date3: any;
   uploadedFiles: any[] = [];
 
   cheque: any = '';
@@ -60,6 +61,7 @@ export class DashboardComponent implements OnInit {
   vehicleKeyNo = ''
   vehicleColor = '';
   nomineeName = '';
+  nomineeDob = '';
   secondVehicle = '';
   vehicleBasic: any = '';
   lifeTax: number;
@@ -277,6 +279,12 @@ export class DashboardComponent implements OnInit {
     console.log(this.dob)
   }
 
+  getNomineeDate() {
+    let newDate = moment(this.nomineeDob).format('YYYY-MM-DD').toString();
+    this.nomineeDob = newDate;
+    console.log(this.nomineeDob)
+  }
+
   getChequedate() {
     let newDate = moment(this.paymentEmi.chequeDate).format('YYYY-MM-DD').toString();
     this.paymentEmi.chequeDate = newDate;
@@ -371,7 +379,7 @@ export class DashboardComponent implements OnInit {
             console.log(res.json())
           })
         }
-        if (val == 0 && val == 1) {
+        if (val == 0 || val == 1) {
           let chequeSelect;
           let cashSelect;
           let creditcardSelect;

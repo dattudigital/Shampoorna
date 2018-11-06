@@ -229,6 +229,16 @@
 					</div>
 				</div>
 				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Nominee DOB
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<!-- <input type="date" name="dob"  [(ngModel)]="dob" placeholder="dd/mm/yy"> -->
+						<p-calendar [(ngModel)]="date3" name="ndob" placeholder="Nominee DOB" [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2030" [inputStyle]="{'width':'190px'}"
+						 [showIcon]="true" [(ngModel)]="nomineeDob" dateFormat="dd-mm-yy" (ngModelChange)=" getNomineeDate($event)"></p-calendar>
+					</div>
+				</div>
+				<div class="row form-group">
 					<label class="col-sm-4 col-form-label required">Second vehicle
 						<span style="color:red">*</span>
 					</label>
