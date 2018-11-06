@@ -135,23 +135,20 @@ export class AddEmployeeComponent implements OnInit {
       this.loginservice.dataLogin(data).subscribe(loginData => {
         console.log(loginData)
         console.log(loginData.json().status)
+        this.spinner.hide();
         if (loginData.json().status == false) {
           this.errorMessage = true;
         }
         this.test1 = loginData.json()._results;
-        console.log(this.test1);
-        console.log(this.test1.emp_type_id);
 
         if (loginData.json().status == true && this.test1.emp_type_id == 1) {
           //console.log(loginData.json().result[0])
           sessionStorage.setItem('secondaryLoginData1', JSON.stringify(loginData.json()));
           sessionStorage.setItem('backBtnManager', 'Y');
           $('#myModal').modal('hide');
-          this.titleStyle = "visible";
-          this.spinner.hide();
+          this.titleStyle = "visible";        
         } else {
           this.errorMessage = true;
-          this.spinner.hide();
         }
       });
     }

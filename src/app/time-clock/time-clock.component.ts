@@ -134,6 +134,7 @@ export class TimeClockComponent implements OnInit {
       console.log(data)
       this.http.post('http://ec2-54-88-194-105.compute-1.amazonaws.com:3005/time-clocks/login', data).subscribe(response => {
         console.log(response);
+        this.spinner.hide();
         this.test1 = response;
         this.data.time_clock_id = this.test1.result.time_clock_id;
         this.data.emp_id = this.test1.result.emp_id;
@@ -155,7 +156,7 @@ export class TimeClockComponent implements OnInit {
         if (this.test1.status == true) {
           $('#myModal').modal('hide');
           this.titleStyle = "visible";
-          this.spinner.hide();
+          
         } else {
           this.errorMessage = true;
           }
