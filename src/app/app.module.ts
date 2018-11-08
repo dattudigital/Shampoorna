@@ -45,6 +45,8 @@ import { InventoryAddPipe } from './pipe/inventory-add.pipe';
 import { AppointmentsComponent } from './appointments/appointments.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { SetupComponent } from './setup/setup.component';
+import { TodaySaleComponent } from './reports/today-sale/today-sale.component';
+import { TotalSaleComponent } from './reports/total-sale/total-sale.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -67,6 +69,8 @@ const routes: Routes = [
   { path: 'sale-details' , component:SaleDetailsComponent, canActivate: [AuthGuard] },
   { path: 'invoice-list' , component:InvoiceListComponent, canActivate: [AuthGuard] },
   { path: 'dc-form' , component:DcFormComponent, canActivate: [AuthGuard] },
+  { path: 'reports/today-sale' , component:TodaySaleComponent, canActivate: [AuthGuard] },
+  { path: 'reports/total-sale' , component:TotalSaleComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
@@ -93,7 +97,9 @@ const routes: Routes = [
     DcFormComponent,
     AppointmentsComponent,
     ScheduleComponent,
-    SetupComponent
+    SetupComponent,
+    TodaySaleComponent,
+    TotalSaleComponent
     
   ],
   imports: [
