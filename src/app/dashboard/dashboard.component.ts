@@ -191,9 +191,6 @@ export class DashboardComponent implements OnInit {
       custDistrict: ['', Validators.required],
       custMobile: ['', Validators.required],
       custEmail: ['', Validators.required],
-      addressProofSelect: ['', Validators.required],
-      addressProofNo: ['', Validators.required]
-
     });
   }
 
@@ -317,6 +314,7 @@ export class DashboardComponent implements OnInit {
     this.submitted = true;
 
     if (this.personalinfoForm.invalid) {
+      console.log('validation')
       return;
     }
 
