@@ -190,7 +190,7 @@ export class DashboardComponent implements OnInit {
       custPinecode: ['', Validators.required],
       custDistrict: ['', Validators.required],
       custMobile: ['', Validators.required],
-      custEmail: ['', Validators.required],
+      custEmail: ['', [Validators.required, Validators.email]],
     });
   }
 
@@ -804,4 +804,10 @@ export class DashboardComponent implements OnInit {
     k = event.charCode;  //         k = event.keyCode;  (Both can be used)
     return ((k > 64 && k < 91) || (k > 96 && k < 123) || k==8 || k == 0 || k == 32 || (k >= 48 && k <= 57));
   }
-}
+  only_allow_number(event){
+    console.log('only number');
+    var n;
+    n=event.charCode
+    return (n==8 || n == 0 || n == 32 || (n >= 48 && n <= 57))
+  }
+} 

@@ -125,7 +125,7 @@
 							<span style="color:red">*</span>
 						</label>
 						<div class="col-sm-5">
-							<input type="number" formControlName="custPinecode" (keypress)="omit_special_char($event)" placeholder="Pincode" min="0"
+							<input type="number" formControlName="custPinecode" (keypress)="only_allow_number($event)" placeholder="Pincode" min="0"
 							 maxlength="50" class="form-control" [(ngModel)]="pincode" [ngClass]="{ 'is-invalid': submitted && f.custPinecode.errors }">
 							<div *ngIf="submitted && f.custPinecode.errors" class="invalid-feedback">
 								<div *ngIf="f.custPinecode.errors.required" style="color:#ff0000"> pincode is required</div>
@@ -149,7 +149,7 @@
 							<span style="color:red">*</span>
 						</label>
 						<div class="col-sm-5">
-							<input type="number" formControlName="custMobile" (keypress)="omit_special_char($event)" placeholder="Mobile" min="0" maxlength="50"
+							<input type="number" formControlName="custMobile" (keypress)="only_allow_number($event)" placeholder="Mobile" min="0" maxlength="50"
 							 class="form-control" [(ngModel)]="mobile" [ngClass]="{ 'is-invalid': submitted && f.custMobile.errors }">
 							<div *ngIf="submitted && f.custMobile.errors" class="invalid-feedback">
 								<div *ngIf="f.custMobile.errors.required" style="color:#ff0000"> Mobile Number is required</div>
@@ -165,6 +165,7 @@
 							 [ngClass]="{ 'is-invalid': submitted && f.custEmail.errors }">
 							<div *ngIf="submitted && f.custEmail.errors" class="invalid-feedback">
 								<div *ngIf="f.custEmail.errors.required" style="color:#ff0000"> Email id is required</div>
+								<div *ngIf="f.custEmail.errors.email" style="color:#ff0000">Email must be a valid email address</div>
 							</div>
 						</div>
 					</div>
