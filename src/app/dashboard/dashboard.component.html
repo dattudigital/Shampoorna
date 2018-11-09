@@ -114,7 +114,7 @@
 						</label>
 						<div class="col-sm-5">
 							<input type="text" formControlName="custMandal" placeholder="Mandal" (keypress)="omit_special_char($event)" maxlength="50"
-							 class="form-control" [(ngModel)]="mandal" [(ngModel)]="address" [ngClass]="{ 'is-invalid': submitted && f.custMandal.errors }">
+							 class="form-control" [(ngModel)]="mandal"  [ngClass]="{ 'is-invalid': submitted && f.custMandal.errors }">
 							<div *ngIf="submitted && f.custMandal.errors" class="invalid-feedback">
 								<div *ngIf="f.custMandal.errors.required" style="color:#ff0000"> Mandal is required</div>
 							</div>
