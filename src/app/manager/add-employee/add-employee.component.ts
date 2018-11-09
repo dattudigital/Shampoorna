@@ -196,6 +196,7 @@ removeFields(){
       console.log(res.json());
       this.employees.push(res.json().result);
       console.log(this.employees);
+      $('#addEmployee').modal('hide');
       
     });
     this.removeFields()

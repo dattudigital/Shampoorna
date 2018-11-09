@@ -47,11 +47,11 @@ export class TodaySaleComponent implements OnInit {
       { field: 'mandal', header: 'Mandal' },
       { field: 'district', header: 'District' },
       { field: 'proof_type', header: 'Proof Type' },
+      {field: 'user_type',header:'User Type'},
       { field: 'eng_no', header: 'EngineNo' },
       { field: 'frame_no', header: 'FrameNo' },
       { field: 'dc_no', header: 'DcNo' },
       { field: 'total_amt', header: 'Total Amount' }
-
     ];
   }
   backToReports() {

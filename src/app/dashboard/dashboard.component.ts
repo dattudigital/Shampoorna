@@ -5,6 +5,8 @@ import { Http } from '@angular/http';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -27,6 +29,7 @@ export class DashboardComponent implements OnInit {
   public date2: any;
   public date3: any;
   uploadedFiles: any[] = [];
+  personalinfoForm: FormGroup;
 
   cheque: any = '';
   cash: any = '';
@@ -121,6 +124,7 @@ export class DashboardComponent implements OnInit {
     'othersAmount': 0,
 
   }
+  submitted = false;
 
   banks: any = [
     {
@@ -156,7 +160,7 @@ export class DashboardComponent implements OnInit {
   taxCount: number = 0
   bankStatemet: any;
 
-  constructor(private saleUserService: SaleUserService, private http: Http, private router: Router, ) { }
+  constructor(private saleUserService: SaleUserService,private formBuilder: FormBuilder, private http: Http, private router: Router, ) { }
 
   ngOnInit() {
 
@@ -175,6 +179,20 @@ export class DashboardComponent implements OnInit {
         }
       }
       console.log(this.branchManagerData)
+    });
+    this.personalinfoForm = this.formBuilder.group({
+      FirstName: ['', Validators.required],
+      nameRc: ['', Validators.required],
+      relation: ['', Validators.required],
+      custAddress: ['', Validators.required],
+      custMandal: ['', Validators.required],
+      custPinecode: ['', Validators.required],
+      custDistrict: ['', Validators.required],
+      custMobile: ['', Validators.required],
+      custEmail: ['', Validators.required],
+      addressProofSelect:['',Validators.required],
+      addressProofNo:['',Validators.required]
+
     });
   }
 
@@ -291,7 +309,16 @@ export class DashboardComponent implements OnInit {
     console.log(this.paymentEmi.chequeDate)
   }
   //complete sale details
+
+  get f() { return this.personalinfoForm.controls; }
+
   saveUserDeatils(val) {
+    this.submitted = true;
+
+    if (this.personalinfoForm.invalid) {
+      return;
+    }
+
     console.log(val)
     var data = {
       firstname: this.name,
@@ -436,7 +463,7 @@ export class DashboardComponent implements OnInit {
             cash_amount: this.paymentEmi.cashAmount,
             credit_card: creditcardSelect,
             credit_card_tranactionid: this.paymentEmi.creditTransId,
-            credit_card_amt: this.paymentEmi.creditAmount,
+            credit_card_amt: this.paymentEmi.creditcardAmount,
             account_transfer: accountSelect,
             account_trasaction_id: this.paymentEmi.accountTranferId,
             account_transfer_amt: this.paymentEmi.accounttranferAmount,
@@ -758,7 +785,7 @@ export class DashboardComponent implements OnInit {
     console.log(this.cashTotal);
   }
   omit_special_char(event) {
-    console.log('kay press')
+    console.log('key press');
     var k;
     k = event.charCode;  //         k = event.keyCode;  (Both can be used)
     return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 0 || k == 32 || (k >= 48 && k <= 57));
