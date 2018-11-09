@@ -1,28 +1,28 @@
 <div class="sales-tab2">
   <div class="col-md-4 col-sm-5 str-sec2">
-      <ul>
-          <li (click)="newSaleClick()">
-            <a>
-              
-              <br>Sales</a>
-          </li>
-          <li >
-            <a>
-              
-              <br>Time Clocks</a>
-          </li>
-          <li >
-            <a>
+    <ul>
+      <li (click)="newSaleClick()">
+        <a>
 
-              <br>Manager</a>
-          </li>
-          <li >
-            <a>
+          <br>Sales</a>
+      </li>
+      <li>
+        <a>
 
-              <br>Inventory</a>
-          </li>
-        </ul>
-   
+          <br>Time Clocks</a>
+      </li>
+      <li>
+        <a>
+
+          <br>Manager</a>
+      </li>
+      <li>
+        <a>
+
+          <br>Inventory</a>
+      </li>
+    </ul>
+
   </div>
   <div class="col-md-8 col-sm-7 str-sec2">
     <ul>
@@ -123,20 +123,54 @@
       <div class="price-info">
         <h2> Global Search</h2>
       </div>
-      <div class="search">
-        <input type="text" name="search" style="padding:5px;" [(ngModel)]="selectedValue" (ngModelChange)='customerSearch($event)'
-          [typeahead]="product" typeaheadOptionField="name" class="form-control">
+      <div class="globalsearch">
+        <div class="row form-group">
+          <label class="col-sm-4 ">
+          </label>
+          <div class="col-sm-4">
+            <div class="input-group">
+              <input type="text" name="search"  placeholder="Search Vehicles" style="padding:5px;" class="form-control" [(ngModel)]="selectedValue" (ngModelChange)="searchVehicleDetails()">
+              <span class="input-group-addon">
+                <i class="fas fa-search"></i>
+              </span>
 
-        <div class="btn-search">
-
-          <i class="fas fa-search">
-            <span>Search</span>
-            <span style="color:red">[Enter]</span>
-          </i>
-
+            </div>
+          </div>
         </div>
       </div>
-      <hr>
+
+
+      <div class="tableShow" [style.visibility]="titleStyle">
+        <p-table #dt [columns]="cols" [value]="searchList" [paginator]="true" [rows]="4">
+          <ng-template pTemplate="caption">
+            <div style="text-align: right">
+              <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+              <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                style="width:auto">
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+                {{col.header}}
+                <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </th>
+
+            </tr>
+
+          </ng-template>
+          <ng-template pTemplate="body" let-i="rowIndex" let-vehicle>
+            <tr>
+              <td *ngFor="let col of cols">
+                {{vehicle[col.field]}}
+              </td>
+
+            </tr>
+
+          </ng-template>
+
+        </p-table>
+      </div>
       <div class="select-stylist-footer-right">
         <ul>
           <li>
@@ -146,9 +180,12 @@
           </li>
         </ul>
       </div>
+
     </div>
   </div>
 </div>
+
+
 
 <div id="priceCheck" class="modal fade" data-backdrop="static">
   <div class="modal-dialog">
