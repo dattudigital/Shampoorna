@@ -17,6 +17,7 @@ export class DashboardComponent implements OnInit {
   selectedOption: any = '';
   selectedRadio = '';
   newUser = true;
+  noResult = false;
   exchangeUser = false;
   csdUser = false;
   isDisabled = 'hidden';
@@ -160,7 +161,7 @@ export class DashboardComponent implements OnInit {
   taxCount: number = 0
   bankStatemet: any;
 
-  constructor(private saleUserService: SaleUserService,private formBuilder: FormBuilder, private http: Http, private router: Router, ) { }
+  constructor(private saleUserService: SaleUserService, private formBuilder: FormBuilder, private http: Http, private router: Router, ) { }
 
   ngOnInit() {
 
@@ -190,8 +191,8 @@ export class DashboardComponent implements OnInit {
       custDistrict: ['', Validators.required],
       custMobile: ['', Validators.required],
       custEmail: ['', Validators.required],
-      addressProofSelect:['',Validators.required],
-      addressProofNo:['',Validators.required]
+      addressProofSelect: ['', Validators.required],
+      addressProofNo: ['', Validators.required]
 
     });
   }
@@ -376,7 +377,7 @@ export class DashboardComponent implements OnInit {
         if (response.json().result.user_type == 2) {
           var csdDetails = {
             vech_sale_user_id: response.json().result.sale_user_id,
-            user_type:response.json().result.user_type,
+            user_type: response.json().result.user_type,
             csd_pay_order: this.payOrder,
             csd_pay_order_name: this.payOrderName,
             csd_delivery_showroom: this.deliveryFromShowroom,
@@ -490,10 +491,22 @@ export class DashboardComponent implements OnInit {
   engineSearch(val) {
     if (val.length >= 2) {
       this.saleUserService.searchEngine(val).subscribe(data => {
+        this.temp = [];
         this.temp.push(data.json().result);
-        this.vehicleInfo = this.temp.pop()
+        // console.log("**********");
+        // console.log(this.temp);
+        // console.log(this.temp.pop());
+        // console.log(data.json());
+        if (data.json().status == false) {
+          this.vehicleInfo = [];
+          this.noResult = true;
+        } else {
+          this.noResult = false;
+          this.vehicleInfo = this.temp;
+        }
       })
     } else {
+      this.noResult = false;
       this.vehicleInfo = [];
     }
   }
@@ -514,6 +527,9 @@ export class DashboardComponent implements OnInit {
       console.log(this.lifeTaxAmount)
     }
   }
+  // typeaheadNoResults(event: boolean): void {
+  //   this.noResult = event;
+  // }
   onSelect(event: TypeaheadMatch): void {
     this.onRoadPrice = 0
     this.selectedOption = event.item;

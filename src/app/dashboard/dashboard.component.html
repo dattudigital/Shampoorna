@@ -218,6 +218,7 @@
 						 [(ngModel)]="selectedValue" [(ngModel)]="vehicleEngineNo" (ngModelChange)='engineSearch($event)' [typeahead]="vehicleInfo"
 						 typeaheadOptionField="vehicle_engineno" (typeaheadOnSelect)="onSelect($event)" class="form-control">
 					</div>
+					<div style="color:red" *ngIf="noResult">No Results Found</div>
 				</div>
 				<div class="row form-group">
 					<label class="col-sm-4 col-form-label required">Frame No
