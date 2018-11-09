@@ -502,7 +502,7 @@ export class DashboardComponent implements OnInit {
           this.noResult = true;
         } else {
           this.noResult = false;
-          this.vehicleInfo = this.temp;
+          this.vehicleInfo = this.temp.pop();
         }
       })
     } else {
