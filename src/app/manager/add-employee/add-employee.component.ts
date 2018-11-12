@@ -1,4 +1,4 @@
-import { Component, OnInit,ChangeDetectorRef  } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Http } from '@angular/http';
 import { ManagerServiceService } from '../../services/manager-service.service'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -19,10 +19,10 @@ export class AddEmployeeComponent implements OnInit {
   employeeForm: FormGroup;
   submitted = false;
   editData: any = [];
-  deleteData:any=[];
+  deleteData: any = [];
   temp: any;
-  temp1:any;
-  empData:any;
+  temp1: any;
+  empData: any;
 
   employee_id: '';
   employee_firstname: '';
@@ -33,7 +33,7 @@ export class AddEmployeeComponent implements OnInit {
   email_id: '';
   phone: '';
   password: '';
-  emp_type_id:'';
+  emp_type_id: '';
   rec_status: '';
 
   firstName: '';
@@ -55,18 +55,18 @@ export class AddEmployeeComponent implements OnInit {
 
 
 
-  constructor(private cdr: ChangeDetectorRef,private http: Http,private spinner: NgxSpinnerService, private service: ManagerServiceService, private formBuilder: FormBuilder, private router: Router, private loginservice: LoginService) { }
+  constructor(private cdr: ChangeDetectorRef, private http: Http, private spinner: NgxSpinnerService, private service: ManagerServiceService, private formBuilder: FormBuilder, private router: Router, private loginservice: LoginService) { }
 
-  ngAfterViewChecked(){
-    
+  ngAfterViewChecked() {
+
     this.cdr.detectChanges();
- }
+  }
   ngOnInit() {
-    
-    sessionStorage.removeItem('secondaryLoginData');  
+
+    sessionStorage.removeItem('secondaryLoginData');
     sessionStorage.removeItem('backBtnInventory');
     sessionStorage.removeItem('inventory-routing');
-    this.loginPopUp(); 
+    this.loginPopUp();
     this.service.getEmployeeDetails().subscribe(res => {
       this.employees = res.json().result;
       console.log(this.employees);
@@ -77,7 +77,7 @@ export class AddEmployeeComponent implements OnInit {
       this.empData = data.json().result;
     });
 
-    
+
     this.cols = [
       { field: 'employee_firstname', header: 'First Name' },
       { field: 'employee_lastname', header: 'Last Name' },
@@ -146,7 +146,7 @@ export class AddEmployeeComponent implements OnInit {
           sessionStorage.setItem('secondaryLoginData1', JSON.stringify(loginData.json()));
           sessionStorage.setItem('backBtnManager', 'Y');
           $('#myModal').modal('hide');
-          this.titleStyle = "visible";        
+          this.titleStyle = "visible";
         } else {
           this.errorMessage = true;
         }
@@ -157,18 +157,18 @@ export class AddEmployeeComponent implements OnInit {
   RedirectToHome() {
     this.router.navigate(['dashboard']);
   }
-removeFields(){
-  this.firstName = '',
-  this.lastName = '',
-  this.email_id = '',
-  this.password = '',
-  this.employeeType = '',
-  this.branch = '',
-  this.phone ='',
-  this.address = '',
-  this.pincode = '',
-  this.employeeType =''
-}
+  removeFields() {
+    this.firstName = '',
+      this.lastName = '',
+      this.email_id = '',
+      this.password = '',
+      this.employeeType = '',
+      this.branch = '',
+      this.phone = '',
+      this.address = '',
+      this.pincode = '',
+      this.employeeType = ''
+  }
 
 
   get f() { return this.employeeForm.controls; }
@@ -186,7 +186,7 @@ removeFields(){
       employee_address: this.address,
       employee_pincode: this.pincode,
       email_id: this.emailId,
-      emp_type_id:this.employeeType,
+      emp_type_id: this.employeeType,
       phone: this.Phone,
       password: this.Password,
       rec_status: 1
@@ -197,7 +197,7 @@ removeFields(){
       this.employees.push(res.json().result);
       console.log(this.employees);
       $('#addEmployee').modal('hide');
-      
+
     });
     this.removeFields()
   }
@@ -221,10 +221,10 @@ removeFields(){
       this.employee_pincode = this.editData[index].employee_pincode,
       this.email_id = this.editData[index].email_id,
       this.phone = this.editData[index].phone,
-      this.emp_type_id =this.editData[index].emp_type_id,
+      this.emp_type_id = this.editData[index].emp_type_id,
       this.password = this.editData[index].password,
 
-    this.rec_status = this.editData[index].rec_status
+      this.rec_status = this.editData[index].rec_status
   }
 
   updateEmployee() {
@@ -237,7 +237,7 @@ removeFields(){
       employee_pincode: this.employee_pincode,
       email_id: this.email_id,
       phone: this.phone,
-      emp_type_id:this.emp_type_id,
+      emp_type_id: this.emp_type_id,
       rec_status: this.rec_status
     }
     this.service.saveEmployeeDetails(data).subscribe(res => {
@@ -251,7 +251,7 @@ removeFields(){
       this.employees[this.temp].employee_pincode = data.employee_pincode;
       this.employees[this.temp].email_id = data.email_id;
       this.employees[this.temp].phone = data.phone;
-      this.employees[this.temp].emp_type_id =data.emp_type_id
+      this.employees[this.temp].emp_type_id = data.emp_type_id
       this.employees[this.temp].rec_status = data.rec_status;
       this.temp = " ";
     });
@@ -259,7 +259,7 @@ removeFields(){
     $('#editEmployee').modal('hide')
   }
 
-  deleteEmployee(val,index){
+  deleteEmployee(val, index) {
     this.temp1 = index;
     console.log(index)
     this.deleteData = val;
@@ -269,7 +269,7 @@ removeFields(){
     this.employee_id = this.deleteData[index].employee_id;
   }
 
-  yesEmployeeDelete(){
+  yesEmployeeDelete() {
     this.employees.splice(this.temp1, 1)
     console.log(this.temp1)
     var data = {

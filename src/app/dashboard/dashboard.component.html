@@ -101,10 +101,10 @@
 							<span style="color:red">*</span>
 						</label>
 						<div class="col-sm-5">
-							<textarea class="form-control" formControlName="custAddress" placeholder="Address" (keypress)="omit_special_char($event)"
+							<textarea class="form-control" formControlName="custAddress" placeholder="Address" 
 							 maxlength="1000" rows="2" name="address" style="padding-left:1.6em" [(ngModel)]="address" [ngClass]="{ 'is-invalid': submitted && f.custAddress.errors }"></textarea>
 							<div *ngIf="submitted && f.custAddress.errors" class="invalid-feedback">
-								<div *ngIf="f.custAddress.errors.required" style="color:#ff0000"> Address Name is required</div>
+								<div *ngIf="f.custAddress.errors.required" style="color:#ff0000"> Address  is required</div>
 							</div>
 						</div>
 					</div>
@@ -140,7 +140,7 @@
 							<input type="text" formControlName="custDistrict" (keypress)="omit_special_char($event)" placeholder="District Name" maxlength="50"
 							 class="form-control" [(ngModel)]="districtName" [ngClass]="{ 'is-invalid': submitted && f.custDistrict.errors }">
 							<div *ngIf="submitted && f.custDistrict.errors" class="invalid-feedback">
-								<div *ngIf="f.custDistrict.errors.required" style="color:#ff0000"> pine code is required</div>
+								<div *ngIf="f.custDistrict.errors.required" style="color:#ff0000"> District Name is required</div>
 							</div>
 						</div>
 					</div>
@@ -190,7 +190,7 @@
 					<div class="row form-group">
 						<label class="col-sm-4 col-form-label required"></label>
 						<div class="col-sm-5">
-							<input type="text" (keypress)="omit_special_char($event)" placeholder="Address proof Number" maxlength="50" class="form-control"
+							<input type="text"  placeholder="Address proof Number" (keypress)="allow_numbers_alphabets($event)" maxlength="50" class="form-control"
 							 [(ngModel)]="addressProofNo" [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}">
 						</div>
 					</div>
@@ -215,7 +215,7 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="text" (keypress)="omit_special_char($event)" placeholder="Enter Engine Number" name="Engine" maxlength="50"
+						<input type="text" (keypress)="allow_numbers_alphabets($event)" placeholder="Enter Engine Number" name="Engine" maxlength="50"
 						 [(ngModel)]="selectedValue" [(ngModel)]="vehicleEngineNo" (ngModelChange)='engineSearch($event)' [typeahead]="vehicleInfo"
 						 typeaheadOptionField="vehicle_engineno" (typeaheadOnSelect)="onSelect($event)" class="form-control">
 					</div>
@@ -226,7 +226,7 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="text" (keypress)="omit_special_char($event)" name="frame" maxlength="50" class="form-control" [(ngModel)]="vehicleFrameNo">
+						<input type="text"  name="frame" maxlength="50" class="form-control" [(ngModel)]="vehicleFrameNo">
 					</div>
 				</div>
 				<div class="row form-group">
@@ -234,7 +234,7 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="text" (keypress)="omit_special_char($event)" name="dcnum" maxlength="50" class="form-control" [(ngModel)]="vehicleDcNo">
+						<input type="text" name="dcnum" maxlength="50" class="form-control" [(ngModel)]="vehicleDcNo">
 					</div>
 				</div>
 				<div class="row form-group">
@@ -242,13 +242,13 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="text" (keypress)="omit_special_char($event)" name="keyno" maxlength="50" class="form-control" [(ngModel)]="vehicleKeyNo">
+						<input type="text"  name="keyno" maxlength="50" class="form-control" [(ngModel)]="vehicleKeyNo">
 					</div>
 				</div>
 				<div class="row form-group">
 					<label class="col-sm-4 col-form-label required">Vehicle Color</label>
 					<div class="col-sm-5">
-						<input type="text" (keypress)="omit_special_char($event)" name="color" maxlength="50" class="form-control" [(ngModel)]="vehicleColor">
+						<input type="text"  name="color" maxlength="50" class="form-control" [(ngModel)]="vehicleColor">
 					</div>
 				</div>
 				<div class="row form-group">
@@ -318,7 +318,7 @@
 					<label class="col-sm-3 col-form-label required"> </label>
 					<div class="col-sm-2">
 						<div class="input-group">
-							<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="handlingC" (ngModelChange)="addTotalTax()">
+							<input type="number" min="0" name="basic" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="handlingC" (ngModelChange)="addTotalTax()">
 
 							<span> Handling C</span>
 						</div>
@@ -328,7 +328,7 @@
 					</div>
 					<div class="col-sm-2">
 						<div class="input-group">
-							<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleReg" (ngModelChange)="addTotalTax()">
+							<input type="number" min="0" name="basic" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="vehicleReg" (ngModelChange)="addTotalTax()">
 							<span> Registration</span>
 						</div>
 					</div>
@@ -337,7 +337,7 @@
 					</div>
 					<div class="col-sm-2">
 						<div class="input-group">
-							<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleWarranty" (ngModelChange)="addTotalTax()">
+							<input type="number" min="0" name="basic" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="vehicleWarranty" (ngModelChange)="addTotalTax()">
 							<span>warranty</span>
 						</div>
 					</div>
@@ -346,7 +346,7 @@
 					<label class="col-sm-3 col-form-label required"> </label>
 					<div class="col-sm-2">
 						<div class="input-group">
-							<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleAcc" (ngModelChange)="addTotalTax()">
+							<input type="number" min="0" name="basic" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="vehicleAcc" (ngModelChange)="addTotalTax()">
 
 							<span>Accessories</span>
 						</div>
@@ -356,7 +356,7 @@
 					</div>
 					<div class="col-sm-2">
 						<div class="input-group">
-							<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="Hp" (ngModelChange)="addTotalTax()">
+							<input type="number" min="0" name="basic" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="Hp" (ngModelChange)="addTotalTax()">
 							<span> HP</span>
 						</div>
 					</div>
@@ -365,7 +365,7 @@
 					</div>
 					<div class="col-sm-2">
 						<div class="input-group">
-							<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="discount" (ngModelChange)="addTotalTax();approvedEmpEnable()">
+							<input type="number" min="0" name="basic" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="discount" (ngModelChange)="addTotalTax();approvedEmpEnable()">
 							<span>Discount</span>
 						</div>
 					</div>
@@ -474,7 +474,7 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="number" min="0" name="exchange" maxlength="50" class="form-control" [(ngModel)]="exchangevehicleNo">
+						<input type="text" min="0" name="exchange" maxlength="50"  (keypress)="allow_numbers_alphabets($event)" class="form-control" [(ngModel)]="exchangevehicleNo">
 					</div>
 				</div>
 				<div class="row form-group">
@@ -482,7 +482,7 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="text" name="disbursement" maxlength="50" class="form-control" [(ngModel)]="exchangeEngineNo">
+						<input type="text" name="disbursement" maxlength="50" (keypress)="allow_numbers_alphabets($event)" class="form-control" [(ngModel)]="exchangeEngineNo">
 					</div>
 				</div>
 				<div class="row form-group">
@@ -490,7 +490,7 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="text" name="payment" maxlength="50" class="form-control" [(ngModel)]="exchangeFrameNo">
+						<input type="text" name="payment" maxlength="50" (keypress)="allow_numbers_alphabets($event)" class="form-control" [(ngModel)]="exchangeFrameNo">
 					</div>
 				</div>
 				<div class="row form-group">
@@ -498,7 +498,7 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="text" name="color" maxlength="50" class="form-control" [(ngModel)]="exchangeVehicleColor">
+						<input type="text" name="color" maxlength="50" (keypress)="omit_special_char($event)" class="form-control" [(ngModel)]="exchangeVehicleColor">
 					</div>
 				</div>
 			</div>
@@ -509,7 +509,7 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="text" name="model" maxlength="50" class="form-control" [(ngModel)]="exchangeVehicleModel">
+						<input type="text" name="model" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="exchangeVehicleModel">
 					</div>
 				</div>
 				<div class="row form-group">
@@ -517,7 +517,7 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="text" name="vat" maxlength="50" class="form-control" [(ngModel)]="vehiclecustomerName">
+						<input type="text" name="vat" maxlength="50" (keypress)="omit_special_char($event)" class="form-control" [(ngModel)]="vehiclecustomerName">
 					</div>
 				</div>
 				<div class="row form-group">
@@ -525,7 +525,7 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="text" name="vat" maxlength="50" class="form-control" [(ngModel)]="exchangeAmount">
+						<input type="text" name="vat" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="exchangeAmount">
 					</div>
 				</div>
 				<div class="row form-group">
@@ -576,7 +576,7 @@
 											<span style="color:red">*</span>
 										</span>
 										<div class="col-sm-5">
-											<input type="number" min="0" name="myTxt" id="myTxt" value="" [(ngModel)]="paymentEmi.chequeAmount" (ngModelChange)="addTotalAmount()">
+											<input type="number" min="0" name="myTxt" id="myTxt" (keypress)="only_allow_number($event)" value="" [(ngModel)]="paymentEmi.chequeAmount" (ngModelChange)="addTotalAmount()">
 										</div>
 									</div>
 									<div class="row form-group">
@@ -584,7 +584,7 @@
 											<span style="color:red">*</span>
 										</span>
 										<div class="col-sm-5">
-											<input type="text" (keypress)="omit_special_char($event)" name="chequeNo" [(ngModel)]="paymentEmi.chequeNo">
+											<input type="text" (keypress)="only_allow_number($event)" name="chequeNo" [(ngModel)]="paymentEmi.chequeNo">
 										</div>
 									</div>
 									<div class="row form-group">
@@ -609,7 +609,7 @@
 											<span style="color:red">*</span>
 										</span>
 										<div class="col-sm-5">
-											<input type="number" name="cash" id="cash" value="" [(ngModel)]="paymentEmi.cashAmount" (ngModelChange)="addTotalAmount()">
+											<input type="number" name="cash" id="cash" (keypress)="only_allow_number($event)" value="" [(ngModel)]="paymentEmi.cashAmount" (ngModelChange)="addTotalAmount()">
 										</div>
 									</div>
 								</div>
@@ -624,7 +624,7 @@
 											<span style="color:red">*</span>
 										</span>
 										<div class="col-sm-5">
-											<input type="number" min="0" name="credit" id="credit" value="" [(ngModel)]="paymentEmi.creditcardAmount" (ngModelChange)="addTotalAmount()">
+											<input type="number" min="0" name="credit" (keypress)="only_allow_number($event)" id="credit" value="" [(ngModel)]="paymentEmi.creditcardAmount" (ngModelChange)="addTotalAmount()">
 										</div>
 									</div>
 									<div class="row form-group">
@@ -632,7 +632,7 @@
 											<span style="color:red">*</span>
 										</span>
 										<div class="col-sm-5">
-											<input type="text" name="transactionId" value="" [(ngModel)]="paymentEmi.creditTransId">
+											<input type="text" name="transactionId" (keypress)="allow_numbers_alphabets($event)" value="" [(ngModel)]="paymentEmi.creditTransId">
 										</div>
 									</div>
 								</div>
@@ -650,7 +650,7 @@
 											<span style="color:red">*</span>
 										</span>
 										<div class="col-sm-5">
-											<input type="number" min="0" name="credit" id="bank" value="" [(ngModel)]="paymentEmi.accounttranferAmount" (ngModelChange)="addTotalAmount()">
+											<input type="number" min="0" name="credit" (keypress)="only_allow_number($event)" id="bank" value="" [(ngModel)]="paymentEmi.accounttranferAmount" (ngModelChange)="addTotalAmount()">
 										</div>
 									</div>
 									<div class="row form-group">
@@ -658,7 +658,7 @@
 											<span style="color:red">*</span>
 										</span>
 										<div class="col-sm-5">
-											<input type="text" name="id" value="" [(ngModel)]="paymentEmi.accountTranferId">
+											<input type="text" name="id" value="" (keypress)="allow_numbers_alphabets($event)" [(ngModel)]="paymentEmi.accountTranferId">
 										</div>
 									</div>
 								</div>
@@ -689,7 +689,7 @@
 											<span style="color:red">*</span>
 										</span>
 										<div class="col-sm-5">
-											<input type="number" min="0" name="other" id="other" value="" [(ngModel)]="paymentEmi.othersAmount" (ngModelChange)="addTotalAmount()">
+											<input type="number" min="0" (keypress)="only_allow_number($event)" name="other" id="other" value="" [(ngModel)]="paymentEmi.othersAmount" (ngModelChange)="addTotalAmount()">
 										</div>
 									</div>
 								</div>
@@ -720,7 +720,7 @@
 							<span style="color:red">*</span>
 						</label>
 						<div class="col-sm-3">
-							<input type="number" min="0" name="down" maxlength="50" class="form-control" placeholder="Down Payment" [(ngModel)]="paymentEmi.downPayment">
+							<input type="number" min="0" (keypress)="only_allow_number($event)"  name="down" maxlength="50" class="form-control" placeholder="Down Payment" [(ngModel)]="paymentEmi.downPayment">
 						</div>
 					</div>
 					<div class=" row form-group">
