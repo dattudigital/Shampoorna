@@ -1,22 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import {Http} from '@angular/http';
-import {Router} from '@angular/router';
-import {DashboardServiceService} from '../../services/dashboard-service.service';
-
+import { Router } from '@angular/router';
+import { DashboardServiceService } from '../../services/dashboard-service.service';
 @Component({
-  selector: 'app-total-sale',
-  templateUrl: './total-sale.component.html',
-  styleUrls: ['./total-sale.component.css']
+  selector: 'app-total-sale-list',
+  templateUrl: './total-sale-list.component.html',
+  styleUrls: ['./total-sale-list.component.css']
 })
-export class TotalSaleComponent implements OnInit {
+export class TotalSaleListComponent implements OnInit {
   cols: any[];
-  totalSaleList:any =[];
-  constructor(private http:Http,private router:Router,private service:DashboardServiceService) { }
+  totalSaleList: any = [];
+  constructor(private router: Router, private service: DashboardServiceService) { }
 
   ngOnInit() {
-    this.service.getTotalSale().subscribe(response=>{
+    this.service.getTotalSale().subscribe(response => {
       console.log(response.json().result);
-     this.totalSaleList =response.json().result;
+      this.totalSaleList = response.json().result;
     });
     this.cols = [
       { field: 'firstname', header: 'First Name' },
@@ -32,7 +30,7 @@ export class TotalSaleComponent implements OnInit {
 
     ];
   }
-  backToReports(){
-    this.router.navigate(['sale-dashboard']);
+  backToReports() {
+    this.router.navigate(['reports']);
   }
 }

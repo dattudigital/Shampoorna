@@ -10982,3 +10982,16 @@ label {
     border-radius: 2px;
 	margin:0;
 }
+/* excel and pdf file styles */
+
+.printOptions{
+    margin: 10px;
+    float:right;
+    cursor: pointer;
+}
+i.fas.fa-file-pdf{
+font-size: 30px;
+}
+i.far.fa-file-excel{
+    font-size: 30px;
+}

@@ -28,4 +28,14 @@ export class DcFormComponent implements OnInit {
     sessionStorage.removeItem('dcFormData'); 
     this.router.navigate(['sale-details'])
   }
+  PrintRecord = function () {
+    this.printData();
+  }
+  printData() {
+    var divToPrint = document.getElementById("deliveryform");
+    var newWin = window.open("");
+    newWin.document.write(divToPrint.outerHTML);
+    newWin.print();
+    newWin.close();
+  }
 }

@@ -32,9 +32,6 @@ export class TodaySaleComponent implements OnInit {
       console.log(this.branchData)
     });
     
-  
-
-
     this.service.getTodaySale().subscribe(res => {
       console.log(res.json().result);
       this.todaySaleList = res.json().result;

@@ -340,6 +340,7 @@ export class DashboardComponent implements OnInit {
     this.saleUserService.saveSalesUser(data).subscribe(response => {
       console.log(response.json().status);
       console.log(response.json().result.sale_user_id);
+
       // vehicle information send to sale-user api
       if (response.json().status == true) {
         var vehicledetails = {
@@ -369,119 +370,119 @@ export class DashboardComponent implements OnInit {
         this.saleUserService.saveSalesVehicle(vehicledetails).subscribe(res => {
           console.log(res.json());
         });
-
-        //csd files send to api
-        if (response.json().result.user_type == 2) {
-          var csdDetails = {
-            vech_sale_user_id: response.json().result.sale_user_id,
-            user_type: response.json().result.user_type,
-            csd_pay_order: this.payOrder,
-            csd_pay_order_name: this.payOrderName,
-            csd_delivery_showroom: this.deliveryFromShowroom,
-            csd_delivery_showroom_name: this.deliveryFileName,
-          }
-          console.log(csdDetails);
-          this.saleUserService.addPaymentEmi(csdDetails).subscribe(response => {
-            console.log(response.json());
-          })
-        }
-
-        if (val == '1') {
-          var exchangeDetails = {
-            exc_sale_user_id: response.json().result.sale_user_id,
-            exc_vechile_no: this.exchangevehicleNo,
-            exc_eng_no: this.exchangeEngineNo,
-            exc_frame_no: this.exchangeFrameNo,
-            exc_vechile_color: this.exchangeVehicleColor,
-            exc_vechile_mode: this.exchangeVehicleModel,
-            exc_customer_name: this.vehiclecustomerName,
-            exchange_amt: this.exchangeAmount,
-            exchange_amt_approval_by: this.exchangeAmountApprovedBy,
-            exc_sale_exchange_status: 1
-          }
-          console.log(exchangeDetails);
-          this.saleUserService.saveExchangeVehicle(exchangeDetails).subscribe(res => {
-            console.log(res.json())
-          })
-        }
-        if (val == 0 || val == 1) {
-          let chequeSelect;
-          let cashSelect;
-          let creditcardSelect;
-          let accountSelect;
-          let otherSelect;
-          console.log(this.paymentEmi.chequeSelect)
-          if (this.paymentEmi.chequeSelect == true) {
-            chequeSelect = '1'
-          } else {
-            chequeSelect = '0'
-          }
-
-          if (this.paymentEmi.cashSelect == true) {
-            cashSelect = '1'
-          } else {
-            cashSelect = '0'
-          }
-          if (this.paymentEmi.creditcardSelect == true) {
-            creditcardSelect = '1'
-          } else {
-            creditcardSelect = '0'
-          }
-          if (this.paymentEmi.accountTransferSelect == true) {
-            accountSelect = '1'
-          } else {
-            accountSelect = '0'
-          }
-
-          if (this.paymentEmi.othersSelect == true) {
-            otherSelect = '1'
-          } else {
-            otherSelect = '0'
-          }
-
-          if (!this.paymentEmi.creditAmount) {
-            this.paymentEmi.creditAmount = 0;
-          }
-          var paymentDetails = {
-            pay_sale_user_id: response.json().result.sale_user_id,
-            mode_of_payment: this.paymentEmi.paymentmode,
-            emi_financial_name: this.paymentEmi.financialName,
-            emi_financial_down_payment: this.paymentEmi.downPayment,
-            emi_addresss_proof: this.paymentEmi.addressProof,
-            address_name: this.paymentEmi.addressFileName,
-            emi_id_proof: this.paymentEmi.idProof,
-            id_name: this.paymentEmi.idProofName,
-            emi_cheque: this.paymentEmi.cheque,
-            cheque_name: this.paymentEmi.chequeFileName,
-            cheque: chequeSelect,
-            cheque_no: this.paymentEmi.chequeNo,
-            cheque_date: this.paymentEmi.chequeDate,
-            cheque_amt: this.paymentEmi.chequeAmount,
-            cash: cashSelect,
-            cash_amount: this.paymentEmi.cashAmount,
-            credit_card: creditcardSelect,
-            credit_card_tranactionid: this.paymentEmi.creditTransId,
-            credit_card_amt: this.paymentEmi.creditcardAmount,
-            account_transfer: accountSelect,
-            account_trasaction_id: this.paymentEmi.accountTranferId,
-            account_transfer_amt: this.paymentEmi.accounttranferAmount,
-            other: otherSelect,
-            others_type: this.paymentEmi.mobileWallet,
-            others_amt: this.paymentEmi.othersAmount,
-            total: this.cashTotal,
-            emi_bank_stmt: '',
-            bank_statement: this.banks
-          }
-          if (this.paymentEmi.mobileWallet) {
-            delete paymentDetails.others_type;
-          }
-          console.log(paymentDetails);
-          this.saleUserService.addPaymentEmi(paymentDetails).subscribe(response => {
-            console.log(response.json());
-          })
-        }
-
       }
+      //csd files send to api
+      if (response.json().result.user_type == 2) {
+        var csdDetails = {
+          vech_sale_user_id: response.json().result.sale_user_id,
+          user_type: response.json().result.user_type,
+          csd_pay_order: this.payOrder,
+          csd_pay_order_name: this.payOrderName,
+          csd_delivery_showroom: this.deliveryFromShowroom,
+          csd_delivery_showroom_name: this.deliveryFileName,
+        }
+        console.log(csdDetails);
+        this.saleUserService.addPaymentEmi(csdDetails).subscribe(response => {
+          console.log(response.json());
+        })
+      }
+      //exchange vehicle information send to api
+      if (val == '1') {
+        var exchangeDetails = {
+          exc_sale_user_id: response.json().result.sale_user_id,
+          exc_vechile_no: this.exchangevehicleNo,
+          exc_eng_no: this.exchangeEngineNo,
+          exc_frame_no: this.exchangeFrameNo,
+          exc_vechile_color: this.exchangeVehicleColor,
+          exc_vechile_mode: this.exchangeVehicleModel,
+          exc_customer_name: this.vehiclecustomerName,
+          exchange_amt: this.exchangeAmount,
+          exchange_amt_approval_by: this.exchangeAmountApprovedBy,
+          exc_sale_exchange_status: 1
+        }
+        console.log(exchangeDetails);
+        this.saleUserService.saveExchangeVehicle(exchangeDetails).subscribe(res => {
+          console.log(res.json())
+        })
+      }
+      //Payment Details send to api
+      if (val == 0 || val == 1) {
+        let chequeSelect;
+        let cashSelect;
+        let creditcardSelect;
+        let accountSelect;
+        let otherSelect;
+        console.log(this.paymentEmi.chequeSelect)
+        if (this.paymentEmi.chequeSelect == true) {
+          chequeSelect = '1'
+        } else {
+          chequeSelect = '0'
+        }
+
+        if (this.paymentEmi.cashSelect == true) {
+          cashSelect = '1'
+        } else {
+          cashSelect = '0'
+        }
+        if (this.paymentEmi.creditcardSelect == true) {
+          creditcardSelect = '1'
+        } else {
+          creditcardSelect = '0'
+        }
+        if (this.paymentEmi.accountTransferSelect == true) {
+          accountSelect = '1'
+        } else {
+          accountSelect = '0'
+        }
+
+        if (this.paymentEmi.othersSelect == true) {
+          otherSelect = '1'
+        } else {
+          otherSelect = '0'
+        }
+
+        if (!this.paymentEmi.creditAmount) {
+          this.paymentEmi.creditAmount = 0;
+        }
+        var paymentDetails = {
+          pay_sale_user_id: response.json().result.sale_user_id,
+          mode_of_payment: this.paymentEmi.paymentmode,
+          emi_financial_name: this.paymentEmi.financialName,
+          emi_financial_down_payment: this.paymentEmi.downPayment,
+          emi_addresss_proof: this.paymentEmi.addressProof,
+          address_name: this.paymentEmi.addressFileName,
+          emi_id_proof: this.paymentEmi.idProof,
+          id_name: this.paymentEmi.idProofName,
+          emi_cheque: this.paymentEmi.cheque,
+          cheque_name: this.paymentEmi.chequeFileName,
+          cheque: chequeSelect,
+          cheque_no: this.paymentEmi.chequeNo,
+          cheque_date: this.paymentEmi.chequeDate,
+          cheque_amt: this.paymentEmi.chequeAmount,
+          cash: cashSelect,
+          cash_amount: this.paymentEmi.cashAmount,
+          credit_card: creditcardSelect,
+          credit_card_tranactionid: this.paymentEmi.creditTransId,
+          credit_card_amt: this.paymentEmi.creditcardAmount,
+          account_transfer: accountSelect,
+          account_trasaction_id: this.paymentEmi.accountTranferId,
+          account_transfer_amt: this.paymentEmi.accounttranferAmount,
+          other: otherSelect,
+          others_type: this.paymentEmi.mobileWallet,
+          others_amt: this.paymentEmi.othersAmount,
+          total: this.cashTotal,
+          emi_bank_stmt: '',
+          bank_statement: this.banks
+        }
+        if (this.paymentEmi.mobileWallet) {
+          delete paymentDetails.others_type;
+        }
+        console.log(paymentDetails);
+        this.saleUserService.addPaymentEmi(paymentDetails).subscribe(response => {
+          console.log(response.json());
+        })
+      }
+
     })
   }
 
@@ -802,19 +803,19 @@ export class DashboardComponent implements OnInit {
     console.log('key press');
     var k;
     k = event.charCode;  //  k = event.keyCode;  (Both can be used)
-    return ((k > 64 && k < 91) || (k > 96 && k < 123) || k==8 || k == 0 || k == 32 );
+    return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 0 || k == 32);
   }
   //This Method  allow Numbers
-  only_allow_number(event){
+  only_allow_number(event) {
     console.log('only number');
     var n;
-    n=event.charCode
-    return (n==8 || n == 0 || n == 32 || (n >= 48 && n <= 57))
+    n = event.charCode
+    return (n == 8 || n == 0 || n == 32 || (n >= 48 && n <= 57))
   }
   //this method allow bothe numbers and alphabets
-  allow_numbers_alphabets(event){
+  allow_numbers_alphabets(event) {
     var a;
-    a=event.charCode
-    return((a > 64 && a < 91) || (a > 96 && a < 123) || a == 8 || a == 0 || (a >= 48 && a <= 57));
+    a = event.charCode
+    return ((a > 64 && a < 91) || (a > 96 && a < 123) || a == 8 || a == 0 || (a >= 48 && a <= 57));
   }
 } 

@@ -120,7 +120,7 @@
               <a style="color:red">*</a>
             </label>
             <div class="col-md-6">
-              <input type="text" formControlName="employeeFirstName" class="form-control" placeholder="firstName" [ngClass]="{ 'is-invalid': submitted && f.employeeFirstName.errors }"
+              <input type="text" formControlName="employeeFirstName"  (keypress)="omit_special_char($event)" class="form-control" placeholder="firstName" [ngClass]="{ 'is-invalid': submitted && f.employeeFirstName.errors }"
                 [(ngModel)]="firstName">
               <div *ngIf="submitted && f.employeeFirstName.errors" class="invalid-feedback">
                 <div *ngIf="f.employeeFirstName.errors.required" style="color:red">First Name is required</div>
@@ -135,16 +135,14 @@
               <a style="color:red">*</a>
             </label>
             <div class="col-md-6">
-              <input type="text" formControlName="employeeLastName" class="form-control" placeholder="lastName" [ngClass]="{ 'is-invalid': submitted && f.employeeLastName.errors }"
+              <input type="text" formControlName="employeeLastName" (keypress)="omit_special_char($event)" class="form-control" placeholder="lastName" [ngClass]="{ 'is-invalid': submitted && f.employeeLastName.errors }"
                 [(ngModel)]="lastName">
               <div *ngIf="submitted && f.employeeLastName.errors" class="invalid-feedback">
                 <div *ngIf="f.employeeLastName.errors.required" style="color:red">Last Name is required</div>
               </div>
             </div>
-
             <div class="clear"></div>
           </div>
-
 
           <div class="form-group">
             <div class="col-md-1"></div>
@@ -213,7 +211,7 @@
               <a style="color:red">*</a>
             </label>
             <div class="col-md-6">
-              <input type="text" formControlName="Phone" class="form-control" placeholder="Phone No." [ngClass]="{ 'is-invalid': submitted && f.Phone.errors }"
+              <input type="text" formControlName="Phone" (keypress)="only_allow_number($event)" class="form-control" placeholder="Phone No." [ngClass]="{ 'is-invalid': submitted && f.Phone.errors }"
                 [(ngModel)]="Phone">
               <div *ngIf="submitted && f.Phone.errors" class="invalid-feedback">
                 <div *ngIf="f.Phone.errors.required" style="color:red">Phone Number is required</div>
@@ -243,7 +241,7 @@
               <a style="color:red">*</a>
             </label>
             <div class="col-md-6">
-              <input type="text" formControlName="employeePinCode" class="form-control" placeholder="Pincode" [ngClass]="{ 'is-invalid': submitted && f.employeePinCode.errors }"
+              <input type="text" formControlName="employeePinCode" (keypress)="only_allow_number($event)" class="form-control" placeholder="Pincode" [ngClass]="{ 'is-invalid': submitted && f.employeePinCode.errors }"
                 [(ngModel)]="pincode">
               <div *ngIf="submitted && f.employeePinCode.errors" class="invalid-feedback">
                 <div *ngIf="f.employeePinCode.errors.required" style="color:red">PinCode is required</div>
@@ -342,7 +340,7 @@
               <a style="color:red">*</a>
             </label>
             <div class="col-md-6">
-              <input type="text" formControlName="employeeBranch" class="form-control" id="ebr" placeholder="branch" [ngClass]="{ 'is-invalid': submitted && f.employeeBranch.errors }"
+              <input type="text" formControlName="employeeBranch"   class="form-control" id="ebr" placeholder="branch" [ngClass]="{ 'is-invalid': submitted && f.employeeBranch.errors }"
                 [(ngModel)]="employee_branch">
               <div *ngIf="submitted && f.employeeBranch.errors" class="invalid-feedback">
                 <div *ngIf="f.employeeBranch.errors.required" style="color:red">Branch is required</div>

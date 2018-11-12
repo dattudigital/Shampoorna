@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-sm-6">
-    <h3 style="font-weight:600; padding: 7px;">Today Sale List</h3>
+    <h3 style="font-weight:600; padding: 7px;">Total Sale List</h3>
   </div>
   <div class="col-sm-4"></div>
   <div class="col-sm-2">
@@ -9,36 +9,20 @@
 </div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
+
 <div class="row">
-  <div class="col-md-3 col-sm-3 col-xs-12">
-    <div class="form-group">
-      <label for="input" class="col-md-3 control-label">Type</label>
-      <div class="col-md-7">
-        <select class="form-control" [(ngModel)]="vehicleTypeFilter">
-          <option value="" selected>All</option>
-          <option value="0">New</option>
-          <option value="1">Exchange</option>
-          <option value="2">Csd</option>
-        </select>
-      </div>
-      <div class="clear"></div>
-    </div>
-  </div>
-<div class="col-md-1 col-sm-1 col-xs-12">
+  <div class="container">
+    <span (click)="xlDownload();" class="printOptions" title="Export to Excel">
+      <i class="far fa-file-excel"></i>
+    </span>
 
+    <span (click)="pdfDownload()" class="printOptions" title="Export to PDF">
+      <i class="fas fa-file-pdf"></i>
+    </span>
+  </div>
 </div>
 
-  <div class="col-md-1 col-sm-1 col-xs-12">
-    <button type="submit" class="btn btn-primary" (click)=" detailsGo()">Search</button>
-  </div>
-  <div class="col-md-1 col-sm-1 col-xs-12">
-    <button type="submit" class="btn btn-warning" (click)="detailsReset()">Reset</button>
-  </div>
-
-</div>
-
-<br/>
-<p-table #dt [columns]="cols" [value]="todaySaleList" [paginator]="true" [rows]="4">
+<p-table #dt [columns]="cols" [value]="totalSaleList" [paginator]="true" [rows]="4">
   <ng-template pTemplate="caption">
     <div style="text-align: right">
       <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
@@ -52,9 +36,7 @@
         {{col.header}}
         <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
       </th>
-
     </tr>
-
   </ng-template>
   <ng-template pTemplate="body" let-i="rowIndex" let-totalsale>
     <tr>
