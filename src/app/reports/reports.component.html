@@ -1,108 +1,155 @@
-<div class="reports-list">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4 pointer" (click)="saleReportClick()">
-                <div class="income-dashone-total shadow-reset nt-mg-b-30">
-                    <div class="income-title">
-                        <div class="main-income-head">
-                            <a>
-                                <h2>Sales</h2>
-                            </a>
-                        </div>
+<div id="myModal" class="modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form>
+                <div class="form-group">
+                    <div class="col-md-4 col-sm-6 login_form-left">
+                        <label>User Name</label>
                     </div>
-                    <div class="income-dashone-pro">
-                        <div class="income-rate-total">
-                            <div class="price-adminpro-rate">
-                            </div>
-                            <div class="price-graph">
-                                <span id="sparkline6"></span>
-                            </div>
+                    <div class="col-md-8 col-sm-6 login_form-right">
+                        <input type="text" class="form-control" [(ngModel)]="mailId" (ngModelChange)="errorClear()" name="some" placeholder="Employee Id">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-4 col-sm-6 login_form-left">
+                        <label>Password</label>
+                    </div>
+                    <div class="col-md-8 col-sm-6 login_form-right">
+                        <input type="password" class="form-control" [(ngModel)]="passwordLogin" (ngModelChange)="errorClear()" name="password" placeholder="Employee Password">
+                    </div>
+                    <div class="form-group" style="text-align: center">
+                        <label *ngIf="errorMessage" class="alertRed">Invalid Credentials</label>
+                    </div>
+
+                    <div class="clear"></div>
+                </div>
+                <div class="login_form-submit">
+                    <div class="row">
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-3">
+                            <button type="submit" [disabled]="btnDisable" (click)="loginSubmite();" class="btn btn-primary submit-button">Sign In
+                            </button>
                         </div>
-                        <div class="clear"></div>
+                        <div class="col-sm-2">
+                            <button type="submit" data-dismiss="modal" class="btn btn-warning" (click)="RedirectToHome()">Cancel</button>
+                        </div>
+                        <div class="col-sm-3"></div>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-2">
-            </div>
-            <div class="col-sm-4 pointer" (click)="viewInventoryClick()">
-                <div class="income-dashone-total shadow-reset nt-mg-b-30">
-                    <div class="income-title">
-                        <div class="main-income-head">
-                            <a>
-                                <h2>Inventory</h2>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="income-dashone-pro">
-                        <div class="income-rate-total">
-                            <div class="price-adminpro-rate">
-                            </div>
-                            <div class="price-graph">
-                                <span id="sparkline6"></span>
-                            </div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
-        <div class="tableShow" [style.visibility]="titleStyle">
+    </div>
+</div>
+
+
+<div class="tableShow" [style.visibility]="reportStyle">
+    <div class="reports-list">
+        <div class="container">
             <div class="row">
-                <div class="col-sm-4 pointer" (click)="todaySaleClick()">
+                <div class="col-sm-4 pointer" (click)="saleReportClick()">
                     <div class="income-dashone-total shadow-reset nt-mg-b-30">
                         <div class="income-title">
                             <div class="main-income-head">
                                 <a>
-                                    <h2 style="text-align:center">Today Sales</h2>
-                                    <h2 style="text-align:center">{{todaySaleCount}}</h2>
+                                    <h2>Sales</h2>
                                 </a>
                             </div>
                         </div>
-                        <div class="form-group text-center">
-                            <label *ngIf="errorMessage" class="alertRed">You are not Authorized to access Sales List</label>
+                        <div class="income-dashone-pro">
+                            <div class="income-rate-total">
+                                <div class="price-adminpro-rate">
+                                </div>
+                                <div class="price-graph">
+                                    <span id="sparkline6"></span>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-2">
                 </div>
-                <div class="col-sm-4 pointer" (click)="totalSaleClick()">
+                <div class="col-sm-4 pointer" (click)="viewInventoryClick()">
                     <div class="income-dashone-total shadow-reset nt-mg-b-30">
                         <div class="income-title">
                             <div class="main-income-head">
                                 <a>
-                                    <h2 style="text-align:center">Total Sales</h2>
-                                    <h2 style="text-align:center">{{totalsaleCount}}</h2>
+                                    <h2>Inventory</h2>
                                 </a>
+                            </div>
+                        </div>
+                        <div class="income-dashone-pro">
+                            <div class="income-rate-total">
+                                <div class="price-adminpro-rate">
+                                </div>
+                                <div class="price-graph">
+                                    <span id="sparkline6"></span>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tableShow" [style.visibility]="titleStyle">
+                <div class="row">
+                    <div class="col-sm-4 pointer" (click)="todaySaleClick()">
+                        <div class="income-dashone-total shadow-reset nt-mg-b-30">
+                            <div class="income-title">
+                                <div class="main-income-head">
+                                    <a>
+                                        <h2 style="text-align:center">Today Sales</h2>
+                                        <h2 style="text-align:center">{{todaySaleCount}}</h2>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="form-group text-center">
+                                <label *ngIf="errorMessage" class="alertRed">You are not Authorized to access Sales List</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-4 pointer" (click)="totalSaleClick()">
+                        <div class="income-dashone-total shadow-reset nt-mg-b-30">
+                            <div class="income-title">
+                                <div class="main-income-head">
+                                    <a>
+                                        <h2 style="text-align:center">Total Sales</h2>
+                                        <h2 style="text-align:center">{{totalsaleCount}}</h2>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="tableShow" [style.visibility]="inventoryStyle">
-            <div class="row">
-                <div class="col-sm-4 pointer" (click)="vehicleDetailsClick()">
-                    <div class="income-dashone-total shadow-reset nt-mg-b-30">
-                        <div class="income-title">
-                            <div class="main-income-head">
-                                <a>
-                                    <h2 style="text-align:center">Vehicle Details List</h2>
-                                    <h2 style="text-align:center"></h2>
-                                </a>
+            <div class="tableShow" [style.visibility]="inventoryStyle">
+                <div class="row">
+                    <div class="col-sm-4 pointer" (click)="vehicleDetailsClick()">
+                        <div class="income-dashone-total shadow-reset nt-mg-b-30">
+                            <div class="income-title">
+                                <div class="main-income-head">
+                                    <a>
+                                        <h2 style="text-align:center">Vehicle Details List</h2>
+                                        <h2 style="text-align:center"></h2>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-2">
-                </div>
-                <div class="col-sm-4 pointer" (click)="inventorydetailsClick()">
-                    <div class="income-dashone-total shadow-reset nt-mg-b-30">
-                        <div class="income-title">
-                            <div class="main-income-head">
-                                <a>
-                                    <h2 style="text-align:center">Inventory List</h2>
-                                    <h2 style="text-align:center"></h2>
-                                </a>
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-4 pointer" (click)="inventorydetailsClick()">
+                        <div class="income-dashone-total shadow-reset nt-mg-b-30">
+                            <div class="income-title">
+                                <div class="main-income-head">
+                                    <a>
+                                        <h2 style="text-align:center">Inventory List</h2>
+                                        <h2 style="text-align:center"></h2>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
