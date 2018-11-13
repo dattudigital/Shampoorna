@@ -38,6 +38,8 @@ export class IndentRaisingComponent implements OnInit {
   constructor(private router: Router, private http: Http, private service: IndentService, private formBuilder: FormBuilder, private notif: NotificationsService) { }
 
   ngOnInit() {
+    
+
     this.http.get(environment.host + 'vehicle-makes').subscribe(data => {
       console.log(data.json())
       this.makeData = data.json().result;
@@ -92,6 +94,14 @@ export class IndentRaisingComponent implements OnInit {
       return;
     }
 
+    let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
+    console.log("#####")
+    console.log(loginData._results)
+    console.log(loginData._results.employee_id)
+    console.log(loginData._results.emp_type_id)
+    // var brurl = '';
+    // brurl = brurl + '?branchid=' + loginData._results.branch_id;
+
     // var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
     // var string_length = 8;
     // var letters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz!@#$%^&*"; 
@@ -108,8 +118,8 @@ export class IndentRaisingComponent implements OnInit {
     console.log(this.indentId)
     var data = {
       indent_req_id: this.indentId,
-      emp_id: 6,
-      br_id: 2,
+      emp_id: loginData._results.employee_id,
+      br_id: loginData._results.emp_type_id,
       veh_color: this.vehicleColor,
       veh_type: this.vehicleType,
       veh_make: this.vehicleMake,
@@ -119,10 +129,11 @@ export class IndentRaisingComponent implements OnInit {
       req_on_date: this.reqDate,
       //assigned_on: this.assDate,
       //updated_on: this.updateDate,
-      // assigned_by: this.assBy,
-      // updated_by: this.updateBy,
+      assigned_by: loginData._results.employee_id,
+      updated_by: loginData._results.employee_id,
       status: "1"
     }
+    
     console.log(data)
     this.service.addIndent(data).subscribe(res => {
       console.log(res.json());
@@ -141,7 +152,7 @@ export class IndentRaisingComponent implements OnInit {
         )
       }
     })
-  }
+  } 
 
   getreqDate() {
     let newDate = moment(this.reqDate).format('YYYY-MM-DD').toString();
