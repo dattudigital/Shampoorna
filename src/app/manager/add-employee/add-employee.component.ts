@@ -141,7 +141,7 @@ export class AddEmployeeComponent implements OnInit {
         }
         this.test1 = loginData.json()._results;
 
-        if (loginData.json().status == true && this.test1.emp_type_id == 1) {
+        if (loginData.json().status == true && this.test1.emp_type_id == 1 || this.test1.emp_type_id ==2 ) {
           //console.log(loginData.json().result[0])
           sessionStorage.setItem('secondaryLoginData1', JSON.stringify(loginData.json()));
           sessionStorage.setItem('backBtnManager', 'Y');

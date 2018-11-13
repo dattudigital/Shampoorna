@@ -1,14 +1,15 @@
 
-<div class="row">
-  <div class="container">
-    <div class="col-sm-4"></div>
-    <div class="col-sm-6"></div>
-    <div class="col-sm-2">
-      <button type="button" class="btn backBtn pull-right" (click)="backsaleDetails()">Back</button>
+  <div class="row">
+    <div class="container">
+      <div class="col-sm-4"></div>
+      <div class="col-sm-6"></div>
+      <div class="col-sm-2">
+        <button type="button" class="btn backBtn pull-right" (click)="backsaleDetails()">Back</button>
+      </div>
+      <div class="clear"></div>
     </div>
-    <div class="clear"></div>
   </div>
-</div>
+
 <div class="csd-form" id="deliveryform">
   <div class="container">
     <div class="col-sm-8" style="padding-top:20px">
@@ -35,7 +36,7 @@
           <span style="color:red">*</span>
         </label>
         <div class="col-sm-8">
-          <input type="text" name="text" maxlength="50" class="form-control" [(ngModel)]="engineNo" readonly>
+          <input type="text" name="text" maxlength="50" class="form-control" [(ngModel)]="engineNo"  readonly> {{engineNo}}
         </div>
       </div>
 
@@ -94,9 +95,8 @@
   </div>
 </div>
 
-<div class="row form-group">
-    <div claas="container">
-      <button type="submit" class="btn btn-warning" style="float:right;margin-right: 20%" (click)="PrintRecord()" >Print</button>
-    </div>
+<div class="row form-group" remove-print>
+  <div claas="container">
+    <button type="submit" class="btn btn-warning" style="float:right;margin-right: 20%" (click)="printComponent('deliveryform')">Print</button>
   </div>
-
+</div>
