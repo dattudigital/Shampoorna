@@ -82,10 +82,10 @@ export class IndentListComponent implements OnInit {
       { field: 'make_name', header: 'Make' },
       { field: 'model_name', header: 'Model' },
       { field: 'req_qty', header: 'Required Qty' },
-      { field: 'assigned_qty', header: 'Assaigned Qty.' },
+      // { field: 'assigned_qty', header: 'Assaigned Qty.' },
       { field: 'req_on_date', header: 'Req. On Date', type: this.dp },
-      { field: 'assigned_on', header: 'Assaigned On', type: this.dp },
-      { field: 'updated_on', header: 'Updated On', type: this.dp },
+      // { field: 'assigned_on', header: 'Assaigned On', type: this.dp },
+      // { field: 'updated_on', header: 'Updated On', type: this.dp },
       { field: 'assignedby', header: 'Assaigned By' },
       { field: 'updatedby', header: 'Updated By' },
     ];
