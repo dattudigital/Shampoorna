@@ -35,7 +35,10 @@
           <span style="color:red">*</span>
         </label>
         <div class="col-sm-8">
-          <input type="text" name="text" maxlength="50" class="form-control" [(ngModel)]="engineNo" readonly> {{engineNo}}
+          <!-- <input  type="text" id="engNo"  name="engNo" maxlength="50" class="form-control" [(ngModel)]="engineNo" readonly>  -->
+          <div  class="form-control" readonly>
+            {{engineNo}}
+          </div>
         </div>
       </div>
 
@@ -44,7 +47,10 @@
           <span style="color:red">*</span>
         </label>
         <div class="col-sm-8">
-          <input type="text" name="text" maxlength="50" class="form-control" [(ngModel)]="frameNo" readonly>
+          <!-- <input type="text" name="FrameNo" maxlength="50" class="form-control" [(ngModel)]="frameNo" readonly> -->
+        <div class="form-control" readonly>
+          {{frameNo}}
+        </div>
         </div>
       </div>
 
@@ -53,7 +59,10 @@
           <span style="color:red">*</span>
         </label>
         <div class="col-sm-8">
-          <input type="text" name="text" maxlength="50" class="form-control" [(ngModel)]="vehicleColor" readonly>
+          <!-- <input type="text" name="text" maxlength="50" class="form-control" [(ngModel)]="vehicleColor" readonly> -->
+        <div class="form-control" readonly>
+          {{vehicleColor}}
+        </div>
         </div>
       </div>
 
