@@ -510,10 +510,11 @@ export class DashboardComponent implements OnInit {
   }
 
   secondVehicleClick() {
-    this.lifeTaxAmount = 0;
+    //this.lifeTaxAmount = 0;
     console.log(this.secondVehicle);
     if (this.secondVehicle.toString() == 'true') {
-      this.lifeTaxAmount = this.lifeTaxAmount + this.vehicleBasic * (14 / 100);
+      this.lifeTaxAmount = this.lifeTaxAmount + this.vehicleBasic * (5 / 100);
+      console.log(this.lifeTaxAmount)
       if (this.lifeTaxAmount) {
         this.lifeTaxAmount = parseFloat(this.lifeTaxAmount.toFixed(2));
         console.log(this.lifeTaxAmount)
@@ -521,6 +522,7 @@ export class DashboardComponent implements OnInit {
       console.log(this.lifeTaxAmount.toFixed(2));
     }
     if (this.secondVehicle.toString() == 'false') {
+      this.lifeTaxAmount =0;
       this.lifeTaxAmount = this.lifeTaxAmount + this.vehicleBasic * (this.lifeTax / 100);
       console.log(this.lifeTaxAmount)
     }
