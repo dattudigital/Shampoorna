@@ -313,6 +313,9 @@
 							<span>insurance</span>
 						</div>
 					</div>
+					<div class="col-sm-1">
+						<span>+</span>
+					</div>
 				</div>
 				<div class="row form-group">
 					<label class="col-sm-3 col-form-label required"> </label>
@@ -344,13 +347,16 @@
 							<span>Standard Accessories</span>
 						</div>
 					</div>
+					<div class="col-sm-1">
+						<span>+</span>
+					</div>
 				</div>
 				<div class="row form-group">
 					<label class="col-sm-3 col-form-label required"> </label>
 					<div class="col-sm-2">
 						<div class="input-group">
 							<input type="number" min="0" name="basic" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="vehicleAcc"
-							 (ngModelChange)="addTotalTax()" readonly>
+							 (ngModelChange)="addTotalTax()">
 
 							<span>Accessories</span>
 						</div>
