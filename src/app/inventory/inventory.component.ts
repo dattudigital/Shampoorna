@@ -30,7 +30,9 @@ export class InventoryComponent implements OnInit {
   constructor(private router: Router,private spinner: NgxSpinnerService, private http: HttpClient, private service: LoginService) { }
 
   ngOnInit() {
-    sessionStorage.removeItem('secondaryLoginData1');  
+    sessionStorage.removeItem('secondaryLoginData1'); 
+    sessionStorage.removeItem('secondaryLoginData2'); 
+    sessionStorage.removeItem('backBtnReports'); 
     sessionStorage.removeItem('backBtnTimeclocks');
     sessionStorage.removeItem('backBtnManager'); 
 

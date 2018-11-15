@@ -64,7 +64,7 @@ export class ReportsComponent implements OnInit {
     this.router.navigate(['reports/inventory-list']);
   }
   loginPopUp() {
-    if (sessionStorage.backBtnManager) {
+    if (sessionStorage.backBtnReports) {
       $('#myModal').modal('hide');
       this.reportStyle = "visible";
     }
@@ -83,6 +83,9 @@ export class ReportsComponent implements OnInit {
     }
   }
   loginSubmite() {
+    // console.log("*******")
+    // console.log(sessionStorage)
+    // console.log(sessionStorage.secondaryLoginData)
     if (sessionStorage.secondaryLoginData) {
       window.sessionStorage.removeItem('secondaryLoginData');
       //console.log('secondaryLoginData')
@@ -105,7 +108,7 @@ export class ReportsComponent implements OnInit {
 
         if (loginData.json().status == true && this.test1.emp_type_id == 1 || this.test1.emp_type_id == 2) {
           //console.log(loginData.json().result[0])
-          sessionStorage.setItem('secondaryLoginData', JSON.stringify(loginData.json()));
+          sessionStorage.setItem('secondaryLoginData2', JSON.stringify(loginData.json()));
           sessionStorage.setItem('backBtnReports', 'Y');
           $('#myModal').modal('hide');
           this.reportStyle = "visible";
