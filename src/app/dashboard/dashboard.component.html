@@ -226,7 +226,7 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="text" name="frame" maxlength="50" class="form-control" [(ngModel)]="vehicleFrameNo">
+						<input type="text" name="frame" maxlength="50" class="form-control" [(ngModel)]="vehicleFrameNo" readonly>
 					</div>
 				</div>
 				<div class="row form-group">
@@ -234,21 +234,21 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="text" name="dcnum" maxlength="50" class="form-control" [(ngModel)]="vehicleDcNo">
+						<input type="text" name="dcnum" maxlength="50" class="form-control" [(ngModel)]="vehicleDcNo" readonly>
 					</div>
 				</div>
 				<div class="row form-group">
-					<label class="col-sm-4 col-form-label required">Key No
+					<label class="col-sm-4 col-form-label required">Gate Pass
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="text" name="keyno" maxlength="50" class="form-control" [(ngModel)]="vehicleKeyNo">
+						<input type="text" name="keyno" maxlength="50" class="form-control" [(ngModel)]="vehicleKeyNo" readonly>
 					</div>
 				</div>
 				<div class="row form-group">
 					<label class="col-sm-4 col-form-label required">Vehicle Color</label>
 					<div class="col-sm-5">
-						<input type="text" name="color" maxlength="50" class="form-control" [(ngModel)]="vehicleColor">
+						<input type="text" name="color" maxlength="50" class="form-control" [(ngModel)]="vehicleColor" readonly>
 					</div>
 				</div>
 				<div class="row form-group">
@@ -290,7 +290,7 @@
 					</label>
 					<div class="col-sm-2">
 						<div class="input-group">
-							<input type="text" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleBasic">
+							<input type="text" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleBasic" readonly>
 							<span>Basic Price</span>
 						</div>
 					</div>
@@ -300,8 +300,8 @@
 					<div class="col-sm-2">
 						<div class="input-group">
 							<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="lifeTaxAmount" readonly>
-							<span *ngIf="secondVehicle == undefind ||secondVehicle == false ">LifeTax(9%)</span>
-							<span *ngIf="secondVehicle == true">LifeTax(14%)</span>
+							<span>LifeTax</span>
+							<!-- <span *ngIf="secondVehicle == true">LifeTax(14%)</span> -->
 						</div>
 					</div>
 					<div class="col-sm-1">
@@ -310,7 +310,7 @@
 					<div class="col-sm-2">
 						<div class="input-group">
 							<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleInsuAmount" readonly>
-							<span>insurance(9%)</span>
+							<span>insurance</span>
 						</div>
 					</div>
 				</div>
@@ -319,7 +319,7 @@
 					<div class="col-sm-2">
 						<div class="input-group">
 							<input type="number" min="0" name="basic" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="handlingC"
-							 (ngModelChange)="addTotalTax()">
+							 (ngModelChange)="addTotalTax()" readonly>
 
 							<span> Handling C</span>
 						</div>
@@ -330,7 +330,7 @@
 					<div class="col-sm-2">
 						<div class="input-group">
 							<input type="number" min="0" name="basic" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="vehicleReg"
-							 (ngModelChange)="addTotalTax()">
+							 (ngModelChange)="addTotalTax()" readonly>
 							<span> Registration</span>
 						</div>
 					</div>
@@ -340,8 +340,8 @@
 					<div class="col-sm-2">
 						<div class="input-group">
 							<input type="number" min="0" name="basic" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="vehicleWarranty"
-							 (ngModelChange)="addTotalTax()">
-							<span>warranty</span>
+							 (ngModelChange)="addTotalTax()" readonly>
+							<span>Standard Accessories</span>
 						</div>
 					</div>
 				</div>
@@ -350,7 +350,7 @@
 					<div class="col-sm-2">
 						<div class="input-group">
 							<input type="number" min="0" name="basic" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="vehicleAcc"
-							 (ngModelChange)="addTotalTax()">
+							 (ngModelChange)="addTotalTax()" readonly>
 
 							<span>Accessories</span>
 						</div>
@@ -361,7 +361,7 @@
 					<div class="col-sm-2">
 						<div class="input-group">
 							<input type="number" min="0" name="basic" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="Hp"
-							 (ngModelChange)="addTotalTax()">
+							 (ngModelChange)="addTotalTax()" readonly>
 							<span> HP</span>
 						</div>
 					</div>
@@ -417,9 +417,9 @@
 						</div>
 					</div>
 					<div class="col-sm-4">
-						<label>Extended Warranty-</label> &nbsp;&nbsp;
+						<!-- <label>Extended Warranty-</label> &nbsp;&nbsp;
 						<input type="radio" name="extended">Yes &nbsp;&nbsp;
-						<input type="radio" name="extended">No &nbsp;&nbsp;
+						<input type="radio" name="extended">No &nbsp;&nbsp; -->
 					</div>
 				</div>
 			</div>
@@ -602,6 +602,14 @@
 										<div class="col-sm-5">
 											<p-calendar [(ngModel)]="date2" name="chequedate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2030" [inputStyle]="{'width':'148px'}"
 											 [showIcon]="true" [(ngModel)]="paymentEmi.chequeDate" dateFormat="dd-mm-yy" (ngModelChange)=" getChequedate($event)"></p-calendar>
+										</div>
+									</div>
+									<div class="row form-group">
+										<span class="col-sm-4  required">Bank Name
+											<span style="color:red">*</span>
+										</span>
+										<div class="col-sm-5">
+											<input type="text" (keypress)="allow_numbers_alphabets($event)" name="bank" [(ngModel)]="paymentEmi.bankName">
 										</div>
 									</div>
 								</div>

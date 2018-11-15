@@ -18,11 +18,10 @@ export class DcFormComponent implements OnInit {
     this.dcFormInfo = JSON.parse(sessionStorage.getItem('dcFormData'));
     console.log("********");
     console.log(this.dcFormInfo);
-    this.vehicleModel = this.dcFormInfo.vechile_mode
+    this.vehicleModel = this.dcFormInfo.vechile_mode;
     this.engineNo = this.dcFormInfo.eng_no;
     this.frameNo = this.dcFormInfo.frame_no;
-    this.vehicleColor = this.dcFormInfo.vechile_color
-    console.log(this.vehicleColor);
+    this.vehicleColor = this.dcFormInfo.vechicle_color;
   }
   backsaleDetails() {
     sessionStorage.removeItem('dcFormData');
@@ -42,8 +41,8 @@ export class DcFormComponent implements OnInit {
   printComponent(cmpName) {
     let printContents = document.getElementById(cmpName).innerHTML;
     let originalContents = document.body.innerHTML;
-
     document.body.innerHTML = printContents;
+   // var EngineNo=(<HTMLInputElement>document.getElementById("#engNo")).value
     window.print();
     document.body.innerHTML = originalContents;
   }

@@ -51,6 +51,7 @@ import { TodaySaleListComponent } from './reports/today-sale-list/today-sale-lis
 import { TotalSaleListComponent } from './reports/total-sale-list/total-sale-list.component';
 import { VehicleDetailsListComponent } from './reports/vehicle-details-list/vehicle-details-list.component';
 import { InventoryDetailsListComponent } from './reports/inventory-details-list/inventory-details-list.component';
+import { GlobalSearchComponent } from './footer/global-search/global-search.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -79,6 +80,7 @@ const routes: Routes = [
   { path: 'reports/total-sale-list' , component:TotalSaleListComponent, canActivate: [AuthGuard] },
   { path: 'reports/vehicle-details-list' , component:VehicleDetailsListComponent, canActivate: [AuthGuard] },
   { path: 'reports/inventory-list' , component:InventoryDetailsListComponent, canActivate: [AuthGuard] },
+  {path:'footer/global-search', component:GlobalSearchComponent,canActivate: [AuthGuard]}
 ];
 
 @NgModule({
@@ -111,7 +113,8 @@ const routes: Routes = [
     TodaySaleListComponent,
     TotalSaleListComponent,
     VehicleDetailsListComponent,
-    InventoryDetailsListComponent
+    InventoryDetailsListComponent,
+    GlobalSearchComponent
     
   ],
   imports: [
