@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { Http } from '@angular/http';
 
 @Component({
   selector: 'app-setup',
@@ -7,13 +9,35 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SetupComponent implements OnInit {
 
-  constructor() { }
+  constructor( private http: Http) { }
+
+  typeData: any[];
+  makeData: any[];
+  modelData: any[];
+  colorData: any[];
 
   ngOnInit() {
     sessionStorage.removeItem('secondaryLoginData'); 
-    sessionStorage.removeItem('secondaryLoginData1');   
+    sessionStorage.removeItem('secondaryLoginData1'); 
+    sessionStorage.removeItem('secondaryLoginData2'); 
+    sessionStorage.removeItem('backBtnReports');   
     sessionStorage.removeItem('backBtnInventory');
     sessionStorage.removeItem('backBtnManager'); 
+
+    this.http.get(environment.host + 'vehicle-models').subscribe(data => {
+      console.log(data.json())
+      this.modelData = data.json().result;
+    });
+
+    this.http.get(environment.host + 'vehicle-colors').subscribe(data => {
+      console.log(data.json())
+      this.colorData = data.json().result;
+    });
+
+    this.http.get(environment.host + 'vehicle-types').subscribe(data => {
+      console.log(data.json())
+      this.typeData = data.json().result;
+    });
 
   }
 

@@ -82,7 +82,7 @@ export class VehicleDetailsComponent implements OnInit {
       { field: 'make_name', header: 'Make' },
       { field: 'model_name', header: 'Model' },
       { field: 'vehicle_cost', header: 'Cost' },
-      { field: 'vechile_key' , header:'Key No.'},
+      { field: 'vechile_key' , header:'Gate Pass'},
       { field: 'vechicle_dcno', header: 'DC No.' }, 
       { field: 'vehicle_frameno', header: 'Frame No.' },
       { field: 'vechicle_invoiceno', header: 'Invoice No.' },

@@ -64,8 +64,11 @@ export class AddEmployeeComponent implements OnInit {
   ngOnInit() {
 
     sessionStorage.removeItem('secondaryLoginData');
+    sessionStorage.removeItem('secondaryLoginData2'); 
     sessionStorage.removeItem('backBtnInventory');
     sessionStorage.removeItem('inventory-routing');
+    sessionStorage.removeItem('backBtnReports'); 
+
     this.loginPopUp();
     this.service.getEmployeeDetails().subscribe(res => {
       this.employees = res.json().result;
