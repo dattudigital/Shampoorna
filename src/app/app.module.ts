@@ -52,6 +52,7 @@ import { TotalSaleListComponent } from './reports/total-sale-list/total-sale-lis
 import { VehicleDetailsListComponent } from './reports/vehicle-details-list/vehicle-details-list.component';
 import { InventoryDetailsListComponent } from './reports/inventory-details-list/inventory-details-list.component';
 import { GlobalSearchComponent } from './footer/global-search/global-search.component';
+import { AddVehicleBulkComponent } from './inventory/add-vehicle-bulk/add-vehicle-bulk.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -66,6 +67,7 @@ const routes: Routes = [
   { path: 'inventory' , component:InventoryComponent, canActivate: [AuthGuard], },
   { path: 'setup' , component:SetupComponent, canActivate: [AuthGuard] },
   { path: 'inventory/vehicle-details' , component:VehicleDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'inventory/vehicle-details/bulk-import' , component:AddVehicleBulkComponent, canActivate: [AuthGuard] },
   { path: 'inventory/inventory-list' , component:InventoryListComponent, canActivate: [AuthGuard] },
   { path: 'inventory/indent-raising' , component:IndentRaisingComponent, canActivate: [AuthGuard] },
   { path: 'inventory/indent-list' , component:IndentListComponent, canActivate: [AuthGuard] },
@@ -80,7 +82,7 @@ const routes: Routes = [
   { path: 'reports/total-sale-list' , component:TotalSaleListComponent, canActivate: [AuthGuard] },
   { path: 'reports/vehicle-details-list' , component:VehicleDetailsListComponent, canActivate: [AuthGuard] },
   { path: 'reports/inventory-list' , component:InventoryDetailsListComponent, canActivate: [AuthGuard] },
-  {path:'footer/global-search', component:GlobalSearchComponent,canActivate: [AuthGuard]}
+  { path:'footer/global-search', component:GlobalSearchComponent,canActivate: [AuthGuard] },
 ];
 
 @NgModule({
@@ -114,7 +116,8 @@ const routes: Routes = [
     TotalSaleListComponent,
     VehicleDetailsListComponent,
     InventoryDetailsListComponent,
-    GlobalSearchComponent
+    GlobalSearchComponent,
+    AddVehicleBulkComponent
     
   ],
   imports: [

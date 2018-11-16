@@ -38,6 +38,14 @@ export class VehicleDetailsComponent implements OnInit {
   frameNumber = "";
   dcNumber = "";
   invoiceNumber = "";
+  vehicleVariant = "";
+  vehicleLifeTax ="";
+  vehicleInsurance= "";
+  vehicleHandling ="";
+  vehicleRegistration = "";
+  vehicleHp = "";
+  vehicleStandardAcc ="";
+
   disableSave: boolean = true;
   vehicleForm: FormGroup;
   submitted = false;
@@ -72,6 +80,14 @@ export class VehicleDetailsComponent implements OnInit {
       frameNumber: ['', Validators.required],
       dcNumber: ['', Validators.required],
       invoiceNumber: ['', Validators.required],
+      vehicleVariant: ['',Validators.required],
+      vehicleLifeTax: ['',Validators.required],
+      vehicleInsurance:['',Validators.required],
+      vehicleHandling:['',Validators.required],
+      vehicleRegistration:['',Validators.required],
+      vehicleHp:['',Validators.required],
+      vehicleStandardAcc:['',Validators.required]
+
     });
 
     this.cols = [
@@ -128,6 +144,10 @@ export class VehicleDetailsComponent implements OnInit {
 
   backToInventory() {
     this.router.navigate(['inventory']);
+  }
+
+  redirctToAddBulk(){
+    this.router.navigate(['inventory/vehicle-details/bulk-import']);
   }
 
   enableSave() {
