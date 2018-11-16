@@ -22,8 +22,8 @@
             <a style="color:red">*</a>
           </label>
           <div class="col-sm-5">
-            <input type="text" class="form-control" [ngModelOptions]="{standalone: true}" placeholder="Auto Generated"
-              [(ngModel)]="indentId" disabled>
+            <input type="text" class="form-control" [ngModelOptions]="{standalone: true}" placeholder="Auto Generated" [(ngModel)]="indentId"
+              disabled>
           </div>
           <div class="clear"></div>
         </div>
@@ -69,34 +69,34 @@
           </div>
           <div class="clear"></div>
         </div>
-       
+
 
 
       </div>
 
 
       <div class="col-sm-6">
-          <div class=" row form-group">
-              <label for="input" class="col-sm-4 control-label">Vehicle Model
-                <a style="color:red">*</a>
-              </label>
-              <div class="col-sm-5">
-                <select class="form-control" formControlName="vehicleModel" [(ngModel)]="vehicleModel" [ngClass]="{ 'is-invalid': submitted && f.vehicleModel.errors }">
-                  <option *ngFor="let data of this.modelData" [ngValue]=" data.vehicle_model_id">{{data.model_name}}</option>
-                </select>
-                <div *ngIf="submitted && f.vehicleModel.errors" class="invalid-feedback">
-                  <div *ngIf="f.vehicleModel.errors.required" style="color:red">Vehicle Model is required</div>
-                </div>
-              </div>
-              <div class="clear"></div>
+        <div class=" row form-group">
+          <label for="input" class="col-sm-4 control-label">Vehicle Model
+            <a style="color:red">*</a>
+          </label>
+          <div class="col-sm-5">
+            <select class="form-control" formControlName="vehicleModel" [(ngModel)]="vehicleModel" [ngClass]="{ 'is-invalid': submitted && f.vehicleModel.errors }">
+              <option *ngFor="let data of this.modelData" [ngValue]=" data.vehicle_model_id">{{data.model_name}}</option>
+            </select>
+            <div *ngIf="submitted && f.vehicleModel.errors" class="invalid-feedback">
+              <div *ngIf="f.vehicleModel.errors.required" style="color:red">Vehicle Model is required</div>
             </div>
+          </div>
+          <div class="clear"></div>
+        </div>
         <div class=" row form-group">
           <label for="input" class="col-sm-4 control-label">Required Quantity
             <a style="color:red">*</a>
           </label>
           <div class="col-sm-5">
-            <input type="text" class="form-control" formControlName="reqQuantity" placeholder="Enter Required Quantity"
-              [(ngModel)]="reqQuantity" [ngClass]="{ 'is-invalid': submitted && f.reqQuantity.errors }">
+            <input type="text" class="form-control" formControlName="reqQuantity" placeholder="Enter Required Quantity" [(ngModel)]="reqQuantity"
+              [ngClass]="{ 'is-invalid': submitted && f.reqQuantity.errors }" (keypress)="only_allow_number($event)" maxlength="50">
             <div *ngIf="submitted && f.reqQuantity.errors" class="invalid-feedback">
               <div *ngIf="f.reqQuantity.errors.required" style="color:red">Quantity is required</div>
             </div>
@@ -150,9 +150,9 @@
           <label for="input" class="col-sm-4 control-label">Required On Date</label>
           <div class="col-sm-8">
             <div class="input-group">
-              <p-calendar [(ngModel)]="date1" name="reqdate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030"
-                [inputStyle]="{'width':'190px'}" [showIcon]="true" [(ngModel)]="reqDate" dateFormat="dd-mm-yy"
-                (ngModelChange)=" getreqDate($event)" [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}"></p-calendar>
+              <p-calendar [(ngModel)]="date1" name="reqdate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'190px'}"
+                [showIcon]="true" [(ngModel)]="reqDate" dateFormat="dd-mm-yy" (ngModelChange)=" getreqDate($event)" [(ngModel)]="showMoreControls"
+                [ngModelOptions]="{standalone: true}"></p-calendar>
             </div>
           </div>
           <div class="clear"></div>
@@ -187,13 +187,13 @@
         <button type="button" class="btn basic btn-lg" (click)="cancelIndent()" style="background:#f1f1f1">Cancel</button>
       </div> -->
       <div class="col-sm-12">
-          <div class="col-sm-9"></div>
-          <div class="col-sm-2">
-            <button type="submit" class="btn btn-success" (click)="addIndent()">Add Indent</button>&nbsp; 
-            <button type="submit" class="btn btn-danger" (click)="cancelIndent()">Cancel</button>
-          </div>
-          
+        <div class="col-sm-9"></div>
+        <div class="col-sm-2">
+          <button type="submit" class="btn btn-success" (click)="addIndent()">Add Indent</button>&nbsp;
+          <button type="submit" class="btn btn-danger" (click)="cancelIndent()">Cancel</button>
         </div>
+
+      </div>
       <div class="clear"></div>
     </form>
   </div>

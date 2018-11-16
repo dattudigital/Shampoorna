@@ -126,7 +126,8 @@
 						</label>
 						<div class="col-sm-5">
 							<input type="number" formControlName="custPinecode" (keypress)="only_allow_number($event)" placeholder="Pincode" min="0"
-							 maxlength="50" class="form-control" [(ngModel)]="pincode" [ngClass]="{ 'is-invalid': submitted && f.custPinecode.errors }">
+							 class="form-control" [(ngModel)]="pincode" [ngClass]="{ 'is-invalid': submitted && f.custPinecode.errors }" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+							 maxlength="50">
 							<div *ngIf="submitted && f.custPinecode.errors" class="invalid-feedback">
 								<div *ngIf="f.custPinecode.errors.required" style="color:#ff0000"> pincode is required</div>
 							</div>
@@ -149,8 +150,9 @@
 							<span style="color:red">*</span>
 						</label>
 						<div class="col-sm-5">
-							<input type="number" formControlName="custMobile" (keypress)="only_allow_number($event)" placeholder="Mobile" min="0" maxlength="50"
-							 class="form-control" [(ngModel)]="mobile" [ngClass]="{ 'is-invalid': submitted && f.custMobile.errors }">
+							<input type="number" formControlName="custMobile" (keypress)="only_allow_number($event)" placeholder="Mobile" min="0" class="form-control"
+							 [(ngModel)]="mobile" [ngClass]="{ 'is-invalid': submitted && f.custMobile.errors }" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+							 maxlength="50">
 							<div *ngIf="submitted && f.custMobile.errors" class="invalid-feedback">
 								<div *ngIf="f.custMobile.errors.required" style="color:#ff0000"> Mobile Number is required</div>
 							</div>
@@ -530,7 +532,8 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="text" name="vat" maxlength="50" (keypress)="omit_special_char($event)" class="form-control" [(ngModel)]="vehiclecustomerName">
+						<input type="text" name="vat" (keypress)="omit_special_char($event)" class="form-control" [(ngModel)]="vehiclecustomerName"
+						 maxlength="50">
 					</div>
 				</div>
 				<div class="row form-group">
@@ -746,8 +749,8 @@
 							<span style="color:red">*</span>
 						</label>
 						<div class="col-sm-3">
-							<input type="number" min="0" (keypress)="only_allow_number($event)" name="down" maxlength="50" class="form-control" placeholder="Down Payment"
-							 [(ngModel)]="paymentEmi.downPayment">
+							<input type="number" min="0" (keypress)="only_allow_number($event)" name="down"  class="form-control" placeholder="Down Payment"
+							 [(ngModel)]="paymentEmi.downPayment" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="1onimn0">
 						</div>
 					</div>
 					<div class=" row form-group">

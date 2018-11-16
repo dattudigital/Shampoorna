@@ -189,7 +189,12 @@ export class IndentRaisingComponent implements OnInit {
     // this.updateBy = " "
 
   }
-
+  only_allow_number(event) {
+    console.log('only number');
+    var n;
+    n = event.charCode
+    return (n == 8 || n == 0 || n == 32 || (n >= 48 && n <= 57))
+  }
 
 
 
