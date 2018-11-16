@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Http } from '@angular/http';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-setup',
@@ -9,7 +10,7 @@ import { Http } from '@angular/http';
 })
 export class SetupComponent implements OnInit {
 
-  constructor( private http: Http) { }
+  constructor( private http: Http,private router:Router) { }
 
   typeData: any[];
   makeData: any[];
@@ -39,6 +40,15 @@ export class SetupComponent implements OnInit {
       this.typeData = data.json().result;
     });
 
+  }
+  redirectToBranch(){
+    this.router.navigate(['setup/branch'])
+  }
+  redirectToVehicle(){
+    this.router.navigate(['vehicle-setup'])
+  }
+  redirectToPriceList(){
+    this.router.navigate(['setup/price-list'])
   }
 
 }

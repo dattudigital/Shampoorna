@@ -9,19 +9,19 @@ import { AuthGuard } from '../common-session/session.check';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { AlertModule } from 'ngx-bootstrap/alert';
-import {AccordionModule} from 'primeng/accordion';     //accordion and accordion tab
-import {MenuItem} from 'primeng/api';                 //api
-import {CalendarModule} from 'primeng/calendar';
-import {FileUploadModule} from 'primeng/fileupload';
+import { AccordionModule } from 'primeng/accordion';     //accordion and accordion tab
+import { MenuItem } from 'primeng/api';                 //api
+import { CalendarModule } from 'primeng/calendar';
+import { FileUploadModule } from 'primeng/fileupload';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { ClipboardModule } from 'ngx-clipboard';
 import { NgxSpinnerModule } from 'ngx-spinner'
 // import {FormGroup,FormControl,Validators,FormBuilder} from '@angular/forms'
-import {SelectItem} from 'primeng/api';
+import { SelectItem } from 'primeng/api';
 import { SimpleNotificationsModule } from 'angular2-notifications';
-import {DropdownModule} from 'primeng/dropdown';
-import {MultiSelectModule} from 'primeng/multiselect';
-import {TableModule} from 'primeng/table';
+import { DropdownModule } from 'primeng/dropdown';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { TableModule } from 'primeng/table';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -53,36 +53,53 @@ import { VehicleDetailsListComponent } from './reports/vehicle-details-list/vehi
 import { InventoryDetailsListComponent } from './reports/inventory-details-list/inventory-details-list.component';
 import { GlobalSearchComponent } from './footer/global-search/global-search.component';
 import { AddVehicleBulkComponent } from './inventory/add-vehicle-bulk/add-vehicle-bulk.component';
+import { BranchDetailsComponent } from './setup/branch-details/branch-details.component';
+import { SetupVehicleComponent } from './setup/setup-vehicle/setup-vehicle.component';
+import { SetupPriceListComponent } from './setup/setup-price-list/setup-price-list.component';
+import { VehicleTypeComponent } from './setup/setup-vehicle/vehicle-type/vehicle-type.component';
+import { VehicleModelComponent } from './setup/setup-vehicle/vehicle-model/vehicle-model.component';
+import { VehicleVariantComponent } from './setup/setup-vehicle/vehicle-variant/vehicle-variant.component';
+import { VehicleColorComponent } from './setup/setup-vehicle/vehicle-color/vehicle-color.component';
+import { VehicleMadeComponent } from './setup/setup-vehicle/vehicle-made/vehicle-made.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'sale-dashboard' , component:SaleDashboardComponent, canActivate: [AuthGuard] },
-  { path: 'dashboard' , component:DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'appointments' , component:AppointmentsComponent, canActivate: [AuthGuard] },
-  { path: 'time-clocks' , component:TimeClockComponent, canActivate: [AuthGuard] },
-  { path: 'schedule' , component:ScheduleComponent, canActivate: [AuthGuard] },
-  { path: 'reports' , component:ReportsComponent, canActivate: [AuthGuard] },
-  { path: 'manager/add-employee' , component:AddEmployeeComponent, canActivate: [AuthGuard] },
-  { path: 'inventory' , component:InventoryComponent, canActivate: [AuthGuard], },
-  { path: 'setup' , component:SetupComponent, canActivate: [AuthGuard] },
-  { path: 'inventory/vehicle-details' , component:VehicleDetailsComponent, canActivate: [AuthGuard] },
-  { path: 'inventory/vehicle-details/bulk-import' , component:AddVehicleBulkComponent, canActivate: [AuthGuard] },
-  { path: 'inventory/inventory-list' , component:InventoryListComponent, canActivate: [AuthGuard] },
-  { path: 'inventory/indent-raising' , component:IndentRaisingComponent, canActivate: [AuthGuard] },
-  { path: 'inventory/indent-list' , component:IndentListComponent, canActivate: [AuthGuard] },
-  { path: 'inventory/inventory-assigning' , component:InventoryAssigningComponent, canActivate: [AuthGuard] },
-  { path: 'inventory/inventory-acknowledge' , component:InventoryAcknowledgeComponent, canActivate: [AuthGuard] },
-  { path: 'sale-details' , component:SaleDetailsComponent, canActivate: [AuthGuard] },
-  { path: 'invoice-list' , component:InvoiceListComponent, canActivate: [AuthGuard] },
-  { path: 'dc-form' , component:DcFormComponent, canActivate: [AuthGuard] },
-  { path: 'reports/today-sale' , component:TodaySaleComponent, canActivate: [AuthGuard] },
-  { path: 'reports/total-sale' , component:TotalSaleComponent, canActivate: [AuthGuard] },
-  { path: 'reports/today-sale-list' , component:TodaySaleListComponent, canActivate: [AuthGuard] },
-  { path: 'reports/total-sale-list' , component:TotalSaleListComponent, canActivate: [AuthGuard] },
-  { path: 'reports/vehicle-details-list' , component:VehicleDetailsListComponent, canActivate: [AuthGuard] },
-  { path: 'reports/inventory-list' , component:InventoryDetailsListComponent, canActivate: [AuthGuard] },
-  { path:'footer/global-search', component:GlobalSearchComponent,canActivate: [AuthGuard] },
+  { path: 'sale-dashboard', component: SaleDashboardComponent, canActivate: [AuthGuard] },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'appointments', component: AppointmentsComponent, canActivate: [AuthGuard] },
+  { path: 'time-clocks', component: TimeClockComponent, canActivate: [AuthGuard] },
+  { path: 'schedule', component: ScheduleComponent, canActivate: [AuthGuard] },
+  { path: 'reports', component: ReportsComponent, canActivate: [AuthGuard] },
+  { path: 'manager/add-employee', component: AddEmployeeComponent, canActivate: [AuthGuard] },
+  { path: 'inventory', component: InventoryComponent, canActivate: [AuthGuard], },
+  { path: 'setup', component: SetupComponent, canActivate: [AuthGuard] },
+  { path: 'inventory/vehicle-details', component: VehicleDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'inventory/vehicle-details/bulk-import', component: AddVehicleBulkComponent, canActivate: [AuthGuard] },
+  { path: 'inventory/inventory-list', component: InventoryListComponent, canActivate: [AuthGuard] },
+  { path: 'inventory/indent-raising', component: IndentRaisingComponent, canActivate: [AuthGuard] },
+  { path: 'inventory/indent-list', component: IndentListComponent, canActivate: [AuthGuard] },
+  { path: 'inventory/inventory-assigning', component: InventoryAssigningComponent, canActivate: [AuthGuard] },
+  { path: 'inventory/inventory-acknowledge', component: InventoryAcknowledgeComponent, canActivate: [AuthGuard] },
+  { path: 'sale-details', component: SaleDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'invoice-list', component: InvoiceListComponent, canActivate: [AuthGuard] },
+  { path: 'dc-form', component: DcFormComponent, canActivate: [AuthGuard] },
+  { path: 'reports/today-sale', component: TodaySaleComponent, canActivate: [AuthGuard] },
+  { path: 'reports/total-sale', component: TotalSaleComponent, canActivate: [AuthGuard] },
+  { path: 'reports/today-sale-list', component: TodaySaleListComponent, canActivate: [AuthGuard] },
+  { path: 'reports/total-sale-list', component: TotalSaleListComponent, canActivate: [AuthGuard] },
+  { path: 'reports/vehicle-details-list', component: VehicleDetailsListComponent, canActivate: [AuthGuard] },
+  { path: 'reports/inventory-list', component: InventoryDetailsListComponent, canActivate: [AuthGuard] },
+  { path: 'footer/global-search', component: GlobalSearchComponent, canActivate: [AuthGuard] },
+  { path: 'setup/branch', component: BranchDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'vehicle-setup', component: SetupVehicleComponent, canActivate: [AuthGuard] },
+  { path: 'setup/price-list', component: SetupPriceListComponent, canActivate: [AuthGuard] },
+  { path: 'setup/vehicle-type', component: VehicleTypeComponent, canActivate: [AuthGuard] },
+  { path: 'setup/vehicle-model', component: VehicleModelComponent, canActivate: [AuthGuard] },
+  { path: 'setup/vehicle-variant', component: VehicleVariantComponent, canActivate: [AuthGuard] },
+  { path: 'setup/vehicle-color', component: VehicleColorComponent, canActivate: [AuthGuard] },
+  { path: 'setup/vehicle-make', component: VehicleMadeComponent, canActivate: [AuthGuard] },
+
 ];
 
 @NgModule({
@@ -117,8 +134,16 @@ const routes: Routes = [
     VehicleDetailsListComponent,
     InventoryDetailsListComponent,
     GlobalSearchComponent,
-    AddVehicleBulkComponent
-    
+    AddVehicleBulkComponent,
+    BranchDetailsComponent,
+    SetupVehicleComponent,
+    SetupPriceListComponent,
+    VehicleTypeComponent,
+    VehicleModelComponent,
+    VehicleVariantComponent,
+    VehicleColorComponent,
+    VehicleMadeComponent
+
   ],
   imports: [
     BrowserModule,
@@ -142,7 +167,7 @@ const routes: Routes = [
 
 
   ],
-  providers: [AuthGuard,InventoryListPipe,MessageService,InventoryAddPipe],
+  providers: [AuthGuard, InventoryListPipe, MessageService, InventoryAddPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
