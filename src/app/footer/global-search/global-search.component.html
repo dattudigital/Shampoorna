@@ -1,3 +1,50 @@
-<p>
-  global-search works!
-</p>
+<div class="price-info">
+  <h2> Global Search</h2>
+</div>
+<div class="globalsearch">
+  <div class="row form-group">
+    <label class="col-sm-4 ">
+    </label>
+    <div class="col-sm-4">
+      <div class="input-group">
+        <input type="text" name="search" placeholder="Search Vehicles" style="padding:5px;" class="form-control" [(ngModel)]="selectedValue"
+          (ngModelChange)="searchVehicleDetails()">
+        <span class="input-group-addon">
+          <i class="fas fa-search"></i>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tableShow" [style.visibility]="titleStyle">
+  <p-table #dt [columns]="cols" [value]="searchList" [paginator]="true" [rows]="4">
+    <ng-template pTemplate="caption">
+      <div style="text-align: right">
+        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+        <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
+          style="width:auto">
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+          {{col.header}}
+          <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+        </th>
+
+      </tr>
+
+    </ng-template>
+    <ng-template pTemplate="body" let-i="rowIndex" let-vehicle>
+      <tr>
+        <td *ngFor="let col of cols">
+          {{vehicle[col.field]}}
+        </td>
+
+      </tr>
+
+    </ng-template>
+
+  </p-table>
+</div>
