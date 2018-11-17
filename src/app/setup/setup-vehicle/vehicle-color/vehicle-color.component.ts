@@ -15,7 +15,7 @@ export class VehicleColorComponent implements OnInit {
 
   ngOnInit() {
     this.cols = [
-      { field: 'vehicle_color_id', header: 'Color Id' },
+      // { field: 'vehicle_color_id', header: 'Color Id' },
       { field: 'color_name', header: 'Color Name' }
     ];
     
