@@ -25,8 +25,7 @@ export class BranchDetailsComponent implements OnInit {
       { field: 'branch_name', header: 'Branch Name' },
       { field: 'branch_address', header: 'Branch Address' },
       { field: 'branch_location', header: 'Location' },
-      { field: 'branch_contact_number', header: 'Contact Number' },
-      { field: 'rec_status', header: 'Branch Status' }
+      { field: 'branch_contact_number', header: 'Contact Number' }
     ];
 
     this.http.get(environment.host + 'branches').subscribe(res => {

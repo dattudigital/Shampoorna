@@ -16,8 +16,7 @@ export class VehicleMadeComponent implements OnInit {
   ngOnInit() {
     this.cols = [
       { field: 'vehicle_make_id', header: 'Make Id' },
-      { field: 'make_name', header: 'Make Name' },
-      { field: 'status', header: 'type Status' }
+      { field: 'make_name', header: 'Make Name' }
     ];
 
     this.http.get(environment.host + 'vehicle-makes').subscribe(data => {

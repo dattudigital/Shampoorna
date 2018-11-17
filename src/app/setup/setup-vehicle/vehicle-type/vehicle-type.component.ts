@@ -16,8 +16,7 @@ export class VehicleTypeComponent implements OnInit {
   ngOnInit() {
     this.cols = [
       { field: 'vehicle_type_id', header: 'Type Id' },
-      { field: 'type_name', header: 'Type Name' },
-      { field: 'status', header: 'type Status' }
+      { field: 'type_name', header: 'Type Name' }
     ];
     this.http.get(environment.host + 'vehicle-types').subscribe(data => {
       console.log(data.json())
