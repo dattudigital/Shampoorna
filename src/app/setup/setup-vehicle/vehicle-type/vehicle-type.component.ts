@@ -83,9 +83,7 @@ export class VehicleTypeComponent implements OnInit {
     this.typeDeleteData = val;
     console.log(this.typeDeleteData)
     val.index = index;
-    console.log("***")
     this.vehicle_type_id = this.typeDeleteData[index].vehicle_type_id;
-    console.log(this.vehicle_type_id)
   }
   yesVehicleType() {
     this.typeData.splice(this.temp1, 1)
