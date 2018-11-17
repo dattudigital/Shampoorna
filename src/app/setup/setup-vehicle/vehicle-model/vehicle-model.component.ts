@@ -15,8 +15,8 @@ export class VehicleModelComponent implements OnInit {
 
   ngOnInit() {
     this.cols = [
-      { field: 'vehicle_model_id', header: 'Model Id' },
-      { field: 'model_name', header: 'Model Name' }
+      { field: 'vehicle_model_id', header: ' Id' },
+      { field: 'model_name', header: ' Name' }
     ];
     this.http.get(environment.host + 'vehicle-models').subscribe(data => {
       console.log(data.json())
