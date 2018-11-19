@@ -264,10 +264,7 @@
             </label>
             <div class="col-md-6">
               <select class="form-control" formControlName="vehicleVariant" [(ngModel)]="vehicleVariant" [ngClass]="{ 'is-invalid': submitted && f.vehicleVariant.errors }">
-                <!-- <option *ngFor="let data of this.modelData" [ngValue]=" data">{{data.model_name}}</option> -->
-                <option value="0">RTR</option>
-                <option value="1">RR</option>
-                <option value="2">RTR 150</option>
+                <option *ngFor="let data of this.variantData" [ngValue]=" data">{{data.variant_name}}</option>
               </select>
               <div *ngIf="submitted && f.vehicleVariant.errors" class="invalid-feedback">
                 <div *ngIf="f.vehicleVariant.errors.required" style="color:red">Vehicle Variant is required</div>
@@ -425,11 +422,11 @@
               <a style="color:red">*</a>
             </label>
             <div class="col-md-6">
-              <input type="text" class="form-control" formControlName="keyNumber" id="key" placeholder="Key Number" [(ngModel)]="keyNumber"
-                [ngClass]="{ 'is-invalid': submitted && f.keyNumber.errors }" (ngModelChange)="enableSave($event)" (keypress)="only_allow_number($event)"
+              <input type="text" class="form-control" formControlName="gateNumber" id="key" placeholder="Gate Pass" [(ngModel)]="gateNumber"
+                [ngClass]="{ 'is-invalid': submitted && f.gateNumber.errors }" (ngModelChange)="enableSave($event)" (keypress)="only_allow_number($event)"
                 maxlength="50">
-              <div *ngIf="submitted && f.keyNumber.errors" class="invalid-feedback">
-                <div *ngIf="f.keyNumber.errors.required" style="color:red">Vehicle cost is required</div>
+              <div *ngIf="submitted && f.gateNumber.errors" class="invalid-feedback">
+                <div *ngIf="f.gateNumber.errors.required" style="color:red">Gate Pass is required</div>
               </div>
             </div>
             <div class="clear"></div>
