@@ -26,6 +26,7 @@ export class VehicleDetailsComponent implements OnInit {
   makeData: any[];
   modelData: any[];
   colorData: any[];
+  variantData: any[];
 
   engineNumber = "";
   vehicleName = "";
@@ -33,12 +34,13 @@ export class VehicleDetailsComponent implements OnInit {
   vehicleColor:any;
   vehicleMake:any;
   vehicleModel:any;
+  vehicleVariant:any;
+
   vehicleCost = "";
-  keyNumber ="";
+  gateNumber ="";
   frameNumber = "";
   dcNumber = "";
   invoiceNumber = "";
-  vehicleVariant = "";
   vehicleLifeTax ="";
   vehicleInsurance= "";
   vehicleHandling ="";
@@ -76,7 +78,7 @@ export class VehicleDetailsComponent implements OnInit {
       vehicleMake: ['', Validators.required],
       vehicleModel: ['', Validators.required],
       vehicleCost: ['', Validators.required],
-      keyNumber: ['',Validators.required],
+      gateNumber: ['',Validators.required],
       frameNumber: ['', Validators.required],
       dcNumber: ['', Validators.required],
       invoiceNumber: ['', Validators.required],
@@ -98,7 +100,7 @@ export class VehicleDetailsComponent implements OnInit {
       { field: 'make_name', header: 'Make' },
       { field: 'model_name', header: 'Model' },
       { field: 'vehicle_cost', header: 'Cost' },
-      { field: 'vechile_key' , header:'Gate Pass'},
+      { field: 'vechile_gatepass' , header:'Gate Pass'},
       { field: 'vechicle_dcno', header: 'DC No.' }, 
       { field: 'vehicle_frameno', header: 'Frame No.' },
       { field: 'vechicle_invoiceno', header: 'Invoice No.' },
@@ -112,6 +114,11 @@ export class VehicleDetailsComponent implements OnInit {
     this.http.get(environment.host + 'vehicle-models').subscribe(data => {
       console.log(data.json())
       this.modelData = data.json().result;
+    });
+
+    this.http.get(environment.host + 'vehicle-variants').subscribe(data => {
+      console.log(data.json())
+      this.variantData = data.json().result;
     });
 
     this.http.get(environment.host + 'vehicle-colors').subscribe(data => {
@@ -178,8 +185,15 @@ export class VehicleDetailsComponent implements OnInit {
       vehicle_type: this.vehicleType.vehicle_type_id,
       vehicle_make: this.vehicleMake.vehicle_make_id,
       vehicle_model: this.vehicleModel.vehicle_model_id,
+      vehicle_variant: this.vehicleVariant.vehicle_variant_id,
       vehicle_cost: this.vehicleCost,
-      vechile_key: this.keyNumber,
+      vehicle_life_tax:this.vehicleLifeTax,
+      vehicle_insurance:this.vehicleInsurance,
+      vehicle_handling_c:this.vehicleHandling,
+      vehicle_registration:this.vehicleRegistration,
+      vehicle_standard_accessories:this.vehicleStandardAcc,
+      vehicle_hp:this.vehicleHp,
+      vechile_gatepass: this.gateNumber,
       vehicle_frameno: this.frameNumber,
       vechicle_dcno: this.dcNumber,
       vechicle_invoiceno: this.invoiceNumber,
@@ -192,25 +206,25 @@ var insertData = {
   color_name:this.vehicleColor.color_name
 }
 
-    this.service.addVehicleDetails(data).subscribe(res => {
-      console.log(res.json());
-      if (res.json().status == true) {
-        this.notif.success(
-          'Success',
-          'Vehicle Added Successfully',
-          {
-            timeOut: 3000,
-            showProgressBar: true,
-            pauseOnHover: false,
-            clickToClose: true,
-            maxLength: 50
-          }
-        )
-      }
-      console.log("******************");
-      console.log(insertData);
-      insertData =  res.json().result;     
-      this.bikes.push(res.json().result)
+      this.service.addVehicleDetails(data).subscribe(res => {
+        console.log(res.json());
+        if (res.json().status == true) {
+          this.notif.success(
+            'Success',
+            'Vehicle Added Successfully',
+            {
+              timeOut: 3000,
+              showProgressBar: true,
+              pauseOnHover: false,
+              clickToClose: true,
+              maxLength: 50
+            }
+          )
+        }
+        console.log("******************");
+        console.log(insertData);
+        insertData =  res.json().result;     
+        this.bikes.push(res.json().result)
    
       // let data;
       // data.vehicle_engineno = res.json().result.engineNumber,
@@ -249,10 +263,17 @@ var insertData = {
     this.vehicleMake = " ";
     this.vehicleModel = " ";
     this.vehicleCost = " ";
-    this.keyNumber = " ";
+    this.gateNumber = " ";
     this.frameNumber = " ";
     this.dcNumber = " ";
     this.invoiceNumber = " ";
+    this.vehicleVariant = " ";
+    this.vehicleLifeTax =" ";
+    this.vehicleInsurance= " ";
+    this.vehicleHandling =" ";
+    this.vehicleRegistration = " ";
+    this.vehicleHp = " ";
+    this.vehicleStandardAcc =" ";
 
   }
   vehicle_id = '';
