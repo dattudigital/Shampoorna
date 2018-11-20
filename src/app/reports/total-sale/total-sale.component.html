@@ -1,3 +1,4 @@
+<simple-notifications [options]="options"></simple-notifications>
 <div class="row">
   <div class="col-sm-6">
     <h3 style="font-weight:600; padding: 7px;">Total Sale List</h3>
@@ -29,8 +30,8 @@
       <div class="col-md-7">
         <div class="input-group">
           <p-calendar [(ngModel)]="date1" name="fromdate" placeholder="select from date" [monthNavigator]="true" [yearNavigator]="true"
-            yearRange="1950:2030" [inputStyle]="{'width':'190px'}" [showIcon]="true" [(ngModel)]="fromDa" dateFormat="dd-mm-yy"
-            (ngModelChange)="fromDate($event)"></p-calendar>
+            yearRange="1950:2030" [inputStyle]="{'width':'190px'}" [showIcon]="true" [(ngModel)]="fromDate" dateFormat="dd-mm-yy"
+            (ngModelChange)="fromDa($event)"></p-calendar>
         </div>
       </div>
       <div class="clear"></div>
@@ -44,7 +45,7 @@
         <div class="input-group">
           <p-calendar [(ngModel)]="date2" name="todate" placeholder="select to date" [monthNavigator]="true" [yearNavigator]="true"
             yearRange="1950:2030" [inputStyle]="{'width':'190px'}" [showIcon]="true" [(ngModel)]="toDate" dateFormat="dd-mm-yy"
-            (ngModelChange)="toDateDisplay($event)"></p-calendar>
+            (ngModelChange)="toDa($event)"></p-calendar>
         </div>
       </div>
       <div class="clear"></div>

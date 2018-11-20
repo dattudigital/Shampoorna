@@ -66,18 +66,22 @@ export class DashboardComponent implements OnInit {
   nomineeName = '';
   nomineeDob = '';
   secondVehicle = '';
-  vehicleBasic: any = '';
+  vehicleBasic: number;
   lifeTax: number;
   VehicleInsu: number;
+  HandlingC: number;
+  Registration: number;
+  StandardAcc: number;
+  VehicleHp: number;
+
 
   discountApprovedBy: ''; handlingC: number;
   vehicleReg: '';
   vehicleWarranty: '';
-  vehicleAcc: '';
+  vehicleAcc: number;
   Hp: '';
   discount = 0;
   totalAmount: '';
-  lifeTaxAmount: number;
   vehicleInsuAmount: number;
   taxAmount: number;
   basicwithTax: number;
@@ -111,6 +115,7 @@ export class DashboardComponent implements OnInit {
     'chequeNo': '',
     'chequeAmount': '',
     'chequeDate': null,
+    'bankName': '',
     'cashSelect': '',
     'cashAmount': 0,
     'creditcardSelect': '',
@@ -132,12 +137,7 @@ export class DashboardComponent implements OnInit {
       bankStatement: ''
     }
   ];
-  //paymentmode Cash
-  // cashAmount: number;
-  // chequeAmount: number;
-  // creditcardAmount: number;
-  // accountTransferAmount: number;
-  // otherAmount: number;
+
   cashTotal = 0;
 
   //exchangevehicle details
@@ -154,7 +154,7 @@ export class DashboardComponent implements OnInit {
   branchManagerData: any = [];
   amount: number;
 
-  onRoadPrice: number = 0;
+  onRoadPrice: number;
   roadTax: number = 0;
   tempAmount: number = 0;
   taxCount: number = 0
@@ -163,12 +163,6 @@ export class DashboardComponent implements OnInit {
   constructor(private saleUserService: SaleUserService, private formBuilder: FormBuilder, private http: Http, private router: Router, ) { }
 
   ngOnInit() {
-
-    this.saleUserService.getTax().subscribe(res => {
-      this.taxData = res.json().result;
-      this.lifeTax = this.taxData[0].life_tax;
-      this.VehicleInsu = this.taxData[0].insurance;
-    });
     this.http.get(environment.host + 'employees').subscribe(employeedata => {
       console.log(employeedata.json().result);
       this.employeedata = employeedata.json().result;
@@ -348,20 +342,21 @@ export class DashboardComponent implements OnInit {
           eng_no: this.vehicleEngineNo,
           frame_no: this.vehicleFrameNo,
           dc_no: this.vehicleDcNo,
-          key_no: this.vehicleKeyNo,
+          vechile_gatepass: this.vehicleKeyNo,
           vechicle_color: this.vehicleColor,
           Nominee_name: this.nomineeName,
+          nomine_dob:this.nomineeDob,
           second_vechile: this.secondVehicle,
           basic_price: this.vehicleBasic,
           life_tax: this.lifeTax,
           insurance: this.VehicleInsu,
           handling: this.handlingC,
-          registration: this.vehicleReg,
-          warranty: this.vehicleWarranty,
+          registration: this.Registration,
+          standaccessories: this.StandardAcc,
           accessories: this.vehicleAcc,
-          hp: this.Hp,
+          hp: this.VehicleHp,
           discount: this.discount,
-          total_amt: this.basicwithTax,
+          total_amt: this.onRoadPrice,
           discount_approved_by: this.discountApprovedBy,
           sale_user_vechile_status: 1
 
@@ -459,6 +454,7 @@ export class DashboardComponent implements OnInit {
           cheque_no: this.paymentEmi.chequeNo,
           cheque_date: this.paymentEmi.chequeDate,
           cheque_amt: this.paymentEmi.chequeAmount,
+          cheque_bank: this.paymentEmi.bankName,
           cash: cashSelect,
           cash_amount: this.paymentEmi.cashAmount,
           credit_card: creditcardSelect,
@@ -508,59 +504,69 @@ export class DashboardComponent implements OnInit {
       this.vehicleInfo = [];
     }
   }
-
+  total: any = '';
   secondVehicleClick() {
-    //this.lifeTaxAmount = 0;
+    this.total = 0;
     console.log(this.secondVehicle);
     if (this.secondVehicle.toString() == 'true') {
-      this.lifeTaxAmount = this.lifeTaxAmount + this.vehicleBasic * (5 / 100);
-      console.log(this.lifeTaxAmount)
-      if (this.lifeTaxAmount) {
-        this.lifeTaxAmount = parseFloat(this.lifeTaxAmount.toFixed(2));
-        console.log(this.lifeTaxAmount)
+      console.log(this.vehicleBasic);
+      console.log(this.lifeTax);
+      this.total = this.total + this.vehicleBasic * (5 / 100)
+      console.log(this.total)
+      if (this.total) {
+        console.log('*****')
+        console.log(this.total);
+        console.log(this.lifeTax)
+        this.total = this.total * 1 + this.lifeTax * 1;
+        console.log(this.total);
       }
-      console.log(this.lifeTaxAmount.toFixed(2));
     }
-    if (this.secondVehicle.toString() == 'false') {
-      this.lifeTaxAmount =0;
-      this.lifeTaxAmount = this.lifeTaxAmount + this.vehicleBasic * (this.lifeTax / 100);
-      console.log(this.lifeTaxAmount)
-    }
+
   }
   // typeaheadNoResults(event: boolean): void {
   //   this.noResult = event;
   // }
+  tempOnRoadPrice: number;
   onSelect(event: TypeaheadMatch): void {
     this.onRoadPrice = 0
     this.selectedOption = event.item;
     console.log(this.selectedOption);
     this.vehicleFrameNo = this.selectedOption.vehicle_frameno;
     this.vehicleDcNo = this.selectedOption.vechicle_dcno;
-    this.vehicleKeyNo = this.selectedOption.vechile_key;
+    this.vehicleKeyNo = this.selectedOption.vechile_gatepass;
     this.vehicleColor = this.selectedOption.color_name;
-    this.nomineeName = this.selectedOption.Nominee_name;
     this.vehicleBasic = this.selectedOption.vehicle_cost;
+    this.lifeTax = this.selectedOption.vehicle_life_tax;
+    this.VehicleInsu = this.selectedOption.vehicle_insurance;
+    this.HandlingC = this.selectedOption.vehicle_handling_c;
+    this.Registration = this.selectedOption.vehicle_registration;
+    this.StandardAcc = this.selectedOption.vehicle_standard_accessories;
+    this.VehicleHp = this.selectedOption.vehicle_hp;
     //calculate onroadprice with only tax
     if (this.vehicleBasic) {
-      this.onRoadPrice = 0;
-      this.lifeTaxAmount = 0;
-      this.vehicleInsuAmount = 0;
-      this.taxAmount = 0;
-      console.log(this.vehicleBasic)
-
-      this.lifeTaxAmount = this.lifeTaxAmount + this.vehicleBasic * (this.lifeTax / 100);
-      console.log(this.lifeTaxAmount)
-
-      this.vehicleInsuAmount = this.vehicleInsuAmount + this.vehicleBasic * (this.VehicleInsu / 100);
-      console.log(this.vehicleInsuAmount);
-
-      this.taxAmount = this.lifeTaxAmount + this.vehicleInsuAmount;
-      console.log(this.taxAmount)
-
-      this.onRoadPrice = parseInt(this.vehicleBasic) + this.taxAmount;
-      console.log(this.onRoadPrice)
-      // this.basicwithTax = this.onRoadPrice
+      this.onRoadPrice = this.onRoadPrice + this.vehicleBasic
     }
+    if (this.onRoadPrice) {
+      this.onRoadPrice = this.onRoadPrice * 1 + this.lifeTax * 1
+    }
+    if (this.onRoadPrice) {
+      this.onRoadPrice = this.onRoadPrice * 1 + this.VehicleInsu * 1
+    }
+    if (this.onRoadPrice) {
+      this.onRoadPrice = this.onRoadPrice * 1 + this.Registration * 1
+    }
+    if (this.onRoadPrice) {
+      this.onRoadPrice = this.onRoadPrice * 1 + this.HandlingC * 1
+    }
+    if (this.onRoadPrice) {
+      this.onRoadPrice = this.onRoadPrice * 1 + this.StandardAcc * 1
+    }
+    if (this.onRoadPrice) {
+      this.onRoadPrice = this.onRoadPrice * 1 + this.VehicleHp * 1
+    }
+    this.tempOnRoadPrice = this.onRoadPrice;
+    console.log(this.tempOnRoadPrice)
+
   }
   approvedEmpEnable() {
     if (this.discount >= 1) {
@@ -569,42 +575,6 @@ export class DashboardComponent implements OnInit {
       this.disableApprovedBy = 'hidden'
     }
   }
-  //for bank statement upload files
-  // getBankDetails(e) {
-  //   console.log(e)
-  //   console.log(e.target.files);
-  //   for (var i = 0; i < e.target.files.length; i++) {
-  //     this.myFiles.push(e.target.files[i]);
-  //     console.log(this.myFiles);
-
-  //   }
-  //   this.uploadFiles(e);
-  //   this.bankstmtImage = this.bankstmtImage + 1;
-  // }
-
-  // uploadFiles(val) {
-  //   var frmData: any = '';
-  //   console.log(this.myFiles.length);
-  //   for (var i = 0; i < this.myFiles.length; i++) {
-  //     this.bankuploadedFiles = this.myFiles[i];
-  //     this.pdfName = this.myFiles[i]
-  //     console.log(this.pdfName);
-  //     console.log(this.bankuploadedFiles);
-  //   }
-  //   if (this.uploadedFiles) {
-  //     var reader = new FileReader();
-  //     reader.onload = this._handleReader.bind(this);
-  //     reader.readAsBinaryString(this.bankuploadedFiles);
-  //   }
-  // }
-
-  // _handleReader(readerEvt) {
-  //   var binaryString = readerEvt.target.result;
-  //   this.bankStatemet = btoa(binaryString);
-  //   this.data.push(this.bankStatemet);
-  //   this.paymentEmi.bank_statement = this.data;
-  //   console.log(this.paymentEmi.bank_statement);
-  // }
 
   // files upload and preview
   addressPreview: any;
@@ -613,6 +583,7 @@ export class DashboardComponent implements OnInit {
   userimagePreview: any;
   payOrderPerview: any;
   deliveryFormPreview: any;
+
   getFileDetails(event, text1) {
     this.currentImage = text1;
     console.log(this.currentImage);
@@ -745,34 +716,33 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  //calculate onroad price 
-  handlingAmount: number = 0
+  withAcc: number;
   addTotalTax() {
     console.log("********")
+    console.log(this.vehicleAcc)
     let sum = 0;
-    if (this.isNumber(this.handlingC)) {
-      sum = sum + this.handlingC
-    }
-    if (this.isNumber(this.vehicleReg)) {
-      sum = sum + parseInt(this.vehicleReg)
-    }
-    if (this.isNumber(this.vehicleWarranty)) {
-      sum = sum + parseInt(this.vehicleWarranty)
-    }
+    let temp1 = 0;
+    this.withAcc = 0;
+    temp1 = this.tempOnRoadPrice;
     if (this.isNumber(this.vehicleAcc)) {
-      sum = sum + parseInt(this.vehicleAcc)
+      sum = sum + this.vehicleAcc
     }
-    if (this.isNumber(this.Hp)) {
-      sum = sum + parseInt(this.Hp)
-    }
+
+      if (this.isNumber(this.total)) {
+        sum = sum + this.total
+      }
+  
+  
     if (this.isNumber(this.discount)) {
-      sum = sum - this.discount;
+      sum = sum - this.discount
     }
+    
     if (sum) {
-      this.basicwithTax = this.onRoadPrice + sum;
+      this.withAcc = temp1 * 1 + sum * 1;
+      this.onRoadPrice = this.withAcc;
+    } else {
+      this.onRoadPrice = this.tempOnRoadPrice;
     }
-    console.log("**********");
-    console.log(this.basicwithTax);
   }
 
   addTotalAmount() {
