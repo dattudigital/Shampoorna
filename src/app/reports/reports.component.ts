@@ -42,14 +42,13 @@ export class ReportsComponent implements OnInit {
     })
   }
   saleReportClick() {
-    console.log('came')
     this.titleStyle = "visible";
-    this.inventoryStyle = "hidden";
+    //this.inventoryStyle = "hidden";
   }
   viewInventoryClick() {
     console.log('inventory');
     this.inventoryStyle = "visible";
-    this.titleStyle = "hidden";
+    //this.titleStyle = "hidden";
   }
   todaySaleClick() {
     this.router.navigate(['reports/today-sale-list']);

@@ -24,14 +24,14 @@ export class TodaySaleComponent implements OnInit {
   colorData: any[];
   vehicleTypeFilter = "";
 
-  constructor(private router: Router, private http: Http,private notif: NotificationsService, private service: DashboardServiceService) { }
+  constructor(private router: Router, private http: Http, private notif: NotificationsService, private service: DashboardServiceService) { }
 
   ngOnInit() {
     this.http.get(environment.host + 'branches').subscribe(res => {
       this.branchData = res.json().result;
       console.log(this.branchData)
     });
-    
+
     this.service.getTodaySale().subscribe(res => {
       console.log(res.json().result);
       this.todaySaleList = res.json().result;
@@ -44,7 +44,7 @@ export class TodaySaleComponent implements OnInit {
       { field: 'mandal', header: 'Mandal' },
       { field: 'district', header: 'District' },
       { field: 'proof_type', header: 'Proof Type' },
-      {field: 'user_type',header:'User Type'},
+      { field: 'user_type', header: 'User Type' },
       { field: 'eng_no', header: 'EngineNo' },
       { field: 'frame_no', header: 'FrameNo' },
       { field: 'dc_no', header: 'DcNo' },
@@ -66,17 +66,17 @@ export class TodaySaleComponent implements OnInit {
     console.log(this.toDate)
   }
 
-  
+
   detailsGo() {
     var url = '';
-    if (this.fromDate) {
-      url = url + 'startdate=' + this.fromDate;
-    }
-    if (this.toDate) {
-      url = url + '&enddate=' + this.toDate;
-    }
+    // if (this.fromDate) {
+    //   url = url + 'startdate=' + this.fromDate;
+    // }
+    // if (this.toDate) {
+    //   url = url + '&enddate=' + this.toDate;
+    // }
     if (this.vehicleTypeFilter) {
-      url = url + '&user_type=' + this.vehicleTypeFilter;
+      url = url + 'user_type=' + this.vehicleTypeFilter;
     }
 
     console.log(url)
