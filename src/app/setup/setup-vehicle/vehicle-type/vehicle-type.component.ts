@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { Http } from '@angular/http';
 declare var $: any;
+
 @Component({
   selector: 'app-vehicle-type',
   templateUrl: './vehicle-type.component.html',
@@ -16,6 +17,7 @@ export class VehicleTypeComponent implements OnInit {
   temp: any;
   type_name: '';
   vehicle_type_id: '';
+  status: '';
   temp1: any
   typeDeleteData: any = [];
 
@@ -23,7 +25,7 @@ export class VehicleTypeComponent implements OnInit {
 
   ngOnInit() {
     this.cols = [
-      { field: 'vehicle_type_id', header: 'Id' },
+      // { field: 'vehicle_type_id', header: 'Id' },
       { field: 'type_name', header: ' Name' }
     ];
     this.http.get(environment.host + 'vehicle-types').subscribe(data => {
@@ -59,13 +61,14 @@ export class VehicleTypeComponent implements OnInit {
     console.log(this.editTypeData[index].type_name);
     this.vehicle_type_id = this.editTypeData[index].vehicle_type_id;
     this.type_name = this.editTypeData[index].type_name;
+    this.status=this.editTypeData[index].status
   }
 
   updateType() {
     var data = {
       vehicle_type_id: this.vehicle_type_id,
       type_name: this.type_name,
-      status: 1
+      status:this.status
     }
     console.log(data);
     this.http.post(environment.host + 'vehicle-types', data).subscribe(res => {
