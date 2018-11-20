@@ -1,9 +1,17 @@
-<div class="row">
-    <div class="col-sm-6">
-      <h3 style="font-weight:600; padding: 7px;">Price List</h3>
+  <div class="row">
+      <div class="col-sm-6">
+        <h3 style="font-weight:600; padding: 7px;">Price List</h3>
+      </div>
+      <div class="col-sm-4"></div>
+      <div class="col-sm-2">
+        <button type="button" class="btn backBtn" (click)="backToSetup()">Back</button>
+      </div>
     </div>
-    <div class="col-sm-4"></div>
-    <div class="col-sm-2">
-      <button type="button" class="btn backBtn" (click)="backToSetup()">Back</button>
-    </div>
+  &nbsp;
+  
+  <div class="add-bulk" style="padding-left: 450px;">  
+  <div class="container">
+  <input type="file" style="display: inline-block;" (change)="incomingfile($event)" placeholder="Upload file" accept=".xlsx">
+  <button type="button" class="btn btn-info" (click)="Upload()" >Upload</button>
+  </div>
   </div>
