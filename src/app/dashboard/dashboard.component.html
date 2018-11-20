@@ -254,6 +254,18 @@
 					</div>
 				</div>
 				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Vehicle Model </label>
+					<div class="col-sm-5">
+						<input type="text" name="color" maxlength="50" class="form-control" [(ngModel)]="vehicleColor" readonly>
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Vehicle Variant</label>
+					<div class="col-sm-5">
+						<input type="text" name="color" maxlength="50" class="form-control" [(ngModel)]="vehicleColor" readonly>
+					</div>
+				</div>
+				<div class="row form-group">
 					<label class="col-sm-4 col-form-label required">Nominee Name
 						<span style="color:red">*</span>
 					</label>
@@ -281,6 +293,28 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required"> PR-
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="radio" name="pr">Yes &nbsp;&nbsp;
+						<input type="radio" name="pr">No &nbsp;&nbsp;
+					</div>
+				</div>
+
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Accessories
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="radio" name="pr">Yes &nbsp;&nbsp;
+						<input type="radio" name="pr">No &nbsp;&nbsp;
+					</div>
+				</div>
+
+
 				<div class="row form-group">
 					<div class="col-sm-12">
 						<h3>Pricing</h3>
@@ -413,7 +447,7 @@
 				<br>
 			</div>
 
-			<div class="col-sm-12">
+			<!-- <div class="col-sm-12">
 				<div class="pr-style">
 					<div class="col-sm-4">
 						<label>PR-</label> &nbsp;&nbsp;
@@ -430,12 +464,9 @@
 						</div>
 					</div>
 					<div class="col-sm-4">
-						<!-- <label>Extended Warranty-</label> &nbsp;&nbsp;
-						<input type="radio" name="extended">Yes &nbsp;&nbsp;
-						<input type="radio" name="extended">No &nbsp;&nbsp; -->
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 		<div class="clear"></div>
 	</div>
