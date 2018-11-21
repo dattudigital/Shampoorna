@@ -20,7 +20,7 @@ export class VehicleDetailsComponent implements OnInit {
   deleteData: any = [];
   editData: any = [];
   public date1: any;
-  public date2:any;
+  public date2: any;
 
   typeData: any[];
   makeData: any[];
@@ -28,36 +28,41 @@ export class VehicleDetailsComponent implements OnInit {
   colorData: any[];
   variantData: any[];
 
+  invoiceNum = "";
+  invoiceDate = "";
+  sourcedFrom = "";
   engineNumber = "";
   vehicleName = "";
-  vehicleType:any;
-  vehicleColor:any;
-  vehicleMake:any;
-  vehicleModel:any;
-  vehicleVariant:any;
+  vehicleType: any;
+  vehicleColor: any;
+  vehicleMake: any;
+  vehicleModel: any;
+  vehicleVariant: any;
+  engineNum1 = '';
+  engineNum2 = '';
 
   vehicleCost = "";
-  gateNumber ="";
+  gateNumber = "";
   frameNumber = "";
   dcNumber = "";
   invoiceNumber = "";
-  vehicleLifeTax ="";
-  vehicleInsurance= "";
-  vehicleHandling ="";
+  vehicleLifeTax = "";
+  vehicleInsurance = "";
+  vehicleHandling = "";
   vehicleRegistration = "";
   vehicleHp = "";
-  vehicleStandardAcc ="";
+  vehicleStandardAcc = "";
 
   disableSave: boolean = true;
   vehicleForm: FormGroup;
   submitted = false;
 
-  vehicleTypeFilter="";
-  vehicleModelFilter="";
-  vehicleColorFilter="";
-  vehicleMakeFilter="";
-  fromDate="";
-  toDate="";
+  vehicleTypeFilter = "";
+  vehicleModelFilter = "";
+  vehicleColorFilter = "";
+  vehicleMakeFilter = "";
+  fromDate = "";
+  toDate = "";
   public options = { position: ["top", "right"] }
   // addnewvehicle = false;
 
@@ -72,38 +77,28 @@ export class VehicleDetailsComponent implements OnInit {
     });
     this.vehicleForm = this.formBuilder.group({
       engineNumber: ['', Validators.required],
-      vehicleName: ['', Validators.required],
       vehicleType: ['', Validators.required],
       vehicleColor: ['', Validators.required],
-      vehicleMake: ['', Validators.required],
       vehicleModel: ['', Validators.required],
-      vehicleCost: ['', Validators.required],
-      gateNumber: ['',Validators.required],
+      gateNumber: ['', Validators.required],
       frameNumber: ['', Validators.required],
-      dcNumber: ['', Validators.required],
-      invoiceNumber: ['', Validators.required],
-      vehicleVariant: ['',Validators.required],
-      // vehicleLifeTax: ['',Validators.required],
-      // vehicleInsurance:['',Validators.required],
-      // vehicleHandling:['',Validators.required],
-      // vehicleRegistration:['',Validators.required],
-      // vehicleHp:['',Validators.required],
-      // vehicleStandardAcc:['',Validators.required]
-
+      vehicleVariant: ['', Validators.required],
+      invoiceNum: ['', Validators.required],
+      sourcedFrom: ['', Validators.required],
+      dcNumber: ['', Validators.required]
     });
 
     this.cols = [
-      { field: 'vehicle_engineno', header: 'Engine No.' },
-      { field: 'vehicle_name', header: 'Name' },
-      { field: 'color_name', header: 'Color' },
+      { field: 'vechicle_invoiceno', header: 'Invoice No' },
+      { field: 'vehicle_invoice_date', header: 'Invoice Date' },
+      { field: 'vehicle_source_from', header: 'Sorce From' },
       { field: 'type_name', header: 'Type' },
-      { field: 'make_name', header: 'Make' },
       { field: 'model_name', header: 'Model' },
-      { field: 'vehicle_cost', header: 'Cost' },
-      { field: 'vechile_gatepass' , header:'Gate Pass'},
-      { field: 'vechicle_dcno', header: 'DC No.' }, 
+      { field: 'color_name', header: 'Color' },
+      { field: 'variant_name', Hearer: 'Variant' },
+      { field: 'vehicle_engineno', header: 'Engine No.' },
       { field: 'vehicle_frameno', header: 'Frame No.' },
-      { field: 'vechicle_invoiceno', header: 'Invoice No.' },
+      { field: 'vechile_gatepass', header: 'Gate Pass' },
     ];
 
     this.http.get(environment.host + 'vehicle-makes').subscribe(data => {
@@ -153,7 +148,7 @@ export class VehicleDetailsComponent implements OnInit {
     this.router.navigate(['inventory']);
   }
 
-  redirctToAddBulk(){
+  redirctToAddBulk() {
     this.router.navigate(['inventory/vehicle-details/bulk-import']);
   }
 
@@ -166,114 +161,72 @@ export class VehicleDetailsComponent implements OnInit {
   addVehicle() {
     this.submitted = true;
     console.log(this.engineNumber,
-      this.vehicleName,
       this.vehicleType.type_name,
-      this.vehicleMake.make_name,
       this.vehicleModel.model_name,
       this.vehicleColor.color_name,
-      this.vehicleCost);
-    // console.log(this.vehicleType)
-    // console.log(this.vehicleType.vehicle_type_id)
-    // stop here if form is invalid
+      this.vehicleVariant.variant_name
+    );
     if (this.vehicleForm.invalid) {
       return;
     }
+    console.log(this.engineNumber);
+    if (this.engineNumber) {
+      var number = this.engineNumber;
+      this.engineNum1 = number.substring(0, 5);
+      this.engineNum2 = number.substring(5, 12);
+      console.log(this.engineNum1);
+      console.log(this.engineNum2)
+    }
     var data = {
-      vehicle_engineno: this.engineNumber,
-      vehicle_name: this.vehicleName,
-      vehicle_color: this.vehicleColor.vehicle_color_id,
+      vechicle_invoiceno: this.invoiceNum,
+      vehicle_invoice_date: this.invoiceDate,
+      vehicle_source_from: this.sourcedFrom,
       vehicle_type: this.vehicleType.vehicle_type_id,
-      vehicle_make: this.vehicleMake.vehicle_make_id,
       vehicle_model: this.vehicleModel.vehicle_model_id,
       vehicle_variant: this.vehicleVariant.vehicle_variant_id,
-      // vehicle_cost: this.vehicleCost,
-      // vehicle_life_tax:this.vehicleLifeTax,
-      // vehicle_insurance:this.vehicleInsurance,
-      // vehicle_handling_c:this.vehicleHandling,
-      // vehicle_registration:this.vehicleRegistration,
-      // vehicle_standard_accessories:this.vehicleStandardAcc,
-      // vehicle_hp:this.vehicleHp,
-      vechile_gatepass: this.gateNumber,
+      vehicle_color: this.vehicleColor.vehicle_color_id,
+      vehicle_engineno: this.engineNumber,
       vehicle_frameno: this.frameNumber,
+      vechile_gatepass: this.gateNumber,
       vechicle_dcno: this.dcNumber,
-      vechicle_invoiceno: this.invoiceNumber,
+      engine1: this.engineNum1,
+      engine2: this.engineNum2,
       status: "1"
     }
 
     console.log(data);
 
-var insertData = {
-  color_name:this.vehicleColor.color_name
-}
+    var insertData = {
+      color_name: this.vehicleColor.color_name
+    }
 
-      this.service.addVehicleDetails(data).subscribe(res => {
-        console.log(res.json());
-        if (res.json().status == true) {
-          this.notif.success(
-            'Success',
-            'Vehicle Added Successfully',
-            {
-              timeOut: 3000,
-              showProgressBar: true,
-              pauseOnHover: false,
-              clickToClose: true,
-              maxLength: 50
-            }
-          )
-        }
-        console.log("******************");
-        console.log(insertData);
-        insertData =  res.json().result;     
-        this.bikes.push(res.json().result)
-   
-      // let data;
-      // data.vehicle_engineno = res.json().result.engineNumber,
-      // data.vehicle_name = res.json().result.vehicleName,
-      // data.vehicle_type = res.json().result.vehicleType,
-      // data.vehicle_make = res.json().result.vehicleMake,
-      // data.vehicle_model = res.json().result.vehicleModel,
-      // data.vehicle_color = res.json().result.vehicleColor,
-      // data.vehicle_cost = res.json().result.vehicleCost,
-      // data.vehicle_frameno = res.json().result.frameNumber,
-      // data.vechicle_dcno = res.json().result.dcNumber,
-      // data.vechicle_invoiceno = res.json().result.invoiceNumber
-   
-      // this.bikes.push({vehicle_engineno: this.engineNumber,
-      //                  vehicle_name: this.vehicleName,
-      //                  vehicle_type:this.vehicleType.type_name,
-      //                  vehicle_make:this.vehicleMake.make_name,
-      //                  vehicle_model: this.vehicleModel.model_name,
-      //                  vehicle_color: this.vehicleColor.color_name,
-      //                  vehicle_cost: this.vehicleCost,
-      //                  vehicle_frameno: this.frameNumber,
-      //                  vechicle_dcno: this.dcNumber,
-      //                  vechicle_invoiceno: this.invoiceNumber})
-      // this.bikes.push(data);
-      // console.log("******")
-      // console.log(data)
-      // console.log(this.bikes)
+    this.service.addVehicleDetails(data).subscribe(res => {
+      console.log(res.json().result);
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Vehicle Added Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
+      console.log(insertData);
+      insertData = res.json().result;
+      this.bikes.push(res.json().result)
       $('#addVehicle').modal('hide');
 
     })
 
-    this.engineNumber = " ";
-    this.vehicleName = " ";
-    this.vehicleType = " ";
-    this.vehicleColor = " ";
-    this.vehicleMake = " ";
-    this.vehicleModel = " ";
-    this.vehicleCost = " ";
-    this.gateNumber = " ";
-    this.frameNumber = " ";
-    this.dcNumber = " ";
-    this.invoiceNumber = " ";
-    this.vehicleVariant = " ";
-    this.vehicleLifeTax =" ";
-    this.vehicleInsurance= " ";
-    this.vehicleHandling =" ";
-    this.vehicleRegistration = " ";
-    this.vehicleHp = " ";
-    this.vehicleStandardAcc =" ";
+    this.invoiceNum = '';
+    this.invoiceDate = '';
+    this.sourcedFrom = '';
+    this.vehicle_type = '';
+    this.vehicle_model = '';
 
   }
   vehicle_id = '';
@@ -284,7 +237,7 @@ var insertData = {
   vehicle_make = '';
   vehicle_model = '';
   vehicle_cost = '';
-  vechile_key ='';
+  vechile_key = '';
   vehicle_frameno = '';
   vechicle_dcno = '';
   vechicle_invoiceno = '';
@@ -337,7 +290,7 @@ var insertData = {
     console.log(data)
     this.service.addVehicleDetails(data).subscribe(res => {
       console.log(res.json());
-      if(res.json().status ==true){
+      if (res.json().status == true) {
         this.notif.success(
           'Success',
           'Vehicle Updated Successfully',
@@ -410,7 +363,7 @@ var insertData = {
     console.log(data)
     this.service.addVehicleDetails(data).subscribe(res => {
       console.log(res.json());
-      if(res.json().status ==true){
+      if (res.json().status == true) {
         this.notif.success(
           'Success',
           'Vehicle Deleted Successfully',
@@ -439,6 +392,11 @@ var insertData = {
     console.log(this.toDate)
 
   }
+  invoiceDateFormat() {
+    let newdate2 = moment(this.invoiceDate).format('YYYY-MM-DD').toString();
+    this.invoiceDate = newdate2;
+    console.log(this.invoiceDate)
+  }
 
 
   detailsGo() {
@@ -463,54 +421,54 @@ var insertData = {
     }
     console.log(this.vehicleMakeFilter);
     console.log(url)
-     this.service.getVehicleFilter(url).subscribe(res => {
-     console.log(res.json());
-    //  if(res.json().status ==true){
-    //   this.notif.success(
-    //     'Success',
-    //     'Filter Applied Successfully',
-    //     {
-    //       timeOut: 3000,
-    //       showProgressBar: true,
-    //       pauseOnHover: false,
-    //       clickToClose: true,
-    //       maxLength: 50
-    //     }
-    //   )
-    // }else{
-    //   this.notif.warn(
-    //     'Sorry',
-    //     'No Records Found',
-    //     {
-    //       timeOut: 3000,
-    //       showProgressBar: true,
-    //       pauseOnHover: false,
-    //       clickToClose: true,
-    //       maxLength: 50
-    //     }
-    //   )    } 
-     console.log("*******")
-     console.log(res)
-     console.log(res.json().status)
+    this.service.getVehicleFilter(url).subscribe(res => {
+      console.log(res.json());
+      //  if(res.json().status ==true){
+      //   this.notif.success(
+      //     'Success',
+      //     'Filter Applied Successfully',
+      //     {
+      //       timeOut: 3000,
+      //       showProgressBar: true,
+      //       pauseOnHover: false,
+      //       clickToClose: true,
+      //       maxLength: 50
+      //     }
+      //   )
+      // }else{
+      //   this.notif.warn(
+      //     'Sorry',
+      //     'No Records Found',
+      //     {
+      //       timeOut: 3000,
+      //       showProgressBar: true,
+      //       pauseOnHover: false,
+      //       clickToClose: true,
+      //       maxLength: 50
+      //     }
+      //   )    } 
+      console.log("*******")
+      console.log(res)
+      console.log(res.json().status)
 
-       if (res.json().status == true) {
-         this.bikes = res.json().result;
+      if (res.json().status == true) {
+        this.bikes = res.json().result;
         console.log(this.bikes)
         this.notif.success(
-              'Success',
-              'Filter Applied Successfully',
-              {
-                timeOut: 3000,
-                showProgressBar: true,
-                pauseOnHover: false,
-                clickToClose: true,
-                maxLength: 50
-              }
-            )
-     }
-     else {
-    this.bikes = res.json()._body;
-    this.notif.warn(
+          'Success',
+          'Filter Applied Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
+      else {
+        this.bikes = res.json()._body;
+        this.notif.warn(
           'Sorry',
           'No Records Found',
           {
@@ -520,15 +478,15 @@ var insertData = {
             clickToClose: true,
             maxLength: 50
           }
-        ) 
+        )
       }
-     })
+    })
   }
   detailsReset() {
     this.service.getVehicleDetails().subscribe(res => {
       console.log(res.json().result)
       this.bikes = res.json().result
-      if(res.json().status ==true){
+      if (res.json().status == true) {
         this.notif.success(
           'Success',
           'Reset Applied Successfully',
@@ -543,11 +501,11 @@ var insertData = {
       }
     });
     this.vehicleTypeFilter = " ";
-    this.vehicleModelFilter=" ";
-    this.vehicleColorFilter=" ";
-    this.vehicleMakeFilter=" ";
-    this.fromDate=" ";
-    this.toDate=" ";
+    this.vehicleModelFilter = " ";
+    this.vehicleColorFilter = " ";
+    this.vehicleMakeFilter = " ";
+    this.fromDate = " ";
+    this.toDate = " ";
   }
 
   //this method  allow alphabets 

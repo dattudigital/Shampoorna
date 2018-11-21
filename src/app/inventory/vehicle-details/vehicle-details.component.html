@@ -170,11 +170,10 @@
               <a style="color:red">*</a>
             </label>
             <div class="col-md-6">
-              <input type="text" formControlName="engineNumber" class="form-control" id="eng" placeholder="Invoice Number" [ngClass]="{ 'is-invalid': submitted && f.engineNumber.errors }"
-                [(ngModel)]="engineNumber" (ngModelChange)="enableSave($event)" (keypress)="allow_numbers_alphabets($event)"
-                maxlength="50">
-              <div *ngIf="submitted && f.engineNumber.errors" class="invalid-feedback">
-                <div *ngIf="f.engineNumber.errors.required" style="color:red">Invoice No is required</div>
+              <input type="text" formControlName="invoiceNum" class="form-control" placeholder="Invoice No" [ngClass]="{ 'is-invalid': submitted && f.invoiceNum.errors }"
+                [(ngModel)]="invoiceNum" (ngModelChange)="enableSave($event)" (keypress)="only_allow_number($event)" maxlength="50">
+              <div *ngIf="submitted && f.invoiceNum.errors" class="invalid-feedback">
+                <div *ngIf="f.invoiceNum.errors.required" style="color:red">Invoice No is required</div>
               </div>
             </div>
             <div class="clear"></div>
@@ -186,8 +185,9 @@
             </label>
             <div class="col-md-6">
               <div class="input-group">
-                <p-calendar [(ngModel)]="date1" name="fromDate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'341px'}"
-                  [showIcon]="true" placeholder="Select Date" [(ngModel)]="fromDate" dateFormat="dd-mm-yy" (ngModelChange)=" fromDa($event)"></p-calendar>
+                <p-calendar [(ngModel)]="date1" name="invoiceDate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'341px'}"
+                  [showIcon]="true" placeholder="Select Date" [(ngModel)]="invoiceDate" dateFormat="dd-mm-yy" (ngModelChange)=" invoiceDateFormat($event)"
+                  [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}"></p-calendar>
               </div>
             </div>
             <div class="clear"></div>
@@ -198,50 +198,17 @@
               <a style="color:red">*</a>
             </label>
             <div class="col-md-6">
-              <input type="text" formControlName="engineNumber" class="form-control" id="eng" placeholder="Sourced From" [ngClass]="{ 'is-invalid': submitted && f.engineNumber.errors }"
-                [(ngModel)]="engineNumber" (ngModelChange)="enableSave($event)" (keypress)="allow_numbers_alphabets($event)"
-                maxlength="50">
-              <div *ngIf="submitted && f.engineNumber.errors" class="invalid-feedback">
-                <div *ngIf="f.engineNumber.errors.required" style="color:red">Sourced from No is required</div>
-              </div>
-            </div>
-            <div class="clear"></div>
-          </div>
-
-          <div class="form-group">
-            <div class="col-md-1"></div>
-            <label for="input" class="col-md-3 control-label">Engine Number
-              <a style="color:red">*</a>
-            </label>
-            <div class="col-md-6">
-              <input type="text" formControlName="engineNumber" class="form-control" id="eng" placeholder="Engine Number" [ngClass]="{ 'is-invalid': submitted && f.engineNumber.errors }"
-                [(ngModel)]="engineNumber" (ngModelChange)="enableSave($event)" (keypress)="allow_numbers_alphabets($event)"
-                maxlength="50">
-              <div *ngIf="submitted && f.engineNumber.errors" class="invalid-feedback">
-                <div *ngIf="f.engineNumber.errors.required" style="color:red">Engine No is required</div>
-              </div>
-            </div>
-
-            <div class="clear"></div>
-          </div>
-          <div class="form-group">
-            <div class="col-md-1"></div>
-            <label for="input" class="col-md-3 control-label">Name
-              <a style="color:red">*</a>
-            </label>
-            <div class="col-md-6">
-              <input type="text" formControlName="vehicleName" class="form-control" id="name" [(ngModel)]="vehicleName" placeholder="Enter Vehicle Name"
-                [ngClass]="{ 'is-invalid': submitted && f.vehicleName.errors }" (keypress)="allow_numbers_alphabets($event)"
-                maxlength="50">
-              <div *ngIf="submitted && f.vehicleName.errors" class="invalid-feedback">
-                <div *ngIf="f.vehicleName.errors.required" style="color:red">Vehicle Name is required</div>
+              <input type="text" formControlName="sourcedFrom" class="form-control" id="eng" placeholder="Sourced From" [ngClass]="{ 'is-invalid': submitted && f.sourcedFrom.errors }"
+                [(ngModel)]="sourcedFrom" (ngModelChange)="enableSave($event)" (keypress)="omit_special_char($event)" maxlength="50">
+              <div *ngIf="submitted && f.sourcedFrom.errors" class="invalid-feedback">
+                <div *ngIf="f.sourcedFrom.errors.required" style="color:red">Sourced from No is required</div>
               </div>
             </div>
             <div class="clear"></div>
           </div>
           <div class="form-group">
             <div class="col-md-1"></div>
-            <label for="input" class="col-md-3 control-label">Type
+            <label for="input" class="col-md-3 control-label">Category
               <a style="color:red">*</a>
             </label>
             <div class="col-md-6">
@@ -250,6 +217,36 @@
               </select>
               <div *ngIf="submitted && f.vehicleType.errors" class="invalid-feedback">
                 <div *ngIf="f.vehicleType.errors.required" style="color:red">Vehicle Type is required</div>
+              </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-1"></div>
+            <label for="input" class="col-md-3 control-label">Model
+              <a style="color:red">*</a>
+            </label>
+            <div class="col-md-6">
+              <select class="form-control" formControlName="vehicleModel" [(ngModel)]="vehicleModel" [ngClass]="{ 'is-invalid': submitted && f.vehicleModel.errors }">
+                <option *ngFor="let data of this.modelData" [ngValue]=" data">{{data.model_name}}</option>
+              </select>
+              <div *ngIf="submitted && f.vehicleModel.errors" class="invalid-feedback">
+                <div *ngIf="f.vehicleModel.errors.required" style="color:red">Vehicle model is required</div>
+              </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-1"></div>
+            <label for="input" class="col-md-3 control-label">Variant
+              <a style="color:red">*</a>
+            </label>
+            <div class="col-md-6">
+              <select class="form-control" formControlName="vehicleVariant" [(ngModel)]="vehicleVariant" [ngClass]="{ 'is-invalid': submitted && f.vehicleVariant.errors }">
+                <option *ngFor="let data of this.variantData" [ngValue]=" data">{{data.variant_name}}</option>
+              </select>
+              <div *ngIf="submitted && f.vehicleVariant.errors" class="invalid-feedback">
+                <div *ngIf="f.vehicleVariant.errors.required" style="color:red">Vehicle Variant is required</div>
               </div>
             </div>
             <div class="clear"></div>
@@ -271,52 +268,19 @@
           </div>
           <div class="form-group">
             <div class="col-md-1"></div>
-            <label for="input" class="col-md-3 control-label">Make
+            <label for="input" class="col-md-3 control-label">Engine Number
               <a style="color:red">*</a>
             </label>
             <div class="col-md-6">
-              <select class="form-control" formControlName="vehicleMake" [(ngModel)]="vehicleMake" [ngClass]="{ 'is-invalid': submitted && f.vehicleMake.errors }">
-                <option *ngFor="let data of this.makeData" [ngValue]=" data">{{data.make_name}}</option>
-              </select>
-              <div *ngIf="submitted && f.vehicleMake.errors" class="invalid-feedback">
-                <div *ngIf="f.vehicleMake.errors.required" style="color:red">Vehicle make is required</div>
+              <input type="text" formControlName="engineNumber" class="form-control" id="eng" placeholder="Engine Number" [ngClass]="{ 'is-invalid': submitted && f.engineNumber.errors }"
+                [(ngModel)]="engineNumber" (ngModelChange)="enableSave($event)" maxlength="50" (keypress)="allow_numbers_alphabets($event)">
+              <div *ngIf="submitted && f.engineNumber.errors" class="invalid-feedback">
+                <div *ngIf="f.engineNumber.errors.required" style="color:red">Engine No is required</div>
               </div>
             </div>
+
             <div class="clear"></div>
           </div>
-
-          <div class="form-group">
-            <div class="col-md-1"></div>
-            <label for="input" class="col-md-3 control-label">Model
-              <a style="color:red">*</a>
-            </label>
-            <div class="col-md-6">
-              <select class="form-control" formControlName="vehicleModel" [(ngModel)]="vehicleModel" [ngClass]="{ 'is-invalid': submitted && f.vehicleModel.errors }">
-                <option *ngFor="let data of this.modelData" [ngValue]=" data">{{data.model_name}}</option>
-              </select>
-              <div *ngIf="submitted && f.vehicleModel.errors" class="invalid-feedback">
-                <div *ngIf="f.vehicleModel.errors.required" style="color:red">Vehicle model is required</div>
-              </div>
-            </div>
-            <div class="clear"></div>
-          </div>
-
-          <div class="form-group">
-            <div class="col-md-1"></div>
-            <label for="input" class="col-md-3 control-label">Variant
-              <a style="color:red">*</a>
-            </label>
-            <div class="col-md-6">
-              <select class="form-control" formControlName="vehicleVariant" [(ngModel)]="vehicleVariant" [ngClass]="{ 'is-invalid': submitted && f.vehicleVariant.errors }">
-                <option *ngFor="let data of this.variantData" [ngValue]=" data">{{data.variant_name}}</option>
-              </select>
-              <div *ngIf="submitted && f.vehicleVariant.errors" class="invalid-feedback">
-                <div *ngIf="f.vehicleVariant.errors.required" style="color:red">Vehicle Variant is required</div>
-              </div>
-            </div>
-            <div class="clear"></div>
-          </div>
-
           <div class="form-group">
             <div class="col-md-1"></div>
             <label for="input" class="col-md-3 control-label">Frame Number
@@ -324,7 +288,7 @@
             </label>
             <div class="col-md-6">
               <input type="text" class="form-control" formControlName="frameNumber" id="frame" placeholder="Frame Number" [(ngModel)]="frameNumber"
-                [ngClass]="{ 'is-invalid': submitted && f.frameNumber.errors }" (ngModelChange)="enableSave($event)" (keypress)="only_allow_number($event)"
+                [ngClass]="{ 'is-invalid': submitted && f.frameNumber.errors }" (ngModelChange)="enableSave($event)" (keypress)="allow_numbers_alphabets($event)"
                 maxlength="50">
               <div *ngIf="submitted && f.frameNumber.errors" class="invalid-feedback">
                 <div *ngIf="f.frameNumber.errors.required" style="color:red">Frame Number is required</div>
@@ -339,7 +303,7 @@
             </label>
             <div class="col-md-6">
               <input type="text" class="form-control" id="dc" formControlName="dcNumber" placeholder="DC Number" [(ngModel)]="dcNumber"
-                [ngClass]="{ 'is-invalid': submitted && f.dcNumber.errors }" (ngModelChange)="enableSave($event)" (keypress)="only_allow_number($event)"
+                [ngClass]="{ 'is-invalid': submitted && f.dcNumber.errors }" (ngModelChange)="enableSave($event)" (keypress)="allow_numbers_alphabets($event)"
                 maxlength="50">
               <div *ngIf="submitted && f.dcNumber.errors" class="invalid-feedback">
                 <div *ngIf="f.dcNumber.errors.required" style="color:red">Dc Number is required</div>
@@ -347,7 +311,7 @@
             </div>
             <div class="clear"></div>
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <div class="col-md-1"></div>
             <label for="input" class="col-md-3 control-label">Invoice Number
               <a style="color:red">*</a>
@@ -361,7 +325,7 @@
               </div>
             </div>
             <div class="clear"></div>
-          </div>
+          </div> -->
 
           <div class="form-group">
             <div class="col-md-1"></div>
@@ -378,13 +342,6 @@
             </div>
             <div class="clear"></div>
           </div>
-
-
-          <!-- <div class="add_promotions padding-20">
-            <input type="button" class="btn btn-default" data-dismiss="modal" (click)="yesItem()">
-            <input type="button" class="btn btn-default" data-dismiss="modal">
-             [(ngModel)]="editData.giftcard_name"
-          </div> -->
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -408,33 +365,6 @@
       </div>
       <div class="modal-body">
         <br>
-        <div class="form-group">
-          <div class="col-md-1"></div>
-          <label for="input" class="col-md-3 control-label">Engine Number
-            <a style="color:red">*</a>
-          </label>
-          <div class="col-md-6">
-            <input type="text" class="form-control" id="eng1" placeholder="Engine Number" name="enginenumber1" [(ngModel)]="vehicle_engineno"
-              #enginenumber1="ngModel" required>
-          </div>
-          <div *ngIf="enginenumber1.errors?.required  && (enginenumber1.dirty ||enginenumber1.touched )" style="color:red">Engine No. is required </div>
-          <div class="clear"></div>
-        </div>
-        <div class="form-group">
-          <div class="col-md-1"></div>
-          <label for="input" class="col-md-3 control-label">Name
-            <a style="color:red">*</a>
-          </label>
-          <div class="col-md-6">
-            <input type="text" class="form-control" id="name1" name="vehiclename1" [(ngModel)]="vehicle_name" placeholder="Enter Vehicle Name"
-              #vehiclename1="ngModel" required>
-          </div>
-          <div *ngIf="vehiclename1.errors?.required  && (vehiclename1.dirty ||vehiclename1.touched )" style="color:red">Name is required </div>
-          <!-- <small *ngIf="vehiclename.valid || (vehiclename.pristine && !pixelform.submitted)" class="text-danger">
-                  Name is required.
-                </small> -->
-          <div class="clear"></div>
-        </div>
         <div class="form-group">
           <div class="col-md-1"></div>
           <label for="input" class="col-md-3 control-label">Type
@@ -499,7 +429,18 @@
           </div>
           <div class="clear"></div>
         </div>
-
+        <div class="form-group">
+          <div class="col-md-1"></div>
+          <label for="input" class="col-md-3 control-label">Engine Number
+            <a style="color:red">*</a>
+          </label>
+          <div class="col-md-6">
+            <input type="text" class="form-control" id="eng1" placeholder="Engine Number" name="enginenumber1" [(ngModel)]="vehicle_engineno"
+              #enginenumber1="ngModel" required>
+          </div>
+          <div *ngIf="enginenumber1.errors?.required  && (enginenumber1.dirty ||enginenumber1.touched )" style="color:red">Engine No. is required </div>
+          <div class="clear"></div>
+        </div>
         <div class="form-group">
           <div class="col-md-1"></div>
           <label for="input" class="col-md-3 control-label">Frame Number
