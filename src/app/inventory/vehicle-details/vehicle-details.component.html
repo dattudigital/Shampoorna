@@ -170,7 +170,7 @@
               <a style="color:red">*</a>
             </label>
             <div class="col-md-6">
-              <input type="text" formControlName="engineNumber" class="form-control" id="eng" placeholder="Engine Number" [ngClass]="{ 'is-invalid': submitted && f.engineNumber.errors }"
+              <input type="text" formControlName="engineNumber" class="form-control" id="eng" placeholder="Invoice Number" [ngClass]="{ 'is-invalid': submitted && f.engineNumber.errors }"
                 [(ngModel)]="engineNumber" (ngModelChange)="enableSave($event)" (keypress)="allow_numbers_alphabets($event)"
                 maxlength="50">
               <div *ngIf="submitted && f.engineNumber.errors" class="invalid-feedback">
@@ -198,7 +198,7 @@
               <a style="color:red">*</a>
             </label>
             <div class="col-md-6">
-              <input type="text" formControlName="engineNumber" class="form-control" id="eng" placeholder="Engine Number" [ngClass]="{ 'is-invalid': submitted && f.engineNumber.errors }"
+              <input type="text" formControlName="engineNumber" class="form-control" id="eng" placeholder="Sourced From" [ngClass]="{ 'is-invalid': submitted && f.engineNumber.errors }"
                 [(ngModel)]="engineNumber" (ngModelChange)="enableSave($event)" (keypress)="allow_numbers_alphabets($event)"
                 maxlength="50">
               <div *ngIf="submitted && f.engineNumber.errors" class="invalid-feedback">
