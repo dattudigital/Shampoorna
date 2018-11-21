@@ -16,13 +16,14 @@ export class VehicleModelComponent implements OnInit {
   temp: any;
   vehicle_model_id: '';
   model_name: '';
+  status: '';
   temp1: any;
   modeldeleteData: any = [];
   constructor(private router: Router, private http: Http) { }
 
   ngOnInit() {
     this.cols = [
-      { field: 'vehicle_model_id', header: ' Id' },
+      // { field: 'vehicle_model_id', header: ' Id' },
       { field: 'model_name', header: ' Name' }
     ];
     this.http.get(environment.host + 'vehicle-models').subscribe(data => {
@@ -57,13 +58,15 @@ export class VehicleModelComponent implements OnInit {
     this.temp = index;
     this.vehicle_model_id = this.editModelData[index].vehicle_model_id;
     this.model_name = this.editModelData[index].model_name;
+    this.status = this.editModelData[index].status;
+
   }
 
   updateModel() {
     var data = {
       vehicle_model_id: this.vehicle_model_id,
       model_name: this.model_name,
-      status: 1
+      status:this.status
     }
     console.log(data);
     this.http.post(environment.host + 'vehicle-models', data).subscribe(res => {

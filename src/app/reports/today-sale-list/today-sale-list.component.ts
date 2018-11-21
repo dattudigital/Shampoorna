@@ -3,6 +3,7 @@ import { Router } from '@angular/router'
 import { DashboardServiceService } from '../../services/dashboard-service.service';
 declare var jsPDF: any;
 import { ExcelServiceService } from '../../services/excel-service.service';
+import { NotificationsService } from 'angular2-notifications';
 @Component({
   selector: 'app-today-sale-list',
   templateUrl: './today-sale-list.component.html',
@@ -11,7 +12,8 @@ import { ExcelServiceService } from '../../services/excel-service.service';
 export class TodaySaleListComponent implements OnInit {
   todaySaleList: any = [];
   cols: any[];
-  constructor(private router: Router, private service: DashboardServiceService, private excelService: ExcelServiceService) { }
+  vehicleTypeFilter: '';
+  constructor(private router: Router, private notif: NotificationsService, private service: DashboardServiceService, private excelService: ExcelServiceService) { }
 
   ngOnInit() {
 
@@ -64,6 +66,44 @@ export class TodaySaleListComponent implements OnInit {
   }
   xlDownload() {
     this.excelService.exportAsExcelFile(this.todaySaleList, 'TodaySalesList');
+  }
+  detailsGo() {
+    var url = ''
+    if (this.vehicleTypeFilter) {
+      url = url + 'user_type=' + this.vehicleTypeFilter;
+    }
+    this.service.getTodayFilter(url).subscribe(res => {
+      console.log(res.json().status)
+      if (res.json().status == true) {
+        this.todaySaleList = res.json().result;
+        console.log(this.todaySaleList)
+        this.notif.success(
+          'Success',
+          'Filter Applied Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
+      else {
+        this.todaySaleList = res.json()._body;
+        this.notif.warn(
+          'Sorry',
+          'No Records Found',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
+    })
   }
 
 }

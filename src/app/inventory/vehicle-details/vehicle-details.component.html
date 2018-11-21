@@ -166,6 +166,50 @@
           <br>
           <div class="form-group">
             <div class="col-md-1"></div>
+            <label for="input" class="col-md-3 control-label">TVS-M Invoice No
+              <a style="color:red">*</a>
+            </label>
+            <div class="col-md-6">
+              <input type="text" formControlName="engineNumber" class="form-control" id="eng" placeholder="Invoice Number" [ngClass]="{ 'is-invalid': submitted && f.engineNumber.errors }"
+                [(ngModel)]="engineNumber" (ngModelChange)="enableSave($event)" (keypress)="allow_numbers_alphabets($event)"
+                maxlength="50">
+              <div *ngIf="submitted && f.engineNumber.errors" class="invalid-feedback">
+                <div *ngIf="f.engineNumber.errors.required" style="color:red">Invoice No is required</div>
+              </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-1"></div>
+            <label for="input" class="col-md-3 control-label">TVS-M Invoice Date
+              <a style="color:red">*</a>
+            </label>
+            <div class="col-md-6">
+              <div class="input-group">
+                <p-calendar [(ngModel)]="date1" name="fromDate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'341px'}"
+                  [showIcon]="true" placeholder="Select Date" [(ngModel)]="fromDate" dateFormat="dd-mm-yy" (ngModelChange)=" fromDa($event)"></p-calendar>
+              </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-1"></div>
+            <label for="input" class="col-md-3 control-label">Sourced From
+              <a style="color:red">*</a>
+            </label>
+            <div class="col-md-6">
+              <input type="text" formControlName="engineNumber" class="form-control" id="eng" placeholder="Sourced From" [ngClass]="{ 'is-invalid': submitted && f.engineNumber.errors }"
+                [(ngModel)]="engineNumber" (ngModelChange)="enableSave($event)" (keypress)="allow_numbers_alphabets($event)"
+                maxlength="50">
+              <div *ngIf="submitted && f.engineNumber.errors" class="invalid-feedback">
+                <div *ngIf="f.engineNumber.errors.required" style="color:red">Sourced from No is required</div>
+              </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-1"></div>
             <label for="input" class="col-md-3 control-label">Engine Number
               <a style="color:red">*</a>
             </label>
@@ -318,103 +362,6 @@
             </div>
             <div class="clear"></div>
           </div>
-
-          <div class="form-group">
-            <div class="col-md-1"></div>
-            <label for="input" class="col-md-3 control-label">Base Price
-              <a style="color:red">*</a>
-            </label>
-            <div class="col-md-2">
-              <input type="text" class="form-control" formControlName="vehicleCost" id="cost" placeholder="cost" [(ngModel)]="vehicleCost"
-                [ngClass]="{ 'is-invalid': submitted && f.vehicleCost.errors }" (ngModelChange)="enableSave($event)" (keypress)="only_allow_number($event)"
-                maxlength="50">
-              <div *ngIf="submitted && f.vehicleCost.errors" class="invalid-feedback">
-                <div *ngIf="f.vehicleCost.errors.required" style="color:red">Vehicle cost is required</div>
-              </div>
-            </div>
-            <label for="input" class="col-md-2 control-label">Life Tax
-              <a style="color:red">*</a>
-            </label>
-            <div class="col-md-2">
-              <input type="text" class="form-control" formControlName="vehicleLifeTax" id="ltax" placeholder="Life Tax" [(ngModel)]="vehicleLifeTax"
-                [ngClass]="{ 'is-invalid': submitted && f.vehicleLifeTax.errors }" (ngModelChange)="enableSave($event)" (keypress)="only_allow_number($event)"
-                maxlength="50">
-              <div *ngIf="submitted && f.vehicleLifeTax.errors" class="invalid-feedback">
-                <div *ngIf="f.vehicleLifeTax.errors.required" style="color:red">Vehicle cost is required</div>
-              </div>
-            </div>
-            <div class="clear"></div>
-          </div>
-
-          <div class="form-group">
-            <div class="col-md-1"></div>
-            <label for="input" class="col-md-3 control-label">Insurance
-              <a style="color:red">*</a>
-            </label>
-            <div class="col-md-2">
-              <input type="text" class="form-control" formControlName="vehicleInsurance" id="ins" placeholder="Insurance" [(ngModel)]="vehicleInsurance"
-                [ngClass]="{ 'is-invalid': submitted && f.vehicleInsurance.errors }" (ngModelChange)="enableSave($event)" (keypress)="only_allow_number($event)"
-                maxlength="50">
-              <div *ngIf="submitted && f.vehicleInsurance.errors" class="invalid-feedback">
-                <div *ngIf="f.vehicleInsurance.errors.required" style="color:red">Insurance is required</div>
-              </div>
-            </div>
-            <label for="input" class="col-md-2 control-label">Handling C
-              <a style="color:red">*</a>
-            </label>
-            <div class="col-md-2">
-              <input type="text" class="form-control" formControlName="vehicleHandling" id="handl" placeholder="Handling C" [(ngModel)]="vehicleHandling"
-                [ngClass]="{ 'is-invalid': submitted && f.vehicleHandling.errors }" (ngModelChange)="enableSave($event)" (keypress)="only_allow_number($event)"
-                maxlength="50">
-              <div *ngIf="submitted && f.vehicleHandling.errors" class="invalid-feedback">
-                <div *ngIf="f.vehicleHandling.errors.required" style="color:red">Handling C is required</div>
-              </div>
-            </div>
-            <div class="clear"></div>
-          </div>
-
-          <div class="form-group">
-            <div class="col-md-1"></div>
-            <label for="input" class="col-md-3 control-label">Registration
-              <a style="color:red">*</a>
-            </label>
-            <div class="col-md-2">
-              <input type="text" class="form-control" formControlName="vehicleRegistration" id="regis" placeholder="Registration" [(ngModel)]="vehicleRegistration"
-                [ngClass]="{ 'is-invalid': submitted && f.vehicleRegistration.errors }" (ngModelChange)="enableSave($event)"
-                (keypress)="only_allow_number($event)" maxlength="50">
-              <div *ngIf="submitted && f.vehicleRegistration.errors" class="invalid-feedback">
-                <div *ngIf="f.vehicleRegistration.errors.required" style="color:red">Registration is required</div>
-              </div>
-            </div>
-            <label for="input" class="col-md-2 control-label">HP
-              <a style="color:red">*</a>
-            </label>
-            <div class="col-md-2">
-              <input type="text" class="form-control" formControlName="vehicleHp" id="hp" placeholder="HP" [(ngModel)]="vehicleHp" [ngClass]="{ 'is-invalid': submitted && f.vehicleHp.errors }"
-                (ngModelChange)="enableSave($event)" (keypress)="only_allow_number($event)" maxlength="50">
-              <div *ngIf="submitted && f.vehicleHp.errors" class="invalid-feedback">
-                <div *ngIf="f.vehicleHp.errors.required" style="color:red">HP is required</div>
-              </div>
-            </div>
-            <div class="clear"></div>
-          </div>
-
-          <div class="form-group">
-            <div class="col-md-1"></div>
-            <label for="input" class="col-md-3 control-label">Standard Accessories
-              <a style="color:red">*</a>
-            </label>
-            <div class="col-md-2">
-              <input type="text" class="form-control" formControlName="vehicleStandardAcc" id="cost" placeholder="Standard" [(ngModel)]="vehicleStandardAcc"
-                [ngClass]="{ 'is-invalid': submitted && f.vehicleStandardAcc.errors }" (ngModelChange)="enableSave($event)"
-                (keypress)="only_allow_number($event)" maxlength="50">
-              <div *ngIf="submitted && f.vehicleStandardAcc.errors" class="invalid-feedback">
-                <div *ngIf="f.vehicleStandardAcc.errors.required" style="color:red">Standard Accessories is required</div>
-              </div>
-            </div>
-            <div class="clear"></div>
-          </div>
-
 
           <div class="form-group">
             <div class="col-md-1"></div>

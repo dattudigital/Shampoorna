@@ -10,10 +10,10 @@ import { DashboardServiceService } from '../services/dashboard-service.service';
 export class SaleDashboardComponent implements OnInit {
   todaySaleCount: '';
   totalsaleCount: '';
+  todaySaleData: '';
   loginData: any = [];
   errorMessage = false;
-  errorMessage2 =false;
-
+  errorMessage2 = false;
 
   constructor(private router: Router, private service: DashboardServiceService) { }
 
@@ -27,16 +27,24 @@ export class SaleDashboardComponent implements OnInit {
     console.log(this.loginData._results.emp_type_id);
 
     this.service.getTodaySale().subscribe(res => {
-      this.todaySaleCount = res.json().result.length;
-      console.log(this.todaySaleCount);
+      console.log(res.json())
+      if (res.json().status == true) {
+        this.todaySaleCount = res.json().result.length;
+        console.log(this.todaySaleCount);
+      } else {
+        this.todaySaleCount = '';
+      }
     });
     this.service.getTotalSale().subscribe(response => {
-      this.totalsaleCount = response.json().result.length;
-      console.log(this.totalsaleCount)
+      if (response.json().status == true) {
+        this.totalsaleCount = response.json().result.length;
+        console.log(this.totalsaleCount)
+      } else {
+        this.totalsaleCount = '';
+      }
+
     })
-
   }
-
 
   todaySaleClick() {
     if (this.loginData._results.emp_type_id == 2 || this.loginData._results.emp_type_id == 1) {

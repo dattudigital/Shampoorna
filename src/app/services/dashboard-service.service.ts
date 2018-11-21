@@ -17,4 +17,7 @@ export class DashboardServiceService {
   public getTotalSale(){
     return this.http.get(environment.host +'search/total-sale')
   }
+  public getTotalSalefilter(url:any){
+    return this.http.get(environment.host + 'search/total-sale?'+url)
+  }
 }

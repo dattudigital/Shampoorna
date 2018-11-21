@@ -254,6 +254,18 @@
 					</div>
 				</div>
 				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Vehicle Model </label>
+					<div class="col-sm-5">
+						<input type="text" name="color" maxlength="50" class="form-control" [(ngModel)]="vehicleColor" readonly>
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Vehicle Variant</label>
+					<div class="col-sm-5">
+						<input type="text" name="color" maxlength="50" class="form-control" [(ngModel)]="vehicleColor" readonly>
+					</div>
+				</div>
+				<div class="row form-group">
 					<label class="col-sm-4 col-form-label required">Nominee Name
 						<span style="color:red">*</span>
 					</label>
@@ -277,10 +289,32 @@
 					</label>
 					<div class="col-sm-5">
 						<div class="form-check pull-left">
-							<input class="form-check-input" type="checkbox" value="" id="defaultCheck1" [(ngModel)]="secondVehicle" (change)="secondVehicleClick()">
+							<input class="form-check-input" type="checkbox" value="" id="defaultCheck1" [(ngModel)]="secondVehicle" (change)="secondVehicleClick();addTotalTax()">
 						</div>
 					</div>
 				</div>
+
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required"> PR-
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="radio" name="pr">Yes &nbsp;&nbsp;
+						<input type="radio" name="pr">No &nbsp;&nbsp;
+					</div>
+				</div>
+
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Accessories
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="radio" name="pr">Yes &nbsp;&nbsp;
+						<input type="radio" name="pr">No &nbsp;&nbsp;
+					</div>
+				</div>
+
+
 				<div class="row form-group">
 					<div class="col-sm-12">
 						<h3>Pricing</h3>
@@ -301,7 +335,12 @@
 					</div>
 					<div class="col-sm-2">
 						<div class="input-group">
-							<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="lifeTaxAmount" readonly>
+							<div *ngIf="secondVehicle == true">
+								<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="total" readonly>
+							</div>
+							<div *ngIf="secondVehicle == false || lifetax">
+								<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="lifeTax" readonly>
+							</div>
 							<span>LifeTax</span>
 							<!-- <span *ngIf="secondVehicle == true">LifeTax(14%)</span> -->
 						</div>
@@ -311,7 +350,7 @@
 					</div>
 					<div class="col-sm-2">
 						<div class="input-group">
-							<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleInsuAmount" readonly>
+							<input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="VehicleInsu" readonly>
 							<span>insurance</span>
 						</div>
 					</div>
@@ -323,8 +362,8 @@
 					<label class="col-sm-3 col-form-label required"> </label>
 					<div class="col-sm-2">
 						<div class="input-group">
-							<input type="number" min="0" name="basic" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="handlingC"
-							 (ngModelChange)="addTotalTax()" readonly>
+							<input type="number" min="0" name="basic" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="HandlingC"
+							 readonly>
 
 							<span> Handling C</span>
 						</div>
@@ -334,8 +373,8 @@
 					</div>
 					<div class="col-sm-2">
 						<div class="input-group">
-							<input type="number" min="0" name="basic" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="vehicleReg"
-							 (ngModelChange)="addTotalTax()" readonly>
+							<input type="number" min="0" name="basic" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="Registration"
+							 readonly>
 							<span> Registration</span>
 						</div>
 					</div>
@@ -344,8 +383,8 @@
 					</div>
 					<div class="col-sm-2">
 						<div class="input-group">
-							<input type="number" min="0" name="basic" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="vehicleWarranty"
-							 (ngModelChange)="addTotalTax()" readonly>
+							<input type="number" min="0" name="basic" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="StandardAcc"
+							 readonly>
 							<span>Standard Accessories</span>
 						</div>
 					</div>
@@ -368,8 +407,8 @@
 					</div>
 					<div class="col-sm-2">
 						<div class="input-group">
-							<input type="number" min="0" name="basic" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="Hp"
-							 (ngModelChange)="addTotalTax()" readonly>
+							<input type="number" min="0" name="basic" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="VehicleHp"
+							 readonly>
 							<span> HP</span>
 						</div>
 					</div>
@@ -402,13 +441,13 @@
 					<label class="col-sm-4 col-form-label required">Total Amount
 					</label>
 					<div class="col-sm-5">
-						<input type="number" min="0" name="model" maxlength="50" class="form-control" [(ngModel)]="basicwithTax">
+						<input type="number" name="model" maxlength="50" class="form-control" [(ngModel)]="onRoadPrice">
 					</div>
 				</div>
 				<br>
 			</div>
 
-			<div class="col-sm-12">
+			<!-- <div class="col-sm-12">
 				<div class="pr-style">
 					<div class="col-sm-4">
 						<label>PR-</label> &nbsp;&nbsp;
@@ -425,12 +464,9 @@
 						</div>
 					</div>
 					<div class="col-sm-4">
-						<!-- <label>Extended Warranty-</label> &nbsp;&nbsp;
-						<input type="radio" name="extended">Yes &nbsp;&nbsp;
-						<input type="radio" name="extended">No &nbsp;&nbsp; -->
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 		<div class="clear"></div>
 	</div>
@@ -749,8 +785,9 @@
 							<span style="color:red">*</span>
 						</label>
 						<div class="col-sm-3">
-							<input type="number" min="0" (keypress)="only_allow_number($event)" name="down"  class="form-control" placeholder="Down Payment"
-							 [(ngModel)]="paymentEmi.downPayment" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="1onimn0">
+							<input type="number" min="0" (keypress)="only_allow_number($event)" name="down" class="form-control" placeholder="Down Payment"
+							 [(ngModel)]="paymentEmi.downPayment" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+							 maxlength="10">
 						</div>
 					</div>
 					<div class=" row form-group">
