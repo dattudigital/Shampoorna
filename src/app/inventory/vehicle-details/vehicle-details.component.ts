@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { VehicleDetailService } from '../../services/vehicle-detail.service';
 import { environment } from '../../../environments/environment';
@@ -7,7 +7,7 @@ import { NotificationsService } from 'angular2-notifications';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 declare var $: any;
-
+import { AllVehicleService } from '../../services/all-vehicle.service';
 @Component({
   selector: 'app-vehicle-details',
   templateUrl: './vehicle-details.component.html',
@@ -21,6 +21,7 @@ export class VehicleDetailsComponent implements OnInit {
   editData: any = [];
   public date1: any;
   public date2: any;
+  public date3: any;
 
   typeData: any[];
   makeData: any[];
@@ -45,7 +46,7 @@ export class VehicleDetailsComponent implements OnInit {
   gateNumber = "";
   frameNumber = "";
   dcNumber = "";
-  invoiceNumber = "";
+  // invoiceNumber = "";
   vehicleLifeTax = "";
   vehicleInsurance = "";
   vehicleHandling = "";
@@ -66,7 +67,12 @@ export class VehicleDetailsComponent implements OnInit {
   public options = { position: ["top", "right"] }
   // addnewvehicle = false;
 
-  constructor(private router: Router, private service: VehicleDetailService, private http: Http, private formBuilder: FormBuilder, private notif: NotificationsService) { }
+  constructor(private router: Router, private cdr: ChangeDetectorRef, private allvehicleservice: AllVehicleService, private service: VehicleDetailService, private http: Http, private formBuilder: FormBuilder, private notif: NotificationsService) { }
+
+  ngAfterViewChecked() {
+
+    this.cdr.detectChanges();
+  }
 
   ngOnInit() {
     // this.roleLogin1();
@@ -80,70 +86,43 @@ export class VehicleDetailsComponent implements OnInit {
       vehicleType: ['', Validators.required],
       vehicleColor: ['', Validators.required],
       vehicleModel: ['', Validators.required],
-      gateNumber: ['', Validators.required],
       frameNumber: ['', Validators.required],
       vehicleVariant: ['', Validators.required],
-      invoiceNum: ['', Validators.required],
       sourcedFrom: ['', Validators.required],
-      dcNumber: ['', Validators.required]
     });
 
     this.cols = [
-      { field: 'vechicle_invoiceno', header: 'Invoice No' },
-      { field: 'vehicle_invoice_date', header: 'Invoice Date' },
-      { field: 'vehicle_source_from', header: 'Sorce From' },
-      { field: 'type_name', header: 'Type' },
+      { field: 'TVS-M Invoice No', header: 'Invoice No' },
+      // { field: 'vehicle_invoice_date', header: 'Invoice Date' },
+      { field: 'Sourced from', header: 'Sorce From' },
+      { field: 'type_name', header: 'Category' },
       { field: 'model_name', header: 'Model' },
       { field: 'color_name', header: 'Color' },
-      { field: 'variant_name', Hearer: 'Variant' },
-      { field: 'vehicle_engineno', header: 'Engine No.' },
-      { field: 'vehicle_frameno', header: 'Frame No.' },
-      { field: 'vechile_gatepass', header: 'Gate Pass' },
+      { field: 'variant_name', header: 'Variant' },
+      { field: 'Engine No', header: 'Engine No' },
+      { field: 'Frame No', header: 'Frame No' },
     ];
-
+    this.allvehicleservice.getColor().subscribe(data => {
+      console.log(data.json())
+      this.colorData = data.json().result;
+    });
+    this.allvehicleservice.getCategory().subscribe(data => {
+      console.log(data.json())
+      this.typeData = data.json().result;
+    });
+    this.allvehicleservice.getModel().subscribe(data => {
+      this.modelData = data.json().result;
+      console.log(this.modelData)
+    });
+    this.allvehicleservice.getVariant().subscribe(data => {
+      this.variantData = data.json().result;
+      console.log(this.variantData)
+    })
     this.http.get(environment.host + 'vehicle-makes').subscribe(data => {
       console.log(data.json())
       this.makeData = data.json().result;
     });
-
-    this.http.get(environment.host + 'vehicle-models').subscribe(data => {
-      console.log(data.json())
-      this.modelData = data.json().result;
-    });
-
-    this.http.get(environment.host + 'vehicle-variants').subscribe(data => {
-      console.log(data.json())
-      this.variantData = data.json().result;
-    });
-
-    this.http.get(environment.host + 'vehicle-colors').subscribe(data => {
-      console.log(data.json())
-      this.colorData = data.json().result;
-    });
-
-    this.http.get(environment.host + 'vehicle-types').subscribe(data => {
-      console.log(data.json())
-      this.typeData = data.json().result;
-    });
   }
-
-  // roleLogin1() {
-  //   console.log("###111#####")
-  //   let loginData1 = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
-  //   console.log(loginData1);
-  //   if (loginData1.status == true && loginData1._results.emp_type_id == 1) {
-  //     console.log("1111")
-  //     this.addnewvehicle = true;
-  //     sessionStorage.setItem('backBtnInventory', 'Y');
-  //     // this.titleStyle = "visible";
-  //   }else if (loginData1.status == true && loginData1._results.emp_type_id == 3) {
-  //     console.log("33333")
-  //     this.addnewvehicle = true;
-  //     sessionStorage.setItem('backBtnInventory', 'Y');
-  //     // this.titleStyle = "visible";
-  //   }
-  // }
-
   backToInventory() {
     this.router.navigate(['inventory']);
   }
@@ -158,14 +137,23 @@ export class VehicleDetailsComponent implements OnInit {
 
   get f() { return this.vehicleForm.controls; }
 
+  removeFields() {
+    console.log('remove ngmodel')
+    this.submitted = false;
+    this.invoiceNum = '';
+    this.invoiceDate = '';
+    this.sourcedFrom = '';
+    this.vehicleType = '';
+    this.vehicleModel = '';
+    this.vehicleVariant = '';
+    this.vehicleColor = '';
+    this.engineNumber = '';
+    this.frameNumber = '';
+    this.gateNumber = '';
+    this.dcNumber = '';
+  }
   addVehicle() {
     this.submitted = true;
-    console.log(this.engineNumber,
-      this.vehicleType.type_name,
-      this.vehicleModel.model_name,
-      this.vehicleColor.color_name,
-      this.vehicleVariant.variant_name
-    );
     if (this.vehicleForm.invalid) {
       return;
     }
@@ -178,30 +166,29 @@ export class VehicleDetailsComponent implements OnInit {
       console.log(this.engineNum2)
     }
     var data = {
-      vechicle_invoiceno: this.invoiceNum,
-      vehicle_invoice_date: this.invoiceDate,
-      vehicle_source_from: this.sourcedFrom,
+      "TVS-M Invoice No": this.invoiceNum,
+      "TVS-M Invoice Date": this.invoiceDate,
+      "Sourced from": this.sourcedFrom,
       vehicle_type: this.vehicleType.vehicle_type_id,
       vehicle_model: this.vehicleModel.vehicle_model_id,
       vehicle_variant: this.vehicleVariant.vehicle_variant_id,
       vehicle_color: this.vehicleColor.vehicle_color_id,
-      vehicle_engineno: this.engineNumber,
-      vehicle_frameno: this.frameNumber,
+      "Engine No": this.engineNumber,
+      "Frame No": this.frameNumber,
       vechile_gatepass: this.gateNumber,
       vechicle_dcno: this.dcNumber,
-      engine1: this.engineNum1,
-      engine2: this.engineNum2,
+      "Engine #1": this.engineNum1,
+      "Engine #2": this.engineNum2,
       status: "1"
     }
-
     console.log(data);
-
     var insertData = {
       color_name: this.vehicleColor.color_name
     }
 
     this.service.addVehicleDetails(data).subscribe(res => {
       console.log(res.json().result);
+
       if (res.json().status == true) {
         this.notif.success(
           'Success',
@@ -219,32 +206,25 @@ export class VehicleDetailsComponent implements OnInit {
       insertData = res.json().result;
       this.bikes.push(res.json().result)
       $('#addVehicle').modal('hide');
-
-    })
-
-    this.invoiceNum = '';
-    this.invoiceDate = '';
-    this.sourcedFrom = '';
-    this.vehicle_type = '';
-    this.vehicle_model = '';
+    });
 
   }
   vehicle_id = '';
-  vehicle_engineno = '';
-  vehicle_name = '';
+  vechicle_invoiceno: any;
+  vehicle_invoice_date = '';
+  vehicle_source_from = '';
   vehicle_type = '';
-  vehicle_color = '';
-  vehicle_make = '';
   vehicle_model = '';
-  vehicle_cost = '';
-  vechile_key = '';
+  vehicle_color = '';
+  vehicle_variant = '';
+  vehicle_engineno = '';
   vehicle_frameno = '';
   vechicle_dcno = '';
-  vechicle_invoiceno = '';
+  vechile_gatepass = '';
   status = '';
   temp: any;
 
-
+  VehicleInvoiceDate: any;
 
   editVehicle(data, index) {
     console.log("******************")
@@ -253,39 +233,58 @@ export class VehicleDetailsComponent implements OnInit {
     data.index = index;
     this.temp = index;
     console.log(this.editData[index].vehicle_id)
+    console.log()
+    let newDate = moment(this.editData[index].vehicle_invoice_date).format('DD-MM-YYYY').toString();
+    this.VehicleInvoiceDate = newDate;
+    console.log(this.VehicleInvoiceDate);
+    console.log(this.editData[index].vechicle_invoiceno)
     this.vehicle_id = this.editData[index].vehicle_id;
-    this.vehicle_name = this.editData[index].vehicle_name;
+    this.vechicle_invoiceno = this.editData[index]["TVS-M Invoice No"];
+    this.vehicle_source_from = this.editData[index]["Sourced from"]
     this.vehicle_type = this.editData[index].vehicle_type;
-    this.vehicle_engineno = this.editData[index].vehicle_engineno;
-    this.vehicle_color = this.editData[index].vehicle_color;
     this.vehicle_model = this.editData[index].vehicle_model;
-    this.vehicle_make = this.editData[index].vehicle_make;
-    this.vehicle_cost = this.editData[index].vehicle_cost;
-    this.vechile_key = this.editData[index].vechile_key;
-    this.vehicle_frameno = this.editData[index].vehicle_frameno;
+    this.vehicle_color = this.editData[index].vehicle_color;
+    this.vehicle_variant = this.editData[index].vehicle_variant;
+    this.vehicle_engineno = this.editData[index]["Engine No"];
+    this.vehicle_frameno = this.editData[index]["Frame No"];
     this.vechicle_dcno = this.editData[index].vechicle_dcno;
-    this.vechicle_invoiceno = this.editData[index].vechicle_invoiceno;
+    this.vechile_gatepass = this.editData[index].vechile_gatepass;
     this.status = this.editData[index].status;
+  }
+  update: any;
+  getInvoiceDate() {
+    let newdate = new Date(this.VehicleInvoiceDate)
+    console.log(newdate)
 
-
+    this.update = newdate.getFullYear() + '-' + (newdate.getMonth() + 1) + '-' + newdate.getDate();
+    console.log(this.update)
   }
 
   updateVehicle() {
     //console.log(val);
+    if (this.vehicle_engineno) {
+      var number = this.vehicle_engineno;
+      this.engineNum1 = number.substring(0, 5);
+      this.engineNum2 = number.substring(5, 12);
+      console.log(this.engineNum1);
+      console.log(this.engineNum2)
+    }
     var data = {
       vehicle_id: this.vehicle_id,
-      vehicle_engineno: this.vehicle_engineno,
-      vehicle_name: this.vehicle_name,
-      vehicle_color: this.vehicle_color,
-      vehicle_type: this.vehicle_type,
-      vehicle_make: this.vehicle_make,
-      vehicle_model: this.vehicle_model,
-      vehicle_cost: this.vehicle_cost,
-      vechile_key: this.vechile_key,
-      vehicle_frameno: this.vehicle_frameno,
-      vechicle_dcno: this.vechicle_dcno,
-      vechicle_invoiceno: this.vechicle_invoiceno,
-      status: this.status
+      "TVS-M Invoice No": this.vechicle_invoiceno,
+      "TVS-M Invoice Date": this.update,
+      "Sourced from": this.vehicle_source_from,
+      vehicle_type: this.vehicleType,
+      vehicle_model: this.vehicleModel,
+      vehicle_variant: this.vehicleVariant,
+      vehicle_color: this.vehicleColor,
+      "Engine No": this.vehicle_engineno,
+      "Frame No": this.vehicle_frameno,
+      vechile_gatepass: this.gateNumber,
+      vechicle_dcno: this.dcNumber,
+      "Engine #1": this.engineNum1,
+      "Engine #2": this.engineNum2,
+      status: "1"
     }
     console.log(data)
     this.service.addVehicleDetails(data).subscribe(res => {
@@ -305,21 +304,18 @@ export class VehicleDetailsComponent implements OnInit {
       }
       console.log("*******")
       console.log(this.temp)
-      // console.log(res.json().result);
-      // this.bikes.push(res,this.temp)
-      //this.temp.push(res)
       this.bikes[this.temp].vehicle_id = data.vehicle_id;
-      this.bikes[this.temp].vehicle_engineno = data.vehicle_engineno;
-      this.bikes[this.temp].vehicle_name = data.vehicle_name;
+      this.bikes[this.temp]["TVS-M Invoice No"] = data["TVS-M Invoice No"];
+      this.bikes[this.temp]["TVS-M Invoice Date"] = data["TVS-M Invoice Date"];
+      this.bikes[this.temp]["Sourced from"] = data["Sourced from"];
       this.bikes[this.temp].vehicle_color = data.vehicle_color;
       this.bikes[this.temp].vehicle_type = data.vehicle_type;
-      this.bikes[this.temp].vehicle_make = data.vehicle_make;
       this.bikes[this.temp].vehicle_model = data.vehicle_model;
-      this.bikes[this.temp].vehicle_cost = data.vehicle_cost;
-      this.bikes[this.temp].vechile_key = data.vechile_key;
-      this.bikes[this.temp].vehicle_frameno = data.vehicle_frameno;
+      this.bikes[this.temp].vehicle_variant = data.vehicle_variant;
+      this.bikes[this.temp]["Frame No"] = data["Frame No"];
+      this.bikes[this.temp]["Engine No"] = data["Engine No"];
       this.bikes[this.temp].vechicle_dcno = data.vechicle_dcno;
-      this.bikes[this.temp].vechicle_invoiceno = data.vechicle_invoiceno;
+      this.bikes[this.temp].vechile_gatepass = data.vechile_gatepass;
       this.bikes[this.temp].status = data.status;
       this.temp = " ";
     })
