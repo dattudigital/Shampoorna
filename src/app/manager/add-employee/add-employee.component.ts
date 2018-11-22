@@ -23,11 +23,12 @@ export class AddEmployeeComponent implements OnInit {
   temp: any;
   temp1: any;
   empData: any;
+  brData: any;
 
   employee_id: '';
   employee_firstname: '';
   employee_lastname: '';
-  employee_branch: '';
+  employee_branch_id: '';
   employee_address: '';
   employee_pincode: '';
   email_id: '';
@@ -79,12 +80,17 @@ export class AddEmployeeComponent implements OnInit {
       console.log(data.json())
       this.empData = data.json().result;
     });
+    
+    this.http.get(environment.host + 'branches').subscribe(data => {
+      console.log(data.json())
+      this.brData = data.json().result;
+    });
 
 
     this.cols = [
       { field: 'employee_firstname', header: 'First Name' },
       { field: 'employee_lastname', header: 'Last Name' },
-      { field: 'employee_branch', header: 'Branch' },
+      { field: 'branch_name', header: 'Branch' },
       { field: 'employee_address', header: 'Address' },
       { field: 'email_id', header: 'Email' },
       { field: 'phone', header: 'Phone' },
@@ -169,8 +175,7 @@ export class AddEmployeeComponent implements OnInit {
       this.branch = '',
       this.phone = '',
       this.address = '',
-      this.pincode = '',
-      this.employeeType = ''
+      this.pincode = ''
   }
 
 
@@ -185,7 +190,7 @@ export class AddEmployeeComponent implements OnInit {
     var data = {
       employee_firstname: this.firstName,
       employee_lastname: this.lastName,
-      employee_branch: this.branch,
+      employee_branch_id: this.branch,
       employee_address: this.address,
       employee_pincode: this.pincode,
       email_id: this.emailId,
@@ -215,11 +220,11 @@ export class AddEmployeeComponent implements OnInit {
     this.editData = data;
     data.index = index;
     this.temp = index;
-    console.log(this.editData[index].employee_id)
+    console.log(this.editData[index].employee_branch_id)
     this.employee_id = this.editData[index].employee_id,
       this.employee_firstname = this.editData[index].employee_firstname,
       this.employee_lastname = this.editData[index].employee_lastname,
-      this.employee_branch = this.editData[index].employee_branch,
+      this.employee_branch_id = this.editData[index].employee_branch_id,
       this.employee_address = this.editData[index].employee_address,
       this.employee_pincode = this.editData[index].employee_pincode,
       this.email_id = this.editData[index].email_id,
@@ -235,7 +240,7 @@ export class AddEmployeeComponent implements OnInit {
       employee_id: this.employee_id,
       employee_firstname: this.employee_firstname,
       employee_lastname: this.employee_lastname,
-      employee_branch: this.employee_branch,
+      employee_branch_id: this.employee_branch_id,
       employee_address: this.employee_address,
       employee_pincode: this.employee_pincode,
       email_id: this.email_id,
@@ -249,7 +254,7 @@ export class AddEmployeeComponent implements OnInit {
       console.log(this.temp)
       this.employees[this.temp].employee_firstname = data.employee_firstname;
       this.employees[this.temp].employee_lastname = data.employee_lastname;
-      this.employees[this.temp].employee_branch = data.employee_branch;
+      this.employees[this.temp].employee_branch_id = data.employee_branch_id;
       this.employees[this.temp].employee_address = data.employee_address;
       this.employees[this.temp].employee_pincode = data.employee_pincode;
       this.employees[this.temp].email_id = data.email_id;

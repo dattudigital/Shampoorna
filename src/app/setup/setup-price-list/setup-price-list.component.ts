@@ -1,47 +1,57 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
-import * as XLSX from 'xlsx';
+import { environment } from '../../../environments/environment';
+import { DatePipe } from '@angular/common';
+import { Http } from '@angular/http';
 
 @Component({
   selector: 'app-setup-price-list',
   templateUrl: './setup-price-list.component.html',
-  styleUrls: ['./setup-price-list.component.css']
+  styleUrls: ['./setup-price-list.component.css'],
+  providers: [
+    DatePipe
+  ]
 })
 export class SetupPriceListComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  addList: any[];
+  cols: any[];
 
-  arrayBuffer:any;
-  file:File;
-  incomingfile(event) 
-   {
-    this.file= event.target.files[0]; 
-   }
+  constructor(private router: Router, private http: Http, private dp: DatePipe) { }
 
-
+  
   ngOnInit() {
+    this.http.get(environment.host + 'setup-price-lists').subscribe(res => {
+      console.log(res.json().result)
+      this.addList = res.json().result
+    });
+
+    this.cols = [
+      { field: 'pricing_list_date', header: 'List Date', type: this.dp },
+      { field: 'ex_price', header: 'Ex-price' },
+      { field: 'ltax_tr', header: 'LTAX & TR' },
+      { field: 'ins_1yr_cmprncv_5yr_3rd_prty', header: 'INS - 1 Yr Comprh and 5 Yr Third Party' },
+      { field: 'faciliation_chrgs', header: 'FACILIATION CHARGES' },
+      { field: 'total', header: 'TOTAL' },
+      { field: 'std_accessories', header: 'STD ACC' },
+      { field: 'optnl_accessories' , header:'Optional ACC'},
+      { field: 'op_one_nil_dip_1_+_5', header: 'Optional NIL DIP - 1+ 5Yr' }, 
+      { field: 'registration_cost', header: 'Registation Cost' },
+      { field: 'hp_charges', header: 'HP Charges' },
+      { field: 'total_1_+_5_tp_without_nildip', header: 'TOTAL RS. With I Year + 5Y TP INS - Without NIL Dip' },
+      { field: 'total_1_+_5_tp_with_nildip', header: 'TOTAL RS. With I Year + 5Y TP INS - With NIL Dip' },
+      { field: 'custm_pay_without_nil_dip', header: 'Customer To Pay - Without PR/NIL DIP' },
+      { field: 'custm_pay_with_nil_dip', header: 'Customer To Pay - with PR+NIL DIP' },
+      { field: 'price_list_type', header: 'Type' },
+    ];
+
   }
   backToSetup() {
     this.router.navigate(['setup'])
   }
 
-  Upload() {
-    let fileReader = new FileReader();
-    fileReader.onload = (e) => {
-      console.log(fileReader.result)
-      this.arrayBuffer = fileReader.result;
-      var data = new Uint8Array(this.arrayBuffer);
-      console.log(data)
-      var arr = new Array();
-      for (var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
-      var bstr = arr.join("");
-      var workbook = XLSX.read(bstr, { type: "binary" });
-      var first_sheet_name = workbook.SheetNames[0];
-      var worksheet = workbook.Sheets[first_sheet_name];
-      var list = XLSX.utils.sheet_to_json(worksheet, { raw: true })
-      console.log(list);
-    }
-    fileReader.readAsArrayBuffer(this.file);
+  redirctToAddPriceList(){
+    this.router.navigate(['setup/price-list/add-list'])
   }
 
 }

@@ -61,6 +61,7 @@ import { VehicleModelComponent } from './setup/setup-vehicle/vehicle-model/vehic
 import { VehicleVariantComponent } from './setup/setup-vehicle/vehicle-variant/vehicle-variant.component';
 import { VehicleColorComponent } from './setup/setup-vehicle/vehicle-color/vehicle-color.component';
 import { VehicleMadeComponent } from './setup/setup-vehicle/vehicle-made/vehicle-made.component';
+import { AddPriceListComponent } from './setup/add-price-list/add-price-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -99,6 +100,8 @@ const routes: Routes = [
   { path: 'setup/vehicle-variant', component: VehicleVariantComponent, canActivate: [AuthGuard] },
   { path: 'setup/vehicle-color', component: VehicleColorComponent, canActivate: [AuthGuard] },
   { path: 'setup/vehicle-make', component: VehicleMadeComponent, canActivate: [AuthGuard] },
+  { path: 'setup/price-list/add-list', component: AddPriceListComponent, canActivate: [AuthGuard] },
+
 
 ];
 
@@ -142,7 +145,8 @@ const routes: Routes = [
     VehicleModelComponent,
     VehicleVariantComponent,
     VehicleColorComponent,
-    VehicleMadeComponent
+    VehicleMadeComponent,
+    AddPriceListComponent
 
   ],
   imports: [
