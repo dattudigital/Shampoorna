@@ -28,20 +28,16 @@ export class AddVehicleBulkComponent implements OnInit {
 
   ngOnInit() {
     this.service.getColor().subscribe(data => {
-      console.log(data.json())
       this.colorData = data.json().result;
     });
     this.service.getCategory().subscribe(data => {
-      console.log(data.json())
       this.typeData = data.json().result;
     });
     this.service.getModel().subscribe(data => {
       this.modelData = data.json().result;
-      console.log(this.modelData)
     });
     this.service.getVariant().subscribe(data => {
       this.variantData = data.json().result;
-      console.log(this.variantData)
     })
   }
 
@@ -61,8 +57,6 @@ export class AddVehicleBulkComponent implements OnInit {
       var first_sheet_name = workbook.SheetNames[0];
       var worksheet = workbook.Sheets[first_sheet_name];
       this.list = XLSX.utils.sheet_to_json(worksheet, { raw: false })
-      // console.log(list); // list.Colour
-      // this.colorData.color_name
       this.list.map(item => {
         this.colorData.map(color => {
           if (item["Colour"] == color.color_name) {
@@ -71,40 +65,36 @@ export class AddVehicleBulkComponent implements OnInit {
           }
         });
         this.typeData.map(type => {
-          console.log("***********888")
           if (item["Category"] == null) {
 
           } else {
             if (item["Category"].toLowerCase() == type.type_name.toLowerCase()) {
-              console.log(type.vehicle_type_id)
               item["vehicle_type"] = type.vehicle_type_id;
               delete item["Category"];
             }
           }
         });
         this.modelData.map(model => {
-          console.log("model id")
           if (item["Model"] == null) {
 
           } else {
             if (item["Model"].toLowerCase() == model.model_name.toLowerCase()) {
-              console.log(model.vehicle_model_id);
               item["vehicle_model"] = model.vehicle_model_id;
               delete item["Model"];
             }
           }
         });
         this.variantData.map(variant => {
-          console.log("variant id")
           if (item["Variant"] == null) {
 
           } else {
             if (item["Variant"].toLowerCase() == variant.variant_name.toLowerCase()) {
-              console.log(variant.variant_name);
               item["vehicle_variant"] = variant.vehicle_variant_id;
               delete item["variant"]
             }
           }
+          // item["vehicle_variant"] = 1;
+          // delete item["variant"];
         })
       });
       console.log(this.list)
@@ -113,7 +103,7 @@ export class AddVehicleBulkComponent implements OnInit {
   }
 
   addBulkVehicles() {
-    this.vehicleservice.addVehicleDetails(this.list).subscribe(res => {
+    this.vehicleservice.addVehicleDetailBulk(this.list).subscribe(res => {
       console.log(res.json());
     })
   }
