@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { VehicleDetailService } from '../../services/vehicle-detail.service'
+import { VehicleDetailService } from '../../services/vehicle-detail.service';
 import { environment } from '../../../environments/environment';
 import { Http } from '@angular/http';
 import { NotificationsService } from 'angular2-notifications';
