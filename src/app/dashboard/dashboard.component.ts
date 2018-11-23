@@ -63,6 +63,8 @@ export class DashboardComponent implements OnInit {
   vehicleDcNo = '';
   vehicleKeyNo = ''
   vehicleColor = '';
+  vehicleModel ='';
+  vehicleVariant ='';
   nomineeName = '';
   nomineeDob = '';
   secondVehicle = '';
@@ -521,18 +523,18 @@ export class DashboardComponent implements OnInit {
     }
 
   }
-  // typeaheadNoResults(event: boolean): void {
-  //   this.noResult = event;
-  // }
+
   tempOnRoadPrice: number;
   onSelect(event: TypeaheadMatch): void {
     this.onRoadPrice = 0
     this.selectedOption = event.item;
-    console.log(this.selectedOption);
-    this.vehicleFrameNo = this.selectedOption.vehicle_frameno;
+    console.log(this.selectedOption);   
+    this.vehicleFrameNo = this.selectedOption["Frame No"];
     this.vehicleDcNo = this.selectedOption.vechicle_dcno;
     this.vehicleKeyNo = this.selectedOption.vechile_gatepass;
     this.vehicleColor = this.selectedOption.color_name;
+    this.vehicleModel = this.selectedOption.model_name;
+    this.vehicleVariant =this.selectedOption.vehicle_variant
     this.vehicleBasic = this.selectedOption.vehicle_cost;
     this.lifeTax = this.selectedOption.vehicle_life_tax;
     this.VehicleInsu = this.selectedOption.vehicle_insurance;

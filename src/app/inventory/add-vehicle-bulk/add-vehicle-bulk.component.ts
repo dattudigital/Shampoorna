@@ -105,7 +105,7 @@ export class AddVehicleBulkComponent implements OnInit {
 
   addBulkVehicles() {
     this.vehicleservice.addVehicleDetailBulk(this.list).subscribe(res => {
-      console.log(res.json());
+      console.log(res.json().result);
     })
   }
 

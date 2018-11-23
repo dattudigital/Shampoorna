@@ -81,6 +81,9 @@ export class ReportsComponent implements OnInit {
       this.btnDisable = true;
     }
   }
+  RedirectToHome(){
+    this.router.navigate(['sale-dashboard'])
+  }
   loginSubmite() {
     // console.log("*******")
     // console.log(sessionStorage)

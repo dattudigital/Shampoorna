@@ -59,7 +59,7 @@ export class SaleDashboardComponent implements OnInit {
   }
   totalSaleClick() {
     if (this.loginData._results.emp_type_id == 2 || this.loginData._results.emp_type_id == 1) {
-      this.router.navigate(['reports/today-sale-list']);
+      this.router.navigate(['reports/total-sale-list']);
     } else {
       this.errorMessage2 = true;
       setTimeout(() => {
