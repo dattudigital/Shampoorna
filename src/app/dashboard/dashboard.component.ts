@@ -345,7 +345,7 @@ export class DashboardComponent implements OnInit {
           vechile_gatepass: this.vehicleKeyNo,
           vechicle_color: this.vehicleColor,
           Nominee_name: this.nomineeName,
-          nomine_dob:this.nomineeDob,
+          nomine_dob: this.nomineeDob,
           second_vechile: this.secondVehicle,
           basic_price: this.vehicleBasic,
           life_tax: this.lifeTax,
@@ -485,18 +485,16 @@ export class DashboardComponent implements OnInit {
   engineSearch(val) {
     if (val.length >= 2) {
       this.saleUserService.searchEngine(val).subscribe(data => {
+        console.log(data.json().result);
         this.temp = [];
         this.temp.push(data.json().result);
-        // console.log("**********");
-        // console.log(this.temp);
-        // console.log(this.temp.pop());
-        // console.log(data.json());
         if (data.json().status == false) {
           this.vehicleInfo = [];
           this.noResult = true;
         } else {
           this.noResult = false;
           this.vehicleInfo = this.temp.pop();
+          console.log(this.vehicleInfo)
         }
       })
     } else {
@@ -728,15 +726,15 @@ export class DashboardComponent implements OnInit {
       sum = sum + this.vehicleAcc
     }
 
-      if (this.isNumber(this.total)) {
-        sum = sum + this.total
-      }
-  
-  
+    if (this.isNumber(this.total)) {
+      sum = sum + this.total
+    }
+
+
     if (this.isNumber(this.discount)) {
       sum = sum - this.discount
     }
-    
+
     if (sum) {
       this.withAcc = temp1 * 1 + sum * 1;
       this.onRoadPrice = this.withAcc;

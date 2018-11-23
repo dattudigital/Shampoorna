@@ -38,6 +38,7 @@ export class AddVehicleBulkComponent implements OnInit {
     });
     this.service.getVariant().subscribe(data => {
       this.variantData = data.json().result;
+      console.log(this.variantData)
     })
   }
 
@@ -90,7 +91,7 @@ export class AddVehicleBulkComponent implements OnInit {
           } else {
             if (item["Variant"].toLowerCase() == variant.variant_name.toLowerCase()) {
               item["vehicle_variant"] = variant.vehicle_variant_id;
-              delete item["variant"]
+              delete item["Variant"]
             }
           }
           // item["vehicle_variant"] = 1;
