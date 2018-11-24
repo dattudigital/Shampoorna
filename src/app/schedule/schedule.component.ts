@@ -12,10 +12,11 @@ export class ScheduleComponent implements OnInit {
   ngOnInit() {
     sessionStorage.removeItem('secondaryLoginData');  
     sessionStorage.removeItem('secondaryLoginData1'); 
-    sessionStorage.removeItem('secondaryLoginData2'); 
-    sessionStorage.removeItem('backBtnReports');  
-    sessionStorage.removeItem('backBtnInventory');
-    sessionStorage.removeItem('backBtnManager'); 
+    sessionStorage.removeItem('secondaryLoginData2');
+    sessionStorage.removeItem('secondaryLoginData3');  
+    // sessionStorage.removeItem('backBtnReports');  
+    // sessionStorage.removeItem('backBtnInventory');
+    // sessionStorage.removeItem('backBtnManager'); 
   }
 
 }

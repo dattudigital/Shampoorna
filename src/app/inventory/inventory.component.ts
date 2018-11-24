@@ -32,9 +32,10 @@ export class InventoryComponent implements OnInit {
   ngOnInit() {
     sessionStorage.removeItem('secondaryLoginData1'); 
     sessionStorage.removeItem('secondaryLoginData2'); 
-    sessionStorage.removeItem('backBtnReports'); 
-    sessionStorage.removeItem('backBtnTimeclocks');
-    sessionStorage.removeItem('backBtnManager'); 
+    sessionStorage.removeItem('secondaryLoginData3'); 
+    // sessionStorage.removeItem('backBtnReports'); 
+    // sessionStorage.removeItem('backBtnTimeclocks');
+    // sessionStorage.removeItem('backBtnManager'); 
 
     this.loginPopUp();
     this.roleLogin();
@@ -66,7 +67,7 @@ export class InventoryComponent implements OnInit {
       this.listindent = true;
       this.inventoryass = true;
       this.acknowledgement = true;
-      sessionStorage.setItem('backBtnInventory', 'Y');
+      // sessionStorage.setItem('backBtnInventory', 'Y');
       this.titleStyle = "visible";
       this.spinner.hide();
     } else if (loginData.status == true && loginData._results.emp_type_id == 2) {
@@ -74,7 +75,7 @@ export class InventoryComponent implements OnInit {
       this.inventorylist = true;
       this.indentraise = true;
       this.acknowledgement = true;
-      sessionStorage.setItem('backBtnInventory', 'Y');
+      // sessionStorage.setItem('backBtnInventory', 'Y');
       this.titleStyle = "visible";
       this.spinner.hide();
     } else if (loginData.status == true && loginData._results.emp_type_id == 3) {
@@ -82,7 +83,7 @@ export class InventoryComponent implements OnInit {
       this.vehicledetails = true;
       this.listindent = true;
       this.inventoryass = true;
-      sessionStorage.setItem('backBtnInventory', 'Y');
+      // sessionStorage.setItem('backBtnInventory', 'Y');
       this.titleStyle = "visible";
       this.spinner.hide();
     }
@@ -103,7 +104,7 @@ export class InventoryComponent implements OnInit {
   }
 
   loginPopUp() {
-    if (sessionStorage.backBtnInventory) {
+    if (sessionStorage.secondaryLoginData) {
       $('#myModal').modal('hide');
       this.titleStyle = "visible";
     }
@@ -131,7 +132,6 @@ export class InventoryComponent implements OnInit {
       this.service.dataLogin(data).subscribe(inData => {
         this.test1 = inData.json()._results;
         sessionStorage.setItem('secondaryLoginData', JSON.stringify(inData.json()));
-        
         console.log("*****************")
         if (inData.json().status == false){
           this.errorMessage = true;
