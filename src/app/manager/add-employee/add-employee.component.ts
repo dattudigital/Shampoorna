@@ -169,7 +169,7 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   RedirectToHome() {
-    this.router.navigate(['dashboard']);
+    this.router.navigate(['sale-dashboard']);
   }
   removeFields() {
     this.firstName = '',

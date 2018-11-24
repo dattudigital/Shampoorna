@@ -95,7 +95,7 @@ export class SaleDetailsComponent implements OnInit {
 
     this.cols = [
       { field: 'firstname', header: 'First Name' },
-      { field: 'email_id', header: 'Email' },
+     // { field: 'email_id', header: 'Email' },
       { field: 'address', header: 'Address' },
       { field: 'mandal', header: 'Mandal' },
       { field: 'district', header: 'District' },

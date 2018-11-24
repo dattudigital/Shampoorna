@@ -22,6 +22,7 @@ export class ReportsComponent implements OnInit {
   errorMessage = false;
   btnDisable = true;
   test1: any;
+  
   constructor(private router: Router, private service: DashboardServiceService, private spinner: NgxSpinnerService, private loginservice: LoginService) { }
 
   ngOnInit() {
@@ -32,15 +33,14 @@ export class ReportsComponent implements OnInit {
     // sessionStorage.removeItem('backBtnInventory');
     // sessionStorage.removeItem('backBtnManager');
 
-    this.service.getTodaySale().subscribe(res => {
-      this.todaySaleCount = res.json().result.length;
+    this.service.getSaleAndInventoryCount().subscribe(res => {
+      console.log(res.json().result);
+      this.todaySaleCount = res.json().result.todaysale;
       console.log(this.todaySaleCount);
+      this.totalsaleCount = res.json().result.totalsale;
+      console.log(this.totalsaleCount)
     });
   
-    this.service.getTotalSale().subscribe(response => {
-      this.totalsaleCount = response.json().result.length;
-      console.log(this.totalsaleCount)
-    })
   }
   saleReportClick() {
     this.titleStyle = "visible";
