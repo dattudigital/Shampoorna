@@ -24,7 +24,7 @@ export class IndentRaisingComponent implements OnInit {
   vehicleColor = '';
   vehicleModel = '';
   vehicleType = '';
-  vehicleMake = '';
+  vehicleVariant = '';
   reqQuantity = '';
   reqDate = '';
   brComment = '';
@@ -66,7 +66,7 @@ export class IndentRaisingComponent implements OnInit {
       vehicleColor: ['', Validators.required],
       vehicleModel: ['', Validators.required],
       vehicleType: ['', Validators.required],
-      vehicleMake: ['', Validators.required],
+      vehicleVariant: ['', Validators.required],
       reqQuantity: ['', Validators.required],
       // assQuantity: ['', Validators.required],
       // assBy: ['', Validators.required],
@@ -80,7 +80,6 @@ export class IndentRaisingComponent implements OnInit {
 
   backToInventory() {
     this.router.navigate(['inventory']);
-
   }
 
   get f() { return this.IndentRaisingForm.controls; }
@@ -97,10 +96,9 @@ export class IndentRaisingComponent implements OnInit {
     console.log("#####")
     console.log(loginData._results)
     console.log(loginData._results.employee_id)
-    console.log(loginData._results.emp_type_id)
+    console.log(loginData._results.employee_branch_id)
     // var brurl = '';
-    // brurl = brurl + '?branchid=' + loginData._results.branch_id;
-
+    // brurl = brurl + '?branchid=' + loginData._results.employee_branch_id;
     // var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
     // var string_length = 8;
     // var letters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz!@#$%^&*"; 
@@ -118,10 +116,10 @@ export class IndentRaisingComponent implements OnInit {
     var data = {
       indent_req_id: this.indentId,
       emp_id: loginData._results.employee_id,
-      br_id: loginData._results.emp_type_id,
+      br_id: loginData._results.employee_branch_id,
       veh_color: this.vehicleColor,
       veh_type: this.vehicleType,
-      veh_make: this.vehicleMake,
+      veh_variant: this.vehicleVariant,
       veh_model: this.vehicleModel,
       req_qty: this.reqQuantity,
       // assigned_qty: this.assQuantity,
@@ -150,6 +148,7 @@ export class IndentRaisingComponent implements OnInit {
           }
         )
       }
+      this.cancelIndent()
     })
   } 
 
@@ -178,7 +177,7 @@ export class IndentRaisingComponent implements OnInit {
     this.vehicleColor = " ";
     this.vehicleModel = " ";
     this.vehicleType = " "
-    this.vehicleMake = " "
+    this.vehicleVariant = " "
     this.reqQuantity = " "
     // this.assQuantity = " "
     this.reqDate = " "
