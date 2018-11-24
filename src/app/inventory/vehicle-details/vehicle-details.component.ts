@@ -78,8 +78,11 @@ export class VehicleDetailsComponent implements OnInit {
     // this.roleLogin1();
 
     this.service.getVehicleDetails().subscribe(res => {
-      console.log(res.json().result)
-      this.bikes = res.json().result
+      if (res.json().status == true) {
+        console.log(res.json().result)
+        this.bikes = res.json().result
+      }
+
     });
     this.vehicleForm = this.formBuilder.group({
       engineNumber: ['', Validators.required],
@@ -202,8 +205,6 @@ export class VehicleDetailsComponent implements OnInit {
           }
         )
       }
-      console.log(insertData);
-      insertData = res.json().result;
       this.bikes.push(res.json().result)
       $('#addVehicle').modal('hide');
     });

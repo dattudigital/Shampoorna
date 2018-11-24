@@ -176,7 +176,7 @@ export class InventoryComponent implements OnInit {
   }
 
   RedirectToHome() {
-    this.router.navigate(['dashboard']);
+    this.router.navigate(['sale-dashboard']);
   }
 
   // vehicleDetailClick() {

@@ -117,7 +117,7 @@ export class TimeClockComponent implements OnInit {
   }
 
   RedirectToHome() {
-    this.router.navigate(['dashboard']);
+    this.router.navigate(['sale-dashboard']);
   }
   errorClear() {
     this.errorMessage = false;

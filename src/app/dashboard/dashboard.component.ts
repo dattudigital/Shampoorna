@@ -162,9 +162,16 @@ export class DashboardComponent implements OnInit {
   taxCount: number = 0
   bankStatemet: any;
 
+  loginData: any = [];
+  branchName:'';
+
   constructor(private saleUserService: SaleUserService, private formBuilder: FormBuilder, private http: Http, private router: Router, ) { }
 
   ngOnInit() {
+    this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
+    console.log(this.loginData._results.branch_name);
+    this.branchName =this.loginData._results.branch_name
+
     this.http.get(environment.host + 'employees').subscribe(employeedata => {
       console.log(employeedata.json().result);
       this.employeedata = employeedata.json().result;

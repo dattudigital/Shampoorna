@@ -18,13 +18,14 @@ export class TodaySaleListComponent implements OnInit {
   ngOnInit() {
 
     this.service.getTodaySale().subscribe(res => {
-      console.log(res.json().result);
-      this.todaySaleList = res.json().result;
-      console.log(this.todaySaleList);
+      if(res.json().status == true){
+        this.todaySaleList = res.json().result;
+      }
+      
     });
     this.cols = [
       { field: 'firstname', header: 'First Name' },
-      { field: 'email_id', header: 'Email' },
+     // { field: 'email_id', header: 'Email' },
       { field: 'address', header: 'Address' },
       { field: 'mandal', header: 'Mandal' },
       { field: 'district', header: 'District' },
@@ -67,6 +68,27 @@ export class TodaySaleListComponent implements OnInit {
   xlDownload() {
     this.excelService.exportAsExcelFile(this.todaySaleList, 'TodaySalesList');
   }
+  detailsReset() {
+    this.service.getTodaySale().subscribe(res => {
+      console.log(res.json().result)
+      this.todaySaleList = res.json().result
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Reset Applied Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
+    });
+  this.vehicleTypeFilter ='';
+  }
+
   detailsGo() {
     var url = ''
     if (this.vehicleTypeFilter) {

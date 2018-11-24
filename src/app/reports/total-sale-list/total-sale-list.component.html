@@ -8,7 +8,64 @@
   </div>
 </div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<simple-notifications [options]="options"></simple-notifications>
 
+<div class="row">
+  <div class="col-md-3 col-sm-3 col-xs-12">
+    <div class="form-group">
+      <label for="input" class="col-md-3 control-label">Type</label>
+      <div class="col-md-7">
+        <select class="form-control" [(ngModel)]="vehicleTypeFilter">
+          <option value="" selected>All</option>
+          <option value="0">New</option>
+          <option value="1">Exchange</option>
+          <option value="2">Csd</option>
+        </select>
+      </div>
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div class="col-md-3 col-sm-3 col-xs-12">
+    <div class="form-group">
+      <label for="input" class="col-md-3 control-label">From</label>
+      <div class="col-md-7">
+        <div class="input-group">
+          <p-calendar [(ngModel)]="date1" name="fromdate" placeholder="select from date" [monthNavigator]="true" [yearNavigator]="true"
+            yearRange="1950:2030" [inputStyle]="{'width':'190px'}" [showIcon]="true" [(ngModel)]="fromDate" dateFormat="dd-mm-yy"
+            (ngModelChange)="fromDa($event)"></p-calendar>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div class="col-md-3 col-sm-3 col-xs-12">
+    <div class="form-group">
+      <label for="input" class="col-md-3 control-label">To</label>
+      <div class="col-md-7">
+        <div class="input-group">
+          <p-calendar [(ngModel)]="date2" name="todate" placeholder="select to date" [monthNavigator]="true" [yearNavigator]="true"
+            yearRange="1950:2030" [inputStyle]="{'width':'190px'}" [showIcon]="true" [(ngModel)]="toDate" dateFormat="dd-mm-yy"
+            (ngModelChange)="toDa($event)"></p-calendar>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+  </div>
+  <div class="col-md-1 col-sm-1 col-xs-12">
+
+  </div>
+  <div class="col-md-1 col-sm-1 col-xs-12">
+    <button type="submit" class="btn btn-primary" (click)=" detailsGo()">Search</button>
+  </div>
+  <div class="col-md-1 col-sm-1 col-xs-12">
+    <button type="submit" class="btn btn-warning" (click)="detailsReset()">Reset</button>
+  </div>
+
+</div>
+<br/>
+<br/>
 
 <div class="row">
   <div class="container">
