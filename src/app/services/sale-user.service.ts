@@ -39,4 +39,8 @@ public getVehicleDetails(){
 public addPaymentEmi(data:any){
   return this.http.post(environment.host + 'sale-payments',data)
 }
+
+public getPriceList(id:any){
+  return this.http.get(environment.host + 'setup-price-lists/'+id)
+}
 }

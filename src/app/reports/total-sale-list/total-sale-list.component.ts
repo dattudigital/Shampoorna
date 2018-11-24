@@ -80,6 +80,30 @@ export class TotalSaleListComponent implements OnInit {
     console.log(this.toDate)
 
   }
+  detailsReset() {
+    this.service.getTotalSale().subscribe(res => {
+      console.log(res.json().result)
+      this.totalSaleList = res.json().result
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Reset Applied Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
+    });
+    this.vehicleTypeFilter = '';
+    this.fromDate = '';
+    this.toDate = '';
+  }
+
+
   detailsGo() {
     var url = '';
     if (this.fromDate) {

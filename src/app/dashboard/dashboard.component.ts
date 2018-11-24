@@ -12,6 +12,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
+
 export class DashboardComponent implements OnInit {
   selectedOption: any = '';
   selectedRadio = '';
@@ -30,7 +31,6 @@ export class DashboardComponent implements OnInit {
   public date3: any;
   uploadedFiles: any[] = [];
   personalinfoForm: FormGroup;
-
   cheque: any = '';
   cash: any = '';
   creditCard: any = '';
@@ -63,8 +63,8 @@ export class DashboardComponent implements OnInit {
   vehicleDcNo = '';
   vehicleKeyNo = ''
   vehicleColor = '';
-  vehicleModel ='';
-  vehicleVariant ='';
+  vehicleModel = '';
+  vehicleVariant = '';
   nomineeName = '';
   nomineeDob = '';
   secondVehicle = '';
@@ -75,8 +75,6 @@ export class DashboardComponent implements OnInit {
   Registration: number;
   StandardAcc: number;
   VehicleHp: number;
-
-
   discountApprovedBy: ''; handlingC: number;
   vehicleReg: '';
   vehicleWarranty: '';
@@ -87,14 +85,11 @@ export class DashboardComponent implements OnInit {
   vehicleInsuAmount: number;
   taxAmount: number;
   basicwithTax: number;
-
   //typeahead
   selectedValue: string;
   temp: any[] = new Array();
   vehicleInfo: any[] = new Array();
   pdfName: any;
-
-
   //image uploads
   currentImage: any = '';
   bankuploadedFiles: any;
@@ -139,9 +134,7 @@ export class DashboardComponent implements OnInit {
       bankStatement: ''
     }
   ];
-
   cashTotal = 0;
-
   //exchangevehicle details
   exchangevehicleNo: '';
   exchangeEngineNo: '';
@@ -155,22 +148,22 @@ export class DashboardComponent implements OnInit {
   employeedata: any;
   branchManagerData: any = [];
   amount: number;
-
   onRoadPrice: number;
   roadTax: number = 0;
   tempAmount: number = 0;
   taxCount: number = 0
   bankStatemet: any;
-
   loginData: any = [];
-  branchName:'';
+  branchName: '';
+  prYesChecked = '';
+  accessriesYes = '';
 
   constructor(private saleUserService: SaleUserService, private formBuilder: FormBuilder, private http: Http, private router: Router, ) { }
 
   ngOnInit() {
     this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
     console.log(this.loginData._results.branch_name);
-    this.branchName =this.loginData._results.branch_name
+    this.branchName = this.loginData._results.branch_name
 
     this.http.get(environment.host + 'employees').subscribe(employeedata => {
       console.log(employeedata.json().result);
@@ -308,6 +301,13 @@ export class DashboardComponent implements OnInit {
     this.paymentEmi.chequeDate = newDate;
     console.log(this.paymentEmi.chequeDate)
   }
+
+  prChecked() {
+    console.log(this.prYesChecked);
+  }
+  accessriesChecked() {
+    console.log(this.accessriesYes)
+  }
   //complete sale details
 
   get f() { return this.personalinfoForm.controls; }
@@ -356,6 +356,8 @@ export class DashboardComponent implements OnInit {
           Nominee_name: this.nomineeName,
           nomine_dob: this.nomineeDob,
           second_vechile: this.secondVehicle,
+          pr: this.prYesChecked,
+          accessries_radio: this.accessriesYes,
           basic_price: this.vehicleBasic,
           life_tax: this.lifeTax,
           insurance: this.VehicleInsu,
@@ -535,44 +537,55 @@ export class DashboardComponent implements OnInit {
   onSelect(event: TypeaheadMatch): void {
     this.onRoadPrice = 0
     this.selectedOption = event.item;
-    console.log(this.selectedOption);   
+    console.log(this.selectedOption);
     this.vehicleFrameNo = this.selectedOption["Frame No"];
     this.vehicleDcNo = this.selectedOption.vechicle_dcno;
     this.vehicleKeyNo = this.selectedOption.vechile_gatepass;
     this.vehicleColor = this.selectedOption.color_name;
     this.vehicleModel = this.selectedOption.model_name;
-    this.vehicleVariant =this.selectedOption.vehicle_variant
-    this.vehicleBasic = this.selectedOption.vehicle_cost;
-    this.lifeTax = this.selectedOption.vehicle_life_tax;
-    this.VehicleInsu = this.selectedOption.vehicle_insurance;
-    this.HandlingC = this.selectedOption.vehicle_handling_c;
-    this.Registration = this.selectedOption.vehicle_registration;
-    this.StandardAcc = this.selectedOption.vehicle_standard_accessories;
-    this.VehicleHp = this.selectedOption.vehicle_hp;
+    if (this.selectedOption.vehicle_variant) {
+      this.saleUserService.getPriceList(this.selectedOption.vehicle_variant).subscribe(res => {
+        console.log(res.json().result)
+        this.vehicleVariant = res.json().result[0].variant_name;
+        this.vehicleBasic = res.json().result[0]["EX.PRICE"];
+        this.lifeTax =  res.json().result[0]["LTAX & TR"];
+        this.VehicleInsu =  res.json().result[0]["INS - 1 Yr Comprehensive and 5 Yr Third Party"];
+        this.HandlingC =  res.json().result[0]["FACILIATION CHARGES"];
+        this.Registration =  res.json().result[0]["Permantent Registation Cost"];
+        this.StandardAcc =  res.json().result[0]["STD ACC"];
+        this.VehicleHp =   res.json().result[0]["HP Charges"];
+        this.onRoadPrice =res.json().result[0]["TOTAL"];
+        this.tempOnRoadPrice = this.onRoadPrice;
+      });
+      // if(this.vehicleBasic){
+      //   console.log(this.vehicleBasic)
+      //   this.onRoadPrice = this.onRoadPrice * 1 + this.vehicleBasic * 1
+      //   console.log(this.onRoadPrice)
+      // }
+    }
     //calculate onroadprice with only tax
-    if (this.vehicleBasic) {
-      this.onRoadPrice = this.onRoadPrice + this.vehicleBasic
-    }
-    if (this.onRoadPrice) {
-      this.onRoadPrice = this.onRoadPrice * 1 + this.lifeTax * 1
-    }
-    if (this.onRoadPrice) {
-      this.onRoadPrice = this.onRoadPrice * 1 + this.VehicleInsu * 1
-    }
-    if (this.onRoadPrice) {
-      this.onRoadPrice = this.onRoadPrice * 1 + this.Registration * 1
-    }
-    if (this.onRoadPrice) {
-      this.onRoadPrice = this.onRoadPrice * 1 + this.HandlingC * 1
-    }
-    if (this.onRoadPrice) {
-      this.onRoadPrice = this.onRoadPrice * 1 + this.StandardAcc * 1
-    }
-    if (this.onRoadPrice) {
-      this.onRoadPrice = this.onRoadPrice * 1 + this.VehicleHp * 1
-    }
-    this.tempOnRoadPrice = this.onRoadPrice;
-    console.log(this.tempOnRoadPrice)
+   
+
+    // if (this.onRoadPrice) {
+    //   this.onRoadPrice = this.onRoadPrice * 1 + this.lifeTax * 1
+    // }
+    // if (this.onRoadPrice) {
+    //   this.onRoadPrice = this.onRoadPrice * 1 + this.VehicleInsu * 1
+    // }
+    // if (this.onRoadPrice) {
+    //   this.onRoadPrice = this.onRoadPrice * 1 + this.Registration * 1
+    // }
+    // if (this.onRoadPrice) {
+    //   this.onRoadPrice = this.onRoadPrice * 1 + this.HandlingC * 1
+    // }
+    // if (this.onRoadPrice) {
+    //   this.onRoadPrice = this.onRoadPrice * 1 + this.StandardAcc * 1
+    // }
+    // if (this.onRoadPrice) {
+    //   this.onRoadPrice = this.onRoadPrice * 1 + this.VehicleHp * 1
+    // }
+    // this.tempOnRoadPrice = this.onRoadPrice;
+    // console.log(this.tempOnRoadPrice)
 
   }
   approvedEmpEnable() {
