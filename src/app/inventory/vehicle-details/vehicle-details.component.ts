@@ -61,7 +61,7 @@ export class VehicleDetailsComponent implements OnInit {
   vehicleTypeFilter = "";
   vehicleModelFilter = "";
   vehicleColorFilter = "";
-  vehicleMakeFilter = "";
+  vehicleVariantFilter = "";
   fromDate = "";
   toDate = "";
   public options = { position: ["top", "right"] }
@@ -407,8 +407,8 @@ export class VehicleDetailsComponent implements OnInit {
     if (this.vehicleTypeFilter) {
       url = url + '&type=' + this.vehicleTypeFilter;
     }
-    if (this.vehicleMakeFilter) {
-      url = url + '&make=' + this.vehicleMakeFilter;
+    if (this.vehicleVariantFilter) {
+      url = url + '&variant=' + this.vehicleVariantFilter;
     }
     if (this.vehicleModelFilter) {
       url = url + '&model=' + this.vehicleModelFilter;
@@ -416,7 +416,7 @@ export class VehicleDetailsComponent implements OnInit {
     if (this.vehicleColorFilter) {
       url = url + '&color=' + this.vehicleColorFilter;
     }
-    console.log(this.vehicleMakeFilter);
+    console.log(this.vehicleVariantFilter);
     console.log(url)
     this.service.getVehicleFilter(url).subscribe(res => {
       console.log(res.json());
@@ -500,7 +500,7 @@ export class VehicleDetailsComponent implements OnInit {
     this.vehicleTypeFilter = " ";
     this.vehicleModelFilter = " ";
     this.vehicleColorFilter = " ";
-    this.vehicleMakeFilter = " ";
+    this.vehicleVariantFilter = " ";
     this.fromDate = " ";
     this.toDate = " ";
   }

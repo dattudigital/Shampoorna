@@ -135,7 +135,7 @@ export class InventoryAssigningComponent implements OnInit {
     this.generatedShippedId = Math.floor(Math.random() * 899999 + 100000);
     var data: any = {
       indent_id: this.indentId,
-      branch_id: this.branchId,
+      employee_branch_id: this.branchId,
       shipped_by: this.shippedBy,
       shipped_vechile_no: this.shippedIn,
       assign_qty: this.assQuantity,

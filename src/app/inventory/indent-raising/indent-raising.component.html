@@ -22,11 +22,57 @@
             <a style="color:red">*</a>
           </label>
           <div class="col-sm-5">
-            <input type="text" class="form-control" [ngModelOptions]="{standalone: true}" placeholder="Auto Generated" [(ngModel)]="indentId"
-              disabled>
+            <input type="text" class="form-control" [ngModelOptions]="{standalone: true}" placeholder="Auto Generated"
+              [(ngModel)]="indentId" disabled>
           </div>
           <div class="clear"></div>
         </div>
+        <div class=" row form-group">
+          <label for="input" class="col-sm-4 control-label">Vehicle Category
+            <a style="color:red">*</a>
+          </label>
+          <div class="col-sm-5">
+            <select class="form-control" formControlName="vehicleType" [(ngModel)]="vehicleType" [ngClass]="{ 'is-invalid': submitted && f.vehicleType.errors }">
+              <option *ngFor="let data of this.typeData" [ngValue]=" data.vehicle_type_id">{{data.type_name}}</option>
+            </select>
+            <div *ngIf="submitted && f.vehicleType.errors" class="invalid-feedback">
+              <div *ngIf="f.vehicleType.errors.required" style="color:red">Vehicle Type is required</div>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class=" row form-group">
+          <label for="input" class="col-sm-4 control-label">Vehicle Model
+            <a style="color:red">*</a>
+          </label>
+          <div class="col-sm-5">
+            <select class="form-control" formControlName="vehicleModel" [(ngModel)]="vehicleModel" [ngClass]="{ 'is-invalid': submitted && f.vehicleModel.errors }">
+              <option *ngFor="let data of this.modelData" [ngValue]=" data.vehicle_model_id">{{data.model_name}}</option>
+            </select>
+            <div *ngIf="submitted && f.vehicleModel.errors" class="invalid-feedback">
+              <div *ngIf="f.vehicleModel.errors.required" style="color:red">Vehicle Model is required</div>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+
+        <div class=" row form-group">
+          <label for="input" class="col-sm-4 control-label">Vehicle Variant
+            <a style="color:red">*</a>
+          </label>
+          <div class="col-sm-5">
+            <select class="form-control" formControlName="vehicleVariant" [(ngModel)]="vehicleVariant" [ngClass]="{ 'is-invalid': submitted && f.vehicleVariant.errors }">
+              <option *ngFor="let data of this.variantData" [ngValue]=" data.vehicle_variant_id">{{data.variant_name}}</option>
+            </select>
+            <div *ngIf="submitted && f.vehicleVariant.errors" class="invalid-feedback">
+              <div *ngIf="f.vehicleVariant.errors.required" style="color:red">Vehicle Variant is required</div>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
         <div class=" row form-group">
           <label for="input" class="col-sm-4 control-label">Vehicle Color
             <a style="color:red">*</a>
@@ -42,61 +88,13 @@
           <div class="clear"></div>
         </div>
         <div class=" row form-group">
-          <label for="input" class="col-sm-4 control-label">category
-            <a style="color:red">*</a>
-          </label>
-          <div class="col-sm-5">
-            <select class="form-control" formControlName="vehicleType" [(ngModel)]="vehicleType" [ngClass]="{ 'is-invalid': submitted && f.vehicleType.errors }">
-              <option *ngFor="let data of this.typeData" [ngValue]=" data.vehicle_type_id">{{data.type_name}}</option>
-            </select>
-            <div *ngIf="submitted && f.vehicleType.errors" class="invalid-feedback">
-              <div *ngIf="f.vehicleType.errors.required" style="color:red">Vehicle Type is required</div>
-            </div>
-          </div>
-          <div class="clear"></div>
-        </div>
-        <div class=" row form-group">
-          <label for="input" class="col-sm-4 control-label">Variant
-            <a style="color:red">*</a>
-          </label>
-          <div class="col-sm-5">
-            <select class="form-control" formControlName="vehicleMake" [(ngModel)]="vehicleMake" [ngClass]="{ 'is-invalid': submitted && f.vehicleMake.errors }">
-              <option *ngFor="let data of this.variantData" [ngValue]=" data.vehicle_variant_id">{{data.variant_name}}</option>
-            </select>
-            <div *ngIf="submitted && f.vehicleMake.errors" class="invalid-feedback">
-              <div *ngIf="f.vehicleMake.errors.required" style="color:red">Vehicle Make is required</div>
-            </div>
-          </div>
-          <div class="clear"></div>
-        </div>
-
-
-
-      </div>
-
-
-      <div class="col-sm-6">
-        <div class=" row form-group">
-          <label for="input" class="col-sm-4 control-label">Vehicle Model
-            <a style="color:red">*</a>
-          </label>
-          <div class="col-sm-5">
-            <select class="form-control" formControlName="vehicleModel" [(ngModel)]="vehicleModel" [ngClass]="{ 'is-invalid': submitted && f.vehicleModel.errors }">
-              <option *ngFor="let data of this.modelData" [ngValue]=" data.vehicle_model_id">{{data.model_name}}</option>
-            </select>
-            <div *ngIf="submitted && f.vehicleModel.errors" class="invalid-feedback">
-              <div *ngIf="f.vehicleModel.errors.required" style="color:red">Vehicle Model is required</div>
-            </div>
-          </div>
-          <div class="clear"></div>
-        </div>
-        <div class=" row form-group">
           <label for="input" class="col-sm-4 control-label">Required Quantity
             <a style="color:red">*</a>
           </label>
           <div class="col-sm-5">
-            <input type="text" class="form-control" formControlName="reqQuantity" placeholder="Enter Required Quantity" [(ngModel)]="reqQuantity"
-              [ngClass]="{ 'is-invalid': submitted && f.reqQuantity.errors }" (keypress)="only_allow_number($event)" maxlength="50">
+            <input type="text" class="form-control" formControlName="reqQuantity" placeholder="Enter Required Quantity"
+              [(ngModel)]="reqQuantity" [ngClass]="{ 'is-invalid': submitted && f.reqQuantity.errors }" (keypress)="only_allow_number($event)"
+              maxlength="50">
             <div *ngIf="submitted && f.reqQuantity.errors" class="invalid-feedback">
               <div *ngIf="f.reqQuantity.errors.required" style="color:red">Quantity is required</div>
             </div>
@@ -150,9 +148,9 @@
           <label for="input" class="col-sm-4 control-label">Required On Date</label>
           <div class="col-sm-8">
             <div class="input-group">
-              <p-calendar [(ngModel)]="date1" name="reqdate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'190px'}"
-                [showIcon]="true" [(ngModel)]="reqDate" dateFormat="dd-mm-yy" (ngModelChange)=" getreqDate($event)" [(ngModel)]="showMoreControls"
-                [ngModelOptions]="{standalone: true}"></p-calendar>
+              <p-calendar [(ngModel)]="date1" name="reqdate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030"
+                [inputStyle]="{'width':'190px'}" [showIcon]="true" [(ngModel)]="reqDate" dateFormat="dd-mm-yy"
+                (ngModelChange)=" getreqDate($event)" [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}"></p-calendar>
             </div>
           </div>
           <div class="clear"></div>
