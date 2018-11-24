@@ -34,6 +34,8 @@ export class InvoiceListComponent implements OnInit {
   Discount: '';
   totalAmount: '';
 
+  printStyle = "hidden";
+
   editPersonalInfo: any = [];
   newIndex:'';
   constructor(private router: Router) { }
@@ -72,5 +74,15 @@ export class InvoiceListComponent implements OnInit {
   backsaleDetails() {
     sessionStorage.removeItem('invoiceData'); 
     this.router.navigate(['sale-details'])
+  }
+  printInvoice(printlist){
+    this.printStyle =  "visible";
+    let printContents = document.getElementById(printlist).innerHTML;
+    let originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+   // var EngineNo=(<HTMLInputElement>document.getElementById("#engNo")).value
+   
+    window.print();
+    document.body.innerHTML = originalContents;
   }
 }

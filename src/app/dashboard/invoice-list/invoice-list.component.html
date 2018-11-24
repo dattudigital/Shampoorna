@@ -12,9 +12,14 @@
         <div class="clear"></div>
     </div>
 </div>
-<div class="invoice-hearer">
+<div class="invoice-header">
     <h3>Invoice Details</h3>
-
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4"></div>
+    <div class="col-sm-2">
+        <button type="button" class="btn btn-warning pull-right" (click)="printInvoice('printlist')">Print</button>
+    </div>
+    <div class="clear"></div>
 </div>
 <div class="invoice-detailsS">
 
@@ -408,6 +413,10 @@
         </div>
         <div class="clear"></div>
     </div>
+</div>
 
+<div class="tableShow"  id="printlist"[style.visibility]="printStyle">
+    sdhfgsdfhsyufdfyugefsiuf
+    sfjdfiugerur
 </div>
 
