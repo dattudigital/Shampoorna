@@ -6,6 +6,7 @@ import { IndentService } from '../../services/indent.service'
 import * as moment from 'moment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotificationsService } from 'angular2-notifications';
+import { AllVehicleService } from '../../services/all-vehicle.service';
 
 @Component({
   selector: 'app-indent-raising',
@@ -32,33 +33,31 @@ export class IndentRaisingComponent implements OnInit {
   makeData: any[];
   modelData: any[];
   colorData: any[];
+  variantData:any[];
   empData: any[];
   public options = { position: ["top", "right"] }
 
-  constructor(private router: Router, private http: Http, private service: IndentService, private formBuilder: FormBuilder, private notif: NotificationsService) { }
+  constructor(private router: Router,private allvehicleservice: AllVehicleService, private http: Http, private service: IndentService, private formBuilder: FormBuilder, private notif: NotificationsService) { }
 
   ngOnInit() {
-    
-
-    this.http.get(environment.host + 'vehicle-makes').subscribe(data => {
-      console.log(data.json())
-      this.makeData = data.json().result;
-    });
-
-    this.http.get(environment.host + 'vehicle-models').subscribe(data => {
-      console.log(data.json())
-      this.modelData = data.json().result;
-    });
-
-    this.http.get(environment.host + 'vehicle-colors').subscribe(data => {
+    this.allvehicleservice.getColor().subscribe(data => {
       console.log(data.json())
       this.colorData = data.json().result;
     });
-
-    this.http.get(environment.host + 'vehicle-types').subscribe(data => {
+    this.allvehicleservice.getCategory().subscribe(data => {
       console.log(data.json())
       this.typeData = data.json().result;
     });
+    this.allvehicleservice.getModel().subscribe(data => {
+      this.modelData = data.json().result;
+      console.log(this.modelData)
+    });
+    this.allvehicleservice.getVariant().subscribe(data => {
+      this.variantData = data.json().result;
+      console.log(this.variantData)
+    })
+
+ 
     this.http.get(environment.host + 'employees').subscribe(data => {
       console.log(data.json())
       this.empData = data.json().result;

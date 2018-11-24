@@ -7,7 +7,7 @@ import { InventoryAssigningService } from '../../services/inventory-assigning.se
 import { InventoryListPipe } from '../../pipe/inventory-list.pipe';
 import * as moment from 'moment';
 import { NotificationsService } from 'angular2-notifications';
-
+import { AllVehicleService } from '../../services/all-vehicle.service';
 
 @Component({
   selector: 'app-inventory-list',
@@ -21,6 +21,7 @@ export class InventoryListComponent implements OnInit {
   makeData: any[];
   modelData: any[];
   colorData: any[];
+  variantData:any[];
   //vehicleTypeFilter = "";
   vehicleModelFilter = "";
   vehicleColorFilter = "";
@@ -30,7 +31,7 @@ export class InventoryListComponent implements OnInit {
   public options = { position: ["top", "right"] }
 
 
-  constructor(private router: Router, private service: InventoryAssigningService, private http: Http, private invAssignService: InventoryListPipe, private notif: NotificationsService) { }
+  constructor(private router: Router,private allvehicleservice: AllVehicleService, private service: InventoryAssigningService, private http: Http, private invAssignService: InventoryListPipe, private notif: NotificationsService) { }
 
   ngOnInit() {
     let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
@@ -51,25 +52,22 @@ export class InventoryListComponent implements OnInit {
       this.inventoryData = res.json().result;     
     });
 
-    this.http.get(environment.host + 'vehicle-makes').subscribe(data => {
-      console.log(data.json())
-      this.makeData = data.json().result;
-    });
-
-    this.http.get(environment.host + 'vehicle-models').subscribe(data => {
-      console.log(data.json())
-      this.modelData = data.json().result;
-    });
-
-    this.http.get(environment.host + 'vehicle-colors').subscribe(data => {
+    this.allvehicleservice.getColor().subscribe(data => {
       console.log(data.json())
       this.colorData = data.json().result;
     });
-
-    this.http.get(environment.host + 'vehicle-types').subscribe(data => {
+    this.allvehicleservice.getCategory().subscribe(data => {
       console.log(data.json())
       this.typeData = data.json().result;
     });
+    this.allvehicleservice.getModel().subscribe(data => {
+      this.modelData = data.json().result;
+      console.log(this.modelData)
+    });
+    this.allvehicleservice.getVariant().subscribe(data => {
+      this.variantData = data.json().result;
+      console.log(this.variantData)
+    })
 
     this.cols = [
       { field: 'branch_name', header: 'Branch' },

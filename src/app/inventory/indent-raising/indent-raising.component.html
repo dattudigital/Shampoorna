@@ -42,7 +42,7 @@
           <div class="clear"></div>
         </div>
         <div class=" row form-group">
-          <label for="input" class="col-sm-4 control-label">Type
+          <label for="input" class="col-sm-4 control-label">category
             <a style="color:red">*</a>
           </label>
           <div class="col-sm-5">
@@ -56,12 +56,12 @@
           <div class="clear"></div>
         </div>
         <div class=" row form-group">
-          <label for="input" class="col-sm-4 control-label">Make
+          <label for="input" class="col-sm-4 control-label">Variant
             <a style="color:red">*</a>
           </label>
           <div class="col-sm-5">
             <select class="form-control" formControlName="vehicleMake" [(ngModel)]="vehicleMake" [ngClass]="{ 'is-invalid': submitted && f.vehicleMake.errors }">
-              <option *ngFor="let data of this.makeData" [ngValue]=" data.vehicle_make_id">{{data.make_name}}</option>
+              <option *ngFor="let data of this.variantData" [ngValue]=" data.vehicle_variant_id">{{data.variant_name}}</option>
             </select>
             <div *ngIf="submitted && f.vehicleMake.errors" class="invalid-feedback">
               <div *ngIf="f.vehicleMake.errors.required" style="color:red">Vehicle Make is required</div>

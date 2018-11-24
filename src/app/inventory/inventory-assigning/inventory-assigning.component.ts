@@ -57,16 +57,22 @@ export class InventoryAssigningComponent implements OnInit {
 
   ngOnInit() {
     this.http.get(environment.host + 'indents').subscribe(res => {
-      console.log(res.json().result);
-      this.indentData = res.json().result;
+      if (res.json().status == true) {
+        console.log(res.json().result);
+        this.indentData = res.json().result;
+      }
     });
     this.http.get(environment.host + 'branches').subscribe(res => {
-      console.log(res.json().result);
-      this.branchData = res.json().result;
+      if (res.json().status = true) {
+        console.log(res.json().result);
+        this.branchData = res.json().result;
+      }
     });
     this.http.get(environment.host + 'employees').subscribe(res => {
-      console.log(res.json().result);
-      this.employeedata = res.json().result;
+      if (res.json().status == true) {
+        console.log(res.json().result);
+        this.employeedata = res.json().result;
+      }
     });
 
     this.InventoryAssignForm = this.formBuilder.group({
@@ -88,6 +94,7 @@ export class InventoryAssigningComponent implements OnInit {
   }
 
   addInventoryAssign(data, i) {
+    console.log('add')
     this.vehicles.push(
       {
         engineno: "",

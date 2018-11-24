@@ -217,9 +217,9 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="text" (keypress)="allow_numbers_alphabets($event)" placeholder="Enter Engine Number" name="Engine" maxlength="50"
+						<input type="text" placeholder="Enter Engine Number" name="Engine" maxlength="50"
 						 [(ngModel)]="selectedValue" [(ngModel)]="vehicleEngineNo" (ngModelChange)='engineSearch($event)' [typeahead]="vehicleInfo"
-						 typeaheadOptionField="vehicle_engineno" (typeaheadOnSelect)="onSelect($event)" class="form-control">
+						 typeaheadOptionField="Engine No" (typeaheadOnSelect)="onSelect($event)" class="form-control">
 					</div>
 					<div style="color:red" *ngIf="noResult">No Results Found</div>
 				</div>
@@ -256,13 +256,13 @@
 				<div class="row form-group">
 					<label class="col-sm-4 col-form-label required">Vehicle Model </label>
 					<div class="col-sm-5">
-						<input type="text" name="color" maxlength="50" class="form-control" [(ngModel)]="vehicleColor" readonly>
+						<input type="text" name="color" maxlength="50" class="form-control" [(ngModel)]="vehicleModel" readonly>
 					</div>
 				</div>
 				<div class="row form-group">
 					<label class="col-sm-4 col-form-label required">Vehicle Variant</label>
 					<div class="col-sm-5">
-						<input type="text" name="color" maxlength="50" class="form-control" [(ngModel)]="vehicleColor" readonly>
+						<input type="text" name="color" maxlength="50" class="form-control" [(ngModel)]="vehicleVariant" readonly>
 					</div>
 				</div>
 				<div class="row form-group">

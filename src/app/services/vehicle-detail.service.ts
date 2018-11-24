@@ -14,6 +14,10 @@ export class VehicleDetailService {
     return this.http.post(environment.host + 'vehile-details', data)
   }
 
+  public addVehicleDetailBulk(data: any) {
+    return this.http.post(environment.host + 'vehile-details/bulk', data)
+  }
+
   public getVehicleDetails(){
     return this.http.get( environment.host + 'vehile-details ');
   }

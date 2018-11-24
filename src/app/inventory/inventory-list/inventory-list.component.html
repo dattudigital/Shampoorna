@@ -55,11 +55,11 @@
             </div>
             <div class="col-md-4 col-sm-4 col-xs-12">
               <div class="form-group">
-                <label for="input" class="col-md-3 control-label">Make</label>
+                <label for="input" class="col-md-3 control-label">Variant</label>
                 <div class="col-md-7">
                   <select class="form-control" [(ngModel)]="vehicleMakeFilter">
                       <option value="" selected>All</option>
-                    <option *ngFor="let data of this.makeData" [ngValue]=" data.make_name">{{data.make_name}}</option>
+                    <option *ngFor="let data of this.variantData" [ngValue]=" data.variant_name">{{data.variant_name}}</option>
                   </select>
                 </div>
                 <div class="clear"></div>

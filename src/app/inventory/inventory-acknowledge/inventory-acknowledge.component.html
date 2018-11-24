@@ -59,7 +59,7 @@
         <div class="col-md-7">
           <select class="form-control" [(ngModel)]="vehicleMakeFilter">
               <option value="" selected>All</option>
-            <option *ngFor="let data of this.makeData" [ngValue]=" data.make_name">{{data.make_name}}</option>
+            <option *ngFor="let data of this.variantData" [ngValue]=" data.variant_name">{{data.variant_name}}</option>
           </select>
         </div>
         <div class="clear"></div>
