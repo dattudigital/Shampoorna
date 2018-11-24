@@ -64,6 +64,9 @@ export class SetupComponent implements OnInit {
   redirectToPriceList(){
     this.router.navigate(['setup/price-list'])
   }
+  RedirectToHome(){
+    this.router.navigate(['sale-dashboard'])
+  }
 
   errorClear() {
     this.errorMessage = false;
