@@ -65,10 +65,11 @@ export class AddEmployeeComponent implements OnInit {
   ngOnInit() {
 
     sessionStorage.removeItem('secondaryLoginData');
-    sessionStorage.removeItem('secondaryLoginData2'); 
-    sessionStorage.removeItem('backBtnInventory');
-    sessionStorage.removeItem('inventory-routing');
-    sessionStorage.removeItem('backBtnReports'); 
+    sessionStorage.removeItem('secondaryLoginData2');
+    sessionStorage.removeItem('secondaryLoginData3'); 
+ 
+    // sessionStorage.removeItem('backBtnInventory');
+    // sessionStorage.removeItem('backBtnReports'); 
 
     this.loginPopUp();
     this.service.getEmployeeDetails().subscribe(res => {
@@ -121,7 +122,7 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   loginPopUp() {
-    if (sessionStorage.backBtnManager) {
+    if (sessionStorage.secondaryLoginData1) {
       $('#myModal').modal('hide');
       this.titleStyle = "visible";
     }
@@ -131,8 +132,12 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   loginSubmite() {
-    if (sessionStorage.secondaryLoginData) {
-      window.sessionStorage.removeItem('secondaryLoginData');
+    console.log(sessionStorage)
+    console.log(sessionStorage.secondaryLoginData1)
+    if (sessionStorage.secondaryLoginData1) {
+      sessionStorage.removeItem('secondaryLoginData1');
+
+      // window.sessionStorage.removeItem('secondaryLoginData1');
       //console.log('secondaryLoginData')
     }
     var data = {
@@ -153,7 +158,7 @@ export class AddEmployeeComponent implements OnInit {
         if (loginData.json().status == true && this.test1.emp_type_id == 1 || this.test1.emp_type_id ==2 ) {
           //console.log(loginData.json().result[0])
           sessionStorage.setItem('secondaryLoginData1', JSON.stringify(loginData.json()));
-          sessionStorage.setItem('backBtnManager', 'Y');
+          // sessionStorage.setItem('backBtnManager', 'Y');
           $('#myModal').modal('hide');
           this.titleStyle = "visible";
         } else {

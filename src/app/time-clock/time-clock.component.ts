@@ -80,10 +80,11 @@ export class TimeClockComponent implements OnInit {
   msgs: Message[] = [];
   ngOnInit() {
     sessionStorage.removeItem('secondaryLoginData1'); 
-    sessionStorage.removeItem('secondaryLoginData2');  
-    sessionStorage.removeItem('backBtnInventory');    
-    sessionStorage.removeItem('backBtnManager');  
-    sessionStorage.removeItem('backBtnReports'); 
+    sessionStorage.removeItem('secondaryLoginData2');
+    sessionStorage.removeItem('secondaryLoginData3');  
+    // sessionStorage.removeItem('backBtnInventory');    
+    // sessionStorage.removeItem('backBtnManager');  
+    // sessionStorage.removeItem('backBtnReports'); 
     this.loginPopUp();
     this.getTimeAndDate();
     setInterval(() => {

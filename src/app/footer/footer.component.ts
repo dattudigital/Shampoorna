@@ -24,11 +24,12 @@ export class FooterComponent implements OnInit {
     window.sessionStorage.removeItem('secondaryLoginData');
     window.sessionStorage.removeItem('secondaryLoginData1');
     window.sessionStorage.removeItem('secondaryLoginData2');
-    window.sessionStorage.removeItem('backBtnReports');
-    window.sessionStorage.removeItem('backBtnTimeclocks');
-    window.sessionStorage.removeItem('backBtnManager');
-    window.sessionStorage.removeItem('backBtnInventory');
-    this.router.navigate(['login']);
+    window.sessionStorage.removeItem('secondaryLoginData3');
+    // window.sessionStorage.removeItem('backBtnReports');
+    // window.sessionStorage.removeItem('backBtnTimeclocks');
+    // window.sessionStorage.removeItem('backBtnManager');
+    // window.sessionStorage.removeItem('backBtnInventory');
+    // this.router.navigate(['login']);
   }
 
 }

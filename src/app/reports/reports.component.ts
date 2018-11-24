@@ -29,8 +29,9 @@ export class ReportsComponent implements OnInit {
     this.loginPopUp();
     sessionStorage.removeItem('secondaryLoginData');
     sessionStorage.removeItem('secondaryLoginData1');
-    sessionStorage.removeItem('backBtnInventory');
-    sessionStorage.removeItem('backBtnManager');
+    sessionStorage.removeItem('secondaryLoginData3');
+    // sessionStorage.removeItem('backBtnInventory');
+    // sessionStorage.removeItem('backBtnManager');
 
     this.service.getSaleAndInventoryCount().subscribe(res => {
       console.log(res.json().result);
@@ -63,7 +64,7 @@ export class ReportsComponent implements OnInit {
     this.router.navigate(['reports/inventory-list']);
   }
   loginPopUp() {
-    if (sessionStorage.backBtnReports) {
+    if (sessionStorage.secondaryLoginData2) {
       $('#myModal').modal('hide');
       this.reportStyle = "visible";
     }
@@ -108,15 +109,15 @@ export class ReportsComponent implements OnInit {
         }
         this.test1 = loginData.json()._results;
 
-        if (loginData.json().status == true && this.test1.emp_type_id == 1 || this.test1.emp_type_id == 2) {
+        // if (loginData.json().status == true && this.test1.emp_type_id == 1 || this.test1.emp_type_id == 2) {
           //console.log(loginData.json().result[0])
           sessionStorage.setItem('secondaryLoginData2', JSON.stringify(loginData.json()));
-          sessionStorage.setItem('backBtnReports', 'Y');
+          // sessionStorage.setItem('backBtnReports', 'Y');
           $('#myModal').modal('hide');
           this.reportStyle = "visible";
-        } else {
-          this.errorMessage = true;
-        }
+        // } else {
+        //   this.errorMessage = true;
+        // }
       });
     }
   }
