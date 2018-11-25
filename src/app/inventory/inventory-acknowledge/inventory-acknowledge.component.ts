@@ -37,9 +37,9 @@ export class InventoryAcknowledgeComponent implements OnInit {
   ngOnInit() {
     let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
     console.log("#####")
-    console.log(loginData._results.branch_id)
+    console.log(loginData._results.employee_branch_id)
     var brurl= '';
-      brurl = brurl + '&branchid='+loginData._results.branch_id;
+      brurl = brurl + '&branchid='+loginData._results.employee_branch_id;
     this.service.getAcknowledgeList(brurl).subscribe(res => {
       console.log(res.json().result)
       //this.inventoryData = this.invAssignService.transform(res.json().result);

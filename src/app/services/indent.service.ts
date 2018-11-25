@@ -19,6 +19,6 @@ export class IndentService {
   }
 
   public getIndentFilter(url:any ){
-    return this.http.get(environment.host + 'indents?'+url ) 
+    return this.http.get(environment.host + 'indents?status=1'+url ) 
   }
 }

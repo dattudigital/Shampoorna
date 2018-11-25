@@ -182,38 +182,13 @@
         </div>
 
 
-
         <div class=" row form-group">
           <div class="col-md-1"></div>
-          <label for="input" class="col-sm-4 control-label">Vehicle Color
-          </label>
-          <div class="col-sm-5">
-            <select class="form-control" [(ngModel)]="veh_color">
-              <option *ngFor="let data of this.colorData" [ngValue]=" data.vehicle_color_id">{{data.color_name}}</option>
-            </select>
-          </div>
-          <div class="clear"></div>
-        </div>
-
-        <div class=" row form-group">
-          <div class="col-md-1"></div>
-          <label for="input" class="col-sm-4 control-label">Type
+          <label for="input" class="col-sm-4 control-label">Vehicle Type
           </label>
           <div class="col-sm-5">
             <select class="form-control" [(ngModel)]="veh_type">
               <option *ngFor="let data of this.typeData" [ngValue]=" data.vehicle_type_id">{{data.type_name}}</option>
-            </select>
-          </div>
-          <div class="clear"></div>
-        </div>
-
-        <div class=" row form-group">
-          <div class="col-md-1"></div>
-          <label for="input" class="col-sm-4 control-label">Make
-          </label>
-          <div class="col-sm-5">
-            <select class="form-control" [(ngModel)]="veh_make">
-              <option *ngFor="let data of this.makeData" [ngValue]=" data.vehicle_make_id">{{data.make_name}}</option>
             </select>
           </div>
           <div class="clear"></div>
@@ -233,16 +208,40 @@
 
         <div class=" row form-group">
           <div class="col-md-1"></div>
+          <label for="input" class="col-sm-4 control-label">Vehicle Variant
+          </label>
+          <div class="col-sm-5">
+            <select class="form-control" [(ngModel)]="veh_variant">
+              <option *ngFor="let data of this.variantData" [ngValue]=" data.vehicle_variant_id">{{data.variant_name}}</option>
+            </select>
+          </div>
+          <div class="clear"></div>
+        </div>
+
+
+        <div class=" row form-group">
+          <div class="col-md-1"></div>
+          <label for="input" class="col-sm-4 control-label">Vehicle Color
+          </label>
+          <div class="col-sm-5">
+            <select class="form-control" [(ngModel)]="veh_color">
+              <option *ngFor="let data of this.colorData" [ngValue]=" data.vehicle_color_id">{{data.color_name}}</option>
+            </select>
+          </div>
+          <div class="clear"></div>
+        </div>
+
+        <div class=" row form-group">
+          <div class="col-md-1"></div>
           <label for="input" class="col-sm-4 control-label">Required Quantity
           </label>
           <div class="col-sm-5">
-            <input type="text" class="form-control" placeholder="Enter Required Quantity"
-              [(ngModel)]="req_qty">
+            <input type="text" class="form-control" placeholder="Enter Required Quantity" [(ngModel)]="req_qty">
             <div class="clear"></div>
           </div>
         </div>
 
-        
+
 
         <!-- <div class=" row form-group">
           <div class="col-md-1"></div>
@@ -306,56 +305,55 @@
         </div> -->
 
         <div class=" row form-group">
-            <div class="col-md-1"></div>
-            <label for="input" class="col-sm-4 control-label">Shipping Id
-              <a style="color:red">*</a>
-            </label>
-            <div class="col-sm-5">
-              <input type="text" class="form-control" placeholder="Auto Generated" [(ngModel)]="shipId"
-                disabled>
-            </div>
-            <div class="clear"></div>
+          <div class="col-md-1"></div>
+          <label for="input" class="col-sm-4 control-label">Shipping Id
+            <a style="color:red">*</a>
+          </label>
+          <div class="col-sm-5">
+            <input type="text" class="form-control" placeholder="Auto Generated" [(ngModel)]="shipId" disabled>
           </div>
+          <div class="clear"></div>
+        </div>
 
-          <div class="row form-group">
-              <div class="col-md-1"></div>
-              <label class="col-sm-4 col-form-label required">Shipped By
-              </label>
-              <div class="col-sm-5">
-                <select class="form-control"  [(ngModel)]="shipped_by" >
-                  <option value="" disabled select></option>
-                  <option value="0">Auto</option>
-                  <option value="1">Trolley</option>
-                  <option value="2">Lorry</option>
-                </select>
-                
-              </div>
-            </div>
+        <div class="row form-group">
+          <div class="col-md-1"></div>
+          <label class="col-sm-4 col-form-label required">Shipped By
+          </label>
+          <div class="col-sm-5">
+            <select class="form-control" [(ngModel)]="shipped_by">
+              <option value="" disabled select></option>
+              <option value="0">Auto</option>
+              <option value="1">Trolley</option>
+              <option value="2">Lorry</option>
+            </select>
 
-            <div class="row form-group">
-                <div class="col-md-1"></div>
-                <label class="col-sm-4 col-form-label required">Vehicle No.
-                </label>
-                <div class="col-sm-5">
-                  <input type="text" maxlength="50" class="form-control" [(ngModel)]="shipped_vechile_no" >
-                </div>
-              </div>
+          </div>
+        </div>
 
-              <div class="row form-group">
-                  <div class="col-md-1"></div>
-                  <label class="col-sm-4 col-form-label required">Shipped Status
-                    <span style="color:red">*</span>
-                  </label>
-                  <div class="col-sm-5">
-                    <select class="form-control" [(ngModel)]="shipping_status" >
-                      <option value="" disabled select></option>
-                      <option value="0">Shipped</option>
-                      <option value="1">Rejected</option>
-                    </select>
-                  </div>
-                </div>
+        <div class="row form-group">
+          <div class="col-md-1"></div>
+          <label class="col-sm-4 col-form-label required">Vehicle No.
+          </label>
+          <div class="col-sm-5">
+            <input type="text" maxlength="50" class="form-control" [(ngModel)]="shipped_vechile_no">
+          </div>
+        </div>
 
-                <!-- <div class="row form-group">
+        <div class="row form-group">
+          <div class="col-md-1"></div>
+          <label class="col-sm-4 col-form-label required">Shipped Status
+            <span style="color:red">*</span>
+          </label>
+          <div class="col-sm-5">
+            <select class="form-control" [(ngModel)]="shipping_status">
+              <option value="" disabled select></option>
+              <option value="0">Shipped</option>
+              <option value="1">Rejected</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- <div class="row form-group">
                   <div class="col-md-1"></div>
                   <label class="col-sm-4 col-form-label required">Status
                     <span style="color:red">*</span>
@@ -390,5 +388,3 @@
     </div>
   </div>
 </div>
-
-
