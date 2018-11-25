@@ -254,6 +254,10 @@ export class SaleDetailsComponent implements OnInit {
     sessionStorage.setItem('dcFormData', JSON.stringify(this.dcFormInfo));
   }
 
+  printFromList(data,index){
+    
+  }
+
 
   onFileChanged(event) {
     var files = event.target.files;

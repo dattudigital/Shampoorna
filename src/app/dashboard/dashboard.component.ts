@@ -747,12 +747,9 @@ export class DashboardComponent implements OnInit {
     if (this.isNumber(this.vehicleAcc)) {
       sum = sum + this.vehicleAcc
     }
-
     if (this.isNumber(this.total)) {
       sum = sum + this.total
     }
-
-
     if (this.isNumber(this.discount)) {
       sum = sum - this.discount
     }

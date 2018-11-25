@@ -118,7 +118,7 @@
         <th>Edit</th>
         <th>Invoice</th>
         <th>DC</th>
-        <th></th>
+        <!-- <th>Print</th> -->
 
       </tr>
     </ng-template>
@@ -146,6 +146,14 @@
                 Sales Approval Pending
               </p>
         </td>
+        <!-- <td >
+          <a *ngIf="bike.sale_account_check == 1" href="#" data-toggle="modal" data-target="#deleteVehicle" (click)="printFromList(bike,i)">
+            <i class="fas fa-print" style="color:rgb(243, 8, 0)"></i>
+          </a>
+          <p *ngIf="bike.sale_account_check == 0">
+              Sales Approval Pending
+            </p>
+      </td> -->
 
       </tr>
     </ng-template>

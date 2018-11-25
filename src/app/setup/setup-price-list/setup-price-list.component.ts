@@ -27,6 +27,7 @@ export class SetupPriceListComponent implements OnInit {
     });
 
     this.cols = [
+      {field:'variant_name',header: 'Variant Name'},
       { field: 'pricing_list_date', header: 'List Date', type: this.dp },
       { field: 'EX.PRICE', header: 'Ex-price' },
       { field: 'LTAX & TR', header: 'LTAX & TR' },

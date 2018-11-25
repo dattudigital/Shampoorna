@@ -28,19 +28,21 @@ export class InvoiceListComponent implements OnInit {
   Insurence: '';
   Handling: '';
   Registration: '';
-  Warranty: '';
+  standardAcc: '';
   Accessories: '';
   HpTax: '';
   Discount: '';
   totalAmount: '';
 
+  printStyle = "hidden";
+
   editPersonalInfo: any = [];
-  newIndex:'';
+  newIndex: '';
   constructor(private router: Router) { }
   ngOnInit() {
     this.editPersonalInfo = JSON.parse(sessionStorage.getItem('invoiceData'));
-
     console.log(this.editPersonalInfo);
+
     this.firstName = this.editPersonalInfo.firstname;
     this.nameOnRc = this.editPersonalInfo.display_name_on_rc;
     this.Relation = this.editPersonalInfo.relation;
@@ -48,6 +50,7 @@ export class InvoiceListComponent implements OnInit {
     this.Mandal = this.editPersonalInfo.mandal;
     this.District = this.editPersonalInfo.district;
     this.Mobile = this.editPersonalInfo.mobile;
+    console.log(this.Mobile)
     this.proofType = this.editPersonalInfo.proof_type;
     this.proofNum = this.editPersonalInfo.proof_num;
     this.EngineNo = this.editPersonalInfo.eng_no;
@@ -63,14 +66,22 @@ export class InvoiceListComponent implements OnInit {
     this.Insurence = this.editPersonalInfo.insurance;
     this.Handling = this.editPersonalInfo.handling;
     this.Registration = this.editPersonalInfo.registration;
-    this.Warranty = this.editPersonalInfo.Warranty;
+    this.standardAcc = this.editPersonalInfo.standaccessories;
     this.Accessories = this.editPersonalInfo.accessories;
-    this.HpTax = this.editPersonalInfo.hp;
+    this.HpTax = this.editPersonalInfo["HP Charges"];
     this.Discount = this.editPersonalInfo.discount;
     this.totalAmount = this.editPersonalInfo.total_amt;
   }
   backsaleDetails() {
-    sessionStorage.removeItem('invoiceData'); 
+    sessionStorage.removeItem('invoiceData');
     this.router.navigate(['sale-details'])
+  }
+  printInvoice(printlist) {
+    this.printStyle = "visible";
+    let printContents = document.getElementById(printlist).innerHTML;
+    let originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
   }
 }
