@@ -8,8 +8,8 @@ export class ManagerServiceService {
 
   constructor(private http:Http) { }
 
-  public getEmployeeDetails(){
-    return this.http.get(environment.host +'employees');
+  public getEmployeeDetails(Url){
+    return this.http.get(environment.host +'employees'+Url);
   }
 
   public saveEmployeeDetails(data:any){

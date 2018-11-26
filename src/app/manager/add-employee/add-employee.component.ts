@@ -66,13 +66,15 @@ export class AddEmployeeComponent implements OnInit {
 
     sessionStorage.removeItem('secondaryLoginData');
     sessionStorage.removeItem('secondaryLoginData2');
-    sessionStorage.removeItem('secondaryLoginData3'); 
- 
-    // sessionStorage.removeItem('backBtnInventory');
-    // sessionStorage.removeItem('backBtnReports'); 
+    sessionStorage.removeItem('secondaryLoginData3');
 
+    let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData1'));
+    console.log("#####")
+    console.log(loginData._results.employee_branch_id)
+    var brurl = '';
+    brurl = brurl + '?branchid=' + loginData._results.employee_branch_id;
     this.loginPopUp();
-    this.service.getEmployeeDetails().subscribe(res => {
+    this.service.getEmployeeDetails(brurl).subscribe(res => {
       this.employees = res.json().result;
       console.log(this.employees);
     })
@@ -81,7 +83,7 @@ export class AddEmployeeComponent implements OnInit {
       console.log(data.json())
       this.empData = data.json().result;
     });
-    
+
     this.http.get(environment.host + 'branches').subscribe(data => {
       console.log(data.json())
       this.brData = data.json().result;
@@ -155,7 +157,7 @@ export class AddEmployeeComponent implements OnInit {
         }
         this.test1 = loginData.json()._results;
 
-        if (loginData.json().status == true && this.test1.emp_type_id == 1 || this.test1.emp_type_id ==2 ) {
+        if (loginData.json().status == true && this.test1.emp_type_id == 1 || this.test1.emp_type_id == 2) {
           //console.log(loginData.json().result[0])
           sessionStorage.setItem('secondaryLoginData1', JSON.stringify(loginData.json()));
           // sessionStorage.setItem('backBtnManager', 'Y');
@@ -294,24 +296,24 @@ export class AddEmployeeComponent implements OnInit {
       console.log(res.json());
     })
   }
-    //this method  allow alphabets 
-    omit_special_char(event) {
-      console.log('key press');
-      var k;
-      k = event.charCode;  //  k = event.keyCode;  (Both can be used)
-      return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 0 || k == 32);
-    }
-    //This Method  allow Numbers
-    only_allow_number(event) {
-      console.log('only number');
-      var n;
-      n = event.charCode
-      return (n == 8 || n == 0 || n == 32 || (n >= 48 && n <= 57))
-    }
-    //this method allow bothe numbers and alphabets
-    allow_numbers_alphabets(event) {
-      var a;
-      a = event.charCode
-      return ((a > 64 && a < 91) || (a > 96 && a < 123) || a == 8 || a == 0 || (a >= 48 && a <= 57));
-    }
+  //this method  allow alphabets 
+  omit_special_char(event) {
+    console.log('key press');
+    var k;
+    k = event.charCode;  //  k = event.keyCode;  (Both can be used)
+    return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 0 || k == 32);
+  }
+  //This Method  allow Numbers
+  only_allow_number(event) {
+    console.log('only number');
+    var n;
+    n = event.charCode
+    return (n == 8 || n == 0 || n == 32 || (n >= 48 && n <= 57))
+  }
+  //this method allow bothe numbers and alphabets
+  allow_numbers_alphabets(event) {
+    var a;
+    a = event.charCode
+    return ((a > 64 && a < 91) || (a > 96 && a < 123) || a == 8 || a == 0 || (a >= 48 && a <= 57));
+  }
 }
