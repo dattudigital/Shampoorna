@@ -157,6 +157,7 @@ export class DashboardComponent implements OnInit {
   branchName: '';
   prYesChecked = '';
   accessriesYes = '';
+  branchId ='';
 
   constructor(private saleUserService: SaleUserService, private formBuilder: FormBuilder, private http: Http, private router: Router, ) { }
 
@@ -164,6 +165,7 @@ export class DashboardComponent implements OnInit {
     this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
     console.log(this.loginData._results.branch_name);
     this.branchName = this.loginData._results.branch_name
+    this.branchId =this.loginData._results.employee_branch_id
 
     this.http.get(environment.host + 'employees').subscribe(employeedata => {
       console.log(employeedata.json().result);
@@ -495,7 +497,7 @@ export class DashboardComponent implements OnInit {
 
   engineSearch(val) {
     if (val.length >= 2) {
-      this.saleUserService.searchEngine(val).subscribe(data => {
+      this.saleUserService.searchEngine(this.branchId,val).subscribe(data => {
         console.log(data.json().result);
         this.temp = [];
         this.temp.push(data.json().result);
@@ -543,6 +545,7 @@ export class DashboardComponent implements OnInit {
     this.vehicleKeyNo = this.selectedOption.vechile_gatepass;
     this.vehicleColor = this.selectedOption.color_name;
     this.vehicleModel = this.selectedOption.model_name;
+    console.log(this.selectedOption.vehicle_variant)
     if (this.selectedOption.vehicle_variant) {
       this.saleUserService.getPriceList(this.selectedOption.vehicle_variant).subscribe(res => {
         console.log(res.json().result)
@@ -554,6 +557,7 @@ export class DashboardComponent implements OnInit {
         this.Registration =  res.json().result[0]["Permantent Registation Cost"];
         this.StandardAcc =  res.json().result[0]["STD ACC"];
         this.VehicleHp =   res.json().result[0]["HP Charges"];
+        console.log(this.VehicleHp)
         this.onRoadPrice =res.json().result[0]["TOTAL"];
         this.tempOnRoadPrice = this.onRoadPrice;
       });
