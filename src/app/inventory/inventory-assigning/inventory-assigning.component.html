@@ -24,7 +24,7 @@
         </div> -->
           <div class="col-sm-6">
 
-            <div class="row form-group">
+            <div class="row form-group" *ngIf="_indentData">
               <label class="col-sm-4 col-form-label required">Indent
                 <span style="color:red">*</span>
               </label>
@@ -170,6 +170,7 @@
                 <select class="form-control" formControlName="status" [(ngModel)]="status" [ngClass]="{ 'is-invalid': submitted && f.status.errors }">
                   <option value="" disabled select></option>
                   <option value="0">Processing</option>
+                  <option *ngIf="!_indentData" value="1">Reject</option>
                   <!-- <option value="1">Transit</option>
                 <option value="2">Delivered</option> -->
                 </select>

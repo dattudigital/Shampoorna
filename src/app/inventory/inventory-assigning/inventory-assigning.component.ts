@@ -59,13 +59,16 @@ export class InventoryAssigningComponent implements OnInit {
   ngOnInit() {
 
     this._indentData = JSON.parse(sessionStorage.getItem('indentData'));
-    this.branchId = this._indentData.br_id;
-    this.indentId = this._indentData.indent_id;
-    setTimeout(() => {
-      this.shippedBy = this._indentData.shipped_by;
-      this.shippedIn = this._indentData.shipped_vechile_no;
-    }, 1);  
-    this.assQuantity = this._indentData.assigned_qty
+    if(this._indentData){
+      this.branchId = this._indentData.br_id;
+      this.indentId = this._indentData.indent_id;
+      setTimeout(() => {
+        this.shippedBy = this._indentData.shipped_by;
+        this.shippedIn = this._indentData.shipped_vechile_no;
+        this.status = '0';
+      }, 1);  
+      this.assQuantity = this._indentData.assigned_qty
+    }
     this.http.get(environment.host + 'indents').subscribe(res => {
       if (res.json().status == true) {
         console.log(res.json().result);
