@@ -543,6 +543,7 @@ export class DashboardComponent implements OnInit {
     this.vehicleKeyNo = this.selectedOption.vechile_gatepass;
     this.vehicleColor = this.selectedOption.color_name;
     this.vehicleModel = this.selectedOption.model_name;
+    console.log(this.selectedOption.vehicle_variant)
     if (this.selectedOption.vehicle_variant) {
       this.saleUserService.getPriceList(this.selectedOption.vehicle_variant).subscribe(res => {
         console.log(res.json().result)
@@ -554,6 +555,7 @@ export class DashboardComponent implements OnInit {
         this.Registration =  res.json().result[0]["Permantent Registation Cost"];
         this.StandardAcc =  res.json().result[0]["STD ACC"];
         this.VehicleHp =   res.json().result[0]["HP Charges"];
+        console.log(this.VehicleHp)
         this.onRoadPrice =res.json().result[0]["TOTAL"];
         this.tempOnRoadPrice = this.onRoadPrice;
       });
