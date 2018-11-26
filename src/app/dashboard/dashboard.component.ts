@@ -142,7 +142,7 @@ export class DashboardComponent implements OnInit {
   exchangeVehicleColor: '';
   exchangeVehicleModel: '';
   vehiclecustomerName: '';
-  exchangeAmount: '';
+  exchangeAmount:any;
   exchangeAmountApprovedBy: '';
   taxData: any;
   employeedata: any;
@@ -750,14 +750,16 @@ export class DashboardComponent implements OnInit {
       sum = sum + this.vehicleAcc
     }
     if (this.isNumber(this.total)) {
-      temp1 =temp1 -this.lifeTax;
+      temp1 = temp1 - this.lifeTax;
       console.log(temp1);
       sum = sum + this.total
     }
     if (this.isNumber(this.discount)) {
       sum = sum - this.discount
     }
-
+    if(this.isNumber(this.exchangeAmount)){
+      sum = sum - this.exchangeAmount;
+    }
     if (sum) {
       console.log(sum)
       console.log(temp1)
@@ -768,11 +770,10 @@ export class DashboardComponent implements OnInit {
       this.onRoadPrice = this.tempOnRoadPrice;
     }
   }
-
+  finalSubmit:boolean=true;
   addTotalAmount() {
     this.cashTotal = 0;
     console.log("***************")
-
     // console.log(this.cashTotal);
     if (this.paymentEmi.chequeAmount && this.paymentEmi.chequeSelect) {
       this.cashTotal = this.cashTotal + this.paymentEmi.chequeAmount;
@@ -783,16 +784,17 @@ export class DashboardComponent implements OnInit {
     if (this.paymentEmi.creditcardAmount && this.paymentEmi.creditcardSelect) {
       this.cashTotal = this.cashTotal + this.paymentEmi.creditcardAmount
     }
-
     if (this.paymentEmi.accounttranferAmount && this.paymentEmi.accountTranferSelect) {
       console.log('account tranfer')
       this.cashTotal = this.cashTotal + this.paymentEmi.accounttranferAmount;
     }
-
     if (this.paymentEmi.othersAmount && this.paymentEmi.othersSelect) {
       this.cashTotal = this.cashTotal + this.paymentEmi.othersAmount
     }
     console.log(this.cashTotal);
+    if (this.onRoadPrice == this.cashTotal) {
+       this.finalSubmit =false;
+    }
   }
   //this method  allow alphabets 
   omit_special_char(event) {
