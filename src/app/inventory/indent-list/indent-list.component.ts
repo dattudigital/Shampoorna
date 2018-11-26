@@ -51,10 +51,10 @@ export class IndentListComponent implements OnInit {
     console.log("#####")
     console.log(loginData._results.employee_branch_id)
     var brurl = '';
-    brurl = brurl + '?status=1'; 
+    brurl = brurl + '?status=1';
     brurl = brurl + '&branchid=' + loginData._results.employee_branch_id;
     this.service.getIndentList(brurl).subscribe(res => {
-      if (res.json().status == true) {
+      if (res.json().status == true) {  
       console.log(res.json().result)
       this.indents = res.json().result
       }
@@ -103,9 +103,7 @@ export class IndentListComponent implements OnInit {
     let newDate1 = moment(this.toDate).format('YYYY-MM-DD').toString();
     this.toDate = newDate1;
     console.log(this.toDate)
-
   }
-
 
   backToInventory() {
     this.router.navigate(['inventory']);
@@ -161,6 +159,10 @@ export class IndentListComponent implements OnInit {
     console.log(this.shipId)
   }
 
+  redirctToInvAssn(){
+    this.router.navigate(['inventory/inventory-assigning']);
+  }
+
   updateIndent() {
     var data = {
       indent_id: this.indent_id,
@@ -199,8 +201,6 @@ export class IndentListComponent implements OnInit {
           }
         )
       }
-      //this.indents.push(res,this.temp)
-      //this.indents[this.temp].indent_req_id = data.indent_req_id;
     })
   }
 
