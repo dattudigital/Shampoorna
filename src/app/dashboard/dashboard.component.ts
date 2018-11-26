@@ -157,7 +157,7 @@ export class DashboardComponent implements OnInit {
   branchName: '';
   prYesChecked = '';
   accessriesYes = '';
-  branchId ='';
+  branchId = '';
 
   constructor(private saleUserService: SaleUserService, private formBuilder: FormBuilder, private http: Http, private router: Router, ) { }
 
@@ -165,7 +165,7 @@ export class DashboardComponent implements OnInit {
     this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
     console.log(this.loginData._results.branch_name);
     this.branchName = this.loginData._results.branch_name
-    this.branchId =this.loginData._results.employee_branch_id
+    this.branchId = this.loginData._results.employee_branch_id
 
     this.http.get(environment.host + 'employees').subscribe(employeedata => {
       console.log(employeedata.json().result);
@@ -310,6 +310,7 @@ export class DashboardComponent implements OnInit {
   accessriesChecked() {
     console.log(this.accessriesYes)
   }
+
   //complete sale details
 
   get f() { return this.personalinfoForm.controls; }
@@ -491,13 +492,12 @@ export class DashboardComponent implements OnInit {
           console.log(response.json());
         })
       }
-
     })
   }
 
   engineSearch(val) {
     if (val.length >= 2) {
-      this.saleUserService.searchEngine(this.branchId,val).subscribe(data => {
+      this.saleUserService.searchEngine(this.branchId, val).subscribe(data => {
         console.log(data.json().result);
         this.temp = [];
         this.temp.push(data.json().result);
@@ -551,45 +551,43 @@ export class DashboardComponent implements OnInit {
         console.log(res.json().result)
         this.vehicleVariant = res.json().result[0].variant_name;
         this.vehicleBasic = res.json().result[0]["EX.PRICE"];
-        this.lifeTax =  res.json().result[0]["LTAX & TR"];
-        this.VehicleInsu =  res.json().result[0]["INS - 1 Yr Comprehensive and 5 Yr Third Party"];
-        this.HandlingC =  res.json().result[0]["FACILIATION CHARGES"];
-        this.Registration =  res.json().result[0]["Permantent Registation Cost"];
-        this.StandardAcc =  res.json().result[0]["STD ACC"];
-        this.VehicleHp =   res.json().result[0]["HP Charges"];
+        this.lifeTax = res.json().result[0]["LTAX & TR"];
+        this.VehicleInsu = res.json().result[0]["INS - 1 Yr Comprehensive and 5 Yr Third Party"];
+        this.HandlingC = res.json().result[0]["FACILIATION CHARGES"];
+        this.Registration = res.json().result[0]["Permantent Registation Cost"];
+        this.StandardAcc = res.json().result[0]["STD ACC"];
+        this.VehicleHp = res.json().result[0][" HP Charges"];
         console.log(this.VehicleHp)
-        this.onRoadPrice =res.json().result[0]["TOTAL"];
+        // this.onRoadPrice =res.json().result[0]["TOTAL"];
+        // this.tempOnRoadPrice = this.onRoadPrice;
+        if (this.vehicleBasic) {
+          console.log(this.vehicleBasic)
+          this.onRoadPrice = this.onRoadPrice + this.vehicleBasic
+        }
+        if (this.onRoadPrice) {
+          this.onRoadPrice = this.onRoadPrice * 1 + this.lifeTax * 1
+        }
+        if (this.onRoadPrice) {
+          this.onRoadPrice = this.onRoadPrice * 1 + this.VehicleInsu * 1
+        }
+        if (this.onRoadPrice) {
+          this.onRoadPrice = this.onRoadPrice * 1 + this.Registration * 1
+        }
+        if (this.onRoadPrice) {
+          this.onRoadPrice = this.onRoadPrice * 1 + this.HandlingC * 1
+        }
+        if (this.onRoadPrice) {
+          this.onRoadPrice = this.onRoadPrice * 1 + this.StandardAcc * 1
+        }
+        if (this.onRoadPrice) {
+          this.onRoadPrice = this.onRoadPrice * 1 + this.VehicleHp * 1
+        }
         this.tempOnRoadPrice = this.onRoadPrice;
+        console.log(this.tempOnRoadPrice)
       });
-      // if(this.vehicleBasic){
-      //   console.log(this.vehicleBasic)
-      //   this.onRoadPrice = this.onRoadPrice * 1 + this.vehicleBasic * 1
-      //   console.log(this.onRoadPrice)
-      // }
-    }
-    //calculate onroadprice with only tax
-   
 
-    // if (this.onRoadPrice) {
-    //   this.onRoadPrice = this.onRoadPrice * 1 + this.lifeTax * 1
-    // }
-    // if (this.onRoadPrice) {
-    //   this.onRoadPrice = this.onRoadPrice * 1 + this.VehicleInsu * 1
-    // }
-    // if (this.onRoadPrice) {
-    //   this.onRoadPrice = this.onRoadPrice * 1 + this.Registration * 1
-    // }
-    // if (this.onRoadPrice) {
-    //   this.onRoadPrice = this.onRoadPrice * 1 + this.HandlingC * 1
-    // }
-    // if (this.onRoadPrice) {
-    //   this.onRoadPrice = this.onRoadPrice * 1 + this.StandardAcc * 1
-    // }
-    // if (this.onRoadPrice) {
-    //   this.onRoadPrice = this.onRoadPrice * 1 + this.VehicleHp * 1
-    // }
-    // this.tempOnRoadPrice = this.onRoadPrice;
-    // console.log(this.tempOnRoadPrice)
+    }
+
 
   }
   approvedEmpEnable() {
@@ -752,6 +750,8 @@ export class DashboardComponent implements OnInit {
       sum = sum + this.vehicleAcc
     }
     if (this.isNumber(this.total)) {
+      temp1 =temp1 -this.lifeTax;
+      console.log(temp1);
       sum = sum + this.total
     }
     if (this.isNumber(this.discount)) {
@@ -759,8 +759,11 @@ export class DashboardComponent implements OnInit {
     }
 
     if (sum) {
+      console.log(sum)
+      console.log(temp1)
       this.withAcc = temp1 * 1 + sum * 1;
       this.onRoadPrice = this.withAcc;
+      console.log(this.onRoadPrice)
     } else {
       this.onRoadPrice = this.tempOnRoadPrice;
     }

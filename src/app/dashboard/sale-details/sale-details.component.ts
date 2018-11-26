@@ -102,7 +102,7 @@ export class SaleDetailsComponent implements OnInit {
       { field: 'proof_type', header: 'Proof Type' },
       { field: 'eng_no', header: 'EngineNo' },
       { field: 'frame_no', header: 'FrameNo' },
-      { field: 'dc_no', header: 'DcNo' },
+     // { field: 'dc_no', header: 'DcNo' },
       { field: 'total_amt', header: 'Total Amount' }
 
     ];
