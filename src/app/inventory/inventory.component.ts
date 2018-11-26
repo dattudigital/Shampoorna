@@ -168,6 +168,7 @@ export class InventoryComponent implements OnInit {
   }
 
   redirectToInvAss() {
+    sessionStorage.removeItem('indentData');
     this.router.navigate(['inventory/inventory-assigning'])
   }
 

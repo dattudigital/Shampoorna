@@ -48,6 +48,7 @@ export class IndentListComponent implements OnInit {
 
   ngOnInit() {
     let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
+
     console.log("#####")
     console.log(loginData._results.employee_branch_id)
     var brurl = '';
@@ -159,9 +160,10 @@ export class IndentListComponent implements OnInit {
     console.log(this.shipId)
   }
 
-  redirctToInvAssn(){
-    this.router.navigate(['inventory/inventory-assigning']);
-  }
+  // redirctToInvAssn(){
+
+  //   this.router.navigate(['inventory/inventory-assigning']);
+  // }
 
   updateIndent() {
     var data = {
@@ -187,7 +189,7 @@ export class IndentListComponent implements OnInit {
       console.log(res.json())
       console.log(res.json().result)
       console.log(this.temp)
-      this.indents.splice(this.temp, 1)
+      
       if (res.json().status == true) {
         this.notif.success(
           'Success',
@@ -199,7 +201,12 @@ export class IndentListComponent implements OnInit {
             clickToClose: true,
             maxLength: 50
           }
-        )
+        )        
+        sessionStorage.setItem('indentData',JSON.stringify(this.indents[this.temp]))
+        setTimeout(() => {
+          this.router.navigate(['inventory/inventory-assigning']);
+        }, 1000);
+        this.indents.splice(this.temp, 1)
       }
     })
   }
