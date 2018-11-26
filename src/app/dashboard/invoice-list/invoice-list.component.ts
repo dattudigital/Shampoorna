@@ -33,6 +33,8 @@ export class InvoiceListComponent implements OnInit {
   HpTax: '';
   Discount: '';
   totalAmount: '';
+  loginData:any=[];
+  branchId:'';
 
   printStyle = "hidden";
 
@@ -40,6 +42,11 @@ export class InvoiceListComponent implements OnInit {
   newIndex: '';
   constructor(private router: Router) { }
   ngOnInit() {
+
+    this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
+    this.branchId =this.loginData._results.employee_branch_id;
+    console.log(this.branchId)
+
     this.editPersonalInfo = JSON.parse(sessionStorage.getItem('invoiceData'));
     console.log(this.editPersonalInfo);
 
@@ -76,12 +83,36 @@ export class InvoiceListComponent implements OnInit {
     sessionStorage.removeItem('invoiceData');
     this.router.navigate(['sale-details'])
   }
+  // printInvoice(printlist) {
+  //   this.printStyle = "visible";
+  //   let printContents = document.getElementById(printlist).innerHTML;
+  //   let originalContents = document.body.innerHTML;
+  //   document.body.innerHTML = printContents;
+  //   window.print();
+  //   document.body.innerHTML = originalContents;
+  // }
   printInvoice(printlist) {
     this.printStyle = "visible";
     let printContents = document.getElementById(printlist).innerHTML;
-    let originalContents = document.body.innerHTML;
-    document.body.innerHTML = printContents;
-    window.print();
-    document.body.innerHTML = originalContents;
+    // let originalContents = document.body.innerHTML;
+    // document.body.innerHTML = printContents;
+    // window.print();
+    // document.body.innerHTML = originalContents;
+    const popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+    popupWin.document.open();
+    popupWin.document.write(  `
+    <html>
+        <head>
+            <title>Print tab</title>           
+            ^^^^^^^^^^^^^ add them as usual to the head
+        </head>
+        <body onload="window.print(); window.close()">
+            ${printContents}
+        </body>
+    </html>
+    `  );
+    popupWin.document.close();
   }
+
+
 }
