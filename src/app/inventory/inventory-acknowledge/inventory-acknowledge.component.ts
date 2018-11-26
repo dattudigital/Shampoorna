@@ -76,7 +76,7 @@ export class InventoryAcknowledgeComponent implements OnInit {
       { field: 'color', header: 'Color' },
       { field: 'engineno', header: 'Engine No.' },
       { field: 'frameno', header: 'Frame No.' },
-      { field: 'make', header: 'Make.' },
+      { field: 'variant', header: 'variant.' },
       { field: 'model', header: 'Model' }
     ];
   }
@@ -112,7 +112,7 @@ export class InventoryAcknowledgeComponent implements OnInit {
     //   url = url + '&type=' + '"' + this.vehicleTypeFilter + '"';
     // }
     if (this.vehicleMakeFilter) {
-      url = url + '&make=' + this.vehicleMakeFilter;
+      url = url + '&variant=' + this.vehicleMakeFilter;
     }
     if (this.vehicleModelFilter) {
       url = url + '&model=' + '"'+ this.vehicleModelFilter + '"';

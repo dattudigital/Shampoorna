@@ -7,6 +7,7 @@ export class InventoryAddPipe implements PipeTransform {
 
   transform(value: any): any {
     var data = [];
+    // let loginData = JSON.parse(sessionStorage.getItem('userSession'));
     console.log(value.length)
     console.log(value.vechile_details);
     value.vechile_details = JSON.parse(value.vechile_details);
@@ -33,7 +34,7 @@ export class InventoryAddPipe implements PipeTransform {
     for (let j = 0; j < value.vechile_details.length; j++) {
       data.push({
         indent_id: value.indent_id,
-        branch_id: value.branch_id,
+        branch_id: value.employee_branch_id,
         shipped_by: value.shipped_by,
         shipped_vechile_no: value.shipped_vechile_no,
         generated_shipping_id:value.generated_shipping_id,
@@ -46,7 +47,7 @@ export class InventoryAddPipe implements PipeTransform {
         color: value.vechile_details[j].color,
         engineno: value.vechile_details[j].engineno,
         frameno: value.vechile_details[j].frameno,
-        make: value.vechile_details[j].make,
+        variant: value.vechile_details[j].variant,
         model: value.vechile_details[j].model
       });
     }

@@ -36,6 +36,7 @@ export class InventoryAssigningComponent implements OnInit {
   assDate = '';
   updateBy = '';
   updateDate = '';
+  loginData:any;
 
   newDate: any;
   newDate2: any;
@@ -47,7 +48,7 @@ export class InventoryAssigningComponent implements OnInit {
       chassisno: "",
       frameno: "",
       color: "",
-      make: "",
+      variant: "",
       model: "",
     }
   ];
@@ -56,6 +57,8 @@ export class InventoryAssigningComponent implements OnInit {
   }
 
   ngOnInit() {
+
+
     this.http.get(environment.host + 'indents').subscribe(res => {
       if (res.json().status == true) {
         console.log(res.json().result);
@@ -101,7 +104,7 @@ export class InventoryAssigningComponent implements OnInit {
         chassisno: "",
         frameno: "",
         color: "",
-        make: "",
+        variant: "",
         model: "",
       })
     console.log(this.vehicles);
@@ -133,9 +136,10 @@ export class InventoryAssigningComponent implements OnInit {
     // }
 
     this.generatedShippedId = Math.floor(Math.random() * 899999 + 100000);
+    this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
     var data: any = {
       indent_id: this.indentId,
-      employee_branch_id: this.branchId,
+      employee_branch_id: this.loginData._results.employee_branch_id,
       shipped_by: this.shippedBy,
       shipped_vechile_no: this.shippedIn,
       assign_qty: this.assQuantity,

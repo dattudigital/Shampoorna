@@ -40,6 +40,7 @@
         <div class="clear"></div>
       </div>
     </div>
+                                                                
     <div class="col-md-4 col-sm-4 col-xs-12">
       <div class="form-group">
         <label for="input" class="col-md-3 control-label">Color</label>
@@ -116,7 +117,7 @@
           <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
             ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
         </th>
-        <th>Edit</th>
+        <th>Update</th>
         <!-- <th>Delete</th> -->
       </tr>
 
@@ -146,6 +147,8 @@
         </td>
         <td href="#" data-toggle="modal" data-target="#editIndent" (click)="editIndent(indents,i)"><i class="fa fa-edit"
             style="color:orange"></i></td>
+            <!-- <td (click)="redirctToInvAssn()"><i class="fa fa-edit"
+              style="color:orange"></i></td> -->
         <!-- <td href="#" data-toggle="modal" data-target="#deleteVehicle" (click)="deleteVehicle(bikes,i)"><i class="fa fa-trash"></i>
       </td> -->
       </tr>
@@ -382,7 +385,7 @@
 
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal" (click)=cancelIndent()>Cancel</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="updateIndent()">Update</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="updateIndent();redirctToInvAssn()">Update</button>
         </div>
       </div>
     </div>
