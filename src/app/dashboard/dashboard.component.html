@@ -446,27 +446,6 @@
 				</div>
 				<br>
 			</div>
-
-			<!-- <div class="col-sm-12">
-				<div class="pr-style">
-					<div class="col-sm-4">
-						<label>PR-</label> &nbsp;&nbsp;
-						<input type="radio" name="pr">Yes &nbsp;&nbsp;
-						<input type="radio" name="pr">No &nbsp;&nbsp;
-					</div>
-					<div class="col-sm-4">
-						<label>Accessories-</label> &nbsp;&nbsp;
-						<input type="radio" name="accessories" [(ngModel)]="selectedRadio" value="y">Yes &nbsp;&nbsp;
-
-						<input type="radio" name="accessories" value="n">No &nbsp;&nbsp;
-						<div class="new-text" *ngIf="selectedRadio == 'y' ">
-							<textarea class="form-control" maxlength="1000" rows="2" name="address"></textarea>
-						</div>
-					</div>
-					<div class="col-sm-4">
-					</div>
-				</div>
-			</div> -->
 		</div>
 		<div class="clear"></div>
 	</div>
@@ -577,7 +556,7 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="text" name="vat" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="exchangeAmount">
+						<input type="text" name="vat" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="exchangeAmount" (ngModelChange)="addTotalTax()" >
 					</div>
 				</div>
 				<div class="row form-group">
@@ -859,14 +838,14 @@
 <div *ngIf="newUser ">
 	<div class="row form-group">
 		<div claas="container">
-			<button type="submit" class="btn btn-warning" (click)="saveUserDeatils('0')" style="float:right;margin-right: 20%">Submit</button>
-		</div>
+				<button type="submit"[disabled]=" finalSubmit" class="btn btn-warning" (click)="saveUserDeatils('0')" style="float:right;margin-right: 20%">Submit</button>
+			</div>
 	</div>
 </div>
 <div *ngIf=" exchangeUser">
 	<div class="row form-group">
 		<div claas="container">
-			<button type="submit" class="btn btn-warning" style="float:right;margin-right: 20%" (click)="saveUserDeatils('1')">Submit</button>
+			<button type="submit" [disabled]=" finalSubmit" class="btn btn-warning" style="float:right;margin-right: 20%" (click)="saveUserDeatils('1')">Submit</button>
 		</div>
 	</div>
 </div>

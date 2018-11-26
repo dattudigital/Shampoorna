@@ -12,15 +12,6 @@
         <div class="clear"></div>
     </div>
 </div>
-<div class="invoice-header">
-    <h3>Invoice Details</h3>
-    <div class="col-sm-4"></div>
-    <div class="col-sm-4"></div>
-    <div class="col-sm-2">
-        <button type="button" class="btn btn-warning pull-right" (click)="printInvoice('printlist')">Print</button>
-    </div>
-    <div class="clear"></div>
-</div>
 <div class="invoice-detailsS">
 
     <div class="personal-info">
@@ -285,7 +276,8 @@
                     </div>
                     <div class="col-sm-2">
                         <div class="input-group">
-                            <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="standardAcc" #vehicleWarranty readonly>
+                            <input type="number" min="0" name="basic" maxlength="50" class="form-control" [(ngModel)]="standardAcc" #vehicleWarranty
+                                readonly>
                             <span class="input-group-addon">
                                 <i class="fa fa-clipboard" aria-hidden="true" [ngxClipboard]="vehicleWarranty" style="cursor:pointer"></i>
                             </span>
@@ -330,18 +322,6 @@
                     </div>
                 </div>
                 <br>
-                <!-- <div class="tableShow" [style.visibility]="disableApprovedBy">
-                    <div class="row form-group">
-                        <label class="col-sm-4">Discount Approved By
-                        </label>
-                        <div class="col-sm-4">
-                            <select name="emp" class="form-control" [(ngModel)]="discountApprovedBy">
-                                <option value="" disabled select>select</option>
-                                <option *ngFor="let manager of branchManagerData" [ngValue]="manager.employee_id">{{manager.employee_firstname}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div> -->
                 <div class="row form-group">
                     <label class="col-sm-4">Total Amount
                     </label>
@@ -356,13 +336,22 @@
                     </div>
                 </div>
                 <br>
-
             </div>
 
 
         </div>
         <div class="clear"></div>
     </div>
+</div>
+
+<div class="invoice-header">
+    <h3>Invoice Details</h3>
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4"></div>
+    <div class="col-sm-2">
+        <button type="button" class="btn btn-warning pull-right" (click)="printInvoice('printlist')">Print</button>
+    </div>
+    <div class="clear"></div>
 </div>
 
 <div class="tableShow" id="printlist" [style.visibility]="printStyle">
@@ -377,7 +366,7 @@
                                     <br/> Invoice No.A104</h3>
                             </td>
                             <td>
-                                <h3 style="margin: 0px -30px 0 0px;background: #0f3e73;color: #fff;padding: 20px;display: inline;position: relative;top: 37px;letter-spacing: 2px;font-size: 25px;">
+                                <h3>
                                     Vehicle Invoice</h3>
                             </td>
                         </tr>
@@ -387,18 +376,16 @@
                                     <br/> Invoice Date.24-11-2018</h3>
                             </td>
                             <td></td>
-
                         </tr>
                         <tr>
                     </table>
                 </td>
                 </tr>
-
                 <tr class="information">
-                    <td colspan="2">
+                    <td colspan="3">
                         <table style="background: #e7e7e7;border: 2px solid #ccc;">
                             <tr>
-                                <td style="width: 50%;border-right:1px solid #ccc;">
+                                <td style="width: 70%;border-right:1px solid #ccc;">
                                     <table>
                                         <tr>
                                             <td>
@@ -412,11 +399,17 @@
                                                 <br>GST NO-36AH0PB5828N1ZU,
                                                 <br>CST No :
                                             </td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
                                     </table>
                                 </td>
-                                <td style="width: 50%;">
-                                    <table width="100%" class="user-summary">
+                                <td style="width: 60%;">
+                                    <table class="user-summary">
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
                                         <tr>
                                             <td>Name &</td>
                                             <td>{{firstName}} </td>
@@ -469,11 +462,11 @@
                             <tr>
                                 <td>SPORT KS MATTE BLUE</td>
                                 <td>SCOOTERETT</td>
-                                <td>37,250.00</td>
-                                <td>29,101.36</td>
+                                <td>{{totalAmount}}</td>
+                                <td>{{basciPrice}}</td>
                                 <td></td>
                                 <td>1</td>
-                                <td>29,101.36</td>
+                                <td>{{totalAmount}}</td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -530,28 +523,28 @@
                                 <td>37,250.22</td>
                             </tr>
                             <tr>
-                                <td colspan="5" style="text-align: right !important;">Rupees ThirtySeven Thousand Two Hundred Fifty Only </td>
+                                <td colspan="5">{{words}}</td>
                                 <td>Grand Total</td>
-                                <td>37,250.00</td>
+                                <td>55,250.00</td>
                             </tr>
 
                         </table>
                     </td>
                 </tr>
                 <tr class="heading">
-                    <td colspan="2">
+                    <td colspan="3">
                         <table width="100%">
                             <tr>
-                                <td colspan="2" style="text-align: right !important;"> Part Description </td>
-                                <td colspan="2" style="text-align: right !important;"> Frame No. </td>
-                                <td colspan="2" style="text-align: right !important;"> Engine No. </td>
+                                <td> Part Description </td>
+                                <td> Frame No. </td>
+                                <td> Engine No. </td>
                                 <td>CWI Booklet No.</td>
                             </tr>
                             <tr>
-                                <td colspan="2" style="text-align: right !important;">SPORT KS MATTE BLUE</td>
-                                <td colspan="2" style="text-align: right !important;"> {{FrameNo}} </td>
-                                <td colspan="2" style="text-align: right !important;"> {{EngineNo}} </td>
-                                <td>CWI Booklet No.</td>
+                                <td>SPORT KS MATTE BLUE</td>
+                                <td> {{FrameNo}} </td>
+                                <td> {{EngineNo}} </td>
+                                <td></td>
                             </tr>
 
                         </table>
