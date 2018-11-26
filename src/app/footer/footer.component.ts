@@ -25,7 +25,7 @@ export class FooterComponent implements OnInit {
     window.sessionStorage.removeItem('secondaryLoginData1');
     window.sessionStorage.removeItem('secondaryLoginData2');
     window.sessionStorage.removeItem('secondaryLoginData3');
-   window.sessionStorage.clear
+    window.sessionStorage.clear
    this.router.navigate(['login'])
 
   }

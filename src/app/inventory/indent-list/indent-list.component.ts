@@ -51,7 +51,8 @@ export class IndentListComponent implements OnInit {
     console.log("#####")
     console.log(loginData._results.employee_branch_id)
     var brurl = '';
-    brurl = brurl + '?branchid=' + loginData._results.employee_branch_id;
+    brurl = brurl + '?status=1'; 
+    brurl = brurl + '&branchid=' + loginData._results.employee_branch_id;
     this.service.getIndentList(brurl).subscribe(res => {
       if (res.json().status == true) {
       console.log(res.json().result)
@@ -78,17 +79,17 @@ export class IndentListComponent implements OnInit {
 
     this.cols = [
       { field: 'indent_req_id', header: 'Indent Req ID' },
-      { field: 'color_name', header: 'Color' },
       { field: 'type_name', header: 'Type' },
-      { field: 'make_name', header: 'Make' },
       { field: 'model_name', header: 'Model' },
+      { field: 'variant_name', header: 'Variant' },
+      { field: 'color_name', header: 'Color' },
       { field: 'req_qty', header: 'Required Qty' },
       // { field: 'assigned_qty', header: 'Assaigned Qty.' },
       { field: 'req_on_date', header: 'Req. On Date', type: this.dp },
       // { field: 'assigned_on', header: 'Assaigned On', type: this.dp },
       // { field: 'updated_on', header: 'Updated On', type: this.dp },
-      { field: 'assignedby', header: 'Assaigned By' },
-      { field: 'updatedby', header: 'Updated By' },
+      { field: 'createdemp', header: 'Assaigned By' },
+      { field: 'updatedemp', header: 'Updated By' },
     ];
   }
 
@@ -116,7 +117,7 @@ export class IndentListComponent implements OnInit {
   br_id = '';
   veh_color = '';
   veh_type = '';
-  veh_make = '';
+  veh_variant = '';
   veh_model = '';
   req_qty = '';
   assigned_qty = '';
@@ -143,7 +144,7 @@ export class IndentListComponent implements OnInit {
     this.br_id = this.editData[index].br_id;
     this.veh_color = this.editData[index].veh_color;
     this.veh_type = this.editData[index].veh_type;
-    this.veh_make = this.editData[index].veh_make;
+    this.veh_variant = this.editData[index].veh_variant;
     this.veh_model = this.editData[index].veh_model;
     this.req_qty = this.editData[index].req_qty;
     this.assigned_qty = this.editData[index].assigned_qty;
@@ -168,7 +169,7 @@ export class IndentListComponent implements OnInit {
       br_id: this.br_id,
       veh_type: this.veh_type,
       veh_color: this.veh_color,
-      veh_make: this.veh_make,
+      veh_variant: this.veh_variant,
       veh_model: this.veh_model,
       req_qty: this.req_qty,
       assigned_qty: this.assigned_qty,
