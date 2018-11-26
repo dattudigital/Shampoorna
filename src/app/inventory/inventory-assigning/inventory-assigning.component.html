@@ -86,7 +86,10 @@
               <label class="col-sm-4 col-form-label required"> Shipped Vehicle No.
               </label>
               <div class="col-sm-5">
-                <input type="text" maxlength="50" class="form-control" formControlName="shippedBy" [(ngModel)]="shippedIn" (keypress)="allow_numbers_alphabets($event)">
+                <input type="text" maxlength="50" class="form-control" formControlName="shippedIn" [(ngModel)]="shippedIn" >
+                 <div *ngIf="submitted && f.shippedIn.errors" class="invalid-feedback">
+                  <div *ngIf="f.shippedIn.errors.required" style="color:red">shippimg No. is required</div>
+                </div>
               </div>
             </div>
             <div class=" row form-group">
