@@ -185,7 +185,7 @@ export class InvoiceListComponent implements OnInit {
     popupWin.document.write(`
     <html>
         <head>
-            <title>invoice form</title>           
+            <title>INVOICE FORM</title>           
         </head>
         <body onload="window.print(); window.close()">
             ${printContents}

@@ -9,8 +9,8 @@ import { DashboardServiceService } from '../services/dashboard-service.service';
 })
 export class SaleDashboardComponent implements OnInit {
   todaySaleCount: '';
-  totalsaleCount: '';
-  todaySaleData: '';
+  totalsaleCount = '';
+  todaySaleData = '';
   loginData: any = [];
   errorMessage = false;
   errorMessage2 = false;
