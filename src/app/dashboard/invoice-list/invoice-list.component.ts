@@ -193,6 +193,7 @@ export class InvoiceListComponent implements OnInit {
     </html>
     `  );
     popupWin.document.close();
+    this.printStyle ="hidden";
   }
 
 
