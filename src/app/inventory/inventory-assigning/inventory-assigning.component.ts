@@ -10,6 +10,7 @@ import { InventoryListPipe } from '../../pipe/inventory-list.pipe';
 import { InventoryAddPipe } from '../../pipe/inventory-add.pipe';
 import { NotificationsService } from 'angular2-notifications';
 import * as moment from 'moment';
+import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 
 @Component({
   selector: 'app-inventory-assigning',
@@ -135,6 +136,48 @@ export class InventoryAssigningComponent implements OnInit {
     this.updateDate = newDate2;
     console.log(this.updateDate)
   }
+  selectedValue: string;
+  temp: any[] = new Array();
+  noResult = false;
+  selectedOption: any = '';
+  assignIndex:any;
+  getEngineDetail(val,index) {
+    console.log(index);
+    this.assignIndex =index;
+    console.log(val);
+    if (val.length >= 1) {
+      this.http.get(environment.host + 'get-engine-details/' + val).subscribe(data => {
+        console.log(data.json().result);
+        this.temp = [];
+        this.temp.push(data.json().result);
+        if (data.json().status == false) {
+          this.indentData = [];
+          this.noResult = true;
+        } else {
+          this.noResult = false;
+          this.indentData = this.temp.pop();
+          this.vehicles[index].color  =data.json().result[0].color_name;
+          this.vehicles[index].frameno  =data.json().result[0]["Frame No"];
+          this.vehicles[index].chassisno  =data.json().result[0]["Frame No"];
+          this.vehicles[index].variant  =data.json().result[0].variant_name;
+          this.vehicles[index].model  =data.json().result[0].model_name;
+          console.log(this.indentData[this.assignIndex])
+        }
+      })
+    } else {
+      this.noResult = false;
+      this.indentData = [];
+    }
+  }
+  // onSelect(event: TypeaheadMatch): void {
+  //   this.selectedOption = event.item;
+  //   console.log(this.selectedOption);
+  //   this.vehicles.chassisno = this.selectedOption["Frame No"];
+  //   this.vehicleDcNo = this.selectedOption.vechicle_dcno;
+  //   this.vehicleKeyNo = this.selectedOption.vechile_gatepass;
+  //   this.vehicleColor = this.selectedOption.color_name;
+  //   this.vehicleModel = this.selectedOption.model_name;
+  // }
 
 
   get f() { return this.InventoryAssignForm.controls; }
