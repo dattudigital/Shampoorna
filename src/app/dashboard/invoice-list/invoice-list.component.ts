@@ -88,7 +88,7 @@ export class InvoiceListComponent implements OnInit {
     this.router.navigate(['sale-details'])
   }
   value: any;
-  convertNumberToWords(amount) {
+   convertNumberToWords(amount) {
     var words = new Array();
     words[0] = '';
     words[1] = 'One';
@@ -124,51 +124,51 @@ export class InvoiceListComponent implements OnInit {
     var n_length = number.length;
     var words_string = "";
     if (n_length <= 9) {
-      var n_array = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0);
-      var received_n_array = new Array();
-      for (var i = 0; i < n_length; i++) {
-        received_n_array[i] = number.substr(i, 1);
-      }
-      for (var i = 9 - n_length, j = 0; i < 9; i++ , j++) {
-        n_array[i] = received_n_array[j];
-      }
-      for (var i = 0, j = 1; i < 9; i++ , j++) {
-        if (i == 0 || i == 2 || i == 4 || i == 7) {
-          if (n_array[i] == 1) {
-            n_array[j] = 10 + (n_array[j]);
-            n_array[i] = 0;
-          }
+        var n_array = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0);
+        var received_n_array = new Array();
+        for (var i = 0; i < n_length; i++) {
+            received_n_array[i] = number.substr(i, 1);
         }
-      }
-      this.value = "";
-      for (var i = 0; i < 9; i++) {
-        if (i == 0 || i == 2 || i == 4 || i == 7) {
-          this.value = n_array[i] * 10;
-        } else {
-          this.value = n_array[i];
+        for (var i = 9 - n_length, j = 0; i < 9; i++, j++) {
+            n_array[i] = received_n_array[j];
         }
-        if (this.value != 0) {
-          words_string += words[this.value] + " ";
+        for (var i = 0, j = 1; i < 9; i++, j++) {
+            if (i == 0 || i == 2 || i == 4 || i == 7) {
+                if (n_array[i] == 1) {
+                    n_array[j] = 10 + Math.floor(n_array[j]);
+                    n_array[i] = 0;
+                }
+            }
         }
-        if ((i == 1 && this.value != 0) || (i == 0 && this.value != 0 && n_array[i + 1] == 0)) {
-          words_string += "Crores ";
+        this.value = "";
+        for (var i = 0; i < 9; i++) {
+            if (i == 0 || i == 2 || i == 4 || i == 7) {
+                this.value = n_array[i] * 10;
+            } else {
+              this.value = n_array[i];
+            }
+            if (this.value != 0) {
+                words_string += words[this.value] + " ";
+            }
+            if ((i == 1 && this.value != 0) || (i == 0 && this.value != 0 && n_array[i + 1] == 0)) {
+                words_string += "Crores ";
+            }
+            if ((i == 3 && this.value != 0) || (i == 2 && this.value != 0 && n_array[i + 1] == 0)) {
+                words_string += "Lakhs ";
+            }
+            if ((i == 5 && this.value != 0) || (i == 4 && this.value != 0 && n_array[i + 1] == 0)) {
+                words_string += "Thousand ";
+            }
+            if (i == 6 && this.value != 0 && (n_array[i + 1] != 0 && n_array[i + 2] != 0)) {
+                words_string += "Hundred and ";
+            } else if (i == 6 && this.value != 0) {
+                words_string += "Hundred ";
+            }
         }
-        if ((i == 3 && this.value != 0) || (i == 2 && this.value != 0 && n_array[i + 1] == 0)) {
-          words_string += "Lakhs ";
-        }
-        if ((i == 5 && this.value != 0) || (i == 4 && this.value != 0 && n_array[i + 1] == 0)) {
-          words_string += "Thousand ";
-        }
-        if (i == 6 && this.value != 0 && (n_array[i + 1] != 0 && n_array[i + 2] != 0)) {
-          words_string += "Hundred and ";
-        } else if (i == 6 && this.value != 0) {
-          words_string += "Hundred ";
-        }
-      }
-      words_string = words_string.split("  ").join(" ");
+        words_string = words_string.split("  ").join(" ");
     }
     return words_string;
-  }
+}
   // printInvoice(printlist) {
   //   this.printStyle = "visible";
   //   let printContents = document.getElementById(printlist).innerHTML;
