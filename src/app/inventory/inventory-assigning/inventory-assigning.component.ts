@@ -37,8 +37,8 @@ export class InventoryAssigningComponent implements OnInit {
   assDate = '';
   updateBy = '';
   updateDate = '';
-  loginData:any;
-  _indentData:any ;
+  loginData: any;
+  _indentData: any;
   newDate: any;
   newDate2: any;
   public options = { position: ["top", "right"] }
@@ -58,16 +58,15 @@ export class InventoryAssigningComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this._indentData = JSON.parse(sessionStorage.getItem('indentData'));
-    if(this._indentData){
+    if (this._indentData) {
       this.branchId = this._indentData.br_id;
       this.indentId = this._indentData.indent_id;
       setTimeout(() => {
         this.shippedBy = this._indentData.shipped_by;
         this.shippedIn = this._indentData.shipped_vechile_no;
         this.status = '0';
-      }, 1);  
+      }, 1);
       this.assQuantity = this._indentData.assigned_qty
     }
     this.http.get(environment.host + 'indents').subscribe(res => {
@@ -108,17 +107,19 @@ export class InventoryAssigningComponent implements OnInit {
     this.vehicles.splice(index, 1)
   }
 
-  addInventoryAssign(data, i) {
-    console.log('add')
+  addInventoryAssign(data,index) {
+    console.log(index)
+    console.log('add');
     this.vehicles.push(
       {
         engineno: "",
-        chassisno: "",
         frameno: "",
         color: "",
         variant: "",
         model: "",
+
       })
+
     console.log(this.vehicles);
   }
 
@@ -140,10 +141,11 @@ export class InventoryAssigningComponent implements OnInit {
   temp: any[] = new Array();
   noResult = false;
   selectedOption: any = '';
-  assignIndex:any;
-  getEngineDetail(val,index) {
+  assignIndex: any;
+
+  getEngineDetail(val, index) {
     console.log(index);
-    this.assignIndex =index;
+    this.assignIndex = index;
     console.log(val);
     if (val.length >= 1) {
       this.http.get(environment.host + 'get-engine-details/' + val).subscribe(data => {
@@ -156,12 +158,12 @@ export class InventoryAssigningComponent implements OnInit {
         } else {
           this.noResult = false;
           this.indentData = this.temp.pop();
-          this.vehicles[index].color  =data.json().result[0].color_name;
-          this.vehicles[index].frameno  =data.json().result[0]["Frame No"];
-          this.vehicles[index].chassisno  =data.json().result[0]["Frame No"];
-          this.vehicles[index].variant  =data.json().result[0].variant_name;
-          this.vehicles[index].model  =data.json().result[0].model_name;
-          console.log(this.indentData[this.assignIndex])
+          // this.vehicles[index].color = data.json().result[0].color_name;
+          // this.vehicles[index].frameno = data.json().result[0]["Frame No"];
+          // this.vehicles[index].chassisno = data.json().result[0]["Frame No"];
+          // this.vehicles[index].variant = data.json().result[0].variant_name;
+          // this.vehicles[index].model = data.json().result[0].model_name;
+          // console.log(this.indentData[this.assignIndex])
         }
       })
     } else {
@@ -169,16 +171,15 @@ export class InventoryAssigningComponent implements OnInit {
       this.indentData = [];
     }
   }
-  // onSelect(event: TypeaheadMatch): void {
-  //   this.selectedOption = event.item;
-  //   console.log(this.selectedOption);
-  //   this.vehicles.chassisno = this.selectedOption["Frame No"];
-  //   this.vehicleDcNo = this.selectedOption.vechicle_dcno;
-  //   this.vehicleKeyNo = this.selectedOption.vechile_gatepass;
-  //   this.vehicleColor = this.selectedOption.color_name;
-  //   this.vehicleModel = this.selectedOption.model_name;
-  // }
 
+  onSelect(event: TypeaheadMatch): void {
+    this.selectedOption = event.item;
+    console.log(this.selectedOption);
+     this.vehicles.frameno = this.selectedOption["Frame No"];
+      this.vehicles.color = this.selectedOption.color_name;
+      this.vehicles.model = this.selectedOption.model_name;
+      this.vehicles.variant = this.selectedOption.variant_name;
+  }
 
   get f() { return this.InventoryAssignForm.controls; }
 

@@ -142,7 +142,7 @@ export class DashboardComponent implements OnInit {
   exchangeVehicleColor: '';
   exchangeVehicleModel: '';
   vehiclecustomerName: '';
-  exchangeAmount:any;
+  exchangeAmount: any;
   exchangeAmountApprovedBy: '';
   taxData: any;
   employeedata: any;
@@ -158,6 +158,7 @@ export class DashboardComponent implements OnInit {
   prYesChecked = '';
   accessriesYes = '';
   branchId = '';
+  fieldsData: any = [];
 
   constructor(private saleUserService: SaleUserService, private formBuilder: FormBuilder, private http: Http, private router: Router, ) { }
 
@@ -166,6 +167,30 @@ export class DashboardComponent implements OnInit {
     console.log(this.loginData._results.branch_name);
     this.branchName = this.loginData._results.branch_name
     this.branchId = this.loginData._results.employee_branch_id
+
+    if (sessionStorage.salesdata) {
+      this.fieldsData = JSON.parse(sessionStorage.getItem('salesdata'))
+      this.name = this.fieldsData.name;
+      this.nameOnRc = this.fieldsData.nameOnRc;
+      // if (this.fieldsData.dob) {
+      //   console.log(this.fieldsData.dob)
+      //   let newDate1 = moment(this.fieldsData.dob).format('DD-MM-YYYY').toString();
+      //   this.dob = newDate1;
+      //   console.log(this.dob)
+      // }
+      this.dob = this.fieldsData.dob;
+      this.relationName = this.fieldsData.relationName;
+      this.address = this.fieldsData.address;
+      this.pincode = this.fieldsData.pincode;
+      this.mandal = this.fieldsData.mandal;
+      this.districtName = this.fieldsData.districtName;
+      this.email = this.fieldsData.email;
+      this.mobile =this.fieldsData.mobile;
+      this.addressProof =this.fieldsData.addressProof;
+      this.addressProofNo =this.fieldsData.addressProofNo
+
+
+    }
 
     this.http.get(environment.host + 'employees').subscribe(employeedata => {
       console.log(employeedata.json().result);
@@ -532,7 +557,6 @@ export class DashboardComponent implements OnInit {
         console.log(this.total);
       }
     }
-
   }
 
   tempOnRoadPrice: number;
@@ -757,7 +781,7 @@ export class DashboardComponent implements OnInit {
     if (this.isNumber(this.discount)) {
       sum = sum - this.discount
     }
-    if(this.isNumber(this.exchangeAmount)){
+    if (this.isNumber(this.exchangeAmount)) {
       sum = sum - this.exchangeAmount;
     }
     if (sum) {
@@ -770,7 +794,7 @@ export class DashboardComponent implements OnInit {
       this.onRoadPrice = this.tempOnRoadPrice;
     }
   }
-  finalSubmit:boolean=true;
+  finalSubmit: boolean = true;
   addTotalAmount() {
     this.cashTotal = 0;
     console.log("***************")
@@ -793,7 +817,7 @@ export class DashboardComponent implements OnInit {
     }
     console.log(this.cashTotal);
     if (this.onRoadPrice == this.cashTotal) {
-       this.finalSubmit =false;
+      this.finalSubmit = false;
     }
   }
   //this method  allow alphabets 
@@ -815,5 +839,24 @@ export class DashboardComponent implements OnInit {
     var a;
     a = event.charCode
     return ((a > 64 && a < 91) || (a > 96 && a < 123) || a == 8 || a == 0 || (a >= 48 && a <= 57));
+  }
+  LeaveFields() {
+    console.log('mouseleave')
+    var data = {
+      name: this.name,
+      nameOnRc: this.nameOnRc,
+      dob: this.dob,
+      relationName: this.relationName,
+      address: this.address,
+      mandal: this.mandal,
+      pincode: this.pincode,
+      districtName: this.districtName,
+      mobile:this.mobile,
+      email:this.email,
+      addressProof:this.addressProof,
+      addressProofNo:this.addressProofNo,
+    }
+    sessionStorage.setItem('salesdata', JSON.stringify(data))
+
   }
 } 

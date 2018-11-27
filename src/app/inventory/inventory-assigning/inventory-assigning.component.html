@@ -86,8 +86,8 @@
               <label class="col-sm-4 col-form-label required"> Shipped Vehicle No.
               </label>
               <div class="col-sm-5">
-                <input type="text" maxlength="50" class="form-control" formControlName="shippedIn" [(ngModel)]="shippedIn" >
-                 <div *ngIf="submitted && f.shippedIn.errors" class="invalid-feedback">
+                <input type="text" maxlength="50" class="form-control" formControlName="shippedIn" [(ngModel)]="shippedIn">
+                <div *ngIf="submitted && f.shippedIn.errors" class="invalid-feedback">
                   <div *ngIf="f.shippedIn.errors.required" style="color:red">shippimg No. is required</div>
                 </div>
               </div>
@@ -205,18 +205,13 @@
                   <span style="color:red">*</span>
                 </label>
                 <div class="col-sm-7">
-                    <input type="text" placeholder="Enter Engine Number" name="Engine" maxlength="50" [(ngModel)]="selectedValue" [(ngModel)]="vehicle.engineno"
-                    (ngModelChange)='getEngineDetail($event,i)' [typeahead]="indentData" typeaheadOptionField="Engine No" 
+                  <input type="text" placeholder="Enter Engine Number" name="Engine" maxlength="50" [(ngModel)]="selectedValue" [(ngModel)]="vehicle.engineno"
+                    (ngModelChange)='getEngineDetail($event,i)' [typeahead]="indentData" typeaheadOptionField="Engine No" (typeaheadOnSelect)="onSelect($event)"
                     class="form-control">
-
-                  <!-- <input type="text" maxlength="50" class="form-control" [(ngModel)]="vehicle.engineno" (ngModelChange)="getEngineDetail($event,i)"> -->
                 </div>
-                <!-- <div *ngIf="submitted && f.engineno.errors" class="invalid-feedback">
-                  <div *ngIf="f.engineno.errors.required" style="color:red">Engine Number is required</div>
-                </div> -->
               </div>
             </div>
-            <div class="col-sm-4">
+            <!-- <div class="col-sm-4">
               <div class="row form-group">
                 <label class="col-sm-5 col-form-label required"> Chassis No
                   <span style="color:red">*</span>
@@ -224,22 +219,16 @@
                 <div class="col-sm-7">
                   <input type="text" maxlength="50" class="form-control" [(ngModel)]="vehicle.chassisno">
                 </div>
-                <!-- <div *ngIf="submitted && f.chassisno.errors" class="invalid-feedback">
-                  <div *ngIf="f.chassisno.errors.required" style="color:red">Chassis Number is required</div>
-                </div> -->
               </div>
-            </div>
+            </div> -->
             <div class="col-sm-4">
               <div class="row form-group">
                 <label class="col-sm-5 col-form-label required"> Frame No
                   <span style="color:red">*</span>
                 </label>
                 <div class="col-sm-7">
-                  <input type="text" maxlength="50" class="form-control" [(ngModel)]="vehicle.frameno">
+                  <input type="text" maxlength="50" class="form-control" [(ngModel)]="vehicles.frameno">
                 </div>
-                <!-- <div *ngIf="submitted && f.frameno.errors" class="invalid-feedback">
-                  <div *ngIf="f.frameno.errors.required" style="color:red">Frame Number is required</div>
-                </div> -->
               </div>
             </div>
           </div>
@@ -250,11 +239,8 @@
                   <span style="color:red">*</span>
                 </label>
                 <div class="col-sm-7">
-                  <input type="text" maxlength="50" class="form-control" [(ngModel)]="vehicle.color">
+                  <input type="text" maxlength="50" class="form-control" [(ngModel)]="vehicles.color">
                 </div>
-                <!-- <div *ngIf="submitted && f.color.errors" class="invalid-feedback">
-                  <div *ngIf="f.color.errors.required" style="color:red">Color is required</div>
-                </div> -->
               </div>
             </div>
             <div class="col-sm-4">
@@ -263,11 +249,8 @@
                   <span style="color:red">*</span>
                 </label>
                 <div class="col-sm-7">
-                  <input type="text" maxlength="50" class="form-control" [(ngModel)]="vehicle.variant">
+                  <input type="text" maxlength="50" class="form-control" [(ngModel)]="vehicles.variant">
                 </div>
-                <!-- <div *ngIf="submitted && f.make.errors" class="invalid-feedback">
-                  <div *ngIf="f.make.errors.required" style="color:red">Make is required</div>
-                </div> -->
               </div>
             </div>
             <div class="col-sm-4">
@@ -276,11 +259,8 @@
                   <span style="color:red">*</span>
                 </label>
                 <div class="col-sm-7">
-                  <input type="text" maxlength="50" class="form-control" [(ngModel)]="vehicle.model">
+                  <input type="text" maxlength="50" class="form-control" [(ngModel)]="vehicles.model">
                 </div>
-                <!-- <div *ngIf="submitted && f.model.errors" class="invalid-feedback">
-                  <div *ngIf="f.model.errors.required" style="color:red">Model is required</div>
-                </div> -->
               </div>
             </div>
           </div>

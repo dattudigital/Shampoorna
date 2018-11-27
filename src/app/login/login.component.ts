@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit {
   }
 
   loginSubmite() {
+    sessionStorage.removeItem('salesdata')
     var data = {
       password: this.password,
       email_id: this.mailId
