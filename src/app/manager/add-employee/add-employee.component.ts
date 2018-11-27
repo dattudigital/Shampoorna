@@ -56,6 +56,8 @@ export class AddEmployeeComponent implements OnInit {
 
 
 
+
+
   constructor(private cdr: ChangeDetectorRef, private http: Http, private spinner: NgxSpinnerService, private service: ManagerServiceService, private formBuilder: FormBuilder, private router: Router, private loginservice: LoginService) { }
 
   ngAfterViewChecked() {
@@ -67,17 +69,7 @@ export class AddEmployeeComponent implements OnInit {
     sessionStorage.removeItem('secondaryLoginData');
     sessionStorage.removeItem('secondaryLoginData2');
     sessionStorage.removeItem('secondaryLoginData3');
-
-    let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData1'));
-    console.log("#####")
-    console.log(loginData._results.employee_branch_id)
-    var brurl = '';
-    brurl = brurl + '?branchid=' + loginData._results.employee_branch_id;
     this.loginPopUp();
-    this.service.getEmployeeDetails(brurl).subscribe(res => {
-      this.employees = res.json().result;
-      console.log(this.employees);
-    })
 
     this.http.get(environment.host + 'emp-types').subscribe(data => {
       console.log(data.json())
@@ -88,7 +80,6 @@ export class AddEmployeeComponent implements OnInit {
       console.log(data.json())
       this.brData = data.json().result;
     });
-
 
     this.cols = [
       { field: 'employee_firstname', header: 'First Name' },
@@ -134,14 +125,6 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   loginSubmite() {
-    console.log(sessionStorage)
-    console.log(sessionStorage.secondaryLoginData1)
-    if (sessionStorage.secondaryLoginData1) {
-      sessionStorage.removeItem('secondaryLoginData1');
-
-      // window.sessionStorage.removeItem('secondaryLoginData1');
-      //console.log('secondaryLoginData')
-    }
     var data = {
       password: this.passwordLogin,
       email_id: this.mailId
@@ -158,9 +141,13 @@ export class AddEmployeeComponent implements OnInit {
         this.test1 = loginData.json()._results;
 
         if (loginData.json().status == true && this.test1.emp_type_id == 1 || this.test1.emp_type_id == 2) {
-          //console.log(loginData.json().result[0])
           sessionStorage.setItem('secondaryLoginData1', JSON.stringify(loginData.json()));
-          // sessionStorage.setItem('backBtnManager', 'Y');
+          var brurl = '';
+          brurl = brurl + '?branchid=' + loginData.json()._results.employee_branch_id;
+          this.service.getEmployeeDetails(brurl).subscribe(res => {
+            this.employees = res.json().result;
+            console.log(this.employees);
+          })
           $('#myModal').modal('hide');
           this.titleStyle = "visible";
         } else {

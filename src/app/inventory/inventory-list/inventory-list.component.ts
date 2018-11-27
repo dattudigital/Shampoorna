@@ -120,7 +120,7 @@ export class InventoryListComponent implements OnInit {
     //   url = url + '&type=' + '"' + this.vehicleTypeFilter + '"';
     // }
     if (this.vehicleVariantFilter) {
-      url = url + '&make=' + this.vehicleVariantFilter;
+      url = url + '&variant=' + this.vehicleVariantFilter;
     }
     if (this.vehicleModelFilter) {
       url = url + '&model=' + '"'+ this.vehicleModelFilter + '"';
