@@ -62,6 +62,7 @@ import { VehicleVariantComponent } from './setup/setup-vehicle/vehicle-variant/v
 import { VehicleColorComponent } from './setup/setup-vehicle/vehicle-color/vehicle-color.component';
 import { VehicleMadeComponent } from './setup/setup-vehicle/vehicle-made/vehicle-made.component';
 import { AddPriceListComponent } from './setup/add-price-list/add-price-list.component';
+import { EmpTypePipe } from './pipe/emp-type.pipe';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -147,6 +148,7 @@ const routes: Routes = [
     VehicleColorComponent,
     VehicleMadeComponent,
     AddPriceListComponent
+    
 
   ],
   imports: [
@@ -171,7 +173,7 @@ const routes: Routes = [
 
 
   ],
-  providers: [AuthGuard, InventoryListPipe, MessageService, InventoryAddPipe],
+  providers: [AuthGuard, InventoryListPipe, MessageService, InventoryAddPipe,EmpTypePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
