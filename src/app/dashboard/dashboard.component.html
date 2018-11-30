@@ -56,7 +56,7 @@
 						</label>
 						<div class="col-sm-5">
 							<input type="text" formControlName="FirstName" (keypress)="omit_special_char($event)" maxlength="50" placeholder="Customer Name"
-							 class="form-control" [ngClass]="{ 'is-invalid': submitted && f.FirstName.errors }" [(ngModel)]="name" (mouseleave)="LeaveFields()">
+							 class="form-control" [ngClass]="{ 'is-invalid': submitted && f.FirstName.errors }" [(ngModel)]="name" (mouseleave)="leaveFields()">
 							<div *ngIf="submitted && f.FirstName.errors" class="invalid-feedback">
 								<div *ngIf="f.FirstName.errors.required" style="color:#ff0000">First Name is required</div>
 							</div>
@@ -68,7 +68,7 @@
 						</label>
 						<div class="col-sm-5">
 							<input type="text" formControlName="nameRc" (keypress)="omit_special_char($event)" placeholder="Display name on Rc" maxlength="50"
-							 class="form-control" [ngClass]="{ 'is-invalid': submitted && f.nameRc.errors }" [(ngModel)]="nameOnRc" (mouseleave)="LeaveFields()">
+							 class="form-control" [ngClass]="{ 'is-invalid': submitted && f.nameRc.errors }" [(ngModel)]="nameOnRc" (mouseleave)="leaveFields()">
 							<div *ngIf="submitted && f.nameRc.errors" class="invalid-feedback">
 								<div *ngIf="f.nameRc.errors.required" style="color:#ff0000"> Name On Rc is required</div>
 							</div>
@@ -79,8 +79,8 @@
 							<span style="color:red">*</span>
 						</label>
 						<div class="col-sm-5">
-							<p-calendar [(ngModel)]="date1" name="dob" placeholder="date of birth" [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2030"
-							 [inputStyle]="{'width':'190px'}" [showIcon]="true" [(ngModel)]="dob" (mouseleave)="LeaveFields()" dateFormat="dd-mm-yy" (ngModelChange)=" getreqDate($event)"
+							<p-calendar [(ngModel)]="date1" [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2030" [inputStyle]="{'width':'190px'}"
+							 [showIcon]="true" dateFormat="dd-mm-yy" [(ngModel)]="dob" (mouseleave)="leaveFields()" (ngModelChange)=" getreqDate($event)"
 							 [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}"></p-calendar>
 						</div>
 					</div>
@@ -90,7 +90,7 @@
 						</label>
 						<div class="col-sm-5">
 							<input type="text" formControlName="relation" (keypress)="omit_special_char($event)" placeholder="Relation Name" maxlength="50"
-							 class="form-control" [(ngModel)]="relationName" (mouseleave)="LeaveFields()" [ngClass]="{ 'is-invalid': submitted && f.relation.errors }">
+							 class="form-control" [(ngModel)]="relationName" (mouseleave)="leaveFields()" [ngClass]="{ 'is-invalid': submitted && f.relation.errors }">
 							<div *ngIf="submitted && f.relation.errors" class="invalid-feedback">
 								<div *ngIf="f.relation.errors.required" style="color:#ff0000"> Relation Name is required</div>
 							</div>
@@ -102,7 +102,7 @@
 						</label>
 						<div class="col-sm-5">
 							<textarea class="form-control" formControlName="custAddress" placeholder="Address" maxlength="1000" rows="2" name="address"
-							 style="padding-left:1.6em" [(ngModel)]="address" (mouseleave)="LeaveFields()" [ngClass]="{ 'is-invalid': submitted && f.custAddress.errors }"></textarea>
+							 style="padding-left:1.6em" [(ngModel)]="address" (mouseleave)="leaveFields()" [ngClass]="{ 'is-invalid': submitted && f.custAddress.errors }"></textarea>
 							<div *ngIf="submitted && f.custAddress.errors" class="invalid-feedback">
 								<div *ngIf="f.custAddress.errors.required" style="color:#ff0000"> Address is required</div>
 							</div>
@@ -114,7 +114,7 @@
 						</label>
 						<div class="col-sm-5">
 							<input type="text" formControlName="custMandal" placeholder="Mandal" (keypress)="omit_special_char($event)" maxlength="50"
-							 class="form-control" [(ngModel)]="mandal" (mouseleave)="LeaveFields()" [ngClass]="{ 'is-invalid': submitted && f.custMandal.errors }">
+							 class="form-control" [(ngModel)]="mandal" (mouseleave)="leaveFields()" [ngClass]="{ 'is-invalid': submitted && f.custMandal.errors }">
 							<div *ngIf="submitted && f.custMandal.errors" class="invalid-feedback">
 								<div *ngIf="f.custMandal.errors.required" style="color:#ff0000"> Mandal is required</div>
 							</div>
@@ -126,8 +126,8 @@
 						</label>
 						<div class="col-sm-5">
 							<input type="number" formControlName="custPinecode" (keypress)="only_allow_number($event)" placeholder="Pincode" min="0"
-							 class="form-control" [(ngModel)]="pincode" (mouseleave)="LeaveFields()" [ngClass]="{ 'is-invalid': submitted && f.custPinecode.errors }" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-							 maxlength="50">
+							 class="form-control" [(ngModel)]="pincode" (mouseleave)="leaveFields()" [ngClass]="{ 'is-invalid': submitted && f.custPinecode.errors }"
+							 oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="50">
 							<div *ngIf="submitted && f.custPinecode.errors" class="invalid-feedback">
 								<div *ngIf="f.custPinecode.errors.required" style="color:#ff0000"> pincode is required</div>
 							</div>
@@ -139,7 +139,7 @@
 						</label>
 						<div class="col-sm-5">
 							<input type="text" formControlName="custDistrict" (keypress)="omit_special_char($event)" placeholder="District Name" maxlength="50"
-							 class="form-control" [(ngModel)]="districtName" (mouseleave)="LeaveFields()" [ngClass]="{ 'is-invalid': submitted && f.custDistrict.errors }">
+							 class="form-control" [(ngModel)]="districtName" (mouseleave)="leaveFields()" [ngClass]="{ 'is-invalid': submitted && f.custDistrict.errors }">
 							<div *ngIf="submitted && f.custDistrict.errors" class="invalid-feedback">
 								<div *ngIf="f.custDistrict.errors.required" style="color:#ff0000"> District Name is required</div>
 							</div>
@@ -151,7 +151,7 @@
 						</label>
 						<div class="col-sm-5">
 							<input type="number" formControlName="custMobile" (keypress)="only_allow_number($event)" placeholder="Mobile" min="0" class="form-control"
-							 [(ngModel)]="mobile"  (mouseleave)="LeaveFields()" [ngClass]="{ 'is-invalid': submitted && f.custMobile.errors }" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+							 [(ngModel)]="mobile" (mouseleave)="leaveFields()" [ngClass]="{ 'is-invalid': submitted && f.custMobile.errors }" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
 							 maxlength="50">
 							<div *ngIf="submitted && f.custMobile.errors" class="invalid-feedback">
 								<div *ngIf="f.custMobile.errors.required" style="color:#ff0000"> Mobile Number is required</div>
@@ -164,7 +164,7 @@
 						</label>
 						<div class="col-sm-5">
 							<input type="text" formControlName="custEmail" placeholder="email id" min="0" maxlength="50" class="form-control" [(ngModel)]="email"
-							 [ngClass]="{ 'is-invalid': submitted && f.custEmail.errors }" (mouseleave)="LeaveFields()">
+							 [ngClass]="{ 'is-invalid': submitted && f.custEmail.errors }" (mouseleave)="leaveFields()">
 							<div *ngIf="submitted && f.custEmail.errors" class="invalid-feedback">
 								<div *ngIf="f.custEmail.errors.required" style="color:#ff0000"> Email id is required</div>
 								<div *ngIf="f.custEmail.errors.email" style="color:#ff0000">Email must be a valid email address</div>
@@ -313,8 +313,6 @@
 						<input type="radio" name="acc" value="0" [(ngModel)]="accessriesYes" (change)="accessriesChecked()">No &nbsp;&nbsp;
 					</div>
 				</div>
-
-
 				<div class="row form-group">
 					<div class="col-sm-12">
 						<h3>Pricing</h3>
@@ -326,7 +324,7 @@
 					</label>
 					<div class="col-sm-2">
 						<div class="input-group">
-							<input type="text" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleBasic" readonly>
+							<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleBasic" readonly>
 							<span>Basic Price</span>
 						</div>
 					</div>
@@ -430,10 +428,22 @@
 							<span style="color:red">*</span>
 						</label>
 						<div class="col-sm-5">
-							<select name="emp" class="form-control" [(ngModel)]="discountApprovedBy">
+							<select name="emp" class="form-control" [(ngModel)]="discountApprovedBy" (ngModelChange)="selectedManager()">
 								<option value="" disabled select>select</option>
 								<option *ngFor="let manager of branchManagerData" [ngValue]="manager.employee_id">{{manager.employee_firstname}}</option>
 							</select>
+						</div>
+					</div>
+					<div class="row form-group">
+						<label class="col-sm-4 col-form-label required">Enter OTP
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-5">
+							<input type="number" min="0" class="form-control">
+						</div>
+						<div class="col-sm-1"></div>
+						<div class="col-sm-1">
+							<button type="submit" class="btn btn-warning">Submit</button>
 						</div>
 					</div>
 				</div>

@@ -30,9 +30,9 @@ export class DcFormComponent implements OnInit {
   
   printComponent(deliveryform) {
     let printContents = document.getElementById(deliveryform).innerHTML;
-    const popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+    const popupWin = window.open();
     popupWin.document.open();
-    popupWin.document.write(  `
+    popupWin.document.write(`
     <html>
         <head>
             <title>DC FORM</title>           

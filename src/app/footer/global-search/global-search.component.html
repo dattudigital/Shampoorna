@@ -1,8 +1,9 @@
 <div class="price-info">
   <h2> Global Search</h2>
 </div>
+<simple-notifications [options]="options"></simple-notifications>
 <div class="globalsearch">
-  <div class="row form-group">
+  <!-- <div class="row form-group">
     <label class="col-sm-4 ">
     </label>
     <div class="col-sm-4">
@@ -13,6 +14,53 @@
           <i class="fas fa-search"></i>
         </span>
       </div>
+    </div>
+  </div> -->
+  <div class="row">
+    <div class="col-md-3 col-sm-3 col-xs-12">
+      <div class="form-group">
+        <label for="input" class="col-md-3 control-label">Model</label>
+        <div class="col-md-7">
+          <input type="text" placeholder="Search By Model" name="model" maxlength="50" [(ngModel)]="selectedValue" (ngModelChange)='modelSearch($event)'
+            [typeahead]="modelData" typeaheadOptionField="model_name" (typeaheadOnSelect)="onSelectModel($event)" class="form-control">
+        </div>
+        <div style="color:red" *ngIf="noResult">No Results Found</div>
+        <div class="clear"></div>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-sm-3 col-xs-12">
+      <div class="form-group">
+        <label for="input" class="col-md-3 control-label">Variant</label>
+        <div class="col-md-7">
+          <div class="input-group">
+            <input type="text" placeholder="Search By Variant" name="variant" class="form-control" [(ngModel)]="selectedVariant" (ngModelChange)="variantSearch($event)"
+              [typeahead]="variantData" typeaheadOptionField="variant_name" (typeaheadOnSelect)="onSelectVariant($event)">
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-sm-3 col-xs-12">
+      <div class="form-group">
+        <label for="input" class="col-md-3 control-label">Color</label>
+        <div class="col-md-7">
+          <div class="input-group">
+            <input type="text" name="color" class="form-control" placeholder="Search By Color" [(ngModel)]="selectedColor" (ngModelChange)="colorSearch($event)"
+              [typeahead]="colorData" typeaheadOptionField="color_name" (typeaheadOnSelect)="onSelectColor($event)">
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+    <div class="col-md-1 col-sm-1 col-xs-12">
+    </div>
+    <div class="col-md-1 col-sm-1 col-xs-12">
+      <button type="submit" class="btn btn-primary" (click)="searchVehicleDetails()">Search</button>
+    </div>
+    <div class="col-md-1 col-sm-1 col-xs-12">
+      <button type="submit" class="btn btn-warning" (click)="detailsReset()">Reset</button>
     </div>
   </div>
 </div>

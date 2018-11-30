@@ -40,7 +40,7 @@ export class DashboardComponent implements OnInit {
   //personal information
   name = '';
   nameOnRc = ''
-  dob = '';
+  dob: any;
   relationName = '';
   address = '';
   mandal = '';
@@ -127,7 +127,6 @@ export class DashboardComponent implements OnInit {
 
   }
   submitted = false;
-
   banks: any = [
     {
       name: '',
@@ -169,29 +168,24 @@ export class DashboardComponent implements OnInit {
     this.branchId = this.loginData._results.employee_branch_id
 
     if (sessionStorage.salesdata) {
-      this.fieldsData = JSON.parse(sessionStorage.getItem('salesdata'))
+      this.fieldsData = JSON.stringify(sessionStorage.getItem('salesdata'))
       this.name = this.fieldsData.name;
       this.nameOnRc = this.fieldsData.nameOnRc;
-      // if (this.fieldsData.dob) {
-      //   console.log(this.fieldsData.dob)
-      //   let newDate1 = moment(this.fieldsData.dob).format('DD-MM-YYYY').toString();
-      //   this.dob = newDate1;
-      //   console.log(this.dob)
-      // }
-      this.dob = this.fieldsData.dob;
+
+      let newDate1 = moment(this.fieldsData.nameOnRc).format('DD-MM-YYYY').toString();
+      this.dob = newDate1;
+      console.log(this.dob)
+
       this.relationName = this.fieldsData.relationName;
       this.address = this.fieldsData.address;
       this.pincode = this.fieldsData.pincode;
       this.mandal = this.fieldsData.mandal;
       this.districtName = this.fieldsData.districtName;
       this.email = this.fieldsData.email;
-      this.mobile =this.fieldsData.mobile;
-      this.addressProof =this.fieldsData.addressProof;
-      this.addressProofNo =this.fieldsData.addressProofNo
-
-
+      this.mobile = this.fieldsData.mobile;
+      this.addressProof = this.fieldsData.addressProof;
+      this.addressProofNo = this.fieldsData.addressProofNo
     }
-
     this.http.get(environment.host + 'employees').subscribe(employeedata => {
       console.log(employeedata.json().result);
       this.employeedata = employeedata.json().result;
@@ -337,9 +331,7 @@ export class DashboardComponent implements OnInit {
   }
 
   //complete sale details
-
   get f() { return this.personalinfoForm.controls; }
-
   saveUserDeatils(val) {
     this.submitted = true;
 
@@ -347,7 +339,6 @@ export class DashboardComponent implements OnInit {
       console.log('validation')
       return;
     }
-
     console.log(val)
     var data = {
       firstname: this.name,
@@ -371,7 +362,6 @@ export class DashboardComponent implements OnInit {
     this.saleUserService.saveSalesUser(data).subscribe(response => {
       console.log(response.json().status);
       console.log(response.json().result.sale_user_id);
-
       // vehicle information send to sale-user api
       if (response.json().status == true) {
         var vehicledetails = {
@@ -398,7 +388,6 @@ export class DashboardComponent implements OnInit {
           total_amt: this.onRoadPrice,
           discount_approved_by: this.discountApprovedBy,
           sale_user_vechile_status: 1
-
         }
         console.log(vehicledetails)
         this.saleUserService.saveSalesVehicle(vehicledetails).subscribe(res => {
@@ -521,7 +510,7 @@ export class DashboardComponent implements OnInit {
   }
 
   engineSearch(val) {
-    if (val.length >= 2) {
+    if (val.length > 2) {
       this.saleUserService.searchEngine(this.branchId, val).subscribe(data => {
         console.log(data.json().result);
         this.temp = [];
@@ -565,7 +554,7 @@ export class DashboardComponent implements OnInit {
     this.selectedOption = event.item;
     console.log(this.selectedOption);
     this.vehicleFrameNo = this.selectedOption["Frame No"];
-    this.vehicleDcNo = this.selectedOption.vechicle_dcno;
+    this.vehicleDcNo = this.selectedOption["TVS-M Invoice No"];
     this.vehicleKeyNo = this.selectedOption.vechile_gatepass;
     this.vehicleColor = this.selectedOption.color_name;
     this.vehicleModel = this.selectedOption.model_name;
@@ -576,6 +565,7 @@ export class DashboardComponent implements OnInit {
         this.vehicleVariant = res.json().result[0].variant_name;
         this.vehicleBasic = res.json().result[0]["EX.PRICE"];
         this.lifeTax = res.json().result[0]["LTAX & TR"];
+        console.log(this.lifeTax);
         this.VehicleInsu = res.json().result[0]["INS - 1 Yr Comprehensive and 5 Yr Third Party"];
         this.HandlingC = res.json().result[0]["FACILIATION CHARGES"];
         this.Registration = res.json().result[0]["Permantent Registation Cost"];
@@ -586,12 +576,25 @@ export class DashboardComponent implements OnInit {
         // this.tempOnRoadPrice = this.onRoadPrice;
         if (this.vehicleBasic) {
           console.log(this.vehicleBasic)
-          this.onRoadPrice = this.onRoadPrice + this.vehicleBasic
+          // var s =this.vehicleBasic ;
+          // s = s.split(',').join('');
+          // console.log('display S')
+          // console.log(s)
+          this.onRoadPrice = this.onRoadPrice + this.vehicleBasic;
+          console.log(this.onRoadPrice)
         }
         if (this.onRoadPrice) {
+          // console.log('lifetax')
+          // console.log(this.onRoadPrice)
+          // console.log(this.lifeTax)
+          // var lTax = this.lifeTax;
+          // lTax = lTax.split(',').join('');
           this.onRoadPrice = this.onRoadPrice * 1 + this.lifeTax * 1
+          console.log(this.onRoadPrice)
         }
         if (this.onRoadPrice) {
+          // var Vinsu = this.VehicleInsu;
+          // Vinsu = Vinsu.split(',').join('')
           this.onRoadPrice = this.onRoadPrice * 1 + this.VehicleInsu * 1
         }
         if (this.onRoadPrice) {
@@ -816,7 +819,7 @@ export class DashboardComponent implements OnInit {
       this.cashTotal = this.cashTotal + this.paymentEmi.othersAmount
     }
     console.log(this.cashTotal);
-    if (this.onRoadPrice == this.cashTotal) {
+    if ((this.onRoadPrice == this.cashTotal) && this.nomineeName) {
       this.finalSubmit = false;
     }
   }
@@ -840,7 +843,7 @@ export class DashboardComponent implements OnInit {
     a = event.charCode
     return ((a > 64 && a < 91) || (a > 96 && a < 123) || a == 8 || a == 0 || (a >= 48 && a <= 57));
   }
-  LeaveFields() {
+  leaveFields() {
     console.log('mouseleave')
     var data = {
       name: this.name,
@@ -851,12 +854,14 @@ export class DashboardComponent implements OnInit {
       mandal: this.mandal,
       pincode: this.pincode,
       districtName: this.districtName,
-      mobile:this.mobile,
-      email:this.email,
-      addressProof:this.addressProof,
-      addressProofNo:this.addressProofNo,
+      mobile: this.mobile,
+      email: this.email,
+      addressProof: this.addressProof,
+      addressProofNo: this.addressProofNo,
     }
     sessionStorage.setItem('salesdata', JSON.stringify(data))
-
   }
+  // selectedManager() {
+
+  // }
 } 

@@ -2,7 +2,7 @@
     max-width: 900px;
     margin: auto;
     padding: 0px 20px 0 20px;
-    border: 1px solid #eee;
+ /* border: 1px solid #eee; */
     box-shadow: 0 0 10px rgba(0, 0, 0, .15);
     font-size: 15px;
     line-height: 24px;
@@ -38,8 +38,8 @@
 
 
 .invoice-box table tr.heading th {
-    background: #eee;
-    border-bottom: 1px solid #ddd;
+    /* background: #eee;
+    border-bottom: 1px solid #ddd; */
     font-weight: bold;
     padding: 5px 0px;
 }
@@ -91,11 +91,11 @@ border-spacing: 2px;
 border-color: grey;
 }
 .user-summary td {
-border: 1px solid #efefef;
+border: 1px solid black;
 }
 .heading table td {
 text-align:center !important;
-border:1px solid #ccc;
+border:1px solid black;
 }
 .heading table th {
 text-align:center !important;
