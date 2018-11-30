@@ -131,7 +131,6 @@ export class InventoryAssigningComponent implements OnInit {
     this.assDate = newDate1;
     console.log(this.assDate)
   }
-
   getupdDate() {
     let newDate2 = moment(this.updateDate).format('YYYY-MM-DD').toString();
     this.updateDate = newDate2;
@@ -175,7 +174,7 @@ export class InventoryAssigningComponent implements OnInit {
   onSelect(event: TypeaheadMatch): void {
     this.selectedOption = event.item;
     console.log(this.selectedOption);
-     this.vehicles.frameno = this.selectedOption["Frame No"];
+      this.vehicles.frameno = this.selectedOption["Frame No"];
       this.vehicles.color = this.selectedOption.color_name;
       this.vehicles.model = this.selectedOption.model_name;
       this.vehicles.variant = this.selectedOption.variant_name;
@@ -192,7 +191,7 @@ export class InventoryAssigningComponent implements OnInit {
 
     this.generatedShippedId = Math.floor(Math.random() * 899999 + 100000);
     this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
-    var data: any = {
+      var data: any = {
       indent_id: this.indentId,
       employee_branch_id: this.loginData._results.employee_branch_id,
       shipped_by: this.shippedBy,
@@ -224,7 +223,6 @@ export class InventoryAssigningComponent implements OnInit {
         )
       }
     })
-
   }
   omit_special_char(event) {
     console.log('key press');

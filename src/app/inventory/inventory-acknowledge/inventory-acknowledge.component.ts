@@ -41,9 +41,11 @@ export class InventoryAcknowledgeComponent implements OnInit {
     var brurl= '';
       brurl = brurl + '&branchid='+loginData._results.employee_branch_id;
     this.service.getAcknowledgeList(brurl).subscribe(res => {
+      if (res.json().status == true) {
       console.log(res.json().result)
       //this.inventoryData = this.invAssignService.transform(res.json().result);
       this.inventoryData = res.json().result
+      }
     });
     this.allvehicleservice.getColor().subscribe(data => {
       console.log(data.json())

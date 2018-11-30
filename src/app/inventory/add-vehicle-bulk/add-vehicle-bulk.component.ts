@@ -6,6 +6,8 @@ import { Http } from '@angular/http';
 import { map } from 'rxjs/operators';
 import { AllVehicleService } from '../../services/all-vehicle.service';
 import { VehicleDetailService } from '../../services/vehicle-detail.service';
+import { NotificationsService } from 'angular2-notifications';
+
 
 @Component({
   selector: 'app-add-vehicle-bulk',
@@ -14,7 +16,7 @@ import { VehicleDetailService } from '../../services/vehicle-detail.service';
 })
 export class AddVehicleBulkComponent implements OnInit {
 
-  constructor(private router: Router, private http: Http, private service: AllVehicleService, private vehicleservice: VehicleDetailService) { }
+  constructor(private router: Router, private http: Http, private service: AllVehicleService, private vehicleservice: VehicleDetailService, private notif: NotificationsService) { }
   arrayBuffer: any;
   file: File;
   colorData: any[];
@@ -59,6 +61,8 @@ export class AddVehicleBulkComponent implements OnInit {
       var worksheet = workbook.Sheets[first_sheet_name];
       this.list = XLSX.utils.sheet_to_json(worksheet, { raw: false })
       this.list.map(item => {
+        item["TVS-M Invoice Date"] = item["TVS-M Invoice Date"].replace("/","-")
+        item["TVS-M Invoice Date"] = item["TVS-M Invoice Date"].replace("/","-")
         this.colorData.map(color => {
           if (item["Colour"] == color.color_name) {
             item["vehicle_color"] = color.vehicle_color_id;
@@ -106,6 +110,19 @@ export class AddVehicleBulkComponent implements OnInit {
   addBulkVehicles() {
     this.vehicleservice.addVehicleDetailBulk(this.list).subscribe(res => {
       console.log(res.json().result);
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Added Bulk Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
     })
   }
 

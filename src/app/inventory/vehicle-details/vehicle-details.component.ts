@@ -70,7 +70,6 @@ export class VehicleDetailsComponent implements OnInit {
   constructor(private router: Router, private cdr: ChangeDetectorRef, private allvehicleservice: AllVehicleService, private service: VehicleDetailService, private http: Http, private formBuilder: FormBuilder, private notif: NotificationsService) { }
 
   ngAfterViewChecked() {
-
     this.cdr.detectChanges();
   }
 
@@ -178,8 +177,8 @@ export class VehicleDetailsComponent implements OnInit {
       vehicle_color: this.vehicleColor.vehicle_color_id,
       "Engine No": this.engineNumber,
       "Frame No": this.frameNumber,
-      vechile_gatepass: this.gateNumber,
-      vechicle_dcno: this.dcNumber,
+      "Gate Pass": this.gateNumber,
+      "DC No": this.dcNumber,
       "Engine #1": this.engineNum1,
       "Engine #2": this.engineNum2,
       status: "1"
@@ -208,8 +207,8 @@ export class VehicleDetailsComponent implements OnInit {
       this.bikes.push(res.json().result)
       $('#addVehicle').modal('hide');
     });
-
   }
+
   vehicle_id = '';
   vechicle_invoiceno: any;
   vehicle_invoice_date = '';
@@ -248,8 +247,8 @@ export class VehicleDetailsComponent implements OnInit {
     this.vehicle_variant = this.editData[index].vehicle_variant;
     this.vehicle_engineno = this.editData[index]["Engine No"];
     this.vehicle_frameno = this.editData[index]["Frame No"];
-    this.vechicle_dcno = this.editData[index].vechicle_dcno;
-    this.vechile_gatepass = this.editData[index].vechile_gatepass;
+    this.vechicle_dcno = this.editData[index]["DC No"];
+    this.vechile_gatepass = this.editData[index]["Gate Pass"];
     this.status = this.editData[index].status;
   }
   update: any;
@@ -281,8 +280,8 @@ export class VehicleDetailsComponent implements OnInit {
       vehicle_color: this.vehicleColor,
       "Engine No": this.vehicle_engineno,
       "Frame No": this.vehicle_frameno,
-      vechile_gatepass: this.gateNumber,
-      vechicle_dcno: this.dcNumber,
+      "Gate Pass": this.gateNumber,
+      "DC No": this.dcNumber,
       "Engine #1": this.engineNum1,
       "Engine #2": this.engineNum2,
       status: "1"
@@ -315,8 +314,8 @@ export class VehicleDetailsComponent implements OnInit {
       this.bikes[this.temp].vehicle_variant = data.vehicle_variant;
       this.bikes[this.temp]["Frame No"] = data["Frame No"];
       this.bikes[this.temp]["Engine No"] = data["Engine No"];
-      this.bikes[this.temp].vechicle_dcno = data.vechicle_dcno;
-      this.bikes[this.temp].vechile_gatepass = data.vechile_gatepass;
+      this.bikes[this.temp]["DC No"] = data["DC No"];
+      this.bikes[this.temp]["Gate Pass"] = data["Gate Pass"];
       this.bikes[this.temp].status = data.status;
       this.temp = " ";
     })

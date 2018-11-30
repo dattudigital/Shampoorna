@@ -6,6 +6,7 @@ import { Router } from '@angular/router'
 import { LoginService } from '../../services/login.service'
 import { NgxSpinnerService } from 'ngx-spinner';
 import { environment } from '../../../environments/environment';
+import { EmpTypePipe } from '../../pipe/emp-type.pipe'
 declare var $: any;
 
 @Component({
@@ -23,6 +24,7 @@ export class AddEmployeeComponent implements OnInit {
   temp: any;
   temp1: any;
   empData: any;
+  _empData: any;
   brData: any;
 
   employee_id: '';
@@ -52,13 +54,13 @@ export class AddEmployeeComponent implements OnInit {
   titleStyle = "hidden";
   errorMessage = false;
   btnDisable = true;
-  test1: any;
+  popupLogin: any;
 
 
 
 
 
-  constructor(private cdr: ChangeDetectorRef, private http: Http, private spinner: NgxSpinnerService, private service: ManagerServiceService, private formBuilder: FormBuilder, private router: Router, private loginservice: LoginService) { }
+  constructor(private cdr: ChangeDetectorRef, private http: Http, private spinner: NgxSpinnerService, private service: ManagerServiceService, private formBuilder: FormBuilder, private router: Router, private loginservice: LoginService, private empTypePipe: EmpTypePipe) { }
 
   ngAfterViewChecked() {
 
@@ -72,12 +74,10 @@ export class AddEmployeeComponent implements OnInit {
     this.loginPopUp();
 
     this.http.get(environment.host + 'emp-types').subscribe(data => {
-      console.log(data.json())
-      this.empData = data.json().result;
+      this._empData = data.json().result;
     });
 
     this.http.get(environment.host + 'branches').subscribe(data => {
-      console.log(data.json())
       this.brData = data.json().result;
     });
 
@@ -132,21 +132,26 @@ export class AddEmployeeComponent implements OnInit {
     this.spinner.show();
     if (this.mailId && this.passwordLogin) {
       this.loginservice.dataLogin(data).subscribe(loginData => {
-        console.log(loginData)
-        console.log(loginData.json().status)
         this.spinner.hide();
         if (loginData.json().status == false) {
           this.errorMessage = true;
         }
-        this.test1 = loginData.json()._results;
-
-        if (loginData.json().status == true && this.test1.emp_type_id == 1 || this.test1.emp_type_id == 2) {
+        this.popupLogin = loginData.json()._results;
+        if (loginData.json().status == true && this.popupLogin.emp_type_id == 1 || this.popupLogin.emp_type_id == 2 || this.popupLogin.emp_type_id == 3) {
+          if (this.popupLogin.emp_type_id == 3) {
+            this.empData = this.empTypePipe.transform(this._empData,this.popupLogin);
+          }          
+          if (this.popupLogin.emp_type_id == 2) {
+            this.empData = this.empTypePipe.transform(this._empData,this.popupLogin);
+          }
+          if (this.popupLogin.emp_type_id == 1) {
+            this.empData = this.empTypePipe.transform(this._empData,this.popupLogin);
+          }
           sessionStorage.setItem('secondaryLoginData1', JSON.stringify(loginData.json()));
           var brurl = '';
           brurl = brurl + '?branchid=' + loginData.json()._results.employee_branch_id;
           this.service.getEmployeeDetails(brurl).subscribe(res => {
             this.employees = res.json().result;
-            console.log(this.employees);
           })
           $('#myModal').modal('hide');
           this.titleStyle = "visible";
@@ -209,12 +214,9 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   editEmployee(data, index) {
-    console.log('**********')
-    console.log(data)
     this.editData = data;
     data.index = index;
     this.temp = index;
-    console.log(this.editData[index].employee_branch_id)
     this.employee_id = this.editData[index].employee_id,
       this.employee_firstname = this.editData[index].employee_firstname,
       this.employee_lastname = this.editData[index].employee_lastname,
@@ -243,9 +245,6 @@ export class AddEmployeeComponent implements OnInit {
       rec_status: this.rec_status
     }
     this.service.saveEmployeeDetails(data).subscribe(res => {
-      console.log(res.json());
-      console.log('********')
-      console.log(this.temp)
       this.employees[this.temp].employee_firstname = data.employee_firstname;
       this.employees[this.temp].employee_lastname = data.employee_lastname;
       this.employees[this.temp].employee_branch_id = data.employee_branch_id;
@@ -263,36 +262,29 @@ export class AddEmployeeComponent implements OnInit {
 
   deleteEmployee(val, index) {
     this.temp1 = index;
-    console.log(index)
     this.deleteData = val;
-    console.log(this.deleteData)
     val.index = index;
-    console.log("***")
     this.employee_id = this.deleteData[index].employee_id;
   }
 
   yesEmployeeDelete() {
     this.employees.splice(this.temp1, 1)
-    console.log(this.temp1)
     var data = {
       employee_id: this.employee_id,
       rec_status: "0"
     }
-    console.log(data)
     this.service.saveEmployeeDetails(data).subscribe(res => {
       console.log(res.json());
     })
   }
   //this method  allow alphabets 
   omit_special_char(event) {
-    console.log('key press');
     var k;
     k = event.charCode;  //  k = event.keyCode;  (Both can be used)
     return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 0 || k == 32);
   }
   //This Method  allow Numbers
   only_allow_number(event) {
-    console.log('only number');
     var n;
     n = event.charCode
     return (n == 8 || n == 0 || n == 32 || (n >= 48 && n <= 57))

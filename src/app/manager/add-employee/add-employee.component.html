@@ -178,8 +178,8 @@
             <label for="input" class="col-md-3 control-label">Employee Type
               <a style="color:red">*</a>
             </label>
-            <div class="col-md-6">
-              <select class="form-control" formControlName="empType" [(ngModel)]="employeeType" [ngClass]="{ 'is-invalid': submitted && f.empType.errors }">
+            <div class="col-md-6" *ngIf="empData">
+              <select class="form-control"  formControlName="empType" [(ngModel)]="employeeType" [ngClass]="{ 'is-invalid': submitted && f.empType.errors }">
                 <option *ngFor="let data of this.empData" [ngValue]=" data.id">{{data.emp_type}}</option>
               </select>
               <div *ngIf="submitted && f.empType.errors" class="invalid-feedback">
