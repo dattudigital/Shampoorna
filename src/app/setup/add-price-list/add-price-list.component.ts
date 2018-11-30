@@ -14,7 +14,7 @@ export class AddPriceListComponent implements OnInit {
   constructor(private router: Router, private http: Http) {
 
   }
-  varientList: any = [];
+  variantList: any = [];
   arrayBuffer: any;
   file: File;
   list: any = [];
@@ -25,7 +25,7 @@ export class AddPriceListComponent implements OnInit {
   ngOnInit() {
     this.http.get(environment.host + 'vehicle-variants').subscribe(res => {
       console.log(res.json().result)
-      this.varientList = res.json().result
+      this.variantList = res.json().result
     });
   }
 
@@ -37,20 +37,23 @@ export class AddPriceListComponent implements OnInit {
       var arr = new Array();
       for (var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
       var bstr = arr.join("");
-      var workbook = XLSX.read(bstr, { type: "binary" });
+      var workbook = XLSX.read(bstr, { type: "binary", cellDates: true });
       var first_sheet_name = workbook.SheetNames[0];
       var worksheet = workbook.Sheets[first_sheet_name];
-      this.list = XLSX.utils.sheet_to_json(worksheet, { raw: true })
+      this.list = XLSX.utils.sheet_to_json(worksheet, { raw: false })
       console.log(this.list);
       this.list.map(item => {
-        this.varientList.map(varient => {
-          if (item["MODEL"] == varient.variant_name) {
-            item["vehicle_variant_id"] = varient.vehicle_variant_id;
+        item.pricing_list_date = item.pricing_list_date.replace("/","-")
+        item.pricing_list_date = item.pricing_list_date.replace("/","-")
+        this.variantList.map(variant => {
+          if (item["MODEL"] == variant.variant_name) {
+            item["vehicle_variant_id"] = variant.vehicle_variant_id;
             delete item["MODEL"];
-          } else { // REMOVE THIS ELSE 
-            delete item["MODEL"];
-            item["vehicle_variant_id"] = 1;
-          }
+          } 
+          // else { // REMOVE THIS ELSE 
+          //   delete item["MODEL"];
+          //   item["vehicle_variant_id"] = 1;
+          // }
         });
       })
     }
