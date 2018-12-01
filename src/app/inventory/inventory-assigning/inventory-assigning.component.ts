@@ -54,7 +54,7 @@ export class InventoryAssigningComponent implements OnInit {
     }
   ];
   constructor(private router: Router, private http: Http, private service: InventoryAssigningService, private formBuilder: FormBuilder, private pipe: InventoryListPipe, private addInvPipe: InventoryAddPipe, private notif: NotificationsService) {
-    console.log("test");
+ 
   }
 
   ngOnInit() {
@@ -71,19 +71,16 @@ export class InventoryAssigningComponent implements OnInit {
     }
     this.http.get(environment.host + 'indents').subscribe(res => {
       if (res.json().status == true) {
-        console.log(res.json().result);
         this.indentData = res.json().result;
       }
     });
     this.http.get(environment.host + 'branches').subscribe(res => {
       if (res.json().status = true) {
-        console.log(res.json().result);
         this.branchData = res.json().result;
       }
     });
     this.http.get(environment.host + 'employees').subscribe(res => {
       if (res.json().status == true) {
-        console.log(res.json().result);
         this.employeedata = res.json().result;
       }
     });
@@ -103,24 +100,19 @@ export class InventoryAssigningComponent implements OnInit {
   }
 
   deleteInventoryAssign(index) {
-    console.log(index);
     this.vehicles.splice(index, 1)
   }
 
-  addInventoryAssign(data,index) {
-    console.log(index)
-    console.log('add');
-    this.vehicles.push(
-      {
+  addInventoryAssign(data) {
+    console.log("*********")
+    console.log(data);
+    this.vehicles.push({
         engineno: "",
         frameno: "",
         color: "",
         variant: "",
-        model: "",
-
+        model: ""
       })
-
-    console.log(this.vehicles);
   }
 
   backToInventory() {
@@ -129,12 +121,10 @@ export class InventoryAssigningComponent implements OnInit {
   getassDate() {
     let newDate1 = moment(this.assDate).format('YYYY-MM-DD').toString();
     this.assDate = newDate1;
-    console.log(this.assDate)
   }
   getupdDate() {
     let newDate2 = moment(this.updateDate).format('YYYY-MM-DD').toString();
     this.updateDate = newDate2;
-    console.log(this.updateDate)
   }
   selectedValue: string;
   temp: any[] = new Array();
@@ -143,25 +133,27 @@ export class InventoryAssigningComponent implements OnInit {
   assignIndex: any;
 
   getEngineDetail(val, index) {
-    console.log(index);
     this.assignIndex = index;
-    console.log(val);
-    if (val.length >= 1) {
+    if (val.length >= 3) {
       this.http.get(environment.host + 'get-engine-details/' + val).subscribe(data => {
         console.log(data.json().result);
-        this.temp = [];
-        this.temp.push(data.json().result);
+        // this.temp = [];
+        // this.temp.push(data.json().result);
         if (data.json().status == false) {
-          this.indentData = [];
+          // this.indentData = [];
           this.noResult = true;
         } else {
-          this.noResult = false;
-          this.indentData = this.temp.pop();
-          // this.vehicles[index].color = data.json().result[0].color_name;
-          // this.vehicles[index].frameno = data.json().result[0]["Frame No"];
-          // this.vehicles[index].chassisno = data.json().result[0]["Frame No"];
-          // this.vehicles[index].variant = data.json().result[0].variant_name;
-          // this.vehicles[index].model = data.json().result[0].model_name;
+          console.log("testttttttttttttttttttttt");
+          this.noResult = false;        
+          // this.indentData = this.temp.pop();
+          this.vehicles[index].engineno = data.json().result[0]["Engine No"];
+          this.vehicles[index].color = data.json().result[0].color_name;
+          this.vehicles[index].frameno = data.json().result[0]["Frame No"];
+          this.vehicles[index].chassisno = data.json().result[0]["Frame No"];
+          this.vehicles[index].variant = data.json().result[0].variant_name;
+          this.vehicles[index].model = data.json().result[0].model_name;
+          this.vehicles[index].vechile_id = data.json().result[0].vehicle_id;
+          console.log(this.vehicles)
           // console.log(this.indentData[this.assignIndex])
         }
       })
@@ -172,12 +164,12 @@ export class InventoryAssigningComponent implements OnInit {
   }
 
   onSelect(event: TypeaheadMatch): void {
+    console.log("on selectttttttttttt");
     this.selectedOption = event.item;
-    console.log(this.selectedOption);
-      this.vehicles.frameno = this.selectedOption["Frame No"];
-      this.vehicles.color = this.selectedOption.color_name;
-      this.vehicles.model = this.selectedOption.model_name;
-      this.vehicles.variant = this.selectedOption.variant_name;
+      // this.vehicles.frameno = this.selectedOption["Frame No"];
+      // this.vehicles.color = this.selectedOption.color_name;
+      // this.vehicles.model = this.selectedOption.model_name;
+      // this.vehicles.variant = this.selectedOption.variant_name;
   }
 
   get f() { return this.InventoryAssignForm.controls; }
@@ -203,12 +195,8 @@ export class InventoryAssigningComponent implements OnInit {
       status: this.status,
       vechile_details: JSON.stringify(this.vehicles)
     }
-    console.log(data);
-    console.log("***************")
     var finalData = this.addInvPipe.transform(data);
-    console.log(finalData);
     this.service.addInventoryAssign(finalData).subscribe(res => {
-      console.log(res.json().result);
       if (res.json().status == true) {
         this.notif.success(
           'Success',
@@ -225,14 +213,12 @@ export class InventoryAssigningComponent implements OnInit {
     })
   }
   omit_special_char(event) {
-    console.log('key press');
     var k;
     k = event.charCode;  //  k = event.keyCode;  (Both can be used)
     return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 0 || k == 32);
   }
   //This Method  allow Numbers
   only_allow_number(event) {
-    console.log('only number');
     var n;
     n = event.charCode
     return (n == 8 || n == 0 || n == 32 || (n >= 48 && n <= 57))

@@ -48,7 +48,8 @@ export class InventoryAddPipe implements PipeTransform {
         engineno: value.vechile_details[j].engineno,
         frameno: value.vechile_details[j].frameno,
         variant: value.vechile_details[j].variant,
-        model: value.vechile_details[j].model
+        model: value.vechile_details[j].model,
+        vechile_id:value.vechile_details[j].vechile_id
       });
     }
     console.log(data);
