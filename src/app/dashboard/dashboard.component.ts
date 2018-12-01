@@ -75,7 +75,8 @@ export class DashboardComponent implements OnInit {
   Registration: number;
   StandardAcc: number;
   VehicleHp: number;
-  discountApprovedBy: ''; handlingC: number;
+  discountApprovedBy: any;
+  handlingC: number;
   vehicleReg: '';
   vehicleWarranty: '';
   vehicleAcc: number;
@@ -163,7 +164,6 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
-    console.log(this.loginData._results.branch_name);
     this.branchName = this.loginData._results.branch_name
     this.branchId = this.loginData._results.employee_branch_id
 
@@ -174,8 +174,6 @@ export class DashboardComponent implements OnInit {
 
       let newDate1 = moment(this.fieldsData.nameOnRc).format('DD-MM-YYYY').toString();
       this.dob = newDate1;
-      console.log(this.dob)
-
       this.relationName = this.fieldsData.relationName;
       this.address = this.fieldsData.address;
       this.pincode = this.fieldsData.pincode;
@@ -187,15 +185,12 @@ export class DashboardComponent implements OnInit {
       this.addressProofNo = this.fieldsData.addressProofNo
     }
     this.http.get(environment.host + 'employees').subscribe(employeedata => {
-      console.log(employeedata.json().result);
       this.employeedata = employeedata.json().result;
-      console.log(this.employeedata.length);
       for (var i = 0; i < this.employeedata.length; i++) {
         if (this.employeedata[i].emp_type_id == 2) {
           this.branchManagerData.push(this.employeedata[i])
         }
       }
-      console.log(this.branchManagerData)
     });
     this.personalinfoForm = this.formBuilder.group({
       FirstName: ['', Validators.required],
@@ -214,7 +209,6 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['sale-details'])
   }
   triggerSomeEvent() {
-    console.log(this.paymentEmi.chequeSelect)
     if (this.paymentEmi.chequeSelect == false) {
       this.isDisabled = 'hidden';
       this.paymentEmi.chequeAmount = null;
@@ -225,7 +219,6 @@ export class DashboardComponent implements OnInit {
   }
 
   cashChangeEvent() {
-    console.log(this.paymentEmi.cashSelect);
     if (this.paymentEmi.cashSelect == false) {
       this.disableCash = 'hidden';
       this.paymentEmi.cashAmount = null;
@@ -245,7 +238,6 @@ export class DashboardComponent implements OnInit {
   }
 
   tranferEvent() {
-    console.log(this.paymentEmi.accountTranferSelect)
     if (this.paymentEmi.accountTranferSelect == false) {
       this.disableTransfer = 'hidden';
       this.paymentEmi.accounttranferAmount = null
@@ -266,7 +258,6 @@ export class DashboardComponent implements OnInit {
   }
 
   newUserClick() {
-    console.log(this.exchange);
     this.newUser = true;
     this.exchangeUser = false;
     this.csdUser = false;
@@ -274,53 +265,42 @@ export class DashboardComponent implements OnInit {
   exchange: '';
 
   exchangeUserClick() {
-    console.log(this.exchange);
     this.newUser = false;
     this.exchangeUser = true;
     this.csdUser = false;
   }
 
   csdUserClick() {
-    console.log(this.exchange);
     this.newUser = false;
     this.exchangeUser = false;
     this.csdUser = true;
   }
 
   addBankStatement(data, index) {
-    console.log(data)
-    console.log(index)
-
     if (index !== 5) {
       this.banks.push({
         name: this.pdfName,
         bankStatement: this.bankStatemet
       })
     }
-    console.log(this.banks)
   }
   deleteBankStatement(index) {
-    console.log(index);
     this.banks.splice(index - 1, 1)
-    console.log(this.banks)
   }
 
   getreqDate() {
     let newDate = moment(this.dob).format('YYYY-MM-DD').toString();
     this.dob = newDate;
-    console.log(this.dob)
   }
 
   getNomineeDate() {
     let newDate = moment(this.nomineeDob).format('YYYY-MM-DD').toString();
     this.nomineeDob = newDate;
-    console.log(this.nomineeDob)
   }
 
   getChequedate() {
     let newDate = moment(this.paymentEmi.chequeDate).format('YYYY-MM-DD').toString();
     this.paymentEmi.chequeDate = newDate;
-    console.log(this.paymentEmi.chequeDate)
   }
 
   prChecked() {
@@ -339,7 +319,6 @@ export class DashboardComponent implements OnInit {
       console.log('validation')
       return;
     }
-    console.log(val)
     var data = {
       firstname: this.name,
       email_id: this.email,
@@ -358,10 +337,7 @@ export class DashboardComponent implements OnInit {
       user_type: val,
       sale_status: "1"
     }
-    console.log(data)
     this.saleUserService.saveSalesUser(data).subscribe(response => {
-      console.log(response.json().status);
-      console.log(response.json().result.sale_user_id);
       // vehicle information send to sale-user api
       if (response.json().status == true) {
         var vehicledetails = {
@@ -389,9 +365,7 @@ export class DashboardComponent implements OnInit {
           discount_approved_by: this.discountApprovedBy,
           sale_user_vechile_status: 1
         }
-        console.log(vehicledetails)
         this.saleUserService.saveSalesVehicle(vehicledetails).subscribe(res => {
-          console.log(res.json());
         });
       }
       //csd files send to api
@@ -420,7 +394,7 @@ export class DashboardComponent implements OnInit {
           exc_vechile_mode: this.exchangeVehicleModel,
           exc_customer_name: this.vehiclecustomerName,
           exchange_amt: this.exchangeAmount,
-          exchange_amt_approval_by: this.exchangeAmountApprovedBy,
+          exchange_amt_approval_by: this.discountApprovedBy.employee_id,
           exc_sale_exchange_status: 1
         }
         console.log(exchangeDetails);
@@ -521,7 +495,6 @@ export class DashboardComponent implements OnInit {
         } else {
           this.noResult = false;
           this.vehicleInfo = this.temp.pop();
-          console.log(this.vehicleInfo)
         }
       })
     } else {
@@ -532,10 +505,7 @@ export class DashboardComponent implements OnInit {
   total: any = '';
   secondVehicleClick() {
     this.total = 0;
-    console.log(this.secondVehicle);
     if (this.secondVehicle.toString() == 'true') {
-      console.log(this.vehicleBasic);
-      console.log(this.lifeTax);
       this.total = this.total + this.vehicleBasic * (5 / 100)
       console.log(this.total)
       if (this.total) {
@@ -819,20 +789,20 @@ export class DashboardComponent implements OnInit {
       this.cashTotal = this.cashTotal + this.paymentEmi.othersAmount
     }
     console.log(this.cashTotal);
-    if ((this.onRoadPrice == this.cashTotal) && this.nomineeName) {
-      this.finalSubmit = false;
+    if (this.nomineeName) {
+      if (this.onRoadPrice == this.cashTotal) {
+        this.finalSubmit = false;
+      }
     }
   }
   //this method  allow alphabets 
   omit_special_char(event) {
-    console.log('key press');
     var k;
     k = event.charCode;  //  k = event.keyCode;  (Both can be used)
     return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 0 || k == 32);
   }
   //This Method  allow Numbers
   only_allow_number(event) {
-    console.log('only number');
     var n;
     n = event.charCode
     return (n == 8 || n == 0 || n == 32 || (n >= 48 && n <= 57))
@@ -844,7 +814,6 @@ export class DashboardComponent implements OnInit {
     return ((a > 64 && a < 91) || (a > 96 && a < 123) || a == 8 || a == 0 || (a >= 48 && a <= 57));
   }
   leaveFields() {
-    console.log('mouseleave')
     var data = {
       name: this.name,
       nameOnRc: this.nameOnRc,
@@ -861,7 +830,31 @@ export class DashboardComponent implements OnInit {
     }
     sessionStorage.setItem('salesdata', JSON.stringify(data))
   }
-  // selectedManager() {
-
-  // }
+  discountEnable: boolean = false;
+  selectedManager() {
+    if (this.discountApprovedBy) {
+      this.discountEnable = true;
+    }
+    if (this.discountApprovedBy == '0') {
+      this.discountEnable = false;
+    }
+  }
+  otpDate: any;
+  sendOtp() {
+    this.otpDate = new Date()
+    let newDate1 = moment(this.otpDate).format('YYYY-MM-DD').toString();
+    this.otpDate = newDate1;
+    var data = {
+      branch_id: this.discountApprovedBy.employee_branch_id,
+      employee_id: this.discountApprovedBy.employee_id,
+      mobile:this.discountApprovedBy.mobile,
+      discount_amount: this.discount,
+      otp_date: this.otpDate,
+      status: 1
+    }
+    console.log(data);
+   this.saleUserService.sendOtpToManager(data).subscribe(res=>{
+     console.log(res.json());
+   })
+  }
 } 

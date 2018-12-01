@@ -143,7 +143,7 @@ export class VehicleDetailsComponent implements OnInit {
     console.log('remove ngmodel')
     this.submitted = false;
     this.invoiceNum = '';
-    this.invoiceDate = '';
+    this.invoiceDate = null;
     this.sourcedFrom = '';
     this.vehicleType = '';
     this.vehicleModel = '';

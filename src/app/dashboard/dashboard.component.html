@@ -416,7 +416,7 @@
 					<div class="col-sm-2">
 						<div class="input-group">
 							<input type="number" min="0" name="basic" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="discount"
-							 (ngModelChange)="addTotalTax();approvedEmpEnable()">
+							 (ngModelChange)="addTotalTax();approvedEmpEnable()" [disabled]="discountEnable">
 							<span>Discount</span>
 						</div>
 					</div>
@@ -429,9 +429,13 @@
 						</label>
 						<div class="col-sm-5">
 							<select name="emp" class="form-control" [(ngModel)]="discountApprovedBy" (ngModelChange)="selectedManager()">
-								<option value="" disabled select>select</option>
-								<option *ngFor="let manager of branchManagerData" [ngValue]="manager.employee_id">{{manager.employee_firstname}}</option>
+								<option value="0">select</option>
+								<option *ngFor="let manager of branchManagerData" [ngValue]="manager">{{manager.employee_firstname}}</option>
 							</select>
+						</div>
+						<div class="col-sm-1"></div>
+						<div class="col-sm-1">
+							<button type="submit" class="btn btn-warning" (click)="sendOtp()">Send</button>
 						</div>
 					</div>
 					<div class="row form-group">
