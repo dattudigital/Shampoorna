@@ -148,8 +148,10 @@ export class AddEmployeeComponent implements OnInit {
             this.empData = this.empTypePipe.transform(this._empData,this.popupLogin);
           }
           sessionStorage.setItem('secondaryLoginData1', JSON.stringify(loginData.json()));
+          console.log(loginData.json()._results)
           var brurl = '';
           brurl = brurl + '?branchid=' + loginData.json()._results.employee_branch_id;
+          brurl = brurl + '&empid=' + loginData.json()._results.employee_id
           this.service.getEmployeeDetails(brurl).subscribe(res => {
             this.employees = res.json().result;
           })
@@ -166,7 +168,7 @@ export class AddEmployeeComponent implements OnInit {
     this.router.navigate(['sale-dashboard']);
   }
   removeFields() {
-    this.firstName = '',
+      this.firstName = '',
       this.lastName = '',
       this.email_id = '',
       this.password = '',
@@ -227,7 +229,6 @@ export class AddEmployeeComponent implements OnInit {
       this.phone = this.editData[index].phone,
       this.emp_type_id = this.editData[index].emp_type_id,
       this.password = this.editData[index].password,
-
       this.rec_status = this.editData[index].rec_status
   }
 

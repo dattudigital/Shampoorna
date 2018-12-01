@@ -74,17 +74,15 @@ export class InventoryListComponent implements OnInit {
     this.cols = [
       { field: 'branch_name', header: 'Branch' },
       { field: 'indent_req_id', header: 'Indent ID' },
-      { field: 'employee_firstname', header: 'Assaigned By' },
       { field: 'generated_shipping_id', header: 'Shipping ID' },
       { field: 'shipped_by', header: 'Shipped By' },
-      { field: 'vechile_no', header: 'Vehicle No.' },
+      { field: 'shipped_vechile_no', header: 'Vehicle No.' },
       { field: 'br_mgr_ack', header: 'Manager ACk' },
       { field: 'br_mgr_comment', header: 'Manager Comment'},
-      { field: 'chassisno', header: 'Chasis No.' },
       { field: 'color', header: 'Color' },
       { field: 'engineno', header: 'Engine No.' },
       { field: 'frameno', header: 'Frame No.' },
-      { field: 'make', header: 'Make.' },
+      // { field: 'make', header: 'Make.' },
       { field: 'model', header: 'Model' }
     ];
   }

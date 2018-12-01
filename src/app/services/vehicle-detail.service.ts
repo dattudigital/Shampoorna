@@ -23,6 +23,7 @@ export class VehicleDetailService {
   }
 
   public getVehicleFilter(url:any ){
+    console.log(environment.host + 'vehile-details?'+url)
     return this.http.get(environment.host + 'vehile-details?'+url ) 
   }
 }

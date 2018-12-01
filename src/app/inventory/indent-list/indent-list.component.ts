@@ -30,10 +30,10 @@ export class IndentListComponent implements OnInit {
   variantData: any[];
 
   shipId: any;
-  vehicleTypeFilter = "";
-  vehicleModelFilter = "";
-  vehicleColorFilter = "";
-  vehicleVariantFilter = "";
+  vehicleTypeFilter = "0";
+  vehicleModelFilter = "0";
+  vehicleColorFilter = "0";
+  vehicleVariantFilter = "0";
   fromDate = "";
   toDate = "";
 
@@ -213,25 +213,27 @@ export class IndentListComponent implements OnInit {
 
   detailsGo() {
     var url = '';
+    let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
+    url = url + '&branchid=' + loginData._results.employee_branch_id;
     if (this.fromDate) {
-      url = url + 'startdate=' + this.fromDate;
+      url = url + '&startdate=' + this.fromDate;
     }
     if (this.toDate) {
       url = url + '&enddate=' + this.toDate;
     }
-    if (this.vehicleTypeFilter) {
+    if (this.vehicleTypeFilter != "0" ) {
       url = url + '&type=' + this.vehicleTypeFilter;
     }
-    if (this.vehicleVariantFilter) {
+    if (this.vehicleVariantFilter != "0") {
       url = url + '&variant=' + this.vehicleVariantFilter;
     }
-    if (this.vehicleModelFilter) {
+    if (this.vehicleModelFilter != "0") {
       url = url + '&model=' + this.vehicleModelFilter;
     }
-    if (this.vehicleColorFilter) {
+    if (this.vehicleColorFilter != "0") {
       url = url + '&color=' + this.vehicleColorFilter;
     }
-    console.log(this.vehicleVariantFilter);
+    // console.log(this.vehicleVariantFilter);
     console.log(url)
     this.service.getIndentFilter(url).subscribe(res => {
       console.log(res.json());
@@ -272,10 +274,9 @@ export class IndentListComponent implements OnInit {
   }
   detailsReset() {
     let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
-    console.log("#####")
-    console.log(loginData._results.employee_branch_id)
     var brurl = '';
-    brurl = brurl + '?branchid=' + loginData._results.employee_branch_id;
+    brurl = brurl + '?status=1';
+    brurl = brurl + '&branchid=' + loginData._results.employee_branch_id;
     this.service.getIndentList(brurl).subscribe(res => {
       console.log(res.json().result)
       this.indents = res.json().result
@@ -293,13 +294,11 @@ export class IndentListComponent implements OnInit {
         )
       }
     });
-    this.vehicleTypeFilter = " ";
-    this.vehicleModelFilter = " ";
-    this.vehicleColorFilter = " ";
-    this.vehicleVariantFilter = " ";
+    this.vehicleTypeFilter = "0";
+    this.vehicleModelFilter = "0";
+    this.vehicleColorFilter = "0";
+    this.vehicleVariantFilter = "0";
     this.fromDate = " ";
     this.toDate = " ";
   }
-
-
 }
