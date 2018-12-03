@@ -72,16 +72,22 @@ export class InventoryAssigningComponent implements OnInit {
     this.http.get(environment.host + 'indents').subscribe(res => {
       if (res.json().status == true) {
         this.indentData = res.json().result;
+      }else{
+        this.indentData = [];
       }
     });
     this.http.get(environment.host + 'branches').subscribe(res => {
       if (res.json().status = true) {
         this.branchData = res.json().result;
+      }else{
+        this.branchData = [];
       }
     });
     this.http.get(environment.host + 'employees').subscribe(res => {
       if (res.json().status == true) {
         this.employeedata = res.json().result;
+      }else{
+        this.employeedata = [];
       }
     });
 
@@ -104,8 +110,6 @@ export class InventoryAssigningComponent implements OnInit {
   }
 
   addInventoryAssign(data) {
-    console.log("*********")
-    console.log(data);
     this.vehicles.push({
         engineno: "",
         frameno: "",
@@ -136,14 +140,9 @@ export class InventoryAssigningComponent implements OnInit {
     this.assignIndex = index;
     if (val.length >= 3) {
       this.http.get(environment.host + 'get-engine-details/' + val).subscribe(data => {
-        console.log(data.json().result);
-        // this.temp = [];
-        // this.temp.push(data.json().result);
         if (data.json().status == false) {
-          // this.indentData = [];
           this.noResult = true;
         } else {
-          console.log("testttttttttttttttttttttt");
           this.noResult = false;        
           // this.indentData = this.temp.pop();
           this.vehicles[index].engineno = data.json().result[0]["Engine No"];
@@ -153,8 +152,6 @@ export class InventoryAssigningComponent implements OnInit {
           this.vehicles[index].variant = data.json().result[0].variant_name;
           this.vehicles[index].model = data.json().result[0].model_name;
           this.vehicles[index].vechile_id = data.json().result[0].vehicle_id;
-          console.log(this.vehicles)
-          // console.log(this.indentData[this.assignIndex])
         }
       })
     } else {
@@ -164,7 +161,6 @@ export class InventoryAssigningComponent implements OnInit {
   }
 
   onSelect(event: TypeaheadMatch): void {
-    console.log("on selectttttttttttt");
     this.selectedOption = event.item;
       // this.vehicles.frameno = this.selectedOption["Frame No"];
       // this.vehicles.color = this.selectedOption.color_name;

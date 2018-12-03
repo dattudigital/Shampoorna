@@ -1,6 +1,3 @@
-<!-- <div class="tabs-services">
-  
-</div> -->
 <simple-notifications [options]="options"></simple-notifications>
 
 <div class="add_promotions padding-20">
@@ -101,48 +98,6 @@
             <div class="clear"></div>
           </div>
         </div>
-        <!-- <div class=" row form-group">
-          <label for="input" class="col-sm-4 control-label">Assaigned Quantity
-            <a style="color:red">*</a>
-          </label>
-          <div class="col-sm-5">
-            <input type="text" class="form-control" formControlName="assQuantity" placeholder="Enter Assaigned Quantity" [(ngModel)]="assQuantity"
-              [ngClass]="{ 'is-invalid': submitted && f.assQuantity.errors }">
-            <div *ngIf="submitted && f.assQuantity.errors" class="invalid-feedback">
-              <div *ngIf="f.assQuantity.errors.required" style="color:red">Assaigned Quantity is required</div>
-            </div>
-            <div class="clear"></div>
-          </div>
-        </div> -->
-        <!-- <div class=" row form-group">
-          <label for="input" class="col-sm-4 control-label">Assaigned by
-            <a style="color:red">*</a>
-          </label>
-          <div class="col-sm-5">
-            <select class="form-control" formControlName="assBy" [(ngModel)]="assBy" [ngClass]="{ 'is-invalid': submitted && f.assBy.errors }">
-              <option *ngFor="let data of this.empData" [ngValue]=" data.employee_id">{{data.employee_firstname}}</option>
-            </select>
-            <div *ngIf="submitted && f.assBy.errors" class="invalid-feedback">
-              <div *ngIf="f.assBy.errors.required" style="color:red">Assaigned By is required</div>
-            </div>
-          </div>
-          <div class="clear"></div>
-        </div> -->
-
-        <!-- <div class=" row form-group">
-          <label for="input" class="col-sm-4 control-label">Updated by
-            <a style="color:red">*</a>
-          </label>
-          <div class="col-sm-5">
-            <select class="form-control" formControlName="updateBy" [(ngModel)]="updateBy" [ngClass]="{ 'is-invalid': submitted && f.updateBy.errors }">
-              <option *ngFor="let data of this.empData" [ngValue]=" data.employee_id">{{data.employee_firstname}}</option>
-            </select>
-            <div *ngIf="submitted && f.updateBy.errors" class="invalid-feedback">
-              <div *ngIf="f.updateBy.errors.required" style="color:red">Updated By is required</div>
-            </div>
-          </div>
-          <div class="clear"></div>
-        </div> -->
 
         <div class=" row form-group">
           <label for="input" class="col-sm-4 control-label">Required On Date</label>
@@ -155,42 +110,13 @@
           </div>
           <div class="clear"></div>
         </div>
-
-        <!-- <div class=" row form-group">
-          <label for="input" class="col-sm-4 control-label">Assaigned On</label>
-          <div class="col-sm-8">
-            <div class="input-group">
-                <p-calendar [(ngModel)]="date2" name="assignedby" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'190px'}"
-                [showIcon]="true" [(ngModel)]="assDate" dateFormat="dd-mm-yy" (ngModelChange)=" getassDate($event)" [(ngModel)]="showMoreControls"
-                [ngModelOptions]="{standalone: true}"></p-calendar>
-            </div>
-          </div>
-          <div class="clear"></div>
-        </div> -->
-
-        <!-- <div class=" row form-group">
-          <label for="input" class="col-sm-4 control-label">Updated On</label>
-          <div class="col-sm-8">
-            <div class="input-group">
-                <p-calendar [(ngModel)]="date3" name="update" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'190px'}"
-                [showIcon]="true" [(ngModel)]="updateDate" dateFormat="dd-mm-yy" (ngModelChange)=" getupdDate($event)" [(ngModel)]="showMoreControls"
-                [ngModelOptions]="{standalone: true}"></p-calendar>
-            </div>
-          </div>
-          <div class="clear"></div>
-        </div> -->
       </div>
-      <!-- <div class="col-sm-12" style=" text-align: right;">
-        <button type="button" class="btn btn-primary btn-lg" (click)="addIndent()">Add</button>
-        <button type="button" class="btn basic btn-lg" (click)="cancelIndent()" style="background:#f1f1f1">Cancel</button>
-      </div> -->
       <div class="col-sm-12">
         <div class="col-sm-9"></div>
         <div class="col-sm-2">
           <button type="submit" class="btn btn-success" (click)="addIndent()">Add Indent</button>&nbsp;
           <button type="submit" class="btn btn-danger" (click)="cancelIndent()">Cancel</button>
         </div>
-
       </div>
       <div class="clear"></div>
     </form>

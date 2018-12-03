@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 declare var $: any;
 import { AllVehicleService } from '../../services/all-vehicle.service';
+
 @Component({
   selector: 'app-vehicle-details',
   templateUrl: './vehicle-details.component.html',
@@ -72,11 +73,12 @@ export class VehicleDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.service.getVehicleDetails().subscribe(res => {
       if (res.json().status == true) {
-        console.log(res.json().result)
         this.bikes = res.json().result
+      }
+      else{
+        this.bikes = [];
       }
 
     });
@@ -100,27 +102,40 @@ export class VehicleDetailsComponent implements OnInit {
       { field: 'Engine No', header: 'Engine No' },
       { field: 'Frame No', header: 'Frame No' },
     ];
+
     this.allvehicleservice.getColor().subscribe(data => {
-      console.log(data.json())
+      if(data.json().status == true){
       this.colorData = data.json().result;
+     }else{
+       this.colorData = [];
+     }
     });
+
     this.allvehicleservice.getCategory().subscribe(data => {
-      console.log(data.json())
+      if(data.json().status == true){
       this.typeData = data.json().result;
+      }else{
+        this.typeData = [];
+      }
     });
+
     this.allvehicleservice.getModel().subscribe(data => {
+      if(data.json().status == true){
       this.modelData = data.json().result;
-      console.log(this.modelData)
+      }else{
+        this.modelData = [];
+      }
     });
+    
     this.allvehicleservice.getVariant().subscribe(data => {
+      if(data.json().status == true){
       this.variantData = data.json().result;
-      console.log(this.variantData)
+      }else{
+        this.variantData = [];
+      }
     })
-    this.http.get(environment.host + 'vehicle-makes').subscribe(data => {
-      console.log(data.json())
-      this.makeData = data.json().result;
-    });
   }
+
   backToInventory() {
     this.router.navigate(['inventory']);
   }
@@ -150,18 +165,16 @@ export class VehicleDetailsComponent implements OnInit {
     this.gateNumber = '';
     this.dcNumber = '';
   }
+
   addVehicle() {
     this.submitted = true;
     if (this.vehicleForm.invalid) {
       return;
     }
-    console.log(this.engineNumber);
     if (this.engineNumber) {
       var number = this.engineNumber;
       this.engineNum1 = number.substring(0, 5);
       this.engineNum2 = number.substring(5, 12);
-      console.log(this.engineNum1);
-      console.log(this.engineNum2)
     }
     var data = {
       "TVS-M Invoice No": this.invoiceNum,
@@ -179,14 +192,10 @@ export class VehicleDetailsComponent implements OnInit {
       "Engine #2": this.engineNum2,
       status: "1"
     }
-    console.log(data);
     var insertData = {
       color_name: this.vehicleColor.color_name
     }
-
     this.service.addVehicleDetails(data).subscribe(res => {
-      console.log(res.json().result);
-
       if (res.json().status == true) {
         this.notif.success(
           'Success',
@@ -223,17 +232,11 @@ export class VehicleDetailsComponent implements OnInit {
   VehicleInvoiceDate: any;
 
   editVehicle(data, index) {
-    console.log("******************")
-    console.log(data);
     this.editData = data;
     data.index = index;
     this.temp = index;
-    console.log(this.editData[index].vehicle_id)
-    console.log()
     let newDate = moment(this.editData[index].vehicle_invoice_date).format('DD-MM-YYYY').toString();
     this.VehicleInvoiceDate = newDate;
-    console.log(this.VehicleInvoiceDate);
-    console.log(this.editData[index].vechicle_invoiceno)
     this.vehicle_id = this.editData[index].vehicle_id;
     this.vechicle_invoiceno = this.editData[index]["TVS-M Invoice No"];
     this.vehicle_source_from = this.editData[index]["Sourced from"]
@@ -247,23 +250,18 @@ export class VehicleDetailsComponent implements OnInit {
     this.vechile_gatepass = this.editData[index]["Gate Pass"];
     this.status = this.editData[index].status;
   }
+
   update: any;
   getInvoiceDate() {
     let newdate = new Date(this.VehicleInvoiceDate)
-    console.log(newdate)
-
     this.update = newdate.getFullYear() + '-' + (newdate.getMonth() + 1) + '-' + newdate.getDate();
-    console.log(this.update)
   }
 
   updateVehicle() {
-    //console.log(val);
     if (this.vehicle_engineno) {
       var number = this.vehicle_engineno;
       this.engineNum1 = number.substring(0, 5);
       this.engineNum2 = number.substring(5, 12);
-      console.log(this.engineNum1);
-      console.log(this.engineNum2)
     }
     var data = {
       vehicle_id: this.vehicle_id,
@@ -282,9 +280,7 @@ export class VehicleDetailsComponent implements OnInit {
       "Engine #2": this.engineNum2,
       status: "1"
     }
-    console.log(data)
     this.service.addVehicleDetails(data).subscribe(res => {
-      console.log(res.json());
       if (res.json().status == true) {
         this.notif.success(
           'Success',
@@ -298,8 +294,6 @@ export class VehicleDetailsComponent implements OnInit {
           }
         )
       }
-      console.log("*******")
-      console.log(this.temp)
       this.bikes[this.temp].vehicle_id = data.vehicle_id;
       this.bikes[this.temp]["TVS-M Invoice No"] = data["TVS-M Invoice No"];
       this.bikes[this.temp]["TVS-M Invoice Date"] = data["TVS-M Invoice Date"];
@@ -315,7 +309,6 @@ export class VehicleDetailsComponent implements OnInit {
       this.bikes[this.temp].status = data.status;
       this.temp = " ";
     })
-
   }
 
   cancelVehicle() {
@@ -325,36 +318,25 @@ export class VehicleDetailsComponent implements OnInit {
   temp1: any;
 
   deleteVehicle(val, index) {
-    // this.bikes.splice(index,1)
     this.temp1 = index;
-    console.log(index)
     this.deleteData = val;
-    console.log(this.deleteData)
     val.index = index;
-    console.log("***")
-    console.log(this.deleteData[index].vehicle_id);
     this.vehicle_id = this.deleteData[index].vehicle_id;
     var data = {
-      vehicle_id:this.deleteData[index].vehicle_id,
-      status:"0"
+      vehicle_id: this.deleteData[index].vehicle_id,
+      status: "0"
     }
-    console.log(data)
-    this.service.addVehicleDetails(data).subscribe(res =>{
-      console.log(res.json());
+    this.service.addVehicleDetails(data).subscribe(res => {
     })
-
   }
 
   yesVehicle() {
     this.bikes.splice(this.temp1, 1)
-    console.log(this.temp1)
     var data = {
       vehicle_id: this.vehicle_id,
       status: "0"
     }
-    console.log(data)
     this.service.addVehicleDetails(data).subscribe(res => {
-      console.log(res.json());
       if (res.json().status == true) {
         this.notif.success(
           'Success',
@@ -369,27 +351,22 @@ export class VehicleDetailsComponent implements OnInit {
         )
       }
     })
-
   }
 
   fromDa() {
     let newDate = moment(this.fromDate).format('YYYY-MM-DD').toString();
     this.fromDate = newDate;
-    console.log(this.fromDate)
   }
 
   toDa() {
     let newDate1 = moment(this.toDate).format('YYYY-MM-DD').toString();
     this.toDate = newDate1;
-    console.log(this.toDate)
-
   }
+
   invoiceDateFormat() {
     let newdate2 = moment(this.invoiceDate).format('YYYY-MM-DD').toString();
     this.invoiceDate = newdate2;
-    console.log(this.invoiceDate)
   }
-
 
   detailsGo() {
     var url = '';
@@ -399,25 +376,21 @@ export class VehicleDetailsComponent implements OnInit {
     if (this.toDate) {
       url = url + '&enddate=' + this.toDate;
     }
-    if (this.vehicleTypeFilter != "0" ) {
+    if (this.vehicleTypeFilter != "0") {
       url = url + '&type=' + this.vehicleTypeFilter;
     }
-    if (this.vehicleVariantFilter != "0" ) {
+    if (this.vehicleVariantFilter != "0") {
       url = url + '&variant=' + this.vehicleVariantFilter;
     }
-    if (this.vehicleModelFilter != "0" ) {
+    if (this.vehicleModelFilter != "0") {
       url = url + '&model=' + this.vehicleModelFilter;
     }
-    if (this.vehicleColorFilter != "0" ) {
+    if (this.vehicleColorFilter != "0") {
       url = url + '&color=' + this.vehicleColorFilter;
     }
-    console.log(this.vehicleVariantFilter);
-    console.log(url)
     this.service.getVehicleFilter(url).subscribe(res => {
-      console.log(res.json().status)
       if (res.json().status == true) {
         this.bikes = res.json().result;
-        console.log(this.bikes)
         this.notif.success(
           'Success',
           'Filter Applied Successfully',
@@ -446,6 +419,7 @@ export class VehicleDetailsComponent implements OnInit {
       }
     })
   }
+
   detailsReset() {
     this.service.getVehicleDetails().subscribe(res => {
       console.log(res.json().result)
@@ -474,14 +448,12 @@ export class VehicleDetailsComponent implements OnInit {
 
   //this method  allow alphabets 
   omit_special_char(event) {
-    console.log('key press');
     var k;
     k = event.charCode;  //  k = event.keyCode;  (Both can be used)
     return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 0 || k == 32);
   }
   //This Method  allow Numbers
   only_allow_number(event) {
-    console.log('only number');
     var n;
     n = event.charCode
     return (n == 8 || n == 0 || n == 32 || (n >= 48 && n <= 57))

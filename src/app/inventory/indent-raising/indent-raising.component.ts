@@ -28,55 +28,67 @@ export class IndentRaisingComponent implements OnInit {
   reqQuantity = '';
   reqDate = '';
   brComment = '';
- 
+
   typeData: any[];
   makeData: any[];
   modelData: any[];
   colorData: any[];
-  variantData:any[];
+  variantData: any[];
   empData: any[];
   public options = { position: ["top", "right"] }
 
-  constructor(private router: Router,private allvehicleservice: AllVehicleService, private http: Http, private service: IndentService, private formBuilder: FormBuilder, private notif: NotificationsService) { }
+  constructor(private router: Router, private allvehicleservice: AllVehicleService, private http: Http, private service: IndentService, private formBuilder: FormBuilder, private notif: NotificationsService) { }
 
   ngOnInit() {
+
     this.allvehicleservice.getColor().subscribe(data => {
-      console.log(data.json())
-      this.colorData = data.json().result;
+      if (data.json().status == true) {
+        this.colorData = data.json().result;
+      } else {
+        this.colorData = [];
+      }
     });
+
     this.allvehicleservice.getCategory().subscribe(data => {
-      console.log(data.json())
-      this.typeData = data.json().result;
+      if (data.json().status == true) {
+        this.typeData = data.json().result;
+      } else {
+        this.typeData = [];
+      }
     });
+
     this.allvehicleservice.getModel().subscribe(data => {
-      this.modelData = data.json().result;
-      console.log(this.modelData)
+      if (data.json().status == true) {
+        this.modelData = data.json().result;
+      } else {
+        this.modelData = [];
+      }
     });
+
     this.allvehicleservice.getVariant().subscribe(data => {
-      this.variantData = data.json().result;
-      console.log(this.variantData)
+      if (data.json().status == true) {
+        this.variantData = data.json().result;
+      } else {
+        this.variantData = [];
+      }
     })
 
- 
     this.http.get(environment.host + 'employees').subscribe(data => {
-      console.log(data.json())
-      this.empData = data.json().result;
+      if (data.json().status == true) {
+        this.empData = data.json().result;
+      } else {
+        this.empData = [];
+      }
     });
+
     this.IndentRaisingForm = this.formBuilder.group({
       vehicleColor: ['', Validators.required],
       vehicleModel: ['', Validators.required],
       vehicleType: ['', Validators.required],
       vehicleVariant: ['', Validators.required],
       reqQuantity: ['', Validators.required],
-      // assQuantity: ['', Validators.required],
-      // assBy: ['', Validators.required],
-      // updateBy: ['', Validators.required],
-
-
     });
   }
-
-
 
   backToInventory() {
     this.router.navigate(['inventory']);
@@ -85,34 +97,12 @@ export class IndentRaisingComponent implements OnInit {
   get f() { return this.IndentRaisingForm.controls; }
 
   addIndent() {
-    console.log('***********')
     this.submitted = true;
-    // stop here if form is invalid
     if (this.IndentRaisingForm.invalid) {
       return;
     }
-
     let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
-    console.log("#####")
-    console.log(loginData._results)
-    console.log(loginData._results.employee_id)
-    console.log(loginData._results.employee_branch_id)
-    // var brurl = '';
-    // brurl = brurl + '?branchid=' + loginData._results.employee_branch_id;
-    // var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
-    // var string_length = 8;
-    // var letters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz!@#$%^&*"; 
-    // for (var i = 0; i < 6; i++) 
-    // this.indentId += letters[(Math.floor(Math.random() * 16))]; 
-    // this.indentId ="IND"+ Math.floor(Math.random() * 899999 + 100000);
-    // this.indentId ="IND"+ Math.random().toString(36).replace(/[! # $ % < > ( ) * + - _ ,.;:/\ += [] @]+/g, '').substr(0, 5);
-    // this.indentId= "IND"+Math.random().toString(36).slice(2);
-    //  this.indentId= "IND"+(Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase()
-    //this.indentId= "IND"+(Math.random().toString(36).substr(2, 5)).toUpperCase()
-    //  this.indentId= "IND"+(new Date().getTime()).toString(36)
     this.indentId = "IND" + Math.round((Math.random() * 36 ** 7)).toString(36);
-
-    console.log(this.indentId)
     var data = {
       indent_req_id: this.indentId,
       emp_id: loginData._results.employee_id,
@@ -122,19 +112,12 @@ export class IndentRaisingComponent implements OnInit {
       veh_variant: this.vehicleVariant,
       veh_model: this.vehicleModel,
       req_qty: this.reqQuantity,
-      // assigned_qty: this.assQuantity,
       req_on_date: this.reqDate,
-      //assigned_on: this.assDate,
-      //updated_on: this.updateDate,
       assigned_by: loginData._results.employee_id,
       updated_by: loginData._results.employee_id,
       status: "1"
     }
-    
-    console.log(data)
     this.service.addIndent(data).subscribe(res => {
-      console.log(res.json());
-      console.log(res.json().result);
       if (res.json().status == true) {
         this.notif.success(
           'Success',
@@ -150,52 +133,26 @@ export class IndentRaisingComponent implements OnInit {
       }
       this.cancelIndent()
     })
-  } 
+  }
 
   getreqDate() {
     let newDate = moment(this.reqDate).format('YYYY-MM-DD').toString();
     this.reqDate = newDate;
-    console.log(this.reqDate)
   }
 
-  // getassDate() {
-  //   let newDate1 = moment(this.assDate).format('YYYY-MM-DD').toString();
-  //   this.assDate = newDate1;
-  //   console.log(this.assDate)
-
-  // }
-
-  // getupdDate() {
-  //   let newDate2 = moment(this.updateDate).format('YYYY-MM-DD').toString();
-  //   this.updateDate = newDate2;
-  //   console.log(this.updateDate)
-  // }
-
   cancelIndent() {
-
     this.indentId = " ";
     this.vehicleColor = " ";
     this.vehicleModel = " ";
     this.vehicleType = " "
     this.vehicleVariant = " "
     this.reqQuantity = " "
-    // this.assQuantity = " "
     this.reqDate = " "
-    //this.assDate = " "
-    //this.updateDate = " "
-    // this.assBy = " "
-    // this.updateBy = " "
-
   }
+
   only_allow_number(event) {
-    console.log('only number');
     var n;
     n = event.charCode
     return (n == 8 || n == 0 || n == 32 || (n >= 48 && n <= 57))
   }
-
-
-
-
-
 }

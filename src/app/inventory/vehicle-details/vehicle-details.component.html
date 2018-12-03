@@ -1,6 +1,3 @@
-<!-- <div class="tabs-services">
-  
-</div> -->
 <simple-notifications [options]="options"></simple-notifications>
 
 <div class="add_promotions padding-20">
@@ -22,13 +19,13 @@
       </button>
     </div>
     <div class="col-sm-1">
-      <button type="button" class="btn btn-success" (click)="removeFields()" data-toggle="modal" data-target="#addVehicle">ADD ONE
+      <button type="button" class="btn btn-success" (click)="removeFields()" data-toggle="modal" data-target="#addVehicle">ADD
+        ONE
       </button>
     </div>
   </div>&nbsp;
 
   <div class="vehicle details">
-
     <div class="col-md-4 col-sm-4 col-xs-12">
       <div class="form-group">
         <label for="input" class="col-md-3 control-label">Category</label>
@@ -41,7 +38,6 @@
         <div class="clear"></div>
       </div>
     </div>
-
     <div class="col-md-4 col-sm-4 col-xs-12">
       <div class="form-group">
         <label for="input" class="col-md-3 control-label">Model</label>
@@ -83,8 +79,9 @@
         <label for="input" class="col-md-3 control-label">From</label>
         <div class="col-md-7">
           <div class="input-group">
-            <p-calendar [(ngModel)]="date1" name="fromDate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'190px'}"
-              [showIcon]="true" placeholder="Select Date" [(ngModel)]="fromDate" dateFormat="dd-mm-yy" (ngModelChange)=" fromDa($event)"></p-calendar>
+            <p-calendar [(ngModel)]="date1" name="fromDate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030"
+              [inputStyle]="{'width':'190px'}" [showIcon]="true" placeholder="Select Date" [(ngModel)]="fromDate"
+              dateFormat="dd-mm-yy" (ngModelChange)=" fromDa($event)"></p-calendar>
           </div>
         </div>
         <div class="clear"></div>
@@ -95,8 +92,9 @@
         <label for="input" class="col-md-3 control-label">To</label>
         <div class="col-md-7">
           <div class="input-group">
-            <p-calendar [(ngModel)]="date2" name="toDate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'190px'}"
-              [showIcon]="true" [(ngModel)]="toDate" placeholder="Select Date" dateFormat="dd-mm-yy" (ngModelChange)=" toDa($event)"></p-calendar>
+            <p-calendar [(ngModel)]="date2" name="toDate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030"
+              [inputStyle]="{'width':'190px'}" [showIcon]="true" [(ngModel)]="toDate" placeholder="Select Date"
+              dateFormat="dd-mm-yy" (ngModelChange)=" toDa($event)"></p-calendar>
           </div>
         </div>
         <div class="clear"></div>
@@ -126,7 +124,8 @@
       <tr>
         <th *ngFor="let col of cols" [pSortableColumn]="col.field">
           {{col.header}}
-          <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+            ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
         </th>
         <th>Edit</th>
         <th>Delete</th>
@@ -145,9 +144,7 @@
           <i class="fa fa-trash"></i>
         </td>
       </tr>
-
     </ng-template>
-
   </p-table>
   <br>
 </div>
@@ -170,8 +167,9 @@
               <a style="color:red">*</a>
             </label>
             <div class="col-md-6">
-              <input type="text" name="invoice" class="form-control" placeholder="Invoice No" [(ngModel)]="invoiceNum" (ngModelChange)="enableSave($event)"
-                (keypress)="only_allow_number($event)" maxlength="50" [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}">
+              <input type="text" name="invoice" class="form-control" placeholder="Invoice No" [(ngModel)]="invoiceNum"
+                (ngModelChange)="enableSave($event)" (keypress)="only_allow_number($event)" maxlength="50" [(ngModel)]="showMoreControls"
+                [ngModelOptions]="{standalone: true}">
             </div>
             <div class="clear"></div>
           </div>
@@ -182,8 +180,9 @@
             </label>
             <div class="col-md-6">
               <div class="input-group">
-                <p-calendar [(ngModel)]="date1" name="invoiceDate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'341px'}"
-                  [showIcon]="true" placeholder="Select Date" [(ngModel)]="invoiceDate" dateFormat="dd-mm-yy" (ngModelChange)=" invoiceDateFormat($event)"
+                <p-calendar [(ngModel)]="date1" name="invoiceDate" [monthNavigator]="true" [yearNavigator]="true"
+                  yearRange="1990:2030" [inputStyle]="{'width':'341px'}" [showIcon]="true" placeholder="Select Date"
+                  [(ngModel)]="invoiceDate" dateFormat="dd-mm-yy" (ngModelChange)=" invoiceDateFormat($event)"
                   [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}"></p-calendar>
               </div>
             </div>
@@ -195,9 +194,9 @@
               <a style="color:red">*</a>
             </label>
             <div class="col-md-6">
-              <input type="text" class="form-control" formControlName="sourcedFrom" id="source" placeholder="Sourced From" [(ngModel)]="sourcedFrom"
-                [ngClass]="{ 'is-invalid': submitted && f.sourcedFrom.errors }" (ngModelChange)="enableSave($event)" (keypress)="omit_special_char($event)"
-                maxlength="50">
+              <input type="text" class="form-control" formControlName="sourcedFrom" id="source" placeholder="Sourced From"
+                [(ngModel)]="sourcedFrom" [ngClass]="{ 'is-invalid': submitted && f.sourcedFrom.errors }"
+                (ngModelChange)="enableSave($event)" (keypress)="omit_special_char($event)" maxlength="50">
               <div *ngIf="submitted && f.sourcedFrom.errors" class="invalid-feedback">
                 <div *ngIf="f.sourcedFrom.errors.required" style="color:red">Sourced from No is required</div>
               </div>
@@ -270,8 +269,9 @@
               <a style="color:red">*</a>
             </label>
             <div class="col-md-6">
-              <input type="text" formControlName="engineNumber" class="form-control" id="eng" placeholder="Engine Number" [ngClass]="{ 'is-invalid': submitted && f.engineNumber.errors }"
-                [(ngModel)]="engineNumber" (ngModelChange)="enableSave($event)" maxlength="50" (keypress)="allow_numbers_alphabets($event)">
+              <input type="text" formControlName="engineNumber" class="form-control" id="eng" placeholder="Engine Number"
+                [ngClass]="{ 'is-invalid': submitted && f.engineNumber.errors }" [(ngModel)]="engineNumber"
+                (ngModelChange)="enableSave($event)" maxlength="50" (keypress)="allow_numbers_alphabets($event)">
               <div *ngIf="submitted && f.engineNumber.errors" class="invalid-feedback">
                 <div *ngIf="f.engineNumber.errors.required" style="color:red">Engine No is required</div>
               </div>
@@ -284,9 +284,9 @@
               <a style="color:red">*</a>
             </label>
             <div class="col-md-6">
-              <input type="text" class="form-control" formControlName="frameNumber" id="frame" placeholder="Frame Number" [(ngModel)]="frameNumber"
-                [ngClass]="{ 'is-invalid': submitted && f.frameNumber.errors }" (ngModelChange)="enableSave($event)" (keypress)="allow_numbers_alphabets($event)"
-                maxlength="50">
+              <input type="text" class="form-control" formControlName="frameNumber" id="frame" placeholder="Frame Number"
+                [(ngModel)]="frameNumber" [ngClass]="{ 'is-invalid': submitted && f.frameNumber.errors }"
+                (ngModelChange)="enableSave($event)" (keypress)="allow_numbers_alphabets($event)" maxlength="50">
               <div *ngIf="submitted && f.frameNumber.errors" class="invalid-feedback">
                 <div *ngIf="f.frameNumber.errors.required" style="color:red">Frame Number is required</div>
               </div>
@@ -299,9 +299,9 @@
               <a style="color:red">*</a>
             </label>
             <div class="col-md-6">
-              <input type="text" class="form-control" id="dc" name="dcno" placeholder="DC Number" [(ngModel)]="dcNumber" (ngModelChange)="enableSave($event)"
-                (keypress)="allow_numbers_alphabets($event)" [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}"
-                maxlength="50">
+              <input type="text" class="form-control" id="dc" name="dcno" placeholder="DC Number" [(ngModel)]="dcNumber"
+                (ngModelChange)="enableSave($event)" (keypress)="allow_numbers_alphabets($event)" [(ngModel)]="showMoreControls"
+                [ngModelOptions]="{standalone: true}" maxlength="50">
 
             </div>
             <div class="clear"></div>
@@ -312,9 +312,9 @@
               <a style="color:red">*</a>
             </label>
             <div class="col-md-6">
-              <input type="text" class="form-control" name="gate" id="key" placeholder="Gate Pass" [(ngModel)]="gateNumber" (ngModelChange)="enableSave($event)"
-                (keypress)="only_allow_number($event)" [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}"
-                maxlength="50">
+              <input type="text" class="form-control" name="gate" id="key" placeholder="Gate Pass" [(ngModel)]="gateNumber"
+                (ngModelChange)="enableSave($event)" (keypress)="only_allow_number($event)" [(ngModel)]="showMoreControls"
+                [ngModelOptions]="{standalone: true}" maxlength="50">
 
             </div>
             <div class="clear"></div>
@@ -340,14 +340,14 @@
       </div>
       <div class="modal-body">
         <br>
-
         <div class="form-group">
           <div class="col-md-1"></div>
           <label for="input" class="col-md-3 control-label">TVS-M Invoice No
             <a style="color:red">*</a>
           </label>
           <div class="col-md-6">
-            <input type="text" class="form-control" id="inv1" placeholder="Invoice Number" name="invoicenumber1" [(ngModel)]="vechicle_invoiceno">
+            <input type="text" class="form-control" id="inv1" placeholder="Invoice Number" name="invoicenumber1"
+              [(ngModel)]="vechicle_invoiceno">
           </div>
           <div class="clear"></div>
         </div>
@@ -359,11 +359,9 @@
           </label>
           <div class="col-md-6">
             <div class="input-group">
-              <p-calendar name="date3" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'341px'}"
-                [showIcon]="true" [(ngModel)]="VehicleInvoiceDate" dateFormat="dd-mm-yy" (ngModelChange)="getInvoiceDate()"></p-calendar>
-
-              <!-- <p-calendar [(ngModel)]="date3" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030" [inputStyle]="{'width':'341px'}"
-                [showIcon]="true" [(ngModel)]="VehicleInvoiceDate" dateFormat="dd-mm-yy" (ngModelChange)=" invoiceDateFormat($event)"></p-calendar> -->
+              <p-calendar name="date3" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030"
+                [inputStyle]="{'width':'341px'}" [showIcon]="true" [(ngModel)]="VehicleInvoiceDate" dateFormat="dd-mm-yy"
+                (ngModelChange)="getInvoiceDate()"></p-calendar>
             </div>
           </div>
           <div class="clear"></div>
@@ -374,8 +372,8 @@
             <a style="color:red">*</a>
           </label>
           <div class="col-md-6">
-            <input type="text" class="form-control" id="source" placeholder="Sourced From" [(ngModel)]="vehicle_source_from" (ngModelChange)="enableSave($event)"
-              (keypress)="omit_special_char($event)" maxlength="50">
+            <input type="text" class="form-control" id="source" placeholder="Sourced From" [(ngModel)]="vehicle_source_from"
+              (ngModelChange)="enableSave($event)" (keypress)="omit_special_char($event)" maxlength="50">
           </div>
           <div class="clear"></div>
         </div>
@@ -386,8 +384,10 @@
             <a style="color:red">*</a>
           </label>
           <div class="col-md-6">
-            <select class="form-control" name="vehicletype1" [(ngModel)]="vehicle_type" #vehicletype1="ngModel" required>
-              <div *ngIf="vehicletype1.errors?.required && (vehicletype1.dirty || vehicletype1.touched )" style="color:red">Type is Required</div>
+            <select class="form-control" name="vehicletype1" [(ngModel)]="vehicle_type" #vehicletype1="ngModel"
+              required>
+              <div *ngIf="vehicletype1.errors?.required && (vehicletype1.dirty || vehicletype1.touched )" style="color:red">Type
+                is Required</div>
               <option *ngFor="let data of this.typeData" [ngValue]="data.vehicle_type_id">{{data.type_name}}</option>
             </select>
           </div>
@@ -437,10 +437,11 @@
             <a style="color:red">*</a>
           </label>
           <div class="col-md-6">
-            <input type="text" class="form-control" id="eng1" placeholder="Engine Number" name="enginenumber1" [(ngModel)]="vehicle_engineno"
-              #enginenumber1="ngModel" required>
+            <input type="text" class="form-control" id="eng1" placeholder="Engine Number" name="enginenumber1"
+              [(ngModel)]="vehicle_engineno" #enginenumber1="ngModel" required>
           </div>
-          <div *ngIf="enginenumber1.errors?.required  && (enginenumber1.dirty ||enginenumber1.touched )" style="color:red">Engine No. is required </div>
+          <div *ngIf="enginenumber1.errors?.required  && (enginenumber1.dirty ||enginenumber1.touched )" style="color:red">Engine
+            No. is required </div>
           <div class="clear"></div>
         </div>
         <div class="form-group">
@@ -449,10 +450,11 @@
             <a style="color:red">*</a>
           </label>
           <div class="col-md-6">
-            <input type="text" class="form-control" id="frame1" placeholder="Frame Number" name="framenumber1" [(ngModel)]="vehicle_frameno"
-              #framenumber1="ngModel" required>
+            <input type="text" class="form-control" id="frame1" placeholder="Frame Number" name="framenumber1"
+              [(ngModel)]="vehicle_frameno" #framenumber1="ngModel" required>
           </div>
-          <div *ngIf="framenumber1.errors?.required  && (framenumber1.dirty ||framenumber1.touched )" style="color:red">Frame No. is required </div>
+          <div *ngIf="framenumber1.errors?.required  && (framenumber1.dirty ||framenumber1.touched )" style="color:red">Frame
+            No. is required </div>
           <div class="clear"></div>
         </div>
         <div class="form-group">
@@ -461,10 +463,11 @@
             <a style="color:red">*</a>
           </label>
           <div class="col-md-6">
-            <input type="text" class="form-control" id="dc1" placeholder="DC Number" name="dcnumber1" [(ngModel)]="vechicle_dcno" #dcnumber1="ngModel"
-              required>
+            <input type="text" class="form-control" id="dc1" placeholder="DC Number" name="dcnumber1" [(ngModel)]="vechicle_dcno"
+              #dcnumber1="ngModel" required>
           </div>
-          <div *ngIf="dcnumber1.errors?.required  && (dcnumber1.dirty ||dcnumber1.touched )" style="color:red">Dc No. is required </div>
+          <div *ngIf="dcnumber1.errors?.required  && (dcnumber1.dirty ||dcnumber1.touched )" style="color:red">Dc No.
+            is required </div>
           <div class="clear"></div>
         </div>
 
@@ -474,8 +477,8 @@
             <a style="color:red">*</a>
           </label>
           <div class="col-md-6">
-            <input type="text" class="form-control" id="key" placeholder="Gate Pass" [(ngModel)]="vechile_gatepass" (ngModelChange)="enableSave($event)"
-              (keypress)="only_allow_number($event)" maxlength="50">
+            <input type="text" class="form-control" id="key" placeholder="Gate Pass" [(ngModel)]="vechile_gatepass"
+              (ngModelChange)="enableSave($event)" (keypress)="only_allow_number($event)" maxlength="50">
           </div>
           <div class="clear"></div>
         </div>
@@ -501,7 +504,6 @@
   </div>
 </div>
 
-
 <div class="modal fade" id="deleteVehicle" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -514,7 +516,6 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
         <button type="button" class="btn btn-warning" data-dismiss="modal" (click)="yesVehicle()">Yes</button>
-
       </div>
     </div>
   </div>
