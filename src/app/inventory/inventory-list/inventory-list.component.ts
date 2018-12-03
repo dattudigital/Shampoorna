@@ -21,8 +21,7 @@ export class InventoryListComponent implements OnInit {
   makeData: any[];
   modelData: any[];
   colorData: any[];
-  variantData:any[];
-  //vehicleTypeFilter = "";
+  variantData: any[];
   vehicleModelFilter = "";
   vehicleColorFilter = "";
   vehicleVariantFilter = "";
@@ -31,44 +30,55 @@ export class InventoryListComponent implements OnInit {
   public options = { position: ["top", "right"] }
 
 
-  constructor(private router: Router,private allvehicleservice: AllVehicleService, private service: InventoryAssigningService, private http: Http, private invAssignService: InventoryListPipe, private notif: NotificationsService) { }
+  constructor(private router: Router, private allvehicleservice: AllVehicleService, private service: InventoryAssigningService, private http: Http, private invAssignService: InventoryListPipe, private notif: NotificationsService) { }
 
   ngOnInit() {
     let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
-    console.log("#####")
-    console.log(loginData._results.employee_branch_id)
-    var brurl= '';
+    var brurl = '';
     //if (loginData._results.branch_id==999) {
-      brurl = brurl + '&branchid='+loginData._results.employee_branch_id;
+    brurl = brurl + '&branchid=' + loginData._results.employee_branch_id;
     //}
     // }else if (loginData._results.branch_id==1) {
     //   brurl = brurl + '&branchid='+loginData._results.branch_id;
     // }else if (loginData._results.branch_id==2) {
     //   brurl = brurl + '&branchid='+loginData._results.branch_id;
     // }
-    console.log()
-    this.service.getInventoryList(brurl).subscribe(res =>   {
+    this.service.getInventoryList(brurl).subscribe(res => {
       if (res.json().status == true) {
-      console.log(res.json().result)
-      this.inventoryData = res.json().result; 
-      }    
+        this.inventoryData = res.json().result;
+      }
     });
 
     this.allvehicleservice.getColor().subscribe(data => {
-      console.log(data.json())
-      this.colorData = data.json().result;
+      if (data.json().status == true) {
+        this.colorData = data.json().result;
+      } else {
+        this.colorData = [];
+      }
     });
+
     this.allvehicleservice.getCategory().subscribe(data => {
-      console.log(data.json())
-      this.typeData = data.json().result;
+      if (data.json().status == true) {
+        this.typeData = data.json().result;
+      } else {
+        this.typeData = [];
+      }
     });
+
     this.allvehicleservice.getModel().subscribe(data => {
-      this.modelData = data.json().result;
-      console.log(this.modelData)
+      if (data.json().status == true) {
+        this.modelData = data.json().result;
+      } else {
+        this.modelData = [];
+      }
     });
+
     this.allvehicleservice.getVariant().subscribe(data => {
-      this.variantData = data.json().result;
-      console.log(this.variantData)
+      if (data.json().status == true) {
+        this.variantData = data.json().result;
+      } else {
+        this.variantData = [];
+      }
     })
 
     this.cols = [
@@ -78,11 +88,10 @@ export class InventoryListComponent implements OnInit {
       { field: 'shipped_by', header: 'Shipped By' },
       { field: 'shipped_vechile_no', header: 'Vehicle No.' },
       { field: 'br_mgr_ack', header: 'Manager ACk' },
-      { field: 'br_mgr_comment', header: 'Manager Comment'},
+      { field: 'br_mgr_comment', header: 'Manager Comment' },
       { field: 'color', header: 'Color' },
       { field: 'engineno', header: 'Engine No.' },
       { field: 'frameno', header: 'Frame No.' },
-      // { field: 'make', header: 'Make.' },
       { field: 'model', header: 'Model' }
     ];
   }
@@ -94,44 +103,35 @@ export class InventoryListComponent implements OnInit {
   fromDa() {
     let newDate = moment(this.fromDate).format('YYYY-MM-DD').toString();
     this.fromDate = newDate;
-    console.log(this.fromDate)
   }
 
   toDa() {
     let newDate1 = moment(this.toDate).format('YYYY-MM-DD').toString();
     this.toDate = newDate1;
-    console.log(this.toDate)
 
   }
 
   detailsGo() {
     let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
-    console.log(loginData._results.branch_id)
-    var url= '';
+    var url = '';
     if (this.fromDate) {
       url = url + '&startdate=' + this.fromDate;
     }
     if (this.toDate) {
       url = url + '&enddate=' + this.toDate;
     }
-    // if (this.vehicleTypeFilter) {
-    //   url = url + '&type=' + '"' + this.vehicleTypeFilter + '"';
-    // }
     if (this.vehicleVariantFilter) {
       url = url + '&variant=' + this.vehicleVariantFilter;
     }
     if (this.vehicleModelFilter) {
-      url = url + '&model=' + '"'+ this.vehicleModelFilter + '"';
+      url = url + '&model=' + '"' + this.vehicleModelFilter + '"';
     }
     if (this.vehicleColorFilter) {
-      url = url + '&color=' + '"'+ this.vehicleColorFilter + '"';
+      url = url + '&color=' + '"' + this.vehicleColorFilter + '"';
     }
-    url = url + '&branchid='+loginData._results.employee_branch_id;
-    console.log(this.vehicleVariantFilter);
-    console.log(url)
+    url = url + '&branchid=' + loginData._results.employee_branch_id;
     this.service.getInventoryFilter(url).subscribe(res => {
-      console.log(res.json());
-      if(res.json().status ==true){
+      if (res.json().status == true) {
         this.notif.success(
           'Success',
           'Filter Applied Successfully',
@@ -143,7 +143,7 @@ export class InventoryListComponent implements OnInit {
             maxLength: 50
           }
         )
-      }else{
+      } else {
         this.notif.warn(
           'OOPS',
           'NO Records Found',
@@ -154,14 +154,10 @@ export class InventoryListComponent implements OnInit {
             clickToClose: true,
             maxLength: 50
           }
-        )    } 
-      console.log("*******")
-      console.log(res)
-      console.log(res.json().status)
-
+        )
+      }
       if (res.json().status == true) {
         this.inventoryData = res.json().result;
-        console.log(this.inventoryData)
       }
       else {
         this.inventoryData = res.json()._body;
@@ -171,28 +167,24 @@ export class InventoryListComponent implements OnInit {
 
   detailsReset() {
     let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
-    console.log(loginData._results.employee_branch_id)
-    var brurl= '';
-    brurl = brurl + '&branchid='+loginData._results.employee_branch_id;
-    console.log()
+    var brurl = '';
+    brurl = brurl + '&branchid=' + loginData._results.employee_branch_id;
     this.service.getInventoryList(brurl).subscribe(res => {
-    console.log(res.json().result)
-    this.inventoryData = res.json().result
-    if(res.json().status ==true){
-      this.notif.success(
-        'Success',
-        'Reset Applied Successfully',
-        {
-          timeOut: 3000,  
-          showProgressBar: true,
-          pauseOnHover: false,
-          clickToClose: true,
-          maxLength: 50
-        }
-      )
-    }
+      this.inventoryData = res.json().result
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Reset Applied Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
     });
-    //this.vehicleTypeFilter = " ";
     this.vehicleModelFilter = " ";
     this.vehicleColorFilter = " ";
     this.vehicleVariantFilter = " ";
