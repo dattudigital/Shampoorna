@@ -156,6 +156,7 @@ export class DashboardComponent implements OnInit {
   bankStatemet: any;
   loginData: any = [];
   branchName: '';
+  empTypeId: '';
   prYesChecked = '';
   accessriesYes = '';
   branchId = '';
@@ -341,6 +342,7 @@ export class DashboardComponent implements OnInit {
       user_image: this.userImage,
       user_image_name: this.userImageName,
       user_type: val,
+      branchid: this.branchId,
       sale_status: "1"
     }
     this.saleUserService.saveSalesUser(data).subscribe(response => {
