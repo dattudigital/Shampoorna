@@ -203,9 +203,8 @@
                   <span style="color:red">*</span>
                 </label>
                 <div class="col-sm-7">
-                  <input type="text" placeholder="Enter Engine Number" name="Engine" maxlength="50"  [(ngModel)]="vehicle.engineno"
-                    (ngModelChange)='getEngineDetail($event,i)' [typeahead]="indentData" typeaheadOptionField="Engine No" (typeaheadOnSelect)="onSelect($event)"
-                    class="form-control">
+                  <input type="text" placeholder="Enter Engine Number" name="Engine" maxlength="50" [(ngModel)]="vehicle.engineno" (ngModelChange)='getEngineDetail($event,i)'
+                    [typeahead]="indentData" typeaheadOptionField="Engine No" (typeaheadOnSelect)="onSelect($event)" class="form-control">
                 </div>
               </div>
             </div>

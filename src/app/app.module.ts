@@ -45,8 +45,6 @@ import { InventoryAddPipe } from './pipe/inventory-add.pipe';
 import { AppointmentsComponent } from './appointments/appointments.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { SetupComponent } from './setup/setup.component';
-import { TodaySaleComponent } from './reports/today-sale/today-sale.component';
-import { TotalSaleComponent } from './reports/total-sale/total-sale.component';
 import { TodaySaleListComponent } from './reports/today-sale-list/today-sale-list.component';
 import { TotalSaleListComponent } from './reports/total-sale-list/total-sale-list.component';
 import { VehicleDetailsListComponent } from './reports/vehicle-details-list/vehicle-details-list.component';
@@ -86,8 +84,6 @@ const routes: Routes = [
   { path: 'sale-details', component: SaleDetailsComponent, canActivate: [AuthGuard] },
   { path: 'invoice-list', component: InvoiceListComponent, canActivate: [AuthGuard] },
   { path: 'dc-form', component: DcFormComponent, canActivate: [AuthGuard] },
-  { path: 'reports/today-sale', component: TodaySaleComponent, canActivate: [AuthGuard] },
-  { path: 'reports/total-sale', component: TotalSaleComponent, canActivate: [AuthGuard] },
   { path: 'reports/today-sale-list', component: TodaySaleListComponent, canActivate: [AuthGuard] },
   { path: 'reports/total-sale-list', component: TotalSaleListComponent, canActivate: [AuthGuard] },
   { path: 'reports/vehicle-details-list', component: VehicleDetailsListComponent, canActivate: [AuthGuard] },
@@ -131,8 +127,6 @@ const routes: Routes = [
     AppointmentsComponent,
     ScheduleComponent,
     SetupComponent,
-    TodaySaleComponent,
-    TotalSaleComponent,
     TodaySaleListComponent,
     TotalSaleListComponent,
     VehicleDetailsListComponent,

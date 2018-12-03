@@ -15,8 +15,8 @@ export class LoginComponent implements OnInit {
   mailId = "";
   alerts: any[] = [];
   errorMessage = false;
- 
-  constructor(private http: HttpClient, private router: Router, private service:LoginService) { }
+
+  constructor(private http: HttpClient, private router: Router, private service: LoginService) { }
 
   ngOnInit() {
     this.loginPopUp();
@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
   }
 
   loginSubmite() {
-    sessionStorage.removeItem('salesdata')
+    window.sessionStorage.removeItem('salesdata');
     var data = {
       password: this.password,
       email_id: this.mailId
@@ -49,6 +49,6 @@ export class LoginComponent implements OnInit {
   }
 
   loginPopUp() {
-    $('#myModal').modal('show');    
-    }   
+    $('#myModal').modal('show');
+  }
 }

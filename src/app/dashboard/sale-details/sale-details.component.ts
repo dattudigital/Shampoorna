@@ -17,7 +17,6 @@ import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
   ]
 })
 export class SaleDetailsComponent implements OnInit {
-
   lists: any[];
   vehicles: any[];
   cols: any[];
@@ -53,10 +52,15 @@ export class SaleDetailsComponent implements OnInit {
   isShowOriginalImg: boolean = false;
   url: any;
   profile_name: any;
+  loginData: any = [];
+  accountLogin: boolean = false;
 
   constructor(private service: SaleUserService, private dp: DatePipe, private _clipboardService: ClipboardService, private router: Router, private http: Http) { }
 
   ngOnInit() {
+    this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
+    console.log(this.loginData._results.emp_type_id)
+
 
     this.service.getListDetails().subscribe(res => {
       console.log(res.json().status);
@@ -95,14 +99,14 @@ export class SaleDetailsComponent implements OnInit {
 
     this.cols = [
       { field: 'firstname', header: 'First Name' },
-     // { field: 'email_id', header: 'Email' },
+      // { field: 'email_id', header: 'Email' },
       { field: 'address', header: 'Address' },
       { field: 'mandal', header: 'Mandal' },
       { field: 'district', header: 'District' },
       { field: 'proof_type', header: 'Proof Type' },
       { field: 'eng_no', header: 'EngineNo' },
       { field: 'frame_no', header: 'FrameNo' },
-     // { field: 'dc_no', header: 'DcNo' },
+      // { field: 'dc_no', header: 'DcNo' },
       { field: 'total_amt', header: 'Total Amount' }
 
     ];
@@ -210,6 +214,11 @@ export class SaleDetailsComponent implements OnInit {
     this.exc_customer_name = this.editPersonalInfo[index].exc_customer_name;
     this.exchange_amt = this.editPersonalInfo[index].exchange_amt;
     this.exchange_amt_approval_by = this.editPersonalInfo[index].exchange_amt_approval_by;
+    console.log('$$$$')
+    if (this.loginData._results.emp_type_id == 1 || this.loginData._results.emp_type_id == 5) {
+      this.accountLogin = true;
+    }
+
   }
   update: any;
   getDob() {
@@ -225,7 +234,7 @@ export class SaleDetailsComponent implements OnInit {
   }
 
   amountChecked = ''
-  amountCheckedClick(val,_index) { 
+  amountCheckedClick(val, _index) {
     // this.service.saveSalesUser({ sale_user_id: val, sale_account_check: 1 }).subscribe(res => {
     //   console.log(res.json())
     //   if(res.json().status == true){
@@ -233,12 +242,12 @@ export class SaleDetailsComponent implements OnInit {
     //   }      
     // })
   }
-  redirectToInvoice(val,_index) {
+  redirectToInvoice(val, _index) {
     this.service.saveSalesUser({ sale_user_id: val, sale_account_check: 1 }).subscribe(res => {
       console.log(res.json())
-      if(res.json().status == true){
+      if (res.json().status == true) {
         this.editPersonalInfo[_index].sale_account_check = 1;
-      }      
+      }
     })
   }
   invoiceList(data, index) {
@@ -254,11 +263,9 @@ export class SaleDetailsComponent implements OnInit {
     sessionStorage.setItem('dcFormData', JSON.stringify(this.dcFormInfo));
   }
 
-  printFromList(data,index){
-    
+  printFromList(data, index) {
+
   }
-
-
   onFileChanged(event) {
     var files = event.target.files;
     var file = files[0];

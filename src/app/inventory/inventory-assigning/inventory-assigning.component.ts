@@ -54,9 +54,7 @@ export class InventoryAssigningComponent implements OnInit {
     }
   ];
   constructor(private router: Router, private http: Http, private service: InventoryAssigningService, private formBuilder: FormBuilder, private pipe: InventoryListPipe, private addInvPipe: InventoryAddPipe, private notif: NotificationsService) {
- 
   }
-
   ngOnInit() {
     this._indentData = JSON.parse(sessionStorage.getItem('indentData'));
     if (this._indentData) {
@@ -92,15 +90,15 @@ export class InventoryAssigningComponent implements OnInit {
     });
 
     this.InventoryAssignForm = this.formBuilder.group({
-      indentId: ['', Validators.required],
+      // indentId: ['', Validators.required],
       branchId: ['', Validators.required],
-      empId: ['', Validators.required],
+      //  empId: ['', Validators.required],
       shippedBy: ['', Validators.required],
       shippedIn: ['', Validators.required],
+      assQuantity: ['', Validators.required],
       managerAck: ['', Validators.required],
       managerNote: ['', Validators.required],
       status: ['', Validators.required],
-      assQuantity: ['', Validators.required],
       updateBy: ['', Validators.required]
     });
   }
@@ -111,12 +109,12 @@ export class InventoryAssigningComponent implements OnInit {
 
   addInventoryAssign(data) {
     this.vehicles.push({
-        engineno: "",
-        frameno: "",
-        color: "",
-        variant: "",
-        model: ""
-      })
+      engineno: "",
+      frameno: "",
+      color: "",
+      variant: "",
+      model: ""
+    })
   }
 
   backToInventory() {
@@ -162,10 +160,6 @@ export class InventoryAssigningComponent implements OnInit {
 
   onSelect(event: TypeaheadMatch): void {
     this.selectedOption = event.item;
-      // this.vehicles.frameno = this.selectedOption["Frame No"];
-      // this.vehicles.color = this.selectedOption.color_name;
-      // this.vehicles.model = this.selectedOption.model_name;
-      // this.vehicles.variant = this.selectedOption.variant_name;
   }
 
   get f() { return this.InventoryAssignForm.controls; }
@@ -173,13 +167,13 @@ export class InventoryAssigningComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     // stop here if form is invalid
-    // if (this.InventoryAssignForm.invalid) {
-    //   return;
-    // }
+    if (this.InventoryAssignForm.invalid) {
+      return;
+    }
 
     this.generatedShippedId = Math.floor(Math.random() * 899999 + 100000);
     this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
-      var data: any = {
+    var data: any = {
       indent_id: this.indentId,
       employee_branch_id: this.loginData._results.employee_branch_id,
       shipped_by: this.shippedBy,
