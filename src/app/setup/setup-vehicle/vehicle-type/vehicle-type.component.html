@@ -8,12 +8,12 @@
       <button type="button" class="btn backBtn" (click)="backToSetup()">Back</button>
     </div>
   </div>
-
+  <simple-notifications [options]="options"></simple-notifications>
   <div class="row">
     <div class="col-sm-10">
     </div>
     <div class="col-sm-2">
-      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addType">ADD NEW
+      <button type="button" class="btn btn-success" (click)="removeFields()" data-toggle="modal" data-target="#addType">ADD NEW
       </button>
     </div>
   </div>&nbsp;

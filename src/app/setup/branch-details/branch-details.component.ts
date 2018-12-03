@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Http } from '@angular/http';
 import { environment } from '../../../environments/environment';
 declare var $: any;
+import { NotificationsService } from 'angular2-notifications';
 @Component({
   selector: 'app-branch-details',
   templateUrl: './branch-details.component.html',
@@ -27,8 +28,8 @@ export class BranchDetailsComponent implements OnInit {
   branch_location: '';
   branch_contact_number: '';
 
-
-  constructor(private router: Router, private http: Http) { }
+  public options = { position: ["top", "right"] }
+  constructor(private router: Router, private http: Http, private notif: NotificationsService) { }
 
   ngOnInit() {
 
@@ -62,6 +63,19 @@ export class BranchDetailsComponent implements OnInit {
     }
     console.log(data);
     this.http.post(environment.host + 'branches', data).subscribe(res => {
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Branch Added Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
       this.branchData.push(res.json().result)
       console.log(this.branchData);
       $('#addBranch').modal('hide');
@@ -69,11 +83,11 @@ export class BranchDetailsComponent implements OnInit {
   }
 
   removeFields() {
-    this.branch_name = '',
-      this.branch_address = '',
-      this.branch_area = '',
-      this.branch_location = '',
-      this.branch_contact_number = ''
+    this.branchName = '',
+      this.branchAddress = '',
+      this.branchArea = '',
+      this.branchLocation = '',
+      this.contactNumber = ''
   }
 
   editBranch(data, index) {
@@ -99,6 +113,19 @@ export class BranchDetailsComponent implements OnInit {
       rec_status: 1
     }
     this.http.post(environment.host + 'branches', data).subscribe(res => {
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Branch Updated Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
       this.editBranchData[this.temp].branch_name = data.branch_name;
       this.editBranchData[this.temp].branch_address = data.branch_address;
       this.editBranchData[this.temp].branch_area = data.branch_area;
@@ -124,6 +151,19 @@ export class BranchDetailsComponent implements OnInit {
       rec_status: "0"
     }
     this.http.post(environment.host + 'branches', data).subscribe(res => {
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Branch Deleted Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
     })
   }
 }

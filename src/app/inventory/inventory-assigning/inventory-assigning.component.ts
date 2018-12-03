@@ -75,7 +75,7 @@ export class InventoryAssigningComponent implements OnInit {
       }
     });
     this.http.get(environment.host + 'branches').subscribe(res => {
-      if (res.json().status = true) {
+      if (res.json().status == true) {
         this.branchData = res.json().result;
       }else{
         this.branchData = [];

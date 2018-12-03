@@ -3,16 +3,13 @@ import { Router } from '@angular/router'
 import * as XLSX from 'xlsx';
 import { environment } from '../../../environments/environment';
 import { Http } from '@angular/http';
-
+import { NotificationsService } from 'angular2-notifications';
 @Component({
   selector: 'app-add-price-list',
   templateUrl: './add-price-list.component.html',
   styleUrls: ['./add-price-list.component.css']
 })
 export class AddPriceListComponent implements OnInit {
-
-  constructor(private router: Router, private http: Http) { }
-
   variantList: any = [];
   arrayBuffer: any;
   file: File;
@@ -20,6 +17,9 @@ export class AddPriceListComponent implements OnInit {
   incomingfile(event) {
     this.file = event.target.files[0];
   }
+  public options = { position: ["top", "right"] }
+
+  constructor(private router: Router, private http: Http, private notif: NotificationsService) { }
 
   ngOnInit() {
     this.http.get(environment.host + 'vehicle-variants').subscribe(res => {
@@ -62,6 +62,19 @@ export class AddPriceListComponent implements OnInit {
   }
   submite() {
     this.http.post(environment.host + 'setup-price-lists/bulk', this.list).subscribe(res => {
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Price-list Added Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
     });
   }
 

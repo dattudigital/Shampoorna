@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { Http } from '@angular/http';
 declare var $: any;
-
+import { NotificationsService } from 'angular2-notifications';
 @Component({
   selector: 'app-vehicle-color',
   templateUrl: './vehicle-color.component.html',
@@ -21,7 +21,9 @@ export class VehicleColorComponent implements OnInit {
   temp1: any
   colorDeleteData: any = [];
 
-  constructor(private router: Router, private http: Http) { }
+  public options = { position: ["top", "right"] }
+
+  constructor(private router: Router, private http: Http, private notif: NotificationsService) { }
 
   ngOnInit() {
     this.cols = [
@@ -47,6 +49,19 @@ export class VehicleColorComponent implements OnInit {
       status: 1
     }
     this.http.post(environment.host + 'vehicle-colors', data).subscribe(res => {
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Color Added Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
       this.colorData.push(res.json().result);
       $('#addcolor').modal('hide');
     })
@@ -71,6 +86,19 @@ export class VehicleColorComponent implements OnInit {
       status: this.status
     }
     this.http.post(environment.host + 'vehicle-colors', data).subscribe(res => {
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Color Updated Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
       this.editcolorData[this.temp].color_name = data.color_name;
       this.temp = " ";
     })
@@ -84,7 +112,7 @@ export class VehicleColorComponent implements OnInit {
     val.index = index;
     this.vehicle_color_id = this.colorDeleteData[index].vehicle_color_id;
   }
-  
+
   yesVehicleColor() {
     this.colorData.splice(this.temp1, 1)
     var data = {
@@ -92,6 +120,19 @@ export class VehicleColorComponent implements OnInit {
       status: "0"
     }
     this.http.post(environment.host + 'vehicle-colors', data).subscribe(res => {
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Model Deleted Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
     })
   }
 }

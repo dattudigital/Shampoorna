@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { Http } from '@angular/http';
 declare var $: any;
-
+import { NotificationsService } from 'angular2-notifications';
 @Component({
   selector: 'app-vehicle-type',
   templateUrl: './vehicle-type.component.html',
@@ -20,8 +20,9 @@ export class VehicleTypeComponent implements OnInit {
   status: '';
   temp1: any
   typeDeleteData: any = [];
+  public options = { position: ["top", "right"] }
 
-  constructor(private router: Router, private http: Http) { }
+  constructor(private router: Router, private http: Http, private notif: NotificationsService) { }
 
   ngOnInit() {
     this.cols = [
@@ -45,13 +46,28 @@ export class VehicleTypeComponent implements OnInit {
       status: 1
     }
     this.http.post(environment.host + 'vehicle-types', data).subscribe(res => {
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Type Added Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
       this.typeData.push(res.json().result);
       $('#addType').modal('hide');
     })
   }
+
   removeFields() {
-    this.type_name = '';
+    this.typeName = '';
   }
+
   editType(data, index) {
     this.editTypeData = data;
     data.index = index;
@@ -68,6 +84,19 @@ export class VehicleTypeComponent implements OnInit {
       status: this.status
     }
     this.http.post(environment.host + 'vehicle-types', data).subscribe(res => {
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Type Updated Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
       this.editTypeData[this.temp].type_name = data.type_name;
       this.temp = " ";
     })
@@ -88,7 +117,19 @@ export class VehicleTypeComponent implements OnInit {
       status: "0"
     }
     this.http.post(environment.host + 'vehicle-types', data).subscribe(res => {
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Type Deleted Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
     })
   }
-
 }

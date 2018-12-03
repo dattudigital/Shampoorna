@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { Http } from '@angular/http';
+import { NotificationsService } from 'angular2-notifications';
 declare var $: any;
 @Component({
   selector: 'app-vehicle-model',
@@ -19,7 +20,9 @@ export class VehicleModelComponent implements OnInit {
   status: '';
   temp1: any;
   modeldeleteData: any = [];
-  constructor(private router: Router, private http: Http) { }
+  public options = { position: ["top", "right"] }
+
+  constructor(private router: Router, private http: Http, private notif: NotificationsService) { }
 
   ngOnInit() {
     this.cols = [
@@ -45,6 +48,19 @@ export class VehicleModelComponent implements OnInit {
       status: 1
     }
     this.http.post(environment.host + 'vehicle-models', data).subscribe(res => {
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Model Added Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
       this.modelData.push(res.json().result);
       $('#addNewModel').modal('hide');
     })
@@ -70,6 +86,19 @@ export class VehicleModelComponent implements OnInit {
       status: this.status
     }
     this.http.post(environment.host + 'vehicle-models', data).subscribe(res => {
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Model Updated Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
       this.editModelData[this.temp].model_name = data.model_name;
       this.temp = " ";
     });
@@ -90,6 +119,19 @@ export class VehicleModelComponent implements OnInit {
       status: "0"
     }
     this.http.post(environment.host + 'vehicle-models', data).subscribe(res => {
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Model Deleted Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
     })
   }
 }
