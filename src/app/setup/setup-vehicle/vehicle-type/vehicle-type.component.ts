@@ -25,14 +25,17 @@ export class VehicleTypeComponent implements OnInit {
 
   ngOnInit() {
     this.cols = [
-      // { field: 'vehicle_type_id', header: 'Id' },
       { field: 'type_name', header: ' Name' }
     ];
     this.http.get(environment.host + 'vehicle-types').subscribe(data => {
-      console.log(data.json())
-      this.typeData = data.json().result;
+      if (data.json().status == true) {
+        this.typeData = data.json().result;
+      } else {
+        this.typeData = [];
+      }
     });
   }
+
   backToSetup() {
     this.router.navigate(['vehicle-setup'])
   }
@@ -41,11 +44,8 @@ export class VehicleTypeComponent implements OnInit {
       type_name: this.typeName,
       status: 1
     }
-    console.log(data);
     this.http.post(environment.host + 'vehicle-types', data).subscribe(res => {
-      console.log(res.json());
       this.typeData.push(res.json().result);
-      console.log(this.typeData);
       $('#addType').modal('hide');
     })
   }
@@ -53,26 +53,21 @@ export class VehicleTypeComponent implements OnInit {
     this.type_name = '';
   }
   editType(data, index) {
-    console.log('**********')
-    console.log(data)
     this.editTypeData = data;
     data.index = index;
     this.temp = index;
-    console.log(this.editTypeData[index].type_name);
     this.vehicle_type_id = this.editTypeData[index].vehicle_type_id;
     this.type_name = this.editTypeData[index].type_name;
-    this.status=this.editTypeData[index].status
+    this.status = this.editTypeData[index].status
   }
 
   updateType() {
     var data = {
       vehicle_type_id: this.vehicle_type_id,
       type_name: this.type_name,
-      status:this.status
+      status: this.status
     }
-    console.log(data);
     this.http.post(environment.host + 'vehicle-types', data).subscribe(res => {
-      console.log(res.json());
       this.editTypeData[this.temp].type_name = data.type_name;
       this.temp = " ";
     })
@@ -82,22 +77,17 @@ export class VehicleTypeComponent implements OnInit {
   }
   deleteVehicleType(val, index) {
     this.temp1 = index;
-    console.log(index)
     this.typeDeleteData = val;
-    console.log(this.typeDeleteData)
     val.index = index;
     this.vehicle_type_id = this.typeDeleteData[index].vehicle_type_id;
   }
   yesVehicleType() {
     this.typeData.splice(this.temp1, 1)
-    console.log(this.temp1)
     var data = {
       vehicle_type_id: this.vehicle_type_id,
       status: "0"
     }
-    console.log(data)
     this.http.post(environment.host + 'vehicle-types', data).subscribe(res => {
-      console.log(res.json());
     })
   }
 

@@ -21,7 +21,6 @@
           <div class="form-group" style="text-align: center">
             <label *ngIf="errorMessage" class="alertRed">Invalid Credentials</label>
           </div>
-
           <div class="clear"></div>
         </div>
         <div class="login_form-submit">
@@ -53,7 +52,6 @@
         <button type="button" class="btn backBtn" (click)="backToManager()">Back</button>
       </div>
     </div>
-
     <div class="row">
       <div class="col-sm-10">
       </div>
@@ -80,8 +78,8 @@
           <th>Edit</th>
           <th>Delete</th>
         </tr>
-
       </ng-template>
+
       <ng-template pTemplate="body" let-i="rowIndex" let-employee>
         <tr>
           <td *ngFor="let col of cols">
@@ -94,9 +92,10 @@
             <i class="fa fa-trash"></i>
           </td>
         </tr>
-
       </ng-template>
-
+      <ng-template pTemplate="emptymessage">
+        <span style="text-align:center"> No Records Found </span>
+      </ng-template>
     </p-table>
   </div>
 </div>
@@ -125,7 +124,6 @@
                 <div *ngIf="f.employeeFirstName.errors.required" style="color:red">First Name is required</div>
               </div>
             </div>
-
             <div class="clear"></div>
           </div>
           <div class="form-group">
@@ -142,7 +140,6 @@
             </div>
             <div class="clear"></div>
           </div>
-
           <div class="form-group">
             <div class="col-md-1"></div>
             <label for="input" class="col-md-3 control-label">Email Id
@@ -157,7 +154,6 @@
             </div>
             <div class="clear"></div>
           </div>
-
           <div class="form-group">
             <div class="col-md-1"></div>
             <label for="input" class="col-md-3 control-label">Password
@@ -172,14 +168,13 @@
             </div>
             <div class="clear"></div>
           </div>
-
           <div class="form-group">
             <div class="col-md-1"></div>
             <label for="input" class="col-md-3 control-label">Employee Type
               <a style="color:red">*</a>
             </label>
             <div class="col-md-6" *ngIf="empData">
-              <select class="form-control"  formControlName="empType" [(ngModel)]="employeeType" [ngClass]="{ 'is-invalid': submitted && f.empType.errors }">
+              <select class="form-control" formControlName="empType" [(ngModel)]="employeeType" [ngClass]="{ 'is-invalid': submitted && f.empType.errors }">
                 <option *ngFor="let data of this.empData" [ngValue]=" data.id">{{data.emp_type}}</option>
               </select>
               <div *ngIf="submitted && f.empType.errors" class="invalid-feedback">
@@ -188,30 +183,21 @@
             </div>
             <div class="clear"></div>
           </div>
-
           <div class="form-group">
             <div class="col-md-1"></div>
             <label for="input" class="col-md-3 control-label">Branch
               <a style="color:red">*</a>
             </label>
-            <!-- <div class="col-md-6">
-              <input type="text" formControlName="employeeBranch" class="form-control" id="br" placeholder="branch" [ngClass]="{ 'is-invalid': submitted && f.employeeBranch.errors }"
-                [(ngModel)]="branch" maxlength="50">
-              <div *ngIf="submitted && f.employeeBranch.errors" class="invalid-feedback">
-                <div *ngIf="f.employeeBranch.errors.required" style="color:red">Branch is required</div>
-              </div>
-            </div> -->
             <div class="col-md-6">
-                <select class="form-control" formControlName="employeeBranch" [(ngModel)]="branch" [ngClass]="{ 'is-invalid': submitted && f.employeeBranch.errors }">
-                  <option *ngFor="let data of this.brData" [ngValue]=" data.branch_id ">{{data.branch_name}}</option>
-                </select>
-                <div *ngIf="submitted && f.employeeBranch.errors" class="invalid-feedback">
-                  <div *ngIf="f.employeeBranch.errors.required" style="color:red">Employee Branch Plz</div>
-                </div>
+              <select class="form-control" formControlName="employeeBranch" [(ngModel)]="branch" [ngClass]="{ 'is-invalid': submitted && f.employeeBranch.errors }">
+                <option *ngFor="let data of this.brData" [ngValue]=" data.branch_id ">{{data.branch_name}}</option>
+              </select>
+              <div *ngIf="submitted && f.employeeBranch.errors" class="invalid-feedback">
+                <div *ngIf="f.employeeBranch.errors.required" style="color:red">Employee Branch Plz</div>
               </div>
+            </div>
             <div class="clear"></div>
           </div>
-
           <div class="form-group">
             <div class="col-md-1"></div>
             <label for="input" class="col-md-3 control-label">Phone Number
@@ -227,7 +213,6 @@
             </div>
             <div class="clear"></div>
           </div>
-
           <div class="form-group">
             <div class="col-md-1"></div>
             <label for="input" class="col-md-3 control-label">Address
@@ -242,7 +227,6 @@
             </div>
             <div class="clear"></div>
           </div>
-
           <div class="form-group">
             <div class="col-md-1"></div>
             <label for="input" class="col-md-3 control-label">Pincode
@@ -292,7 +276,6 @@
                 <div *ngIf="f.employeeFirstName.errors.required" style="color:red">First Name is required</div>
               </div>
             </div>
-
             <div class="clear"></div>
           </div>
           <div class="form-group">
@@ -307,10 +290,8 @@
                 <div *ngIf="f.employeeLastName.errors.required" style="color:red">Last Name is required</div>
               </div>
             </div>
-
             <div class="clear"></div>
           </div>
-
           <div class="form-group">
             <div class="col-md-1"></div>
             <label for="input" class="col-md-3 control-label">EmailId
@@ -325,7 +306,6 @@
             </div>
             <div class="clear"></div>
           </div>
-
           <div class="form-group">
             <div class="col-md-1"></div>
             <label for="input" class="col-md-3 control-label">Employee Type
@@ -341,31 +321,21 @@
             </div>
             <div class="clear"></div>
           </div>
-
-
           <div class="form-group">
             <div class="col-md-1"></div>
             <label for="input" class="col-md-3 control-label">Branch
               <a style="color:red">*</a>
             </label>
-            <!-- <div class="col-md-6">
-              <input type="text" formControlName="employeeBranch" class="form-control" id="ebr" placeholder="branch" [ngClass]="{ 'is-invalid': submitted && f.employeeBranch.errors }"
-                [(ngModel)]="employee_branch">
-              <div *ngIf="submitted && f.employeeBranch.errors" class="invalid-feedback">
-                <div *ngIf="f.employeeBranch.errors.required" style="color:red">Branch is required</div>
-              </div>
-            </div> -->
             <div class="col-md-6">
-                <select class="form-control" formControlName="employeeBranch" [(ngModel)]="employee_branch_id" [ngClass]="{ 'is-invalid': submitted && f.employeeBranch.errors }">
-                  <option *ngFor="let data of this.brData" [ngValue]=" data.branch_id ">{{data.branch_name}}</option>
-                </select>
-                <div *ngIf="submitted && f.employeeBranch.errors" class="invalid-feedback">
-                  <div *ngIf="f.employeeBranch.errors.required" style="color:red">Employee Branch Plz</div>
-                </div>
+              <select class="form-control" formControlName="employeeBranch" [(ngModel)]="employee_branch_id" [ngClass]="{ 'is-invalid': submitted && f.employeeBranch.errors }">
+                <option *ngFor="let data of this.brData" [ngValue]=" data.branch_id ">{{data.branch_name}}</option>
+              </select>
+              <div *ngIf="submitted && f.employeeBranch.errors" class="invalid-feedback">
+                <div *ngIf="f.employeeBranch.errors.required" style="color:red">Employee Branch Plz</div>
               </div>
+            </div>
             <div class="clear"></div>
           </div>
-
           <div class="form-group">
             <div class="col-md-1"></div>
             <label for="input" class="col-md-3 control-label">Phone Number
@@ -380,7 +350,6 @@
             </div>
             <div class="clear"></div>
           </div>
-
           <div class="form-group">
             <div class="col-md-1"></div>
             <label for="input" class="col-md-3 control-label">Address
@@ -395,7 +364,6 @@
             </div>
             <div class="clear"></div>
           </div>
-
           <div class="form-group">
             <div class="col-md-1"></div>
             <label for="input" class="col-md-3 control-label">Pincode
@@ -410,7 +378,6 @@
             </div>
             <div class="clear"></div>
           </div>
-
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal" (click)="removeFields()">Cancel</button>
@@ -433,12 +400,10 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
         <button type="button" class="btn btn-warning" data-dismiss="modal" (click)="yesEmployeeDelete()">Yes</button>
-
       </div>
     </div>
   </div>
 </div>
-
 
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#f5c585" type="ball-scale-multiple">
   <p style="font-size: 20px; color: white">Loading...</p>

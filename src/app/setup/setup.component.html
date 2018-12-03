@@ -1,55 +1,53 @@
 <div id="myModal" class="modal fade" role="dialog" data-backdrop="static">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <form>
-          <div class="form-group">
-            <div class="col-md-4 col-sm-6 login_form-left">
-              <label>User Name</label>
-            </div>
-            <div class="col-md-8 col-sm-6 login_form-right">
-              <input type="text" class="form-control" [(ngModel)]="mailId" (ngModelChange)="errorClear()" name="some" placeholder="Employee Id">
-            </div>
-            <div class="clear"></div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form>
+        <div class="form-group">
+          <div class="col-md-4 col-sm-6 login_form-left">
+            <label>User Name</label>
           </div>
-          <div class="form-group">
-            <div class="col-md-4 col-sm-6 login_form-left">
-              <label>Password</label>
-            </div>
-            <div class="col-md-8 col-sm-6 login_form-right">
-              <input type="password" class="form-control" [(ngModel)]="passwordLogin" (ngModelChange)="errorClear()" name="password" placeholder="Employee Password">
-            </div>
-            <div class="form-group" style="text-align: center">
-              <label *ngIf="errorMessage" class="alertRed">Invalid Credentials</label>
-            </div>
-  
-            <div class="clear"></div>
+          <div class="col-md-8 col-sm-6 login_form-right">
+            <input type="text" class="form-control" [(ngModel)]="mailId" (ngModelChange)="errorClear()" name="some" placeholder="Employee Id">
           </div>
-          <div class="login_form-submit">
-            <div class="row">
-              <div class="col-sm-4"></div>
-              <div class="col-sm-3">
-                <button type="submit" [disabled]="btnDisable" (click)="loginSubmite();" class="btn btn-primary submit-button">Sign In
-                </button>
-              </div>
-              <div class="col-sm-2">
-                <button type="submit" data-dismiss="modal" class="btn btn-warning" (click)="RedirectToHome()">Cancel</button>
-              </div>
-              <div class="col-sm-3"></div>
-            </div>
+          <div class="clear"></div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-4 col-sm-6 login_form-left">
+            <label>Password</label>
           </div>
-        </form>
-      </div>
+          <div class="col-md-8 col-sm-6 login_form-right">
+            <input type="password" class="form-control" [(ngModel)]="passwordLogin" (ngModelChange)="errorClear()" name="password" placeholder="Employee Password">
+          </div>
+          <div class="form-group" style="text-align: center">
+            <label *ngIf="errorMessage" class="alertRed">Invalid Credentials</label>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="login_form-submit">
+          <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-3">
+              <button type="submit" [disabled]="btnDisable" (click)="loginSubmite();" class="btn btn-primary submit-button">Sign In
+              </button>
+            </div>
+            <div class="col-sm-2">
+              <button type="submit" data-dismiss="modal" class="btn btn-warning" (click)="RedirectToHome()">Cancel</button>
+            </div>
+            <div class="col-sm-3"></div>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
+</div>
 
-  
 <div class="col-md-2 col-sm-2 col-xs-12 manager-tap-left" [style.visibility]="titleStyle">
-    <div class="nav flex-column nav-pills rs-1-left-button" id="__setup" role="tablist" aria-orientation="vertical">
-      <a class="nav-link vehicle-detail" id="v-pills-home-tab" (click)="redirectToBranch()" data-toggle="pill" href="#vehicleDetail"
-        role="tab" aria-controls="vehicle" aria-selected="true">Branch</a>
-        <a class="nav-link vehicle-detail" id="v-pills-home-tab" (click)="redirectToVehicle()" data-toggle="pill" href="#vehicleDetail"
-        role="tab" aria-controls="vehicle" aria-selected="true">Vehicle</a>
-        <a class="nav-link vehicle-detail" id="v-pills-home-tab" (click)=" redirectToPriceList()" data-toggle="pill" href="#vehicleDetail"
-        role="tab" aria-controls="vehicle" aria-selected="true">Price List</a>
-    </div>
+  <div class="nav flex-column nav-pills rs-1-left-button" id="__setup" role="tablist" aria-orientation="vertical">
+    <a class="nav-link vehicle-detail" id="v-pills-home-tab" (click)="redirectToBranch()" data-toggle="pill" href="#vehicleDetail"
+      role="tab" aria-controls="vehicle" aria-selected="true">Branch</a>
+    <a class="nav-link vehicle-detail" id="v-pills-home-tab" (click)="redirectToVehicle()" data-toggle="pill" href="#vehicleDetail"
+      role="tab" aria-controls="vehicle" aria-selected="true">Vehicle</a>
+    <a class="nav-link vehicle-detail" id="v-pills-home-tab" (click)=" redirectToPriceList()" data-toggle="pill" href="#vehicleDetail"
+      role="tab" aria-controls="vehicle" aria-selected="true">Price List</a>
   </div>
+</div>

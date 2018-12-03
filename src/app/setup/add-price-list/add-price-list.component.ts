@@ -11,9 +11,8 @@ import { Http } from '@angular/http';
 })
 export class AddPriceListComponent implements OnInit {
 
-  constructor(private router: Router, private http: Http) {
+  constructor(private router: Router, private http: Http) { }
 
-  }
   variantList: any = [];
   arrayBuffer: any;
   file: File;
@@ -24,8 +23,11 @@ export class AddPriceListComponent implements OnInit {
 
   ngOnInit() {
     this.http.get(environment.host + 'vehicle-variants').subscribe(res => {
-      console.log(res.json().result)
-      this.variantList = res.json().result
+      if (res.json().status == true) {
+        this.variantList = res.json().result;
+      } else {
+        this.variantList = [];
+      }
     });
   }
 
@@ -41,23 +43,17 @@ export class AddPriceListComponent implements OnInit {
       var first_sheet_name = workbook.SheetNames[0];
       var worksheet = workbook.Sheets[first_sheet_name];
       this.list = XLSX.utils.sheet_to_json(worksheet, { raw: false })
-      console.log(this.list);
       this.list.map(item => {
-        item.pricing_list_date = item.pricing_list_date.replace("/","-")
-        item.pricing_list_date = item.pricing_list_date.replace("/","-")
+        item.pricing_list_date = item.pricing_list_date.replace("/", "-")
+        item.pricing_list_date = item.pricing_list_date.replace("/", "-")
         this.variantList.map(variant => {
           if (item["MODEL"] == variant.variant_name) {
             item["vehicle_variant_id"] = variant.vehicle_variant_id;
             delete item["MODEL"];
-          } 
-          // else { // REMOVE THIS ELSE 
-          //   delete item["MODEL"];
-          //   item["vehicle_variant_id"] = 1;
-          // }
+          }
         });
       })
     }
-    // variant_name
     fileReader.readAsArrayBuffer(this.file);
   }
 
@@ -66,7 +62,6 @@ export class AddPriceListComponent implements OnInit {
   }
   submite() {
     this.http.post(environment.host + 'setup-price-lists/bulk', this.list).subscribe(res => {
-      console.log(res.json().result)
     });
   }
 

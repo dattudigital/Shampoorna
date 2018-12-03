@@ -19,15 +19,17 @@ export class SetupPriceListComponent implements OnInit {
 
   constructor(private router: Router, private http: Http, private dp: DatePipe) { }
 
-  
   ngOnInit() {
     this.http.get(environment.host + 'setup-price-lists').subscribe(res => {
-      console.log(res.json().result)
-      this.addList = res.json().result
+      if (res.json().status == true) {
+        this.addList = res.json().result
+      } else {
+        this.addList = [];
+      }
     });
 
     this.cols = [
-      {field:'variant_name',header: 'Variant Name'},
+      { field: 'variant_name', header: 'Variant Name' },
       { field: 'pricing_list_date', header: 'List Date', type: this.dp },
       { field: 'EX.PRICE', header: 'Ex-price' },
       { field: 'LTAX & TR', header: 'LTAX & TR' },
@@ -35,8 +37,8 @@ export class SetupPriceListComponent implements OnInit {
       { field: 'FACILIATION CHARGES', header: 'FACILIATION CHARGES' },
       { field: 'TOTAL', header: 'TOTAL' },
       { field: 'STD ACC', header: 'STD ACC' },
-      { field: 'OptionalACC' , header:'Optional ACC'},
-      { field: 'Optional NIL DIP', header: 'Optional NIL DIP - 1+ 5Yr' }, 
+      { field: 'OptionalACC', header: 'Optional ACC' },
+      { field: 'Optional NIL DIP', header: 'Optional NIL DIP - 1+ 5Yr' },
       { field: 'Permantent Registation Cost', header: 'Registation Cost' },
       { field: ' HP Charges', header: 'HP Charges' },
       { field: 'TOTAL RS. With I Year + 5Y TP INS - Without NIL Dip', header: 'TOTAL RS. With I Year + 5Y TP INS - Without NIL Dip' },
@@ -45,13 +47,13 @@ export class SetupPriceListComponent implements OnInit {
       { field: 'Customer To Pay - with PR+NIL DIP', header: 'Customer To Pay - with PR+NIL DIP' },
       { field: 'price_list_type', header: 'Type' },
     ];
-
   }
+
   backToSetup() {
     this.router.navigate(['setup'])
   }
 
-  redirctToAddPriceList(){
+  redirctToAddPriceList() {
     this.router.navigate(['setup/price-list/add-list'])
   }
 

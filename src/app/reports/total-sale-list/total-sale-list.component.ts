@@ -101,7 +101,7 @@ export class TotalSaleListComponent implements OnInit {
         )
       }
     });
-    this.vehicleTypeFilter = " ";
+    this.vehicleTypeFilter = "";
     this.date1 = "";
     this.date1 = "";
   }

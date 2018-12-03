@@ -125,8 +125,8 @@ export class DashboardComponent implements OnInit {
     'othersSelect': '',
     'mobileWallet': null,
     'othersAmount': 0,
-
   }
+
   submitted = false;
   banks: any = [
     {
@@ -161,9 +161,18 @@ export class DashboardComponent implements OnInit {
   accessriesYes = '';
   branchId = '';
   fieldsData: any = [];
+  exchange: '';
+  total: any = '';
   //afterSelectedEngine remove that engine number to after select
   selectedVehicleNo: '';
   SelectedAssignNo: '';
+  // files upload and preview
+  addressPreview: any;
+  idpreview: any;
+  chequepreview: any;
+  userimagePreview: any;
+  payOrderPerview: any;
+  deliveryFormPreview: any;
 
   constructor(private saleUserService: SaleUserService, private invetoryAssign: InventoryAssigningService, private formBuilder: FormBuilder, private http: Http, private router: Router, ) { }
 
@@ -176,7 +185,6 @@ export class DashboardComponent implements OnInit {
       this.fieldsData = JSON.parse(sessionStorage.getItem('salesdata'))
       this.name = this.fieldsData.name;
       this.nameOnRc = this.fieldsData.nameOnRc;
-
       let newDate1 = moment(this.fieldsData.nameOnRc).format('DD-MM-YYYY').toString();
       this.dob = newDate1;
       this.relationName = this.fieldsData.relationName;
@@ -215,6 +223,7 @@ export class DashboardComponent implements OnInit {
   redirectToSalesDetails() {
     this.router.navigate(['sale-details'])
   }
+
   triggerSomeEvent() {
     if (this.paymentEmi.chequeSelect == false) {
       this.isDisabled = 'hidden';
@@ -269,7 +278,6 @@ export class DashboardComponent implements OnInit {
     this.exchangeUser = false;
     this.csdUser = false;
   }
-  exchange: '';
 
   exchangeUserClick() {
     this.newUser = false;
@@ -291,6 +299,7 @@ export class DashboardComponent implements OnInit {
       })
     }
   }
+
   deleteBankStatement(index) {
     this.banks.splice(index - 1, 1)
   }
@@ -319,11 +328,10 @@ export class DashboardComponent implements OnInit {
 
   //complete sale details
   get f() { return this.personalinfoForm.controls; }
+
   saveUserDeatils(val) {
     this.submitted = true;
-
     if (this.personalinfoForm.invalid) {
-      console.log('validation')
       return;
     }
     var data = {
@@ -387,7 +395,6 @@ export class DashboardComponent implements OnInit {
           csd_delivery_showroom: this.deliveryFromShowroom,
           csd_delivery_showroom_name: this.deliveryFileName,
         }
-        console.log(csdDetails);
         this.saleUserService.addPaymentEmi(csdDetails).subscribe(response => {
           console.log(response.json());
         })
@@ -406,9 +413,8 @@ export class DashboardComponent implements OnInit {
           exchange_amt_approval_by: this.discountApprovedBy.employee_id,
           exc_sale_exchange_status: 1
         }
-        console.log(exchangeDetails);
         this.saleUserService.saveExchangeVehicle(exchangeDetails).subscribe(res => {
-          console.log(res.json())
+          console.log(res.json());
         })
       }
       //Payment Details send to api
@@ -418,7 +424,6 @@ export class DashboardComponent implements OnInit {
         let creditcardSelect;
         let accountSelect;
         let otherSelect;
-        console.log(this.paymentEmi.chequeSelect)
         if (this.paymentEmi.chequeSelect == true) {
           chequeSelect = '1'
         } else {
@@ -484,9 +489,7 @@ export class DashboardComponent implements OnInit {
         if (this.paymentEmi.mobileWallet) {
           delete paymentDetails.others_type;
         }
-        console.log(paymentDetails);
         this.saleUserService.addPaymentEmi(paymentDetails).subscribe(response => {
-          console.log(response.json());
         })
       }
     });
@@ -510,7 +513,6 @@ export class DashboardComponent implements OnInit {
   engineSearch(val) {
     if (val.length > 2) {
       this.saleUserService.searchEngine(this.branchId, val).subscribe(data => {
-        console.log(data.json().result);
         this.temp = [];
         this.temp.push(data.json().result);
         if (data.json().status == false) {
@@ -526,18 +528,13 @@ export class DashboardComponent implements OnInit {
       this.vehicleInfo = [];
     }
   }
-  total: any = '';
+
   secondVehicleClick() {
     this.total = 0;
     if (this.secondVehicle.toString() == 'true') {
       this.total = this.total + this.vehicleBasic * (5 / 100)
-      console.log(this.total)
       if (this.total) {
-        console.log('*****')
-        console.log(this.total);
-        console.log(this.lifeTax)
         this.total = this.total * 1 + this.lifeTax * 1;
-        console.log(this.total);
       }
     }
   }
@@ -546,38 +543,28 @@ export class DashboardComponent implements OnInit {
   onSelect(event: TypeaheadMatch): void {
     this.onRoadPrice = 0
     this.selectedOption = event.item;
-    console.log(this.selectedOption);
     this.selectedVehicleNo = this.selectedOption.vehicle_id;
-    console.log(this.selectedVehicleNo);
     this.SelectedAssignNo = this.selectedOption.inventory_assign_id;
-    console.log(this.SelectedAssignNo);
     this.vehicleFrameNo = this.selectedOption["Frame No"];
     this.vehicleDcNo = this.selectedOption["TVS-M Invoice No"];
     this.vehicleKeyNo = this.selectedOption.vechile_gatepass;
     this.vehicleColor = this.selectedOption.color_name;
     this.vehicleModel = this.selectedOption.model_name;
-    console.log(this.selectedOption.vehicle_variant)
     if (this.selectedOption.vehicle_variant) {
       this.saleUserService.getPriceList(this.selectedOption.vehicle_variant).subscribe(res => {
-        console.log(res.json().result)
         this.vehicleVariant = res.json().result[0].variant_name;
         this.vehicleBasic = res.json().result[0]["EX.PRICE"];
         this.lifeTax = res.json().result[0]["LTAX & TR"];
-        console.log(this.lifeTax);
         this.VehicleInsu = res.json().result[0]["INS - 1 Yr Comprehensive and 5 Yr Third Party"];
         this.HandlingC = res.json().result[0]["FACILIATION CHARGES"];
         this.Registration = res.json().result[0]["Permantent Registation Cost"];
         this.StandardAcc = res.json().result[0]["STD ACC"];
         this.VehicleHp = res.json().result[0][" HP Charges"];
-        console.log(this.VehicleHp)
         if (this.vehicleBasic) {
-          console.log(this.vehicleBasic)
           this.onRoadPrice = this.onRoadPrice + this.vehicleBasic;
-          console.log(this.onRoadPrice)
         }
         if (this.onRoadPrice) {
           this.onRoadPrice = this.onRoadPrice * 1 + this.lifeTax * 1
-          console.log(this.onRoadPrice)
         }
         if (this.onRoadPrice) {
           this.onRoadPrice = this.onRoadPrice * 1 + this.VehicleInsu * 1
@@ -595,13 +582,10 @@ export class DashboardComponent implements OnInit {
           this.onRoadPrice = this.onRoadPrice * 1 + this.VehicleHp * 1
         }
         this.tempOnRoadPrice = this.onRoadPrice;
-        console.log(this.tempOnRoadPrice)
       });
-
     }
-
-
   }
+
   approvedEmpEnable() {
     if (this.discount >= 1) {
       this.disableApprovedBy = 'visible'
@@ -610,23 +594,13 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  // files upload and preview
-  addressPreview: any;
-  idpreview: any;
-  chequepreview: any;
-  userimagePreview: any;
-  payOrderPerview: any;
-  deliveryFormPreview: any;
-
   getFileDetails(event, text1) {
     this.currentImage = text1;
-    console.log(this.currentImage);
     var files = event.target.files;
     var file = files[0];
 
     for (var i = 0; i < files.length; i++) {
       this.uploadedFiles = files.name;
-      console.log(this.uploadedFiles);
     }
 
     if (files && file) {
@@ -634,11 +608,11 @@ export class DashboardComponent implements OnInit {
       reader.onload = this._handleReaderLoaded.bind(this);
       reader.readAsBinaryString(file);
     }
+
     if (event.target.files && event.target.files[0] && this.currentImage === 'a') {
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       this.paymentEmi.addressFileName = file.name;
-      console.log(this.paymentEmi.addressFileName)
       reader.onload = (event) => {
         this.addressPreview = event.target;
       }
@@ -648,7 +622,6 @@ export class DashboardComponent implements OnInit {
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       this.paymentEmi.idProofName = file.name;
-      console.log(this.paymentEmi.idProofName)
       reader.onload = (event) => {
         this.idpreview = event.target;
       }
@@ -657,7 +630,6 @@ export class DashboardComponent implements OnInit {
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       this.paymentEmi.chequeFileName = file.name;
-      console.log(this.paymentEmi.chequeFileName);
       reader.onload = (event) => {
         this.chequepreview = event.target;
       }
@@ -666,7 +638,6 @@ export class DashboardComponent implements OnInit {
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       this.userImageName = file.name;
-      console.log(this.userImageName);
       reader.onload = (event) => {
         this.userimagePreview = event.target;
       }
@@ -675,17 +646,13 @@ export class DashboardComponent implements OnInit {
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       this.pdfName = file.name;
-      console.log(this.pdfName);
-
       reader.onload = (event) => {
-        // this.userimagePreview = event.target;
       }
     }
     if (event.target.files && event.target.files[0] && this.currentImage === 'pay') {
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       this.payOrderName = file.name;
-      console.log(this.payOrderName);
       reader.onload = (event) => {
         this.payOrderPerview = event.target;
       }
@@ -694,7 +661,6 @@ export class DashboardComponent implements OnInit {
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       this.deliveryFileName = file.name;
-      console.log(this.deliveryFileName);
       reader.onload = (event) => {
         this.deliveryFormPreview = event.target;
       }
@@ -720,24 +686,20 @@ export class DashboardComponent implements OnInit {
     if (this.currentImage === 'p') {
       var binaryString = readerEvt.target.result;
       this.userImage = btoa(binaryString);
-      console.log(this.userImage)
     }
     if (this.currentImage === 'b') {
       var binaryString = readerEvt.target.result;
       this.bankStatemet = btoa(binaryString);
       this.data.push(this.bankStatemet);
       this.paymentEmi.bank_statement = this.data;
-      console.log(this.paymentEmi.bank_statement);
     }
     if (this.currentImage === 'pay') {
       var binaryString = readerEvt.target.result;
       this.payOrder = btoa(binaryString);
-      console.log(this.payOrder)
     }
     if (this.currentImage === 'delivery') {
       var binaryString = readerEvt.target.result;
       this.deliveryFromShowroom = btoa(binaryString);
-      console.log(this.deliveryFromShowroom)
     }
     this.currentImage = ''
   }
@@ -752,8 +714,6 @@ export class DashboardComponent implements OnInit {
 
   withAcc: number;
   addTotalTax() {
-    console.log("********")
-    console.log(this.vehicleAcc)
     let sum = 0;
     let temp1 = 0;
     this.withAcc = 0;
@@ -763,7 +723,6 @@ export class DashboardComponent implements OnInit {
     }
     if (this.isNumber(this.total)) {
       temp1 = temp1 - this.lifeTax;
-      console.log(temp1);
       sum = sum + this.total
     }
     if (this.isNumber(this.discount)) {
@@ -773,11 +732,8 @@ export class DashboardComponent implements OnInit {
       sum = sum - this.exchangeAmount;
     }
     if (sum) {
-      console.log(sum)
-      console.log(temp1)
       this.withAcc = temp1 * 1 + sum * 1;
       this.onRoadPrice = this.withAcc;
-      console.log(this.onRoadPrice)
     } else {
       this.onRoadPrice = this.tempOnRoadPrice;
     }
@@ -785,8 +741,6 @@ export class DashboardComponent implements OnInit {
   finalSubmit: boolean = true;
   addTotalAmount() {
     this.cashTotal = 0;
-    console.log("***************")
-    // console.log(this.cashTotal);
     if (this.paymentEmi.chequeAmount && this.paymentEmi.chequeSelect) {
       this.cashTotal = this.cashTotal + this.paymentEmi.chequeAmount;
     }
@@ -797,16 +751,13 @@ export class DashboardComponent implements OnInit {
       this.cashTotal = this.cashTotal + this.paymentEmi.creditcardAmount
     }
     if (this.paymentEmi.accounttranferAmount && this.paymentEmi.accountTranferSelect) {
-      console.log('account tranfer')
       this.cashTotal = this.cashTotal + this.paymentEmi.accounttranferAmount;
     }
     if (this.paymentEmi.othersAmount && this.paymentEmi.othersSelect) {
       this.cashTotal = this.cashTotal + this.paymentEmi.othersAmount
     }
-    console.log(this.cashTotal);
 
     if (this.nomineeName && this.nomineeDob) {
-      console.log(this.selectedAmountOption)
       if (this.selectedAmountOption == 1) {
         this.finalSubmit = false;
       }
@@ -821,21 +772,24 @@ export class DashboardComponent implements OnInit {
   //this method  allow alphabets 
   omit_special_char(event) {
     var k;
-    k = event.charCode;  //  k = event.keyCode;  (Both can be used)
+    k = event.charCode;
     return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 0 || k == 32);
   }
+
   //This Method  allow Numbers
   only_allow_number(event) {
     var n;
     n = event.charCode
     return (n == 8 || n == 0 || n == 32 || (n >= 48 && n <= 57))
   }
+
   //this method allow bothe numbers and alphabets
   allow_numbers_alphabets(event) {
     var a;
     a = event.charCode
     return ((a > 64 && a < 91) || (a > 96 && a < 123) || a == 8 || a == 0 || (a >= 48 && a <= 57));
   }
+
   leaveFields() {
     var data = {
       name: this.name,
@@ -855,7 +809,6 @@ export class DashboardComponent implements OnInit {
   }
   discountEnable: boolean = false;
   selectedManager() {
-    console.log(this.discountApprovedBy)
     if (this.discountApprovedBy) {
       this.discountEnable = true;
     }
@@ -867,6 +820,7 @@ export class DashboardComponent implements OnInit {
   otpNumber: '';
   otpButton: boolean = true;
   otp: '';
+
   sendOtp() {
     this.otpDate = new Date()
     let newDate1 = moment(this.otpDate).format('YYYY-MM-DD').toString();
@@ -879,13 +833,11 @@ export class DashboardComponent implements OnInit {
       otp_date: this.otpDate,
       status: 1
     }
-    console.log(data);
     this.saleUserService.sendOtpToManager(data).subscribe(res => {
-      console.log(res.json());
-      console.log(res.json().result)
       this.otpNumber = res.json().result
     })
   }
+
   compareOtpNumber() {
     console.log(this.otp);
     if (this.otpNumber == this.otp) {
