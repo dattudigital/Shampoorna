@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { InventoryAssigningService } from '../services/inventory-assigning.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -135,6 +135,7 @@ export class DashboardComponent implements OnInit {
     }
   ];
   cashTotal = 0;
+  selectedAmountOption: any;
   //exchangevehicle details
   exchangevehicleNo: '';
   exchangeEngineNo: '';
@@ -159,8 +160,11 @@ export class DashboardComponent implements OnInit {
   accessriesYes = '';
   branchId = '';
   fieldsData: any = [];
+  //afterSelectedEngine remove that engine number to after select
+  selectedVehicleNo: '';
+  SelectedAssignNo: '';
 
-  constructor(private saleUserService: SaleUserService, private formBuilder: FormBuilder, private http: Http, private router: Router, ) { }
+  constructor(private saleUserService: SaleUserService, private invetoryAssign: InventoryAssigningService, private formBuilder: FormBuilder, private http: Http, private router: Router, ) { }
 
   ngOnInit() {
     this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
@@ -168,7 +172,7 @@ export class DashboardComponent implements OnInit {
     this.branchId = this.loginData._results.employee_branch_id
 
     if (sessionStorage.salesdata) {
-      this.fieldsData = JSON.stringify(sessionStorage.getItem('salesdata'))
+      this.fieldsData = JSON.parse(sessionStorage.getItem('salesdata'))
       this.name = this.fieldsData.name;
       this.nameOnRc = this.fieldsData.nameOnRc;
 
@@ -202,6 +206,8 @@ export class DashboardComponent implements OnInit {
       custDistrict: ['', Validators.required],
       custMobile: ['', Validators.required],
       custEmail: ['', [Validators.required, Validators.email]],
+      addressProof: ['', Validators.required],
+      addressProofNo: ['', Validators.required]
     });
   }
 
@@ -362,10 +368,11 @@ export class DashboardComponent implements OnInit {
           hp: this.VehicleHp,
           discount: this.discount,
           total_amt: this.onRoadPrice,
-          discount_approved_by: this.discountApprovedBy,
+          discount_approved_by: this.discountApprovedBy.employee_id,
           sale_user_vechile_status: 1
         }
-        this.saleUserService.saveSalesVehicle(vehicledetails).subscribe(res => {
+        this.saleUserService.saveSalesVehicle(vehicledetails).subscribe(vehicle => {
+          console.log(vehicle.json().result);
         });
       }
       //csd files send to api
@@ -480,7 +487,22 @@ export class DashboardComponent implements OnInit {
           console.log(response.json());
         })
       }
-    })
+    });
+    // var vehicleremoveData = {
+    //   vehicle_id: this.selectedVehicleNo,
+    //   status: "0"
+    // }
+    // this.saleUserService.saveSalesVehicle(vehicleremoveData).subscribe(res => {
+    //   console.log(res.json());
+    // });
+    // var AssignData = {
+    //   inventory_assign_id: this.SelectedAssignNo,
+    //   status: "0"
+    // }
+    // this.invetoryAssign.addInventoryAssign(AssignData).subscribe(response => {
+    //   console.log(response.json())
+    // });
+    window.sessionStorage.removeItem('salesdata');
   }
 
   engineSearch(val) {
@@ -523,6 +545,10 @@ export class DashboardComponent implements OnInit {
     this.onRoadPrice = 0
     this.selectedOption = event.item;
     console.log(this.selectedOption);
+    this.selectedVehicleNo = this.selectedOption.vehicle_id;
+    console.log(this.selectedVehicleNo);
+    this.SelectedAssignNo = this.selectedOption.inventory_assign_id;
+    console.log(this.SelectedAssignNo);
     this.vehicleFrameNo = this.selectedOption["Frame No"];
     this.vehicleDcNo = this.selectedOption["TVS-M Invoice No"];
     this.vehicleKeyNo = this.selectedOption.vechile_gatepass;
@@ -542,29 +568,16 @@ export class DashboardComponent implements OnInit {
         this.StandardAcc = res.json().result[0]["STD ACC"];
         this.VehicleHp = res.json().result[0][" HP Charges"];
         console.log(this.VehicleHp)
-        // this.onRoadPrice =res.json().result[0]["TOTAL"];
-        // this.tempOnRoadPrice = this.onRoadPrice;
         if (this.vehicleBasic) {
           console.log(this.vehicleBasic)
-          // var s =this.vehicleBasic ;
-          // s = s.split(',').join('');
-          // console.log('display S')
-          // console.log(s)
           this.onRoadPrice = this.onRoadPrice + this.vehicleBasic;
           console.log(this.onRoadPrice)
         }
         if (this.onRoadPrice) {
-          // console.log('lifetax')
-          // console.log(this.onRoadPrice)
-          // console.log(this.lifeTax)
-          // var lTax = this.lifeTax;
-          // lTax = lTax.split(',').join('');
           this.onRoadPrice = this.onRoadPrice * 1 + this.lifeTax * 1
           console.log(this.onRoadPrice)
         }
         if (this.onRoadPrice) {
-          // var Vinsu = this.VehicleInsu;
-          // Vinsu = Vinsu.split(',').join('')
           this.onRoadPrice = this.onRoadPrice * 1 + this.VehicleInsu * 1
         }
         if (this.onRoadPrice) {
@@ -789,7 +802,15 @@ export class DashboardComponent implements OnInit {
       this.cashTotal = this.cashTotal + this.paymentEmi.othersAmount
     }
     console.log(this.cashTotal);
-    if (this.nomineeName) {
+
+    if (this.nomineeName && this.nomineeDob) {
+      console.log(this.selectedAmountOption)
+      if (this.selectedAmountOption == 1) {
+        this.finalSubmit = false;
+      }
+      if (this.selectedAmountOption == 0) {
+        this.finalSubmit = true;
+      }
       if (this.onRoadPrice == this.cashTotal) {
         this.finalSubmit = false;
       }
@@ -832,6 +853,7 @@ export class DashboardComponent implements OnInit {
   }
   discountEnable: boolean = false;
   selectedManager() {
+    console.log(this.discountApprovedBy)
     if (this.discountApprovedBy) {
       this.discountEnable = true;
     }
@@ -840,6 +862,9 @@ export class DashboardComponent implements OnInit {
     }
   }
   otpDate: any;
+  otpNumber: '';
+  otpButton: boolean = true;
+  otp: '';
   sendOtp() {
     this.otpDate = new Date()
     let newDate1 = moment(this.otpDate).format('YYYY-MM-DD').toString();
@@ -847,14 +872,25 @@ export class DashboardComponent implements OnInit {
     var data = {
       branch_id: this.discountApprovedBy.employee_branch_id,
       employee_id: this.discountApprovedBy.employee_id,
-      mobile:this.discountApprovedBy.mobile,
+      mobile: this.discountApprovedBy.phone,
       discount_amount: this.discount,
       otp_date: this.otpDate,
       status: 1
     }
     console.log(data);
-   this.saleUserService.sendOtpToManager(data).subscribe(res=>{
-     console.log(res.json());
-   })
+    this.saleUserService.sendOtpToManager(data).subscribe(res => {
+      console.log(res.json());
+      console.log(res.json().result)
+      this.otpNumber = res.json().result
+    })
+  }
+  compareOtpNumber() {
+    console.log(this.otp);
+    if (this.otpNumber == this.otp) {
+      this.otpButton = false;
+    } else {
+      this.otpButton = true;
+    }
+
   }
 } 

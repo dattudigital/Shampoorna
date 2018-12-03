@@ -80,8 +80,8 @@
 						</label>
 						<div class="col-sm-5">
 							<p-calendar [(ngModel)]="date1" [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2030" [inputStyle]="{'width':'190px'}"
-							 [showIcon]="true" dateFormat="dd-mm-yy" [(ngModel)]="dob" (mouseleave)="leaveFields()" (ngModelChange)=" getreqDate($event)"
-							 [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}"></p-calendar>
+							 [showIcon]="true" dateFormat="dd-mm-yy" [(ngModel)]="dob" (ngModelChange)=" getreqDate($event)" [(ngModel)]="showMoreControls"
+							 [ngModelOptions]="{standalone: true}"></p-calendar>
 						</div>
 					</div>
 					<div class="row form-group">
@@ -176,7 +176,7 @@
 							<span style="color:red">*</span>
 						</label>
 						<div class="col-sm-5">
-							<select class="form-control" [(ngModel)]="addressProof" [(ngModel)]="showMoreControls" (mouseleave)="LeaveFields()" [ngModelOptions]="{standalone: true}">
+							<select class="form-control" formControlName="addressProof" [(ngModel)]="addressProof" [ngClass]="{ 'is-invalid': submitted && f.addressProof.errors }">
 								<option value="" disabled select>Select</option>
 								<option value="aadhar">Aadhar Card</option>
 								<option value="license">License</option>
@@ -187,13 +187,19 @@
 								<option value="gas">Gas Bill</option>
 								<option value="mobile">Mobile Postpaid </option>
 							</select>
+							<div *ngIf="submitted && f.addressProof.errors" class="invalid-feedback">
+								<div *ngIf="f.addressProof.errors.required" style="color:red">AddressProof is required</div>
+							</div>
 						</div>
 					</div>
 					<div class="row form-group">
 						<label class="col-sm-4 col-form-label required"></label>
 						<div class="col-sm-5">
-							<input type="text" placeholder="Address proof Number" (keypress)="allow_numbers_alphabets($event)" maxlength="50" class="form-control"
-							 [(ngModel)]="addressProofNo" (mouseleave)="LeaveFields()" [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}">
+							<input type="text" formControlName="addressProofNo" placeholder="Address proof Number" (keypress)="allow_numbers_alphabets($event)"
+							 maxlength="50" class="form-control" [(ngModel)]="addressProofNo" (mouseleave)="leaveFields()" [ngClass]="{ 'is-invalid': submitted && f.addressProofNo.errors }">
+							<div *ngIf="submitted && f.addressProofNo.errors" class="invalid-feedback">
+								<div *ngIf="f.addressProofNo.errors.required" style="color:#ff0000"> Address Proof Number is required</div>
+							</div>
 						</div>
 					</div>
 					<div class=" row form-group">
@@ -270,7 +276,8 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="text" (keypress)="omit_special_char($event)" name="nomini" maxlength="50" class="form-control" [(ngModel)]="nomineeName">
+						<input type="text" (keypress)="omit_special_char($event)" name="nomini" maxlength="50" class="form-control" [(ngModel)]="nomineeName"
+						 (ngModelChange)="addTotalAmount()">
 					</div>
 				</div>
 				<div class="row form-group">
@@ -280,7 +287,7 @@
 					<div class="col-sm-5">
 						<!-- <input type="date" name="dob"  [(ngModel)]="dob" placeholder="dd/mm/yy"> -->
 						<p-calendar [(ngModel)]="date3" name="ndob" placeholder="Nominee DOB" [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2030"
-						 [inputStyle]="{'width':'190px'}" [showIcon]="true" [(ngModel)]="nomineeDob" dateFormat="dd-mm-yy" (ngModelChange)=" getNomineeDate($event)"></p-calendar>
+						 [inputStyle]="{'width':'190px'}" [showIcon]="true" [(ngModel)]="nomineeDob" dateFormat="dd-mm-yy" (ngModelChange)=" getNomineeDate($event);addTotalAmount()"></p-calendar>
 					</div>
 				</div>
 				<div class="row form-group">
@@ -443,11 +450,11 @@
 							<span style="color:red">*</span>
 						</label>
 						<div class="col-sm-5">
-							<input type="number" min="0" class="form-control">
+							<input type="number" min="0" class="form-control" [(ngModel)]="otp" (ngModelChange)="compareOtpNumber()">
 						</div>
 						<div class="col-sm-1"></div>
 						<div class="col-sm-1">
-							<button type="submit" class="btn btn-warning">Submit</button>
+							<button type="submit" class="btn btn-warning" [disabled]="otpButton">Submit</button>
 						</div>
 					</div>
 				</div>
@@ -553,7 +560,7 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="text" name="model" maxlength="50" (keypress)="only_allow_number($event)" class="form-control" [(ngModel)]="exchangeVehicleModel">
+						<input type="text" name="model" maxlength="50" (keypress)="allow_numbers_alphabets($event)" class="form-control" [(ngModel)]="exchangeVehicleModel">
 					</div>
 				</div>
 				<div class="row form-group">
@@ -601,14 +608,14 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-3">
-						<select name="state" class="form-control" [(ngModel)]="selectedOption" [(ngModel)]="paymentEmi.paymentmode">
+						<select name="state" class="form-control" [(ngModel)]="selectedAmountOption" [(ngModel)]="paymentEmi.paymentmode" (ngModelChange)="addTotalAmount()">
 							<option value="select" disabled select>Select</option>
 							<option value="0">Cash</option>
 							<option value="1">EMI</option>
 						</select>
 					</div>
 				</div>
-				<div class="cash-form" *ngIf="selectedOption == '0'">
+				<div class="cash-form" *ngIf="selectedAmountOption == '0'">
 
 					<div class="col-sm-12">
 						<div class="row form-group">
@@ -764,7 +771,7 @@
 					<br>
 					<br>
 				</div>
-				<div class="emi-form" *ngIf="selectedOption == '1'">
+				<div class="emi-form" *ngIf="selectedAmountOption == '1'">
 					<div class=" row form-group">
 						<label class="col-sm-3 col-form-label required">Financial Name
 							<span style="color:red">*</span>

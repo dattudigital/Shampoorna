@@ -13,9 +13,12 @@ import { NotificationsService } from 'angular2-notifications';
 export class TotalSaleListComponent implements OnInit {
   cols: any[];
   totalSaleList: any = [];
+  public date1: any;
+  public date2: any;
   fromDate = "";
   toDate = "";
   vehicleTypeFilter = "";
+
   public options = { position: ["top", "right"] }
   constructor(private router: Router, private notif: NotificationsService, private service: DashboardServiceService, private excelService: ExcelServiceService) { }
 
@@ -98,9 +101,9 @@ export class TotalSaleListComponent implements OnInit {
         )
       }
     });
-    this.vehicleTypeFilter = '';
-    this.fromDate = '';
-    this.toDate = '';
+    this.vehicleTypeFilter = " ";
+    this.date1 = "";
+    this.date1 = "";
   }
 
 
