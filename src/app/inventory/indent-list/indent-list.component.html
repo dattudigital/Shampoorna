@@ -20,7 +20,7 @@
         <label for="input" class="col-md-3 control-label">Category</label>
         <div class="col-md-7">
           <select class="form-control" [(ngModel)]="vehicleTypeFilter">
-            <option value="" selected>All</option>
+            <option value="0" selected>All</option>
             <option *ngFor="let data of this.typeData" [ngValue]=" data.vehicle_type_id">{{data.type_name}}</option>
           </select>
         </div>
@@ -33,7 +33,7 @@
         <label for="input" class="col-md-3 control-label">Model</label>
         <div class="col-md-7">
           <select class="form-control" [(ngModel)]="vehicleModelFilter">
-            <option value="" selected>All</option>
+            <option value="0" selected>All</option>
             <option *ngFor="let data of this.modelData" [ngValue]=" data.vehicle_model_id">{{data.model_name}}</option>
           </select>
         </div>
@@ -46,7 +46,7 @@
         <label for="input" class="col-md-3 control-label">Color</label>
         <div class="col-md-7">
           <select class="form-control" [(ngModel)]="vehicleColorFilter">
-            <option value="" selected>All</option>
+            <option value="0" selected>All</option>
             <option *ngFor="let data of this.colorData" [ngValue]=" data.vehicle_color_id">{{data.color_name}}</option>
           </select>
         </div>
@@ -59,7 +59,7 @@
         <label for="input" class="col-md-3 control-label">Variant</label>
         <div class="col-md-7">
           <select class="form-control" [(ngModel)]="vehicleVariantFilter">
-            <option value="" selected>All</option>
+            <option value="0" selected>All</option>
             <option *ngFor="let data of this.variantData" [ngValue]=" data.vehicle_variant_id">{{data.variant_name}}</option>
           </select>
         </div>

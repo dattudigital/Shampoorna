@@ -46,7 +46,6 @@ export class VehicleDetailsComponent implements OnInit {
   gateNumber = "";
   frameNumber = "";
   dcNumber = "";
-  // invoiceNumber = "";
   vehicleLifeTax = "";
   vehicleInsurance = "";
   vehicleHandling = "";
@@ -65,7 +64,6 @@ export class VehicleDetailsComponent implements OnInit {
   fromDate = "";
   toDate = "";
   public options = { position: ["top", "right"] }
-  // addnewvehicle = false;
 
   constructor(private router: Router, private cdr: ChangeDetectorRef, private allvehicleservice: AllVehicleService, private service: VehicleDetailService, private http: Http, private formBuilder: FormBuilder, private notif: NotificationsService) { }
 
@@ -74,7 +72,6 @@ export class VehicleDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.roleLogin1();
 
     this.service.getVehicleDetails().subscribe(res => {
       if (res.json().status == true) {
@@ -95,7 +92,6 @@ export class VehicleDetailsComponent implements OnInit {
 
     this.cols = [
       { field: 'TVS-M Invoice No', header: 'Invoice No' },
-      // { field: 'vehicle_invoice_date', header: 'Invoice Date' },
       { field: 'Sourced from', header: 'Sorce From' },
       { field: 'type_name', header: 'Category' },
       { field: 'model_name', header: 'Model' },
@@ -338,14 +334,14 @@ export class VehicleDetailsComponent implements OnInit {
     console.log("***")
     console.log(this.deleteData[index].vehicle_id);
     this.vehicle_id = this.deleteData[index].vehicle_id;
-    // var data = {
-    //   vehicle_id:this.deleteData[index].vehicle_id,
-    //   status:"0"
-    // }
-    // console.log(data)
-    // this.service.addVehicleDetails(data).subscribe(res =>{
-    //   console.log(res.json());
-    // })
+    var data = {
+      vehicle_id:this.deleteData[index].vehicle_id,
+      status:"0"
+    }
+    console.log(data)
+    this.service.addVehicleDetails(data).subscribe(res =>{
+      console.log(res.json());
+    })
 
   }
 
@@ -403,50 +399,22 @@ export class VehicleDetailsComponent implements OnInit {
     if (this.toDate) {
       url = url + '&enddate=' + this.toDate;
     }
-    if (this.vehicleTypeFilter) {
+    if (this.vehicleTypeFilter != "0" ) {
       url = url + '&type=' + this.vehicleTypeFilter;
     }
-    if (this.vehicleVariantFilter) {
+    if (this.vehicleVariantFilter != "0" ) {
       url = url + '&variant=' + this.vehicleVariantFilter;
     }
-    if (this.vehicleModelFilter) {
+    if (this.vehicleModelFilter != "0" ) {
       url = url + '&model=' + this.vehicleModelFilter;
     }
-    if (this.vehicleColorFilter) {
+    if (this.vehicleColorFilter != "0" ) {
       url = url + '&color=' + this.vehicleColorFilter;
     }
     console.log(this.vehicleVariantFilter);
     console.log(url)
     this.service.getVehicleFilter(url).subscribe(res => {
-      console.log(res.json());
-      //  if(res.json().status ==true){
-      //   this.notif.success(
-      //     'Success',
-      //     'Filter Applied Successfully',
-      //     {
-      //       timeOut: 3000,
-      //       showProgressBar: true,
-      //       pauseOnHover: false,
-      //       clickToClose: true,
-      //       maxLength: 50
-      //     }
-      //   )
-      // }else{
-      //   this.notif.warn(
-      //     'Sorry',
-      //     'No Records Found',
-      //     {
-      //       timeOut: 3000,
-      //       showProgressBar: true,
-      //       pauseOnHover: false,
-      //       clickToClose: true,
-      //       maxLength: 50
-      //     }
-      //   )    } 
-      console.log("*******")
-      console.log(res)
       console.log(res.json().status)
-
       if (res.json().status == true) {
         this.bikes = res.json().result;
         console.log(this.bikes)
@@ -496,10 +464,10 @@ export class VehicleDetailsComponent implements OnInit {
         )
       }
     });
-    this.vehicleTypeFilter = " ";
-    this.vehicleModelFilter = " ";
-    this.vehicleColorFilter = " ";
-    this.vehicleVariantFilter = " ";
+    this.vehicleTypeFilter = "0";
+    this.vehicleModelFilter = "0";
+    this.vehicleColorFilter = "0";
+    this.vehicleVariantFilter = "0";
     this.fromDate = " ";
     this.toDate = " ";
   }
