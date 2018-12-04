@@ -160,7 +160,8 @@ export class InventoryListComponent implements OnInit {
         this.inventoryData = res.json().result;
       }
       else {
-        this.inventoryData = res.json()._body;
+        // this.inventoryData = res.json()._body;
+        this.inventoryData = [];
       }
     })
   }
@@ -172,6 +173,7 @@ export class InventoryListComponent implements OnInit {
     this.service.getInventoryList(brurl).subscribe(res => {
       this.inventoryData = res.json().result
       if (res.json().status == true) {
+        this.inventoryData = res.json().result
         this.notif.success(
           'Success',
           'Reset Applied Successfully',
@@ -183,6 +185,8 @@ export class InventoryListComponent implements OnInit {
             maxLength: 50
           }
         )
+      }else{
+        this.inventoryData = [];
       }
     });
     this.vehicleModelFilter = " ";
