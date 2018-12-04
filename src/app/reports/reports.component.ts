@@ -22,8 +22,8 @@ export class ReportsComponent implements OnInit {
   errorMessage = false;
   btnDisable = true;
   test1: any;
-  loginData:any=[];
-  
+  loginData: any = [];
+
   constructor(private router: Router, private service: DashboardServiceService, private spinner: NgxSpinnerService, private loginservice: LoginService) { }
 
   ngOnInit() {
@@ -33,10 +33,13 @@ export class ReportsComponent implements OnInit {
     sessionStorage.removeItem('secondaryLoginData3');
     // sessionStorage.removeItem('backBtnInventory');
     // sessionStorage.removeItem('backBtnManager');
-    this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
+    this.loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData2'));
     console.log(this.loginData);
-    var branchId = this.loginData._results.employee_branch_id;
-    console.log(branchId)
+    if (this.loginData) {
+      var branchId = this.loginData._results.employee_branch_id;
+      console.log(branchId)
+    }
+
     this.service.getSaleAndInventoryCount(branchId).subscribe(res => {
       console.log(res.json().result);
       this.todaySaleCount = res.json().result.todaysale;
@@ -44,7 +47,7 @@ export class ReportsComponent implements OnInit {
       this.totalsaleCount = res.json().result.totalsale;
       console.log(this.totalsaleCount)
     });
-  
+
   }
   saleReportClick() {
     this.titleStyle = "visible";
@@ -76,7 +79,7 @@ export class ReportsComponent implements OnInit {
       $('#myModal').modal('show');
     }
   }
-  
+
   errorClear() {
     this.errorMessage = false;
     if (this.passwordLogin && this.mailId) {
@@ -86,7 +89,7 @@ export class ReportsComponent implements OnInit {
       this.btnDisable = true;
     }
   }
-  RedirectToHome(){
+  RedirectToHome() {
     this.router.navigate(['sale-dashboard'])
   }
   loginSubmite() {
@@ -114,11 +117,11 @@ export class ReportsComponent implements OnInit {
         this.test1 = loginData.json()._results;
 
         // if (loginData.json().status == true && this.test1.emp_type_id == 1 || this.test1.emp_type_id == 2) {
-          //console.log(loginData.json().result[0])
-          sessionStorage.setItem('secondaryLoginData2', JSON.stringify(loginData.json()));
-          // sessionStorage.setItem('backBtnReports', 'Y');
-          $('#myModal').modal('hide');
-          this.reportStyle = "visible";
+        //console.log(loginData.json().result[0])
+        sessionStorage.setItem('secondaryLoginData2', JSON.stringify(loginData.json()));
+        // sessionStorage.setItem('backBtnReports', 'Y');
+        $('#myModal').modal('hide');
+        this.reportStyle = "visible";
         // } else {
         //   this.errorMessage = true;
         // }

@@ -19,6 +19,8 @@ export class TotalSaleListComponent implements OnInit {
   toDate = "";
   vehicleTypeFilter = "";
   loginData: any = [];
+  url = '';
+  branchId: '';
 
   public options = { position: ["top", "right"] }
   constructor(private router: Router, private notif: NotificationsService, private service: DashboardServiceService, private excelService: ExcelServiceService) { }
@@ -26,9 +28,9 @@ export class TotalSaleListComponent implements OnInit {
   ngOnInit() {
     this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
     console.log(this.loginData);
-    var branchId = this.loginData._results.employee_branch_id;
-    console.log(branchId)
-    this.service.getSaleAndInventoryCount(branchId).subscribe(response => {
+    this.branchId = this.loginData._results.employee_branch_id;
+    console.log(this.branchId)
+    this.service.getTotalSalefilter(this.branchId, this.url).subscribe(response => {
       console.log(response.json().result);
       this.totalSaleList = response.json().result;
     });
@@ -89,7 +91,7 @@ export class TotalSaleListComponent implements OnInit {
 
   }
   detailsReset() {
-    this.service.getTotalSale().subscribe(res => {
+    this.service.getTotalSalefilter(this.branchId, this.url).subscribe(res => {
       console.log(res.json().result)
       this.totalSaleList = res.json().result
       if (res.json().status == true) {
@@ -111,19 +113,17 @@ export class TotalSaleListComponent implements OnInit {
     this.date1 = "";
   }
 
-
   detailsGo() {
-    var url = '';
     if (this.fromDate) {
-      url = url + 'startdate=' + this.fromDate;
+      this.url = this.url + 'startdate=' + this.fromDate;
     }
     if (this.toDate) {
-      url = url + '&enddate=' + this.toDate;
+      this.url = this.url + '&enddate=' + this.toDate;
     }
     if (this.vehicleTypeFilter) {
-      url = url + '&user_type=' + this.vehicleTypeFilter;
+      this.url = this.url + '&user_type=' + this.vehicleTypeFilter;
     }
-    this.service.getTotalSalefilter(url).subscribe(res => {
+    this.service.getTotalSalefilter(this.branchId, this.url).subscribe(res => {
       console.log(res.json());
       console.log(res.json().status);
       if (res.json().status == true) {

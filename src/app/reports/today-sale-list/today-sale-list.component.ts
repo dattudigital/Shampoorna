@@ -12,24 +12,25 @@ import { NotificationsService } from 'angular2-notifications';
 export class TodaySaleListComponent implements OnInit {
   todaySaleList: any = [];
   cols: any[];
-  vehicleTypeFilter= '';
-  loginData:any=[];
+  vehicleTypeFilter = '';
+  loginData: any = [];
+  url = ''
+  branchId = '';
   constructor(private router: Router, private notif: NotificationsService, private service: DashboardServiceService, private excelService: ExcelServiceService) { }
 
   ngOnInit() {
     this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
     console.log(this.loginData);
-    var branchId = this.loginData._results.employee_branch_id;
-    console.log(branchId)
-    this.service.getSaleAndInventoryCount(branchId).subscribe(res => {
-      if(res.json().status == true){
+    this.branchId = this.loginData._results.employee_branch_id;
+    console.log(this.branchId)
+    this.service.getTodayFilter(this.branchId, this.url).subscribe(res => {
+      if (res.json().status == true) {
         this.todaySaleList = res.json().result;
       }
-      
     });
     this.cols = [
       { field: 'firstname', header: 'First Name' },
-     // { field: 'email_id', header: 'Email' },
+      // { field: 'email_id', header: 'Email' },
       { field: 'address', header: 'Address' },
       { field: 'mandal', header: 'Mandal' },
       { field: 'district', header: 'District' },
@@ -73,7 +74,7 @@ export class TodaySaleListComponent implements OnInit {
     this.excelService.exportAsExcelFile(this.todaySaleList, 'TodaySalesList');
   }
   detailsReset() {
-    this.service.getTodaySale().subscribe(res => {
+    this.service.getTodayFilter(this.branchId, this.url).subscribe(res => {
       console.log(res.json().result)
       this.todaySaleList = res.json().result
       if (res.json().status == true) {
@@ -94,11 +95,11 @@ export class TodaySaleListComponent implements OnInit {
   }
 
   detailsGo() {
-    var url = ''
+
     if (this.vehicleTypeFilter) {
-      url = url + 'user_type=' + this.vehicleTypeFilter;
+      this.url = this.url + 'user_type=' + this.vehicleTypeFilter;
     }
-    this.service.getTodayFilter(url).subscribe(res => {
+    this.service.getTodayFilter(this.branchId, this.url).subscribe(res => {
       console.log(res.json().status)
       if (res.json().status == true) {
         this.todaySaleList = res.json().result;
