@@ -12,7 +12,7 @@ import { NotificationsService } from 'angular2-notifications';
 export class TodaySaleListComponent implements OnInit {
   todaySaleList: any = [];
   cols: any[];
-  vehicleTypeFilter: '';
+  vehicleTypeFilter= '';
   constructor(private router: Router, private notif: NotificationsService, private service: DashboardServiceService, private excelService: ExcelServiceService) { }
 
   ngOnInit() {
@@ -86,7 +86,7 @@ export class TodaySaleListComponent implements OnInit {
         )
       }
     });
-  this.vehicleTypeFilter ='';
+    this.vehicleTypeFilter = "";
   }
 
   detailsGo() {

@@ -14,6 +14,7 @@ declare var $: any;
   templateUrl: './add-employee.component.html',
   styleUrls: ['./add-employee.component.css']
 })
+
 export class AddEmployeeComponent implements OnInit {
   cols: any[];
   employees: any[];
@@ -26,7 +27,6 @@ export class AddEmployeeComponent implements OnInit {
   empData: any;
   _empData: any;
   brData: any;
-
   employee_id: '';
   employee_firstname: '';
   employee_lastname: '';
@@ -38,7 +38,6 @@ export class AddEmployeeComponent implements OnInit {
   password: '';
   emp_type_id: '';
   rec_status: '';
-
   firstName: '';
   lastName: '';
   branch: '';
@@ -48,7 +47,6 @@ export class AddEmployeeComponent implements OnInit {
   Phone: '';
   Password: '';
   employeeType: '';
-
   passwordLogin = "";
   mailId = "";
   titleStyle = "hidden";
@@ -56,29 +54,32 @@ export class AddEmployeeComponent implements OnInit {
   btnDisable = true;
   popupLogin: any;
 
-
-
-
-
   constructor(private cdr: ChangeDetectorRef, private http: Http, private spinner: NgxSpinnerService, private service: ManagerServiceService, private formBuilder: FormBuilder, private router: Router, private loginservice: LoginService, private empTypePipe: EmpTypePipe) { }
 
   ngAfterViewChecked() {
-
     this.cdr.detectChanges();
   }
-  ngOnInit() {
 
+  ngOnInit() {
     sessionStorage.removeItem('secondaryLoginData');
     sessionStorage.removeItem('secondaryLoginData2');
     sessionStorage.removeItem('secondaryLoginData3');
     this.loginPopUp();
 
     this.http.get(environment.host + 'emp-types').subscribe(data => {
-      this._empData = data.json().result;
+      if (data.json().status == true) {
+        this._empData = data.json().result;
+      } else {
+        this._empData = [];
+      }
     });
 
     this.http.get(environment.host + 'branches').subscribe(data => {
-      this.brData = data.json().result;
+      if (data.json().status == true) {
+        this.brData = data.json().result;
+      } else {
+        this.brData = [];
+      }
     });
 
     this.cols = [
@@ -88,8 +89,8 @@ export class AddEmployeeComponent implements OnInit {
       { field: 'employee_address', header: 'Address' },
       { field: 'email_id', header: 'Email' },
       { field: 'phone', header: 'Phone' },
-
     ];
+
     this.employeeForm = this.formBuilder.group({
       employeeFirstName: ['', Validators.required],
       employeeLastName: ['', Validators.required],
@@ -100,7 +101,6 @@ export class AddEmployeeComponent implements OnInit {
       Email: ['', Validators.required],
       Phone: ['', Validators.required],
       Password: ['', Validators.required]
-
     });
   }
 
@@ -139,21 +139,24 @@ export class AddEmployeeComponent implements OnInit {
         this.popupLogin = loginData.json()._results;
         if (loginData.json().status == true && this.popupLogin.emp_type_id == 1 || this.popupLogin.emp_type_id == 2 || this.popupLogin.emp_type_id == 3) {
           if (this.popupLogin.emp_type_id == 3) {
-            this.empData = this.empTypePipe.transform(this._empData,this.popupLogin);
-          }          
+            this.empData = this.empTypePipe.transform(this._empData, this.popupLogin);
+          }
           if (this.popupLogin.emp_type_id == 2) {
-            this.empData = this.empTypePipe.transform(this._empData,this.popupLogin);
+            this.empData = this.empTypePipe.transform(this._empData, this.popupLogin);
           }
           if (this.popupLogin.emp_type_id == 1) {
-            this.empData = this.empTypePipe.transform(this._empData,this.popupLogin);
+            this.empData = this.empTypePipe.transform(this._empData, this.popupLogin);
           }
           sessionStorage.setItem('secondaryLoginData1', JSON.stringify(loginData.json()));
-          console.log(loginData.json()._results)
           var brurl = '';
           brurl = brurl + '?branchid=' + loginData.json()._results.employee_branch_id;
           brurl = brurl + '&empid=' + loginData.json()._results.employee_id
           this.service.getEmployeeDetails(brurl).subscribe(res => {
-            this.employees = res.json().result;
+            if (res.json().status == true) {
+              this.employees = res.json().result;
+            } else {
+              this.employees = [];
+            }
           })
           $('#myModal').modal('hide');
           this.titleStyle = "visible";
@@ -168,7 +171,7 @@ export class AddEmployeeComponent implements OnInit {
     this.router.navigate(['sale-dashboard']);
   }
   removeFields() {
-      this.firstName = '',
+    this.firstName = '',
       this.lastName = '',
       this.email_id = '',
       this.password = '',
@@ -179,12 +182,10 @@ export class AddEmployeeComponent implements OnInit {
       this.pincode = ''
   }
 
-
   get f() { return this.employeeForm.controls; }
 
   addEmployee() {
     this.submitted = true;
-
     if (this.employeeForm.invalid) {
       return;
     }
@@ -200,13 +201,11 @@ export class AddEmployeeComponent implements OnInit {
       password: this.Password,
       rec_status: 1
     }
-    console.log(data);
     this.service.saveEmployeeDetails(data).subscribe(res => {
       console.log(res.json());
       this.employees.push(res.json().result);
       console.log(this.employees);
       $('#addEmployee').modal('hide');
-
     });
     this.removeFields()
   }
@@ -275,22 +274,24 @@ export class AddEmployeeComponent implements OnInit {
       rec_status: "0"
     }
     this.service.saveEmployeeDetails(data).subscribe(res => {
-      console.log(res.json());
     })
   }
+
   //this method  allow alphabets 
   omit_special_char(event) {
     var k;
-    k = event.charCode;  //  k = event.keyCode;  (Both can be used)
+    k = event.charCode;
     return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 0 || k == 32);
   }
+
   //This Method  allow Numbers
   only_allow_number(event) {
     var n;
     n = event.charCode
     return (n == 8 || n == 0 || n == 32 || (n >= 48 && n <= 57))
   }
-  //this method allow bothe numbers and alphabets
+
+  //this method allow both numbers and alphabets
   allow_numbers_alphabets(event) {
     var a;
     a = event.charCode

@@ -8,7 +8,7 @@ import { DashboardServiceService } from '../services/dashboard-service.service';
   styleUrls: ['./sale-dashboard.component.css']
 })
 export class SaleDashboardComponent implements OnInit {
-  todaySaleCount: '';
+  todaySaleCount = '';
   totalsaleCount = '';
   todaySaleData = '';
   loginData: any = [];
@@ -22,28 +22,20 @@ export class SaleDashboardComponent implements OnInit {
     sessionStorage.removeItem('secondaryLoginData1');
     sessionStorage.removeItem('secondaryLoginData2');
     sessionStorage.removeItem('secondaryLoginData3');
-
-
     this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
-    console.log(this.loginData._results.emp_type_id);
-
     this.service.getTodaySale().subscribe(res => {
-      console.log(res.json())
       if (res.json().status == true) {
         this.todaySaleCount = res.json().result.length;
-        console.log(this.todaySaleCount);
       } else {
-        this.todaySaleCount = '';
+        this.todaySaleCount = "0";
       }
     });
     this.service.getTotalSale().subscribe(response => {
       if (response.json().status == true) {
         this.totalsaleCount = response.json().result.length;
-        console.log(this.totalsaleCount)
       } else {
-        this.totalsaleCount = '';
+        this.totalsaleCount = '0';
       }
-
     })
   }
 
@@ -52,7 +44,6 @@ export class SaleDashboardComponent implements OnInit {
       this.router.navigate(['reports/today-sale-list']);
     } else {
       this.errorMessage = true;
-
       setTimeout(() => {
         this.errorMessage = false;
       }, 3000);

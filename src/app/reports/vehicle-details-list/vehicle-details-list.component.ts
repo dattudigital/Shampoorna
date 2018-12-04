@@ -13,7 +13,7 @@ export class VehicleDetailsListComponent implements OnInit {
   bikes: any[];
   cols: any[];
 
-  constructor(private router: Router, private service: VehicleDetailService,private excelService: ExcelServiceService) { }
+  constructor(private router: Router, private service: VehicleDetailService, private excelService: ExcelServiceService) { }
 
   ngOnInit() {
     this.cols = [
@@ -31,10 +31,14 @@ export class VehicleDetailsListComponent implements OnInit {
     ];
 
     this.service.getVehicleDetails().subscribe(res => {
-      console.log(res.json().result)
-      this.bikes = res.json().result
+      if (res.json().status == true) {
+        this.bikes = res.json().result
+      } else {
+        this.bikes = [];
+      }
     });
   }
+
   backToReports() {
     this.router.navigate(['reports']);
   }
@@ -53,7 +57,7 @@ export class VehicleDetailsListComponent implements OnInit {
       { title: "Vehicle FrameNo", dataKey: "vehicle_frameno" },
       { title: "Vehicle InvoiceNo", dataKey: "vechicle_invoiceno" },
     ];
- 
+
     var rows = this.bikes;
     var doc = new jsPDF('');
     doc.autoTable(columns, rows, {
@@ -68,8 +72,9 @@ export class VehicleDetailsListComponent implements OnInit {
     });
     doc.save('Vehicledetails.pdf');
   }
+
   xlDownload() {
     this.excelService.exportAsExcelFile(this.bikes, 'inventoryData');
   }
-  
+
 }

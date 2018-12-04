@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { Http } from '@angular/http';
 declare var $: any;
-
+import { NotificationsService } from 'angular2-notifications';
 @Component({
   selector: 'app-vehicle-color',
   templateUrl: './vehicle-color.component.html',
   styleUrls: ['./vehicle-color.component.css']
 })
 export class VehicleColorComponent implements OnInit {
-  colorData:any=[];
-  cols:any=[];
+  colorData: any = [];
+  cols: any = [];
   colorName: '';
   editcolorData: any = []
   temp: any;
@@ -21,20 +21,25 @@ export class VehicleColorComponent implements OnInit {
   temp1: any
   colorDeleteData: any = [];
 
-  constructor(private router:Router,private http:Http) { }
+  public options = { position: ["top", "right"] }
+
+  constructor(private router: Router, private http: Http, private notif: NotificationsService) { }
 
   ngOnInit() {
     this.cols = [
-      // { field: 'vehicle_color_id', header: ' Id' },
       { field: 'color_name', header: 'Color' }
     ];
-    
+
     this.http.get(environment.host + 'vehicle-colors').subscribe(data => {
-      console.log(data.json())
-      this.colorData = data.json().result;
+      if (data.json().status == true) {
+        this.colorData = data.json().result;
+      } else {
+        this.colorData = [];
+      }
     });
   }
-  backToSetup(){
+
+  backToSetup() {
     this.router.navigate(['vehicle-setup'])
   }
 
@@ -43,63 +48,91 @@ export class VehicleColorComponent implements OnInit {
       color_name: this.colorName,
       status: 1
     }
-    console.log(data);
     this.http.post(environment.host + 'vehicle-colors', data).subscribe(res => {
-      console.log(res.json());
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Color Added Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
       this.colorData.push(res.json().result);
-      console.log(this.colorData);
       $('#addcolor').modal('hide');
     })
   }
+
   removeFields() {
     this.color_name = '';
   }
   editColor(data, index) {
-    console.log('**********')
-    console.log(data)
     this.editcolorData = data;
     data.index = index;
     this.temp = index;
-    console.log(this.editcolorData[index].color_name);
     this.vehicle_color_id = this.editcolorData[index].vehicle_color_id;
     this.color_name = this.editcolorData[index].color_name;
-    this.status=this.editcolorData[index].status
+    this.status = this.editcolorData[index].status
   }
 
   updateColor() {
     var data = {
       vehicle_color_id: this.vehicle_color_id,
       color_name: this.color_name,
-      status:this.status
+      status: this.status
     }
-    console.log(data);
     this.http.post(environment.host + 'vehicle-colors', data).subscribe(res => {
-      console.log(res.json());
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Color Updated Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
       this.editcolorData[this.temp].color_name = data.color_name;
       this.temp = " ";
     })
     this.removeFields();
     $('#editVehicleColor').modal('hide')
-
   }
+
   deleteVehicleColor(val, index) {
     this.temp1 = index;
-    console.log(index)
     this.colorDeleteData = val;
-    console.log(this.colorDeleteData)
     val.index = index;
     this.vehicle_color_id = this.colorDeleteData[index].vehicle_color_id;
   }
+
   yesVehicleColor() {
     this.colorData.splice(this.temp1, 1)
-    console.log(this.temp1)
     var data = {
       vehicle_color_id: this.vehicle_color_id,
       status: "0"
     }
-    console.log(data)
     this.http.post(environment.host + 'vehicle-colors', data).subscribe(res => {
-      console.log(res.json());
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Model Deleted Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
     })
   }
 }

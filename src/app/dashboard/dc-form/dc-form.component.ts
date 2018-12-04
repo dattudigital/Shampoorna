@@ -16,8 +16,6 @@ export class DcFormComponent implements OnInit {
 
   ngOnInit() {
     this.dcFormInfo = JSON.parse(sessionStorage.getItem('dcFormData'));
-    console.log("********");
-    console.log(this.dcFormInfo);
     this.vehicleModel = this.dcFormInfo.vechile_mode;
     this.engineNo = this.dcFormInfo.eng_no;
     this.frameNo = this.dcFormInfo.frame_no;
@@ -27,7 +25,7 @@ export class DcFormComponent implements OnInit {
     sessionStorage.removeItem('dcFormData');
     this.router.navigate(['sale-details'])
   }
-  
+
   printComponent(deliveryform) {
     let printContents = document.getElementById(deliveryform).innerHTML;
     const popupWin = window.open();
@@ -44,7 +42,4 @@ export class DcFormComponent implements OnInit {
     `  );
     popupWin.document.close();
   }
-
-
-
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Http } from '@angular/http';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 declare var $: any;
 import { LoginService } from '../services/login.service'
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -14,14 +14,12 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class SetupComponent implements OnInit {
 
-  constructor( private http: Http,private router:Router,private spinner: NgxSpinnerService, private loginservice: LoginService) { }
+  constructor(private http: Http, private router: Router, private spinner: NgxSpinnerService, private loginservice: LoginService) { }
 
   typeData: any[];
   makeData: any[];
   modelData: any[];
   colorData: any[];
-
-
   passwordLogin = "";
   mailId = "";
   titleStyle = "hidden";
@@ -30,41 +28,46 @@ export class SetupComponent implements OnInit {
   test1: any;
 
   ngOnInit() {
-    sessionStorage.removeItem('secondaryLoginData'); 
-    sessionStorage.removeItem('secondaryLoginData1'); 
-    sessionStorage.removeItem('secondaryLoginData2'); 
-    // sessionStorage.removeItem('backBtnReports');   
-    // sessionStorage.removeItem('backBtnInventory');
-    // sessionStorage.removeItem('backBtnManager'); 
+    sessionStorage.removeItem('secondaryLoginData');
+    sessionStorage.removeItem('secondaryLoginData1');
+    sessionStorage.removeItem('secondaryLoginData2');
 
     this.loginPopUp()
-
     this.http.get(environment.host + 'vehicle-models').subscribe(data => {
-      console.log(data.json())
-      this.modelData = data.json().result;
+      if (data.json().status == true) {
+        this.modelData = data.json().result;
+      } else {
+        this.modelData = [];
+      }
     });
 
     this.http.get(environment.host + 'vehicle-colors').subscribe(data => {
-      console.log(data.json())
-      this.colorData = data.json().result;
+      if (data.json().status == true) {
+        this.colorData = data.json().result;
+      } else {
+        this.colorData = [];
+      }
     });
 
     this.http.get(environment.host + 'vehicle-types').subscribe(data => {
-      console.log(data.json())
-      this.typeData = data.json().result;
+      if (data.json().status == true) {
+        this.typeData = data.json().result;
+      } else {
+        this.typeData = [];
+      }
     });
 
   }
-  redirectToBranch(){
+  redirectToBranch() {
     this.router.navigate(['setup/branch'])
   }
-  redirectToVehicle(){
+  redirectToVehicle() {
     this.router.navigate(['vehicle-setup'])
   }
-  redirectToPriceList(){
+  redirectToPriceList() {
     this.router.navigate(['setup/price-list'])
   }
-  RedirectToHome(){
+  RedirectToHome() {
     this.router.navigate(['sale-dashboard'])
   }
 
@@ -92,7 +95,6 @@ export class SetupComponent implements OnInit {
     console.log(window.sessionStorage)
     if (sessionStorage.secondaryLoginData) {
       window.sessionStorage.removeItem('secondaryLoginData1');
-      //console.log('secondaryLoginData')
     }
     var data = {
       password: this.passwordLogin,
@@ -108,16 +110,9 @@ export class SetupComponent implements OnInit {
           this.errorMessage = true;
         }
         this.test1 = loginData.json()._results;
-
-        // if (loginData.json().status == true && this.test1.emp_type_id == 1 || this.test1.emp_type_id ==2 ) {
-          //console.log(loginData.json().result[0])
-          sessionStorage.setItem('secondaryLoginData3', JSON.stringify(loginData.json()));
-          // sessionStorage.setItem('backBtnSetup', 'Y');
-          $('#myModal').modal('hide');
-          this.titleStyle = "visible";
-        // } else {
-        //   this.errorMessage = true;
-        // }
+        sessionStorage.setItem('secondaryLoginData3', JSON.stringify(loginData.json()));
+        $('#myModal').modal('hide');
+        this.titleStyle = "visible";
       });
     }
   }

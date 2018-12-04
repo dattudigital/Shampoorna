@@ -3,17 +3,13 @@ import { Router } from '@angular/router'
 import * as XLSX from 'xlsx';
 import { environment } from '../../../environments/environment';
 import { Http } from '@angular/http';
-
+import { NotificationsService } from 'angular2-notifications';
 @Component({
   selector: 'app-add-price-list',
   templateUrl: './add-price-list.component.html',
   styleUrls: ['./add-price-list.component.css']
 })
 export class AddPriceListComponent implements OnInit {
-
-  constructor(private router: Router, private http: Http) {
-
-  }
   variantList: any = [];
   arrayBuffer: any;
   file: File;
@@ -21,11 +17,17 @@ export class AddPriceListComponent implements OnInit {
   incomingfile(event) {
     this.file = event.target.files[0];
   }
+  public options = { position: ["top", "right"] }
+
+  constructor(private router: Router, private http: Http, private notif: NotificationsService) { }
 
   ngOnInit() {
     this.http.get(environment.host + 'vehicle-variants').subscribe(res => {
-      console.log(res.json().result)
-      this.variantList = res.json().result
+      if (res.json().status == true) {
+        this.variantList = res.json().result;
+      } else {
+        this.variantList = [];
+      }
     });
   }
 
@@ -41,23 +43,17 @@ export class AddPriceListComponent implements OnInit {
       var first_sheet_name = workbook.SheetNames[0];
       var worksheet = workbook.Sheets[first_sheet_name];
       this.list = XLSX.utils.sheet_to_json(worksheet, { raw: false })
-      console.log(this.list);
       this.list.map(item => {
-        item.pricing_list_date = item.pricing_list_date.replace("/","-")
-        item.pricing_list_date = item.pricing_list_date.replace("/","-")
+        item.pricing_list_date = item.pricing_list_date.replace("/", "-")
+        item.pricing_list_date = item.pricing_list_date.replace("/", "-")
         this.variantList.map(variant => {
           if (item["MODEL"] == variant.variant_name) {
             item["vehicle_variant_id"] = variant.vehicle_variant_id;
             delete item["MODEL"];
-          } 
-          // else { // REMOVE THIS ELSE 
-          //   delete item["MODEL"];
-          //   item["vehicle_variant_id"] = 1;
-          // }
+          }
         });
       })
     }
-    // variant_name
     fileReader.readAsArrayBuffer(this.file);
   }
 
@@ -66,7 +62,19 @@ export class AddPriceListComponent implements OnInit {
   }
   submite() {
     this.http.post(environment.host + 'setup-price-lists/bulk', this.list).subscribe(res => {
-      console.log(res.json().result)
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Price-list Added Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
     });
   }
 

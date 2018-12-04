@@ -16,6 +16,7 @@ import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
     DatePipe
   ]
 })
+
 export class SaleDetailsComponent implements OnInit {
   lists: any[];
   vehicles: any[];
@@ -27,15 +28,11 @@ export class SaleDetailsComponent implements OnInit {
   temp: any;
   excTemp: any;
   public date1: any;
-
   selectedOption: any = '';
-
   taxData: any;
   lifeTax: number;
   VehicleInsu: number;
   temp1: any[] = new Array();
-
-
   onRoadPrice: number = 0;
   vehicleFrameNo = '';
   vehicleDcNo = '';
@@ -55,62 +52,6 @@ export class SaleDetailsComponent implements OnInit {
   loginData: any = [];
   accountLogin: boolean = false;
 
-  constructor(private service: SaleUserService, private dp: DatePipe, private _clipboardService: ClipboardService, private router: Router, private http: Http) { }
-
-  ngOnInit() {
-    this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
-    console.log(this.loginData._results.emp_type_id)
-
-
-    this.service.getListDetails().subscribe(res => {
-      console.log(res.json().status);
-      if (res.json().status == true) {
-        console.log('true')
-        this.lists = res.json().result;
-        console.log(this.lists);
-      } else {
-        console.log('false')
-        this.lists = [];
-      }
-    });
-
-    this.http.get(environment.host + 'branches').subscribe(res => {
-      this.branchData = res.json().result;
-      console.log(this.branchData)
-    })
-
-    this.service.getTax().subscribe(res => {
-      this.taxData = res.json().result;
-      this.lifeTax = this.taxData[0].life_tax;
-      this.VehicleInsu = this.taxData[0].insurance;
-
-    });
-    this.http.get(environment.host + 'employees').subscribe(employeedata => {
-      console.log(employeedata.json().result);
-      this.employeedata = employeedata.json().result;
-      console.log(this.employeedata.length);
-      for (var i = 0; i < this.employeedata.length; i++) {
-        if (this.employeedata[i].emp_type_id == 2) {
-          this.branchManagerData.push(this.employeedata[i])
-        }
-      }
-      console.log(this.branchManagerData)
-    });
-
-    this.cols = [
-      { field: 'firstname', header: 'First Name' },
-      // { field: 'email_id', header: 'Email' },
-      { field: 'address', header: 'Address' },
-      { field: 'mandal', header: 'Mandal' },
-      { field: 'district', header: 'District' },
-      { field: 'proof_type', header: 'Proof Type' },
-      { field: 'eng_no', header: 'EngineNo' },
-      { field: 'frame_no', header: 'FrameNo' },
-      // { field: 'dc_no', header: 'DcNo' },
-      { field: 'total_amt', header: 'Total Amount' }
-
-    ];
-  }
   user_type: '';
   sale_user_id: '';
   firstname: '';
@@ -156,21 +97,77 @@ export class SaleDetailsComponent implements OnInit {
   exchange_amt: '';
   exchange_amt_approval_by: '';
 
+  //sale_user_vechile_exchange_id:'';
+  exc_sale_user_id: '';
+  exchangevehicleNo: '';
+  exchangeEngineNo: '';
+  exchangeFrameNo: '';
+  exchangeVehicleColor: '';
+  exchangeVehicleModel: '';
+  vehiclecustomerName: '';
+  exchangeAmount: '';
+  exchangeAmountApprovedBy: '';
+  constructor(private service: SaleUserService, private dp: DatePipe, private _clipboardService: ClipboardService, private router: Router, private http: Http) { }
+
+  ngOnInit() {
+    this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
+    this.service.getListDetails().subscribe(res => {
+      if (res.json().status == true) {
+        this.lists = res.json().result;
+      } else {
+        this.lists = [];
+      }
+    });
+
+    this.http.get(environment.host + 'branches').subscribe(res => {
+      if (res.json().status == true) {
+        this.branchData = res.json().result;
+      } else {
+        this.branchData = [];
+      }
+    })
+
+    this.service.getTax().subscribe(res => {
+      this.taxData = res.json().result;
+      this.lifeTax = this.taxData[0].life_tax;
+      this.VehicleInsu = this.taxData[0].insurance;
+    });
+
+    this.http.get(environment.host + 'employees').subscribe(employeedata => {
+      if (employeedata.json().status == true) {
+        this.employeedata = employeedata.json().result;
+      }
+      for (var i = 0; i < this.employeedata.length; i++) {
+        if (this.employeedata[i].emp_type_id == 2) {
+          this.branchManagerData.push(this.employeedata[i])
+        }
+      }
+    });
+
+    this.cols = [
+      { field: 'firstname', header: 'First Name' },
+      // { field: 'email_id', header: 'Email' },
+      { field: 'address', header: 'Address' },
+      { field: 'mandal', header: 'Mandal' },
+      { field: 'district', header: 'District' },
+      { field: 'proof_type', header: 'Proof Type' },
+      { field: 'eng_no', header: 'EngineNo' },
+      { field: 'frame_no', header: 'FrameNo' },
+      // { field: 'dc_no', header: 'DcNo' },
+      { field: 'total_amt', header: 'Total Amount' }
+    ];
+  }
+
   newSaleClick() {
     this.router.navigate(['dashboard']);
   }
 
   editList(data, index) {
-    console.log(index);
     this.editPersonalInfo = data;
-    console.log(this.editPersonalInfo)
     data.index = index;
-    console.log(data.index);
     this.temp = index;
-    console.log(this.temp);
     let newDate = moment(this.editPersonalInfo[index].dob).format('DD-MM-YYYY').toString();
     this.dob = newDate;
-    console.log(this.dob);
     this.user_type = this.editPersonalInfo[index].user_type;
     this.sale_user_id = this.editPersonalInfo[index].sale_user_id;
     this.firstname = this.editPersonalInfo[index].firstname;
@@ -214,34 +211,17 @@ export class SaleDetailsComponent implements OnInit {
     this.exc_customer_name = this.editPersonalInfo[index].exc_customer_name;
     this.exchange_amt = this.editPersonalInfo[index].exchange_amt;
     this.exchange_amt_approval_by = this.editPersonalInfo[index].exchange_amt_approval_by;
-    console.log('$$$$')
     if (this.loginData._results.emp_type_id == 1 || this.loginData._results.emp_type_id == 5) {
       this.accountLogin = true;
     }
-
   }
+
   update: any;
   getDob() {
-    // let newDate = moment(this.dob).format('YYYY-DD-MM').toString();
-    // this.dob = newDate;
-    // console.log(this.dob)
-
     let newdate = new Date(this.dob)
-    console.log(newdate)
-
     this.update = newdate.getFullYear() + '-' + (newdate.getMonth() + 1) + '-' + newdate.getDate();
-    console.log(this.update)
   }
 
-  amountChecked = ''
-  amountCheckedClick(val, _index) {
-    // this.service.saveSalesUser({ sale_user_id: val, sale_account_check: 1 }).subscribe(res => {
-    //   console.log(res.json())
-    //   if(res.json().status == true){
-    //     this.editPersonalInfo[_index].sale_account_check = 1;
-    //   }      
-    // })
-  }
   redirectToInvoice(val, _index) {
     this.service.saveSalesUser({ sale_user_id: val, sale_account_check: 1 }).subscribe(res => {
       console.log(res.json())
@@ -250,22 +230,17 @@ export class SaleDetailsComponent implements OnInit {
       }
     })
   }
+
   invoiceList(data, index) {
-    console.log(index);
     this.invoiceInfo = data;
-    console.log(this.invoiceInfo);
     sessionStorage.setItem('invoiceData', JSON.stringify(this.invoiceInfo));
   }
+
   dcFormList(data, index) {
-    console.log(index);
     this.dcFormInfo = data;
-    console.log(this.dcFormInfo);
     sessionStorage.setItem('dcFormData', JSON.stringify(this.dcFormInfo));
   }
 
-  printFromList(data, index) {
-
-  }
   onFileChanged(event) {
     var files = event.target.files;
     var file = files[0];
@@ -282,14 +257,12 @@ export class SaleDetailsComponent implements OnInit {
     var binaryString = readerEvt.target.result;
     binaryString = binaryString.replace(/^data:image\/png;base64,/, "");
     binaryString = binaryString.replace(/^data:image\/jpg;base64,/, "");
-    // binaryString = binaryString.replace(/^data:image\/jpeg;base64,/, "");
     this.url = event.target;
     this.isShowOriginalImg = true;
     this.user_image = binaryString;
-    console.log(this.user_image)
   }
+
   updatePersonInfo() {
-    console.log('personalUpd')
     var data = {
       sale_user_id: this.sale_user_id,
       user_type: this.user_type,
@@ -310,8 +283,6 @@ export class SaleDetailsComponent implements OnInit {
       sale_status: this.sale_status
     }
     this.service.saveSalesUser(data).subscribe(res => {
-      console.log(res.json());
-      console.log(this.temp);
       this.lists[this.temp].firstname = data.firstname;
       this.lists[this.temp].display_name_on_rc = data.display_name_on_rc;
       this.lists[this.temp].email_id = data.email_id;
@@ -354,21 +325,10 @@ export class SaleDetailsComponent implements OnInit {
       total_amt: this.total_amt
     }
     this.service.saveSalesVehicle(data).subscribe(res => {
-      console.log(res.json());
     })
   }
-  //sale_user_vechile_exchange_id:'';
-  exc_sale_user_id: '';
-  exchangevehicleNo: '';
-  exchangeEngineNo: '';
-  exchangeFrameNo: '';
-  exchangeVehicleColor: '';
-  exchangeVehicleModel: '';
-  vehiclecustomerName: '';
-  exchangeAmount: '';
-  exchangeAmountApprovedBy: '';
+
   updateExchangeInfo(val, index) {
-    console.log(data);
     var data = {
       exc_sale_user_id: this.sale_user_id,
       sale_user_vechile_exchange_id: this.sale_user_vechile_exchange_id,
@@ -382,9 +342,7 @@ export class SaleDetailsComponent implements OnInit {
       exchange_amt_approval_by: this.exchange_amt_approval_by,
       exc_sale_exchange_status: 1
     }
-    console.log(data);
     this.service.saveExchangeVehicle(data).subscribe(res => {
-      console.log(res.json());
       this.lists[this.temp].exc_vechile_no = data.exc_vechile_no;
       this.lists[this.temp].exc_eng_no = data.exc_eng_no;
       this.lists[this.temp].exc_frame_no = data.exc_frame_no;

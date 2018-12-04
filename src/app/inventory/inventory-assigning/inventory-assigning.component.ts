@@ -70,36 +70,34 @@ export class InventoryAssigningComponent implements OnInit {
     this.http.get(environment.host + 'indents').subscribe(res => {
       if (res.json().status == true) {
         this.indentData = res.json().result;
-      }else{
+      } else {
         this.indentData = [];
       }
     });
     this.http.get(environment.host + 'branches').subscribe(res => {
-      if (res.json().status = true) {
+      if (res.json().status == true) {
         this.branchData = res.json().result;
-      }else{
+      } else {
         this.branchData = [];
       }
     });
     this.http.get(environment.host + 'employees').subscribe(res => {
       if (res.json().status == true) {
         this.employeedata = res.json().result;
-      }else{
+      } else {
         this.employeedata = [];
       }
     });
 
     this.InventoryAssignForm = this.formBuilder.group({
-      // indentId: ['', Validators.required],
+     // indentId: ['', Validators.required],
       branchId: ['', Validators.required],
-      //  empId: ['', Validators.required],
       shippedBy: ['', Validators.required],
       shippedIn: ['', Validators.required],
       assQuantity: ['', Validators.required],
       managerAck: ['', Validators.required],
       managerNote: ['', Validators.required],
-      status: ['', Validators.required],
-      updateBy: ['', Validators.required]
+      status: ['', Validators.required]
     });
   }
 
@@ -141,7 +139,7 @@ export class InventoryAssigningComponent implements OnInit {
         if (data.json().status == false) {
           this.noResult = true;
         } else {
-          this.noResult = false;        
+          this.noResult = false;
           // this.indentData = this.temp.pop();
           this.vehicles[index].engineno = data.json().result[0]["Engine No"];
           this.vehicles[index].color = data.json().result[0].color_name;
@@ -165,17 +163,18 @@ export class InventoryAssigningComponent implements OnInit {
   get f() { return this.InventoryAssignForm.controls; }
 
   onSubmit() {
+    console.log("came here");
     this.submitted = true;
     // stop here if form is invalid
     if (this.InventoryAssignForm.invalid) {
       return;
     }
-
+    console.log("***************");
     this.generatedShippedId = Math.floor(Math.random() * 899999 + 100000);
     this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
     var data: any = {
       indent_id: this.indentId,
-      employee_branch_id: this.loginData._results.employee_branch_id,
+      branch_id: this.branchId,
       shipped_by: this.shippedBy,
       shipped_vechile_no: this.shippedIn,
       assign_qty: this.assQuantity,

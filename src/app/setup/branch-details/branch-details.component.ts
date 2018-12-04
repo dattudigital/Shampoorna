@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Http } from '@angular/http';
 import { environment } from '../../../environments/environment';
 declare var $: any;
+import { NotificationsService } from 'angular2-notifications';
 @Component({
   selector: 'app-branch-details',
   templateUrl: './branch-details.component.html',
@@ -11,7 +12,7 @@ declare var $: any;
 export class BranchDetailsComponent implements OnInit {
   branchData: any = [];
   editBranchData: any = [];
-  deleteData:any=[];
+  deleteData: any = [];
   cols: any[];
   branchName: '';
   branchAddress: '';
@@ -19,16 +20,16 @@ export class BranchDetailsComponent implements OnInit {
   branchLocation: '';
   contactNumber: '';
   temp: any;
-  temp1:any
-  branch_id:'';
+  temp1: any
+  branch_id: '';
   branch_name: '';
   branch_address: '';
   branch_area: '';
   branch_location: '';
   branch_contact_number: '';
 
-
-  constructor(private router: Router, private http: Http) { }
+  public options = { position: ["top", "right"] }
+  constructor(private router: Router, private http: Http, private notif: NotificationsService) { }
 
   ngOnInit() {
 
@@ -40,11 +41,14 @@ export class BranchDetailsComponent implements OnInit {
     ];
 
     this.http.get(environment.host + 'branches').subscribe(res => {
-      this.branchData = res.json().result;
-      console.log(this.branchData)
+      if (res.json().status == true) {
+        this.branchData = res.json().result;
+      } else {
+        this.branchData = [];
+      }
     });
-
   }
+
   backToSetup() {
     this.router.navigate(['setup'])
   }
@@ -59,7 +63,19 @@ export class BranchDetailsComponent implements OnInit {
     }
     console.log(data);
     this.http.post(environment.host + 'branches', data).subscribe(res => {
-      console.log(res.json());
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Branch Added Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
       this.branchData.push(res.json().result)
       console.log(this.branchData);
       $('#addBranch').modal('hide');
@@ -67,22 +83,18 @@ export class BranchDetailsComponent implements OnInit {
   }
 
   removeFields() {
-    this.branch_name = '',
-      this.branch_address = '',
-      this.branch_area = '',
-      this.branch_location = '',
-      this.branch_contact_number = ''
+    this.branchName = '',
+      this.branchAddress = '',
+      this.branchArea = '',
+      this.branchLocation = '',
+      this.contactNumber = ''
   }
 
   editBranch(data, index) {
-    console.log('**********')
-    console.log(data)
     this.editBranchData = data;
     data.index = index;
     this.temp = index;
-    console.log(this.editBranchData[index].branch_name);
-    this.branch_id =this.editBranchData[index].branch_id;
-    console.log(this.branch_id)
+    this.branch_id = this.editBranchData[index].branch_id;
     this.branch_name = this.editBranchData[index].branch_name;
     this.branch_address = this.editBranchData[index].branch_address;
     this.branch_area = this.editBranchData[index].branch_area;
@@ -92,7 +104,7 @@ export class BranchDetailsComponent implements OnInit {
 
   updateBranch() {
     var data = {
-      branch_id:this.branch_id,
+      branch_id: this.branch_id,
       branch_name: this.branch_name,
       branch_address: this.branch_address,
       branch_area: this.branch_area,
@@ -100,44 +112,58 @@ export class BranchDetailsComponent implements OnInit {
       branch_contact_number: this.branch_contact_number,
       rec_status: 1
     }
-    console.log(data)
     this.http.post(environment.host + 'branches', data).subscribe(res => {
-      console.log(res.json());
-      console.log('********')
-      console.log(this.temp)
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Branch Updated Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
       this.editBranchData[this.temp].branch_name = data.branch_name;
       this.editBranchData[this.temp].branch_address = data.branch_address;
       this.editBranchData[this.temp].branch_area = data.branch_area;
       this.editBranchData[this.temp].branch_location = data.branch_location;
       this.editBranchData[this.temp].branch_contact_number = data.branch_contact_number;
       this.editBranchData[this.temp].rec_status = data.rec_status;
-
       this.temp = " ";
     });
     this.removeFields();
     $('#editBranch').modal('hide')
   }
 
-  deleteBranch(val,index){
+  deleteBranch(val, index) {
     this.temp1 = index;
-    console.log(index)
     this.deleteData = val;
-    console.log(this.deleteData)
     val.index = index;
-    console.log("***")
     this.branch_id = this.deleteData[index].branch_id;
-    console.log( this.branch_id)
   }
   yesBranchDelete() {
     this.branchData.splice(this.temp1, 1)
-    console.log(this.temp1)
     var data = {
       branch_id: this.branch_id,
       rec_status: "0"
     }
-    console.log(data)
     this.http.post(environment.host + 'branches', data).subscribe(res => {
-      console.log(res.json());
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Branch Deleted Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
     })
   }
 }

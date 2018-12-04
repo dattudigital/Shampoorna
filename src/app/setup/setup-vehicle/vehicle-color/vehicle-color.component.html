@@ -1,3 +1,4 @@
+<simple-notifications [options]="options"></simple-notifications>
 <div class="add_promotions padding-20">
   <div class="row">
     <div class="col-sm-6">
@@ -30,13 +31,11 @@
       <tr>
         <th *ngFor="let col of cols" [pSortableColumn]="col.field">
           {{col.header}}
-          <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
-            ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
         </th>
         <th>Edit</th>
         <th>Delete</th>
       </tr>
-
     </ng-template>
     <ng-template pTemplate="body" let-i="rowIndex" let-color>
       <tr>
@@ -139,10 +138,8 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
           <button type="button" class="btn btn-warning" data-dismiss="modal" (click)="yesVehicleColor()">Yes</button>
-
         </div>
       </div>
     </div>
   </div>
-
 </div>
