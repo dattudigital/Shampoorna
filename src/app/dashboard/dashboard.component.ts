@@ -174,6 +174,8 @@ export class DashboardComponent implements OnInit {
   payOrderPerview: any;
   deliveryFormPreview: any;
 
+  userId: '';
+
   constructor(private saleUserService: SaleUserService, private invetoryAssign: InventoryAssigningService, private formBuilder: FormBuilder, private http: Http, private router: Router, ) { }
 
   ngOnInit() {
@@ -354,6 +356,7 @@ export class DashboardComponent implements OnInit {
       sale_status: "1"
     }
     this.saleUserService.saveSalesUser(data).subscribe(response => {
+      this.userId = response.json().result.sale_user_id
       // vehicle information send to sale-user api
       if (response.json().status == true) {
         var vehicledetails = {
@@ -764,9 +767,16 @@ export class DashboardComponent implements OnInit {
       if (this.selectedAmountOption == 0) {
         this.finalSubmit = true;
       }
-      if (this.onRoadPrice == this.cashTotal) {
+      if (this.onRoadPrice == this.cashTotal && this.otpNumber == this.otp) {
         this.finalSubmit = false;
       }
+      // console.log(this.otp);
+      // if (this.otpNumber == this.otp) {
+      //   this.finalSubmit = false;
+      // } else {
+      //   this.finalSubmit = true;
+      // }
+
     }
   }
   //this method  allow alphabets 
@@ -828,6 +838,7 @@ export class DashboardComponent implements OnInit {
     var data = {
       branch_id: this.discountApprovedBy.employee_branch_id,
       employee_id: this.discountApprovedBy.employee_id,
+      sale_user_id: this.userId,
       mobile: this.discountApprovedBy.phone,
       discount_amount: this.discount,
       otp_date: this.otpDate,
@@ -836,15 +847,5 @@ export class DashboardComponent implements OnInit {
     this.saleUserService.sendOtpToManager(data).subscribe(res => {
       this.otpNumber = res.json().result
     })
-  }
-
-  compareOtpNumber() {
-    console.log(this.otp);
-    if (this.otpNumber == this.otp) {
-      this.otpButton = false;
-    } else {
-      this.otpButton = true;
-    }
-
   }
 } 

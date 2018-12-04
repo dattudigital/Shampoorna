@@ -171,13 +171,14 @@ export class AddEmployeeComponent implements OnInit {
     this.router.navigate(['sale-dashboard']);
   }
   removeFields() {
+    this.submitted = false;
     this.firstName = '',
       this.lastName = '',
-      this.email_id = '',
-      this.password = '',
+      this.emailId = '',
+      this.Password = '',
       this.employeeType = '',
       this.branch = '',
-      this.phone = '',
+      this.Phone = '',
       this.address = '',
       this.pincode = ''
   }
@@ -207,7 +208,6 @@ export class AddEmployeeComponent implements OnInit {
       console.log(this.employees);
       $('#addEmployee').modal('hide');
     });
-    this.removeFields()
   }
 
   backToManager() {
@@ -256,7 +256,6 @@ export class AddEmployeeComponent implements OnInit {
       this.employees[this.temp].rec_status = data.rec_status;
       this.temp = " ";
     });
-    this.removeFields();
     $('#editEmployee').modal('hide')
   }
 

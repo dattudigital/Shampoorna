@@ -13,11 +13,15 @@ export class TodaySaleListComponent implements OnInit {
   todaySaleList: any = [];
   cols: any[];
   vehicleTypeFilter= '';
+  loginData:any=[];
   constructor(private router: Router, private notif: NotificationsService, private service: DashboardServiceService, private excelService: ExcelServiceService) { }
 
   ngOnInit() {
-
-    this.service.getTodaySale().subscribe(res => {
+    this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
+    console.log(this.loginData);
+    var branchId = this.loginData._results.employee_branch_id;
+    console.log(branchId)
+    this.service.getSaleAndInventoryCount(branchId).subscribe(res => {
       if(res.json().status == true){
         this.todaySaleList = res.json().result;
       }

@@ -22,6 +22,7 @@ export class ReportsComponent implements OnInit {
   errorMessage = false;
   btnDisable = true;
   test1: any;
+  loginData:any=[];
   
   constructor(private router: Router, private service: DashboardServiceService, private spinner: NgxSpinnerService, private loginservice: LoginService) { }
 
@@ -32,8 +33,11 @@ export class ReportsComponent implements OnInit {
     sessionStorage.removeItem('secondaryLoginData3');
     // sessionStorage.removeItem('backBtnInventory');
     // sessionStorage.removeItem('backBtnManager');
-
-    this.service.getSaleAndInventoryCount().subscribe(res => {
+    this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
+    console.log(this.loginData);
+    var branchId = this.loginData._results.employee_branch_id;
+    console.log(branchId)
+    this.service.getSaleAndInventoryCount(branchId).subscribe(res => {
       console.log(res.json().result);
       this.todaySaleCount = res.json().result.todaysale;
       console.log(this.todaySaleCount);

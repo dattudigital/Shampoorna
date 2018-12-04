@@ -18,12 +18,17 @@ export class TotalSaleListComponent implements OnInit {
   fromDate = "";
   toDate = "";
   vehicleTypeFilter = "";
+  loginData: any = [];
 
   public options = { position: ["top", "right"] }
   constructor(private router: Router, private notif: NotificationsService, private service: DashboardServiceService, private excelService: ExcelServiceService) { }
 
   ngOnInit() {
-    this.service.getTotalSale().subscribe(response => {
+    this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
+    console.log(this.loginData);
+    var branchId = this.loginData._results.employee_branch_id;
+    console.log(branchId)
+    this.service.getSaleAndInventoryCount(branchId).subscribe(response => {
       console.log(response.json().result);
       this.totalSaleList = response.json().result;
     });

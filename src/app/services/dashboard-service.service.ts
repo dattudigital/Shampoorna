@@ -21,8 +21,8 @@ export class DashboardServiceService {
     return this.http.get(environment.host + 'search/total-sale?' + url)
   }
 
-  public getSaleAndInventoryCount() {
-    return this.http.get(environment.host + 'count-sale-inventory')
+  public getSaleAndInventoryCount(branchId:any) {
+    return this.http.get(environment.host + 'count-sale-inventory/'+branchId)
   }
 
 }

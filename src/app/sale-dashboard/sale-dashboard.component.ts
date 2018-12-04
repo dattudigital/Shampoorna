@@ -23,16 +23,20 @@ export class SaleDashboardComponent implements OnInit {
     sessionStorage.removeItem('secondaryLoginData2');
     sessionStorage.removeItem('secondaryLoginData3');
     this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
-    this.service.getTodaySale().subscribe(res => {
+    console.log(this.loginData);
+    var branchId = this.loginData._results.employee_branch_id;
+    console.log(branchId)
+    this.service.getSaleAndInventoryCount(branchId).subscribe(res => {
       if (res.json().status == true) {
-        this.todaySaleCount = res.json().result.length;
+        this.todaySaleCount = res.json().result.todaysale;
+        console.log(this.todaySaleCount)
       } else {
         this.todaySaleCount = "0";
       }
     });
-    this.service.getTotalSale().subscribe(response => {
+    this.service.getSaleAndInventoryCount(branchId).subscribe(response => {
       if (response.json().status == true) {
-        this.totalsaleCount = response.json().result.length;
+        this.totalsaleCount = response.json().result.totalsale;
       } else {
         this.totalsaleCount = '0';
       }
