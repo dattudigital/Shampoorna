@@ -6,7 +6,6 @@ declare var $: any;
 import { LoginService } from '../services/login.service'
 import { NgxSpinnerService } from 'ngx-spinner';
 
-
 @Component({
   selector: 'app-setup',
   templateUrl: './setup.component.html',
@@ -103,8 +102,6 @@ export class SetupComponent implements OnInit {
     this.spinner.show();
     if (this.mailId && this.passwordLogin) {
       this.loginservice.dataLogin(data).subscribe(loginData => {
-        console.log(loginData)
-        console.log(loginData.json().status)
         this.spinner.hide();
         if (loginData.json().status == false) {
           this.errorMessage = true;
