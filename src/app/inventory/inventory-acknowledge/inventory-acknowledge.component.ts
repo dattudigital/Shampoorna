@@ -202,7 +202,7 @@ export class InventoryAcknowledgeComponent implements OnInit {
     this.status = this.editData[index].status;
     var val = {
       inventory_assign_id: this.inventory_assign_id,
-      status: "1"
+      status: "2"
     }
     this.inventoryData.splice(index, 1)
     this.service.addInventoryAssign(val).subscribe(res => {
@@ -228,7 +228,7 @@ export class InventoryAcknowledgeComponent implements OnInit {
     this.status = this.editData[index].status;
     var val = {
       inventory_assign_id: this.inventory_assign_id,
-      status: "2"
+      status: "0"
     }
     this.inventoryData.splice(index, 1)
     this.service.addInventoryAssign(val).subscribe(res => {

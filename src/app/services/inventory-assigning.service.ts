@@ -17,23 +17,23 @@ export class InventoryAssigningService {
   // }
 
   public getAcknowledgeList(brurl:any){
-    console.log( environment.host + 'invassigns?status=0'+brurl)
-    return this.http.get( environment.host + 'invassigns?status=0'+brurl);
-  }
-
-  public getInventoryList(brurl:any){
     console.log( environment.host + 'invassigns?status=1'+brurl)
     return this.http.get( environment.host + 'invassigns?status=1'+brurl);
   }
 
+  public getInventoryList(brurl:any){
+    console.log( environment.host + 'invassigns?status=2'+brurl)
+    return this.http.get( environment.host + 'invassigns?status=2'+brurl);
+  }
+
   public getInventoryFilter(url:any){
-    console.log(environment.host + 'invassigns?status=1'+url)
-    return this.http.get(environment.host + 'invassigns?status=1'+url );
+    console.log(environment.host + 'invassigns?status=2'+url)
+    return this.http.get(environment.host + 'invassigns?status=2'+url );
   }
 
   public getAcknowledgeFilter(url:any){
-    console.log(environment.host + 'invassigns?status=0'+url)
-    return this.http.get(environment.host + 'invassigns?status=0&'+url );
+    console.log(environment.host + 'invassigns?status=1'+url)
+    return this.http.get(environment.host + 'invassigns?status=1&'+url );
   }
 
   // public editAcknowledgeList(data:any){
