@@ -45,6 +45,8 @@ export class SaleDashboardComponent implements OnInit {
 
   todaySaleClick() {
     if (this.loginData._results.emp_type_id == 2 || this.loginData._results.emp_type_id == 1) {
+      sessionStorage.setItem('secondaryLoginData2', 'y');
+      this.router.navigate(['reports/total-sale-list']);
       this.router.navigate(['reports/today-sale-list']);
     } else {
       this.errorMessage = true;
@@ -55,6 +57,7 @@ export class SaleDashboardComponent implements OnInit {
   }
   totalSaleClick() {
     if (this.loginData._results.emp_type_id == 2 || this.loginData._results.emp_type_id == 1) {
+      sessionStorage.setItem('secondaryLoginData2', 'y');
       this.router.navigate(['reports/total-sale-list']);
     } else {
       this.errorMessage2 = true;

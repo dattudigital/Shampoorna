@@ -33,21 +33,6 @@ export class ReportsComponent implements OnInit {
     sessionStorage.removeItem('secondaryLoginData3');
     // sessionStorage.removeItem('backBtnInventory');
     // sessionStorage.removeItem('backBtnManager');
-    this.loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData2'));
-    console.log(this.loginData);
-    if (this.loginData) {
-      var branchId = this.loginData._results.employee_branch_id;
-      console.log(branchId)
-    }
-
-    this.service.getSaleAndInventoryCount(branchId).subscribe(res => {
-      console.log(res.json().result);
-      this.todaySaleCount = res.json().result.todaysale;
-      console.log(this.todaySaleCount);
-      this.totalsaleCount = res.json().result.totalsale;
-      console.log(this.totalsaleCount)
-    });
-
   }
   saleReportClick() {
     this.titleStyle = "visible";
@@ -113,18 +98,25 @@ export class ReportsComponent implements OnInit {
         if (loginData.json().status == false) {
           this.errorMessage = true;
           return;
+        } else {
+          this.test1 = loginData.json()._results;
+          sessionStorage.setItem('secondaryLoginData2', JSON.stringify(loginData.json()));
+          $('#myModal').modal('hide');
+          this.reportStyle = "visible";
+          this.loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData2'));
+          console.log(this.loginData);
+          if (this.loginData) {
+            var branchId = this.loginData._results.employee_branch_id;
+            console.log(branchId)
+          }
+          this.service.getSaleAndInventoryCount(branchId).subscribe(res => {
+            console.log(res.json().result);
+            this.todaySaleCount = res.json().result.todaysale;
+            console.log(this.todaySaleCount);
+            this.totalsaleCount = res.json().result.totalsale;
+            console.log(this.totalsaleCount)
+          });
         }
-        this.test1 = loginData.json()._results;
-
-        // if (loginData.json().status == true && this.test1.emp_type_id == 1 || this.test1.emp_type_id == 2) {
-        //console.log(loginData.json().result[0])
-        sessionStorage.setItem('secondaryLoginData2', JSON.stringify(loginData.json()));
-        // sessionStorage.setItem('backBtnReports', 'Y');
-        $('#myModal').modal('hide');
-        this.reportStyle = "visible";
-        // } else {
-        //   this.errorMessage = true;
-        // }
       });
     }
   }

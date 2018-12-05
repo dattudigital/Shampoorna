@@ -49,7 +49,14 @@ export class TotalSaleListComponent implements OnInit {
     ];
   }
   backToReports() {
-    this.router.navigate(['reports']);
+    console.log("******************");
+    let session = JSON.stringify(sessionStorage.getItem('secondaryLoginData2'));
+    console.log(session);
+    if (session == '"y"') {
+      this.router.navigate(['sale-dashboard']);
+    } else {
+      this.router.navigate(['reports']);
+    }
   }
   pdfDownload() {
     var columns = [
