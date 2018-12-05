@@ -5,6 +5,7 @@ declare var jsPDF: any;
 import { ExcelServiceService } from '../../services/excel-service.service';
 import * as moment from 'moment';
 import { NotificationsService } from 'angular2-notifications';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-total-sale-list',
   templateUrl: './total-sale-list.component.html',
@@ -23,17 +24,20 @@ export class TotalSaleListComponent implements OnInit {
   branchId: '';
 
   public options = { position: ["top", "right"] }
-  constructor(private router: Router, private notif: NotificationsService, private service: DashboardServiceService, private excelService: ExcelServiceService) { }
+  constructor(private router: Router, private notif: NotificationsService, private spinner: NgxSpinnerService, private service: DashboardServiceService, private excelService: ExcelServiceService) { }
 
   ngOnInit() {
     this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
-    console.log(this.loginData);
-    this.branchId = this.loginData._results.employee_branch_id;
-    console.log(this.branchId)
-    this.service.getTotalSalefilter(this.branchId,'').subscribe(response => {
-      console.log(response.json().result);
-      this.totalSaleList = response.json().result;
-    });
+    if (this.loginData) {
+      this.spinner.show();
+      this.branchId = this.loginData._results.employee_branch_id;
+      this.service.getTotalSalefilter(this.branchId, '').subscribe(response => {
+        this.spinner.hide();
+        console.log(response.json().result);
+        this.totalSaleList = response.json().result;
+      });
+    }
+
     this.cols = [
       { field: 'firstname', header: 'First Name' },
       // { field: 'email_id', header: 'Email' },

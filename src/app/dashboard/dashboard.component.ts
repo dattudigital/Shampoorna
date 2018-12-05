@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InventoryAssigningService } from '../services/inventory-assigning.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { NotificationsService } from 'angular2-notifications';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -176,7 +178,14 @@ export class DashboardComponent implements OnInit {
 
   userId: '';
 
-  constructor(private saleUserService: SaleUserService, private invetoryAssign: InventoryAssigningService, private formBuilder: FormBuilder, private http: Http, private router: Router, ) { }
+  //to checck status of apis
+  userStatus: any;
+  vehicleStatus: any;
+  paymentStatus: any;
+  exchangeStatus: any;
+  csdStatus: any;
+
+  constructor(private saleUserService: SaleUserService, private notif: NotificationsService, private spinner: NgxSpinnerService, private invetoryAssign: InventoryAssigningService, private formBuilder: FormBuilder, private http: Http, private router: Router, ) { }
 
   ngOnInit() {
     this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
@@ -336,6 +345,7 @@ export class DashboardComponent implements OnInit {
     if (this.personalinfoForm.invalid) {
       return;
     }
+    this.spinner.show();
     var data = {
       firstname: this.name,
       email_id: this.email,
@@ -357,6 +367,7 @@ export class DashboardComponent implements OnInit {
     }
     this.saleUserService.saveSalesUser(data).subscribe(response => {
       this.userId = response.json().result.sale_user_id
+      this.userStatus = response.json().status == true
       // vehicle information send to sale-user api
       if (response.json().status == true) {
         var vehicledetails = {
@@ -386,6 +397,8 @@ export class DashboardComponent implements OnInit {
         }
         this.saleUserService.saveSalesVehicle(vehicledetails).subscribe(vehicle => {
           console.log(vehicle.json().result);
+          this.vehicleStatus = vehicle.json().status == true
+          console.log(this.vehicleStatus);
         });
       }
       //csd files send to api
@@ -400,6 +413,7 @@ export class DashboardComponent implements OnInit {
         }
         this.saleUserService.addPaymentEmi(csdDetails).subscribe(response => {
           console.log(response.json());
+          this.csdStatus = response.json().status == true;
         })
       }
       //exchange vehicle information send to api
@@ -418,6 +432,7 @@ export class DashboardComponent implements OnInit {
         }
         this.saleUserService.saveExchangeVehicle(exchangeDetails).subscribe(res => {
           console.log(res.json());
+          this.exchangeStatus = res.json().status == true;
         })
       }
       //Payment Details send to api
@@ -493,23 +508,57 @@ export class DashboardComponent implements OnInit {
           delete paymentDetails.others_type;
         }
         this.saleUserService.addPaymentEmi(paymentDetails).subscribe(response => {
+          this.spinner.hide();
+          this.paymentStatus = response.json().status == true
         })
       }
     });
-    // var vehicleremoveData = {
-    //   vehicle_id: this.selectedVehicleNo,
-    //   status: "0"
-    // }
-    // this.saleUserService.saveSalesVehicle(vehicleremoveData).subscribe(res => {
-    //   console.log(res.json());
-    // });
-    // var AssignData = {
-    //   inventory_assign_id: this.SelectedAssignNo,
-    //   status: "0"
-    // }
-    // this.invetoryAssign.addInventoryAssign(AssignData).subscribe(response => {
-    //   console.log(response.json())
-    // });
+
+    var vehicleremoveData = {
+      vehicle_id: this.selectedVehicleNo,
+      status: "0"
+    }
+    this.saleUserService.saveSalesVehicle(vehicleremoveData).subscribe(res => {
+      console.log(res.json());
+    });
+    var AssignData = {
+      inventory_assign_id: this.SelectedAssignNo,
+      status: "3"
+    }
+    this.invetoryAssign.addInventoryAssign(AssignData).subscribe(response => {
+      console.log(response.json())
+    });
+
+    if (val == '0') {
+      if (this.userStatus && this.vehicleStatus && this.paymentStatus) {
+        this.notif.success(
+          'Success',
+          'Sales Added Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
+    }
+    if (val == '1') {
+      if (this.userStatus && this.vehicleStatus && this.exchangeStatus && this.paymentStatus) {
+        this.notif.success(
+          'Success',
+          'Sales Added Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
+    }
     window.sessionStorage.removeItem('salesdata');
   }
 
