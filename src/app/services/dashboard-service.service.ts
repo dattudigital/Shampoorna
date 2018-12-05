@@ -8,21 +8,15 @@ export class DashboardServiceService {
 
   constructor(private http: Http) { }
 
-  public getTodaySale() {
-    return this.http.get(environment.host + 'search/today-sale')
+  public getTodayFilter(branchid: any, url: any) {
+    return this.http.get(environment.host + 'search/today-sale?branchid=' + branchid +  url)
   }
-  public getTodayFilter(url: any) {
-    return this.http.get(environment.host + 'search/today-sale?' + url)
-  }
-  public getTotalSale() {
-    return this.http.get(environment.host + 'search/total-sale')
-  }
-  public getTotalSalefilter(url: any) {
-    return this.http.get(environment.host + 'search/total-sale?' + url)
+  public getTotalSalefilter(branchid: any, url: any) {
+    return this.http.get(environment.host + 'search/total-sale?branchid=' + branchid +  url)
   }
 
-  public getSaleAndInventoryCount() {
-    return this.http.get(environment.host + 'count-sale-inventory')
+  public getSaleAndInventoryCount(branchId: any) {
+    return this.http.get(environment.host + 'count-sale-inventory/' + branchId)
   }
 
 }

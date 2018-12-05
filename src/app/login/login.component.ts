@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AlertComponent } from 'ngx-bootstrap/alert/alert.component';
 import { LoginService } from '../services/login.service'
 declare var $: any;
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,7 @@ export class LoginComponent implements OnInit {
   alerts: any[] = [];
   errorMessage = false;
 
-  constructor(private http: HttpClient, private router: Router, private service: LoginService) { }
+  constructor(private http: HttpClient, private router: Router,private spinner: NgxSpinnerService, private service: LoginService) { }
 
   ngOnInit() {
     this.loginPopUp();
@@ -32,10 +33,12 @@ export class LoginComponent implements OnInit {
       password: this.password,
       email_id: this.mailId
     }
+    this.spinner.show();
     if (this.mailId && this.password) {
       this.service.dataLogin(data).subscribe(loginData => {
         if (loginData.json().status == false) {
           this.errorMessage = true;
+          this.spinner.hide();
         }
         if (loginData.json().status == true) {
           sessionStorage.setItem('userSession', JSON.stringify(loginData.json()));
@@ -44,6 +47,7 @@ export class LoginComponent implements OnInit {
         }
       });
     } else {
+      this.spinner.hide();
       this.errorMessage = true;
     }
   }

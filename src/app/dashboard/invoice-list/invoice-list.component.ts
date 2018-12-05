@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
-
+import { Http } from '@angular/http';
+import { environment } from '../../../environments/environment';
 @Component({
     selector: 'app-invoice-list',
     templateUrl: './invoice-list.component.html',
@@ -40,13 +41,28 @@ export class InvoiceListComponent implements OnInit {
     newIndex: '';
     words: any;
 
-    constructor(private router: Router) { }
+    InvoiceBranchId: '';
+      branchAddress:'';
+      branchArea:'';
+      branchLocation:'';
+      branchContact:'';
+
+    constructor(private router: Router,private http:Http) { }
 
     ngOnInit() {
         this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
         this.branchId = this.loginData._results.employee_branch_id;
 
         this.editPersonalInfo = JSON.parse(sessionStorage.getItem('invoiceData'));
+        console.log(this.editPersonalInfo)
+        this.InvoiceBranchId = this.editPersonalInfo.branchid
+        this.http.get(environment.host + 'branches/'+this.InvoiceBranchId).subscribe(res => {
+            console.log(res.json().result[0])
+            this.branchAddress=res.json().result[0].branch_address
+            this.branchArea=res.json().result[0].branch_area
+            this.branchLocation=res.json().result[0].branch_location
+            this.branchContact =res.json().result[0].branch_contact_number
+        })
         this.firstName = this.editPersonalInfo.firstname;
         this.nameOnRc = this.editPersonalInfo.display_name_on_rc;
         this.Relation = this.editPersonalInfo.relation;
@@ -75,6 +91,7 @@ export class InvoiceListComponent implements OnInit {
         if (this.totalAmount) {
             this.words = this.convertNumberToWords(this.totalAmount)
         }
+
     }
     backsaleDetails() {
         sessionStorage.removeItem('invoiceData');
