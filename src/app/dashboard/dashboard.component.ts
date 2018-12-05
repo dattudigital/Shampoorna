@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InventoryAssigningService } from '../services/inventory-assigning.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NotificationsService } from 'angular2-notifications';
+import { VehicleDetailService } from '../services/vehicle-detail.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -185,7 +186,7 @@ export class DashboardComponent implements OnInit {
   exchangeStatus: any;
   csdStatus: any;
 
-  constructor(private saleUserService: SaleUserService, private notif: NotificationsService, private spinner: NgxSpinnerService, private invetoryAssign: InventoryAssigningService, private formBuilder: FormBuilder, private http: Http, private router: Router, ) { }
+  constructor(private saleUserService: SaleUserService, private vehicledetails: VehicleDetailService, private notif: NotificationsService, private spinner: NgxSpinnerService, private invetoryAssign: InventoryAssigningService, private formBuilder: FormBuilder, private http: Http, private router: Router, ) { }
 
   ngOnInit() {
     this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
@@ -367,7 +368,9 @@ export class DashboardComponent implements OnInit {
     }
     this.saleUserService.saveSalesUser(data).subscribe(response => {
       this.userId = response.json().result.sale_user_id
-      this.userStatus = response.json().status == true
+      if (response.json().status == true) {
+        this.userStatus = response.json().status;
+      }
       // vehicle information send to sale-user api
       if (response.json().status == true) {
         var vehicledetails = {
@@ -397,7 +400,10 @@ export class DashboardComponent implements OnInit {
         }
         this.saleUserService.saveSalesVehicle(vehicledetails).subscribe(vehicle => {
           console.log(vehicle.json().result);
-          this.vehicleStatus = vehicle.json().status == true
+          if (vehicle.json().status == true) {
+            this.vehicleStatus = vehicle.json().status
+          }
+
           console.log(this.vehicleStatus);
         });
       }
@@ -413,7 +419,9 @@ export class DashboardComponent implements OnInit {
         }
         this.saleUserService.addPaymentEmi(csdDetails).subscribe(response => {
           console.log(response.json());
-          this.csdStatus = response.json().status == true;
+          if (response.json().status == true) {
+            this.csdStatus = response.json().status;
+          }
         })
       }
       //exchange vehicle information send to api
@@ -432,7 +440,9 @@ export class DashboardComponent implements OnInit {
         }
         this.saleUserService.saveExchangeVehicle(exchangeDetails).subscribe(res => {
           console.log(res.json());
-          this.exchangeStatus = res.json().status == true;
+          if (res.json().status == true) {
+            this.exchangeStatus = res.json().status;
+          }
         })
       }
       //Payment Details send to api
@@ -509,16 +519,19 @@ export class DashboardComponent implements OnInit {
         }
         this.saleUserService.addPaymentEmi(paymentDetails).subscribe(response => {
           this.spinner.hide();
-          this.paymentStatus = response.json().status == true
+          if (response.json().status == true) {
+            this.paymentStatus = response.json().status
+          }
+
         })
       }
     });
 
     var vehicleremoveData = {
       vehicle_id: this.selectedVehicleNo,
-      status: "0"
+      status: "3"
     }
-    this.saleUserService.saveSalesVehicle(vehicleremoveData).subscribe(res => {
+    this.vehicledetails.addVehicleDetails(vehicleremoveData).subscribe(res => {
       console.log(res.json());
     });
     var AssignData = {
@@ -530,7 +543,9 @@ export class DashboardComponent implements OnInit {
     });
 
     if (val == '0') {
+      console.log('toast')
       if (this.userStatus && this.vehicleStatus && this.paymentStatus) {
+        console.log('toast came')
         this.notif.success(
           'Success',
           'Sales Added Successfully',
@@ -588,6 +603,9 @@ export class DashboardComponent implements OnInit {
       if (this.total) {
         this.total = this.total * 1 + this.lifeTax * 1;
       }
+      console.log(this.total)
+      this.total = (Math.floor(this.total));
+      console.log(this.total)
     }
   }
 
