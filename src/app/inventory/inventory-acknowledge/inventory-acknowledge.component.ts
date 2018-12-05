@@ -82,13 +82,11 @@ export class InventoryAcknowledgeComponent implements OnInit {
     this.cols = [
       { field: 'branch_name', header: 'Branch' },
       { field: 'indent_req_id', header: 'Indent ID' },
-      { field: 'employee_firstname', header: 'Assaigned By' },
       { field: 'generated_shipping_id', header: 'Shipping ID' },
       { field: 'shipped_by', header: 'Shipped By' },
       { field: 'shipped_vechile_no', header: 'Vehicle No.' },
       { field: 'br_mgr_ack', header: 'Manager ACk' },
       { field: 'br_mgr_comment', header: 'Manager Comment' },
-      { field: 'chassisno', header: 'Chasis No.' },
       { field: 'color', header: 'Color' },
       { field: 'engineno', header: 'Engine No.' },
       { field: 'frameno', header: 'Frame No.' },
@@ -113,23 +111,24 @@ export class InventoryAcknowledgeComponent implements OnInit {
 
   detailsGo() {
     let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
+    console.log(loginData)
     var url = '';
+    url = url + '&branchid=' + loginData._results.employee_branch_id;
     if (this.fromDate) {
       url = url + 'startdate=' + this.fromDate;
     }
     if (this.toDate) {
       url = url + '&enddate=' + this.toDate;
     }
-    if (this.vehicleMakeFilter) {
+    if (this.vehicleMakeFilter != "0") {
       url = url + '&variant=' + this.vehicleMakeFilter;
     }
-    if (this.vehicleModelFilter) {
+    if (this.vehicleModelFilter != "0") {
       url = url + '&model=' + '"' + this.vehicleModelFilter + '"';
     }
-    if (this.vehicleColorFilter) {
+    if (this.vehicleColorFilter != "0") {
       url = url + '&color=' + '"' + this.vehicleColorFilter + '"';
     }
-    url = url + '&branchid=' + loginData._results.branch_id;
     this.service.getAcknowledgeFilter(url).subscribe(res => {
       if (res.json().status == true) {
         this.inventoryData = res.json().result;
@@ -166,7 +165,7 @@ export class InventoryAcknowledgeComponent implements OnInit {
   detailsReset() {
     let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
     var brurl = '';
-    brurl = brurl + '&branchid=' + loginData._results.branch_id;
+    brurl = brurl + '&branchid=' + loginData._results.employee_branch_id;
     this.service.getAcknowledgeList(brurl).subscribe(res => {
       this.inventoryData = res.json().result
       if (res.json().status == true) {
@@ -184,9 +183,9 @@ export class InventoryAcknowledgeComponent implements OnInit {
       }
     });
     //this.vehicleTypeFilter = " ";
-    this.vehicleModelFilter = " ";
-    this.vehicleColorFilter = " ";
-    this.vehicleMakeFilter = " ";
+    this.vehicleModelFilter = "0";
+    this.vehicleColorFilter = "0";
+    this.vehicleMakeFilter = "0";
     this.fromDate = " ";
     this.toDate = " ";
   }
