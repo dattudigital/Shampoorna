@@ -32,6 +32,7 @@ export class InventoryAssigningComponent implements OnInit {
   shippedIn = '';
   managerAck = '';
   managerNote = '';
+  ackStatus
   status = '';
   assQuantity = '';
   assDate = '';
@@ -63,7 +64,7 @@ export class InventoryAssigningComponent implements OnInit {
       setTimeout(() => {
         this.shippedBy = this._indentData.shipped_by;
         this.shippedIn = this._indentData.shipped_vechile_no;
-        this.status = '0';
+        this.ackStatus = '0';
       }, 1);
       this.assQuantity = this._indentData.assigned_qty
     }
@@ -97,7 +98,7 @@ export class InventoryAssigningComponent implements OnInit {
       assQuantity: ['', Validators.required],
       managerAck: ['', Validators.required],
       managerNote: ['', Validators.required],
-      status: ['', Validators.required]
+      ackStatus: ['', Validators.required]
     });
   }
 
@@ -181,7 +182,7 @@ export class InventoryAssigningComponent implements OnInit {
       br_mgr_ack: this.managerAck,
       br_mgr_comment: this.managerNote,
       generated_shipping_id: this.generatedShippedId,
-      status: this.status,
+      ackStatus: this.ackStatus,
       vechile_details: JSON.stringify(this.vehicles)
     }
     var finalData = this.addInvPipe.transform(data);

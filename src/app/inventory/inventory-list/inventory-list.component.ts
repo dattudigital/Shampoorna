@@ -114,22 +114,22 @@ export class InventoryListComponent implements OnInit {
   detailsGo() {
     let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
     var url = '';
+    url = url + '&branchid=' + loginData._results.employee_branch_id;
     if (this.fromDate) {
       url = url + '&startdate=' + this.fromDate;
     }
     if (this.toDate) {
       url = url + '&enddate=' + this.toDate;
     }
-    if (this.vehicleVariantFilter) {
+    if (this.vehicleVariantFilter != "0") {
       url = url + '&variant=' + this.vehicleVariantFilter;
     }
-    if (this.vehicleModelFilter) {
+    if (this.vehicleModelFilter != "0") {
       url = url + '&model=' + '"' + this.vehicleModelFilter + '"';
     }
-    if (this.vehicleColorFilter) {
+    if (this.vehicleColorFilter != "0") {
       url = url + '&color=' + '"' + this.vehicleColorFilter + '"';
     }
-    url = url + '&branchid=' + loginData._results.employee_branch_id;
     this.service.getInventoryFilter(url).subscribe(res => {
       if (res.json().status == true) {
         this.notif.success(
@@ -189,9 +189,9 @@ export class InventoryListComponent implements OnInit {
         this.inventoryData = [];
       }
     });
-    this.vehicleModelFilter = " ";
-    this.vehicleColorFilter = " ";
-    this.vehicleVariantFilter = " ";
+    this.vehicleModelFilter = "0";
+    this.vehicleColorFilter = "0";
+    this.vehicleVariantFilter = "0";
     this.fromDate = " ";
     this.toDate = " ";
   }

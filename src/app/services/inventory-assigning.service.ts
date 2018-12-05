@@ -32,7 +32,7 @@ export class InventoryAssigningService {
   }
 
   public getAcknowledgeFilter(url:any){
-    console.log(environment.host + 'invassigns?status=0&'+url)
+    console.log(environment.host + 'invassigns?status=0'+url)
     return this.http.get(environment.host + 'invassigns?status=0&'+url );
   }
 
