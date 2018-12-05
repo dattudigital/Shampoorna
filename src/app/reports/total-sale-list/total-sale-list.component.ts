@@ -30,7 +30,7 @@ export class TotalSaleListComponent implements OnInit {
     console.log(this.loginData);
     this.branchId = this.loginData._results.employee_branch_id;
     console.log(this.branchId)
-    this.service.getTotalSalefilter(this.branchId, this.url).subscribe(response => {
+    this.service.getTotalSalefilter(this.branchId,'').subscribe(response => {
       console.log(response.json().result);
       this.totalSaleList = response.json().result;
     });

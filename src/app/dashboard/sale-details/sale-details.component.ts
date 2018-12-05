@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { Http } from '@angular/http'
 import { environment } from 'src/environments/environment';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-sale-details',
@@ -107,15 +108,18 @@ export class SaleDetailsComponent implements OnInit {
   vehiclecustomerName: '';
   exchangeAmount: '';
   exchangeAmountApprovedBy: '';
-  constructor(private service: SaleUserService, private dp: DatePipe, private _clipboardService: ClipboardService, private router: Router, private http: Http) { }
+  constructor(private service: SaleUserService, private spinner: NgxSpinnerService, private dp: DatePipe, private _clipboardService: ClipboardService, private router: Router, private http: Http) { }
 
   ngOnInit() {
+    this.spinner.show();
     this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
     this.service.getListDetails().subscribe(res => {
       if (res.json().status == true) {
         this.lists = res.json().result;
+        this.spinner.hide();
       } else {
         this.lists = [];
+        this.spinner.hide();
       }
     });
 

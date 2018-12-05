@@ -4,6 +4,7 @@ import { DashboardServiceService } from '../../services/dashboard-service.servic
 declare var jsPDF: any;
 import { ExcelServiceService } from '../../services/excel-service.service';
 import { NotificationsService } from 'angular2-notifications';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-today-sale-list',
   templateUrl: './today-sale-list.component.html',
@@ -16,18 +17,22 @@ export class TodaySaleListComponent implements OnInit {
   loginData: any = [];
   url = ''
   branchId = '';
-  constructor(private router: Router, private notif: NotificationsService, private service: DashboardServiceService, private excelService: ExcelServiceService) { }
+  constructor(private router: Router, private notif: NotificationsService, private spinner: NgxSpinnerService, private service: DashboardServiceService, private excelService: ExcelServiceService) { }
 
   ngOnInit() {
     this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
     console.log(this.loginData);
-    this.branchId = this.loginData._results.employee_branch_id;
-    console.log(this.branchId)
-    this.service.getTodayFilter(this.branchId, this.url).subscribe(res => {
-      if (res.json().status == true) {
-        this.todaySaleList = res.json().result;
-      }
-    });
+    if (this.loginData) {
+      this.spinner.show();
+      this.branchId = this.loginData._results.employee_branch_id;
+      this.service.getTodayFilter(this.branchId, '').subscribe(res => {
+        this.spinner.hide();
+        if (res.json().status == true) {
+          this.todaySaleList = res.json().result;
+        }
+      });
+    }
+
     this.cols = [
       { field: 'firstname', header: 'First Name' },
       // { field: 'email_id', header: 'Email' },
@@ -43,9 +48,7 @@ export class TodaySaleListComponent implements OnInit {
     ];
   }
   backToReports() {
-    console.log("******************");
     let session = JSON.stringify(sessionStorage.getItem('secondaryLoginData2'));
-    console.log(session);
     if (session == '"y"') {
       this.router.navigate(['sale-dashboard']);
     } else {
@@ -104,7 +107,7 @@ export class TodaySaleListComponent implements OnInit {
   detailsGo() {
 
     if (this.vehicleTypeFilter) {
-      this.url = this.url + 'user_type=' + this.vehicleTypeFilter;
+      this.url = this.url + '&user_type=' + this.vehicleTypeFilter;
     }
     this.service.getTodayFilter(this.branchId, this.url).subscribe(res => {
       console.log(res.json().status)

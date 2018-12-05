@@ -572,8 +572,16 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
           <button type="button" class="btn btn-warning" data-dismiss="modal" (click)="deletePerson()">Yes</button>
-
         </div>
       </div>
     </div>
   </div>
+
+  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#f5c585" type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">Loading...</p>
+  </ngx-spinner>
+  <style>
+    .alertRed {
+      color: red;
+    }
+  </style>
