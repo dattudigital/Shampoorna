@@ -179,19 +179,29 @@ export class DashboardComponent implements OnInit {
 
   userId: '';
 
-  //to checck status of apis
+  //to check status of api's
   userStatus: any;
   vehicleStatus: any;
   paymentStatus: any;
   exchangeStatus: any;
   csdStatus: any;
 
-  constructor(private saleUserService: SaleUserService, private vehicledetails: VehicleDetailService, private notif: NotificationsService, private spinner: NgxSpinnerService, private invetoryAssign: InventoryAssigningService, private formBuilder: FormBuilder, private http: Http, private router: Router, ) { }
+  //from booking Form
+  _bookingData:any;
+  bookingApprovedAmount = '';
+  bookingApprovedby = '';
+  bookingVehicleVariant = '';
+  bookingVehicleModel = '';
+  bookingVehicleColor = '';
+  bookingAdvanceAmount:number;
+
+  constructor(private saleUserService: SaleUserService, private vehicledetails: VehicleDetailService, private notif: NotificationsService, private spinner: NgxSpinnerService, private invetoryAssign: InventoryAssigningService, private formBuilder: FormBuilder, private http: Http, private router: Router) { }
 
   ngOnInit() {
     this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
     this.branchName = this.loginData._results.branch_name
     this.branchId = this.loginData._results.employee_branch_id
+    console.log(sessionStorage)
 
     if (sessionStorage.salesdata) {
       this.fieldsData = JSON.parse(sessionStorage.getItem('salesdata'))
@@ -209,6 +219,40 @@ export class DashboardComponent implements OnInit {
       this.addressProof = this.fieldsData.addressProof;
       this.addressProofNo = this.fieldsData.addressProofNo
     }
+
+    if(sessionStorage.bookingData){
+      this.name = " ";
+      this.dob = " ";
+      this.address = " ";
+      this.mobile = " ";
+      this.email = " ";
+    // if(this._bookingData){
+      this._bookingData = JSON.parse(sessionStorage.getItem('bookingData'));
+      console.log(this._bookingData)
+      setTimeout(() => {
+        this.name = this._bookingData.booking_form_name;
+        this.dob = this._bookingData.booking_form_dob;
+        this.address = this._bookingData.booking_form_address;
+        this.mobile = this._bookingData.booking_form_mobile;
+        this.email = this._bookingData.booking_form_email;
+        this.bookingApprovedAmount = this._bookingData.approved_amount;
+        this.bookingApprovedby = this._bookingData.employee_firstname;
+        this.bookingVehicleColor = this._bookingData.color_name;
+        this.bookingVehicleModel = this._bookingData.model_name;
+        this.bookingVehicleVariant = this._bookingData.variant_name;
+        this.bookingAdvanceAmount = this._bookingData.advance_payment;
+        // this.status = '1';
+      }, 1);
+    }else{
+      this.name = " ";
+      this.dob = " ";
+      this.address = " ";
+      this.mobile = " ";
+      this.email = null;
+
+    }
+
+
     this.http.get(environment.host + 'employees').subscribe(employeedata => {
       this.employeedata = employeedata.json().result;
       for (var i = 0; i < this.employeedata.length; i++) {
@@ -650,6 +694,9 @@ export class DashboardComponent implements OnInit {
         }
         if (this.onRoadPrice) {
           this.onRoadPrice = this.onRoadPrice * 1 + this.VehicleHp * 1
+        }
+        if (this.bookingAdvanceAmount){
+          this.onRoadPrice = this.onRoadPrice * 1 - this.bookingAdvanceAmount * 1
         }
         this.tempOnRoadPrice = this.onRoadPrice;
       });

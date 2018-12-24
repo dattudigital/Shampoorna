@@ -11,11 +11,10 @@ export class AppointmentsComponent implements OnInit {
 
   ngOnInit() {
     sessionStorage.removeItem('secondaryLoginData');
-    sessionStorage.removeItem('secondaryLoginData3');   
-    sessionStorage.removeItem('secondaryLoginData2'); 
-    sessionStorage.removeItem('secondaryLoginData1');   
-    // sessionStorage.removeItem('backBtnInventory');
-    // sessionStorage.removeItem('backBtnReports'); 
+    sessionStorage.removeItem('secondaryLoginData3');
+    sessionStorage.removeItem('secondaryLoginData2');
+    sessionStorage.removeItem('secondaryLoginData1');
+    sessionStorage.removeItem('bookingData');
   }
 
 }

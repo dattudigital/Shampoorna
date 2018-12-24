@@ -25,6 +25,8 @@ export class InventoryComponent implements OnInit {
   listindent = false;
   inventoryass = false;
   acknowledgement = false;
+  reversal = false;
+  reversallist = false;
 
   constructor(private router: Router, private spinner: NgxSpinnerService, private http: HttpClient, private service: LoginService) { }
 
@@ -46,18 +48,22 @@ export class InventoryComponent implements OnInit {
         this.listindent = true;
         this.inventoryass = true;
         this.acknowledgement = true;
+        this.reversal = true;
+        this.reversallist = true;
         this.titleStyle = "visible";
         this.spinner.hide();
       } else if (loginData.status == true && loginData._results.emp_type_id == 2) {
         this.inventorylist = true;
         this.indentraise = true;
         this.acknowledgement = true;
+        this.reversallist = true;
         this.titleStyle = "visible";
         this.spinner.hide();
       } else if (loginData.status == true && loginData._results.emp_type_id == 3) {
         this.vehicledetails = true;
         this.listindent = true;
         this.inventoryass = true;
+        this.reversal = true;
         this.titleStyle = "visible";
         this.spinner.hide();
       }
@@ -141,6 +147,14 @@ export class InventoryComponent implements OnInit {
 
   redirectToInvAck() {
     this.router.navigate(['inventory/inventory-acknowledge'])
+  }
+
+  redirectToInvReverse(){
+    this.router.navigate(['inventory/inventory-reversal'])
+  }
+
+  redirectToInvReverseList(){
+    this.router.navigate(['inventory/inventory-reversal-list'])
   }
 
   RedirectToHome() {

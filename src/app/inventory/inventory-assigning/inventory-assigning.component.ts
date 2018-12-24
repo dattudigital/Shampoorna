@@ -33,7 +33,7 @@ export class InventoryAssigningComponent implements OnInit {
   managerAck = '';
   managerNote = '';
   status = '';
-  assQuantity = '';
+  assQuantity: any;
   assDate = '';
   updateBy = '';
   updateDate = '';
@@ -90,7 +90,7 @@ export class InventoryAssigningComponent implements OnInit {
     });
 
     this.InventoryAssignForm = this.formBuilder.group({
-     // indentId: ['', Validators.required],
+      // indentId: ['', Validators.required],
       branchId: ['', Validators.required],
       shippedBy: ['', Validators.required],
       shippedIn: ['', Validators.required],
@@ -104,8 +104,8 @@ export class InventoryAssigningComponent implements OnInit {
   deleteInventoryAssign(index) {
     this.vehicles.splice(index, 1)
   }
-
-  addInventoryAssign(data) {
+  
+  addInventoryAssign(data, index) {
     this.vehicles.push({
       engineno: "",
       frameno: "",

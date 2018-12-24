@@ -35,6 +35,11 @@ export class FooterComponent implements OnInit {
 
   newSaleClick() {
     this.router.navigate(['dashboard']);
+    sessionStorage.removeItem('bookingData');
+  }
+
+  bookingFormClick(){
+    this.router.navigate(['booking-form']);
   }
 
   logOutClick() {
@@ -46,8 +51,8 @@ export class FooterComponent implements OnInit {
     window.sessionStorage.removeItem('secondaryLoginData3');
     window.sessionStorage.clear
     this.router.navigate(['login'])
-
   }
+
   variantSearch(val) {
     if (val.length >= 2) {
       this.allvehicleservice.getVariant().subscribe(data => {
@@ -67,11 +72,13 @@ export class FooterComponent implements OnInit {
       this.variantData = [];
     }
   }
+
   onSelectVariant(event: TypeaheadMatch): void {
     this.selectedOption1 = event.item;
     this.selectedVariantId = this.selectedOption1.vehicle_variant_id;
     console.log(this.selectedVariantId);
   }
+
   searchVehicleDetails() {
     if (this.selectedVariant) {
       if (this.selectedVariant.length > 2) {
@@ -80,7 +87,6 @@ export class FooterComponent implements OnInit {
           if (res.json().status == true) {
             this.pricelistStyle = "visible"
             this.priceList = res.json().result;
-
           } else {
             this.priceList = [];
             this.pricelistStyle = "hidden"
@@ -89,6 +95,7 @@ export class FooterComponent implements OnInit {
       }
     }
   }
+  
   detailsReset() {
     this.pricelistStyle = "hidden"
     this.selectedVariant = '';

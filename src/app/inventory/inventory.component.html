@@ -59,6 +59,10 @@
         role="tab" aria-controls="invassn" aria-selected="true" *ngIf="inventoryass">Inventory Assigning</a>
       <a class="nav-link inventory-ack" id="v-pills-home-tab" (click)="redirectToInvAck()" data-toggle="pill" href="#acknowledgement"
         role="tab" aria-controls="invack" aria-selected="true" *ngIf="acknowledgement">Acknowledgement</a>
+      <a class="nav-link inventory-rev" id="v-pills-home-tab" (click)="redirectToInvReverse()" data-toggle="pill" href="#reversal"
+        role="tab" aria-controls="invrev" aria-selected="true" *ngIf="reversal">Reversal</a>
+      <a class="nav-link inventory-revlist" id="v-pills-home-tab" (click)="redirectToInvReverseList()" data-toggle="pill" href="#reversalList"
+        role="tab" aria-controls="invrevlist" aria-selected="true" *ngIf="reversallist">Reversal Request List</a>
     </div>
   </div>
 </div>

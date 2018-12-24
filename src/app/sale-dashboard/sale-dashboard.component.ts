@@ -22,6 +22,9 @@ export class SaleDashboardComponent implements OnInit {
     sessionStorage.removeItem('secondaryLoginData1');
     sessionStorage.removeItem('secondaryLoginData2');
     sessionStorage.removeItem('secondaryLoginData3');
+
+    // sessionStorage.removeItem('salesdata');
+    
     this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
     console.log(this.loginData);
     var branchId = this.loginData._results.employee_branch_id;
@@ -67,6 +70,7 @@ export class SaleDashboardComponent implements OnInit {
     }
   }
   newSaleClick() {
+    sessionStorage.removeItem('bookingData');
     this.router.navigate(['dashboard']);
   }
   viewSalesClick() {

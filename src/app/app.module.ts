@@ -61,6 +61,10 @@ import { VehicleColorComponent } from './setup/setup-vehicle/vehicle-color/vehic
 import { VehicleMadeComponent } from './setup/setup-vehicle/vehicle-made/vehicle-made.component';
 import { AddPriceListComponent } from './setup/add-price-list/add-price-list.component';
 import { EmpTypePipe } from './pipe/emp-type.pipe';
+import { BookingFormComponent } from './footer/booking-form/booking-form.component';
+import { ListBookingFormComponent } from './footer/list-booking-form/list-booking-form.component';
+import { InventoryReversalComponent } from './inventory/inventory-reversal/inventory-reversal.component';
+import { InventoryReversalListComponent } from './inventory/inventory-reversal-list/inventory-reversal-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -81,6 +85,8 @@ const routes: Routes = [
   { path: 'inventory/indent-list', component: IndentListComponent, canActivate: [AuthGuard] },
   { path: 'inventory/inventory-assigning', component: InventoryAssigningComponent, canActivate: [AuthGuard] },
   { path: 'inventory/inventory-acknowledge', component: InventoryAcknowledgeComponent, canActivate: [AuthGuard] },
+  { path: 'inventory/inventory-reversal', component: InventoryReversalComponent, canActivate: [AuthGuard] },
+  { path: 'inventory/inventory-reversal-list', component: InventoryReversalListComponent, canActivate: [AuthGuard] },
   { path: 'sale-details', component: SaleDetailsComponent, canActivate: [AuthGuard] },
   { path: 'invoice-list', component: InvoiceListComponent, canActivate: [AuthGuard] },
   { path: 'dc-form', component: DcFormComponent, canActivate: [AuthGuard] },
@@ -98,8 +104,8 @@ const routes: Routes = [
   { path: 'setup/vehicle-color', component: VehicleColorComponent, canActivate: [AuthGuard] },
   { path: 'setup/vehicle-make', component: VehicleMadeComponent, canActivate: [AuthGuard] },
   { path: 'setup/price-list/add-list', component: AddPriceListComponent, canActivate: [AuthGuard] },
-
-
+  { path: 'booking-form', component: BookingFormComponent, canActivate: [AuthGuard] },
+  { path: 'list-bookings', component: ListBookingFormComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
@@ -141,7 +147,11 @@ const routes: Routes = [
     VehicleVariantComponent,
     VehicleColorComponent,
     VehicleMadeComponent,
-    AddPriceListComponent
+    AddPriceListComponent,
+    BookingFormComponent,
+    ListBookingFormComponent,
+    InventoryReversalComponent,
+    InventoryReversalListComponent
     
 
   ],

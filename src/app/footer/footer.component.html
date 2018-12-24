@@ -30,10 +30,15 @@
           <i class="fas fa-tags"></i>
           <br>New Sale</a>
       </li>
-      <li data-toggle="modal" data-target="#offersModel">
+      <!-- <li data-toggle="modal" data-target="#offersModel">
         <a>
           <i class="fas fa-caret-right"></i>
           <br>Offers</a>
+      </li> -->
+      <li (click)="bookingFormClick()">
+        <a>
+          <i class="fab fa-wpforms"></i>
+          <br>Booking Form</a>
       </li>
       <li>
         <a href="#" [routerLink]="['/footer/global-search']">
@@ -125,8 +130,9 @@
               <label for="input" class="col-md-3 control-label">Variant</label>
               <div class="col-sm-9">
                 <div class="input-group">
-                  <input type="text" placeholder="Search By Variant" name="variant" class="form-control" [(ngModel)]="selectedVariant" (ngModelChange)="variantSearch($event)"
-                    [typeahead]="variantData" typeaheadOptionField="variant_name" (typeaheadOnSelect)="onSelectVariant($event)">
+                  <input type="text" placeholder="Search By Variant" name="variant" class="form-control" [(ngModel)]="selectedVariant"
+                    (ngModelChange)="variantSearch($event)" [typeahead]="variantData" typeaheadOptionField="variant_name"
+                    (typeaheadOnSelect)="onSelectVariant($event)">
                 </div>
               </div>
               <div class="clear"></div>
@@ -157,7 +163,8 @@
             <tr>
               <th *ngFor="let col of cols" [pSortableColumn]="col.field">
                 {{col.header}}
-                <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+                  ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
               </th>
 
             </tr>

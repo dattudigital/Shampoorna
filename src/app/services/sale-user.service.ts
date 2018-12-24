@@ -47,4 +47,13 @@ export class SaleUserService {
   public sendOtpToManager(data: any) {
     return this.http.post(environment.host + 'get-otp-number', data)
   }
+  
+  public saveBookingForm(data: any) {
+    return this.http.post(environment.host + 'booking-form', data)
+  }
+
+  public getBookingForm() {
+    return this.http.get(environment.host + 'booking-form');
+  }
+
 }
