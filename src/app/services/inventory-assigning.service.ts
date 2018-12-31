@@ -12,10 +12,6 @@ export class InventoryAssigningService {
     return this.http.post(environment.host + 'invassigns', data)
   }
 
-  // public getInventoryList(){
-  //   return this.http.get( environment.host + 'invassigns');
-  // }
-
   public getAcknowledgeList(brurl:any){
     console.log( environment.host + 'invassigns?status=1'+brurl)
     return this.http.get( environment.host + 'invassigns?status=1'+brurl);
@@ -35,9 +31,5 @@ export class InventoryAssigningService {
     console.log(environment.host + 'invassigns?status=1'+url)
     return this.http.get(environment.host + 'invassigns?status=1&'+url );
   }
-
-  // public editAcknowledgeList(data:any){
-  //   return this.http.get( environment.host + 'invassigns?status=0', data);
-  // }
 }
 

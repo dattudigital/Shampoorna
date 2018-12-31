@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { SaleUserService } from '../../services/sale-user.service';
 import { NotificationsService } from 'angular2-notifications';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -19,15 +20,17 @@ export class ListBookingFormComponent implements OnInit {
   cols: any[];
 
 
-  constructor(private router: Router, private dp: DatePipe, private saleservice:SaleUserService,private notif: NotificationsService) { }
+  constructor(private router: Router, private dp: DatePipe, private saleservice:SaleUserService,private notif: NotificationsService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
+    this.spinner.show();
     this.saleservice.getBookingForm().subscribe(res => {
       if (res.json().status == true) {  
       this.bookings = res.json().result
       }else{
         this.bookings = [];
       }
+      this.spinner.hide();
     })
 
     this.cols = [

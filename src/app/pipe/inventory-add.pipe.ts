@@ -31,6 +31,7 @@ export class InventoryAddPipe implements PipeTransform {
     //   });
     // }
 
+    // console.log(vechile_details)
     for (let j = 0; j < value.vechile_details.length; j++) {
       data.push({
         indent_id: value.indent_id,
@@ -44,11 +45,11 @@ export class InventoryAddPipe implements PipeTransform {
         br_mgr_comment: value.br_mgr_comment,
         status: value.status,
         chassis_number: value.vechile_details[j].chassisno,
-        color: value.vechile_details[j].color,
+        color: value.vechile_details[j].vehicle_color_id,
         engineno: value.vechile_details[j].engineno,
         frameno: value.vechile_details[j].frameno,
-        variant: value.vechile_details[j].variant,
-        model: value.vechile_details[j].model,
+        variant: value.vechile_details[j].vehicle_variant_id,
+        model: value.vechile_details[j].vehicle_model_id,
         vechile_id:value.vechile_details[j].vechile_id
       });
     }

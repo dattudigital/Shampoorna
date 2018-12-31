@@ -116,11 +116,10 @@ export class SaleDetailsComponent implements OnInit {
     this.service.getListDetails().subscribe(res => {
       if (res.json().status == true) {
         this.lists = res.json().result;
-        this.spinner.hide();
       } else {
         this.lists = [];
-        this.spinner.hide();
       }
+      this.spinner.hide();
     });
 
     this.http.get(environment.host + 'branches').subscribe(res => {

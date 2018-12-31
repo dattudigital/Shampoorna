@@ -8,7 +8,6 @@ import { Http } from '@angular/http';
 import { environment } from 'src/environments/environment';
 import { SaleUserService } from '../../services/sale-user.service';
 import { AllVehicleService } from '../../services/all-vehicle.service';
-import { VehicleDetailService } from '../../services/vehicle-detail.service';
 
 @Component({
   selector: 'app-booking-form',

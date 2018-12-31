@@ -35,14 +35,7 @@ export class InventoryListComponent implements OnInit {
   ngOnInit() {
     let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
     var brurl = '';
-    //if (loginData._results.branch_id==999) {
     brurl = brurl + '&branchid=' + loginData._results.employee_branch_id;
-    //}
-    // }else if (loginData._results.branch_id==1) {
-    //   brurl = brurl + '&branchid='+loginData._results.branch_id;
-    // }else if (loginData._results.branch_id==2) {
-    //   brurl = brurl + '&branchid='+loginData._results.branch_id;
-    // }
     this.service.getInventoryList(brurl).subscribe(res => {
       if (res.json().status == true) {
         this.inventoryData = res.json().result;
@@ -89,10 +82,11 @@ export class InventoryListComponent implements OnInit {
       { field: 'shipped_vechile_no', header: 'Vehicle No.' },
       { field: 'br_mgr_ack', header: 'Manager ACk' },
       { field: 'br_mgr_comment', header: 'Manager Comment' },
-      { field: 'color', header: 'Color' },
       { field: 'engineno', header: 'Engine No.' },
       { field: 'frameno', header: 'Frame No.' },
-      { field: 'model', header: 'Model' }
+      { field: 'model_name', header: 'Model' },
+      { field: 'variant_name', header: 'Variant' },
+      { field: 'color_name', header: 'Color' }
     ];
   }
 
@@ -125,10 +119,10 @@ export class InventoryListComponent implements OnInit {
       url = url + '&variant=' + this.vehicleVariantFilter;
     }
     if (this.vehicleModelFilter != "0") {
-      url = url + '&model=' + '"' + this.vehicleModelFilter + '"';
+      url = url + '&model=' + this.vehicleModelFilter;
     }
     if (this.vehicleColorFilter != "0") {
-      url = url + '&color=' + '"' + this.vehicleColorFilter + '"';
+      url = url + '&color=' + this.vehicleColorFilter;
     }
     this.service.getInventoryFilter(url).subscribe(res => {
       if (res.json().status == true) {
@@ -167,28 +161,35 @@ export class InventoryListComponent implements OnInit {
   }
 
   detailsReset() {
-    let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
-    var brurl = '';
-    brurl = brurl + '&branchid=' + loginData._results.employee_branch_id;
-    this.service.getInventoryList(brurl).subscribe(res => {
-      this.inventoryData = res.json().result
-      if (res.json().status == true) {
-        this.inventoryData = res.json().result
-        this.notif.success(
-          'Success',
-          'Reset Applied Successfully',
-          {
-            timeOut: 3000,
-            showProgressBar: true,
-            pauseOnHover: false,
-            clickToClose: true,
-            maxLength: 50
-          }
-        )
-      }else{
-        this.inventoryData = [];
-      }
-    });
+  //   let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
+  //   var brurl = '';
+  //   brurl = brurl + '&branchid=' + loginData._results.employee_branch_id;
+  //   this.service.getInventoryList(brurl).subscribe(res => {
+  //     this.inventoryData = res.json().result
+  //     if (res.json().status == true) {
+  //       this.inventoryData = res.json().result
+  //       this.notif.success(
+  //         'Success',
+  //         'Reset Applied Successfully',
+  //         {
+  //           timeOut: 3000,
+  //           showProgressBar: true,
+  //           pauseOnHover: false,
+  //           clickToClose: true,
+  //           maxLength: 50
+  //         }
+  //       )
+  //     }else{
+  //       this.inventoryData = [];
+  //     }
+  //   });
+  //   this.vehicleModelFilter = "0";
+  //   this.vehicleColorFilter = "0";
+  //   this.vehicleVariantFilter = "0";
+  //   this.fromDate = " ";
+  //   this.toDate = " ";
+  // }
+  this.ngOnInit()
     this.vehicleModelFilter = "0";
     this.vehicleColorFilter = "0";
     this.vehicleVariantFilter = "0";

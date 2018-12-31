@@ -87,11 +87,11 @@ export class InventoryAcknowledgeComponent implements OnInit {
       { field: 'shipped_vechile_no', header: 'Vehicle No.' },
       { field: 'br_mgr_ack', header: 'Manager ACk' },
       { field: 'br_mgr_comment', header: 'Manager Comment' },
-      { field: 'color', header: 'Color' },
       { field: 'engineno', header: 'Engine No.' },
       { field: 'frameno', header: 'Frame No.' },
-      { field: 'variant', header: 'variant.' },
-      { field: 'model', header: 'Model' }
+      { field: 'model_name', header: 'Model' },
+      { field: 'variant_name', header: 'Variant' },
+      { field: 'color_name', header: 'Color' }
     ];
   }
 
@@ -124,10 +124,10 @@ export class InventoryAcknowledgeComponent implements OnInit {
       url = url + '&variant=' + this.vehicleMakeFilter;
     }
     if (this.vehicleModelFilter != "0") {
-      url = url + '&model=' + '"' + this.vehicleModelFilter + '"';
+      url = url + '&model=' + this.vehicleModelFilter;
     }
     if (this.vehicleColorFilter != "0") {
-      url = url + '&color=' + '"' + this.vehicleColorFilter + '"';
+      url = url + '&color=' + this.vehicleColorFilter;
     }
     this.service.getAcknowledgeFilter(url).subscribe(res => {
       if (res.json().status == true) {

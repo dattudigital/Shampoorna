@@ -148,6 +148,9 @@ export class InventoryAssigningComponent implements OnInit {
           this.vehicles[index].variant = data.json().result[0].variant_name;
           this.vehicles[index].model = data.json().result[0].model_name;
           this.vehicles[index].vechile_id = data.json().result[0].vehicle_id;
+          this.vehicles[index].vehicle_color_id = data.json().result[0].vehicle_color;
+          this.vehicles[index].vehicle_model_id = data.json().result[0].vehicle_model;
+          this.vehicles[index].vehicle_variant_id = data.json().result[0].vehicle_variant;
         }
       })
     } else {
