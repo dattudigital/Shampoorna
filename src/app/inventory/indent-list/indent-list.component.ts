@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IndentService } from '../../services/indent.service'
 import { DatePipe } from '@angular/common';
-import { environment } from '../../../environments/environment';
-import { Http } from '@angular/http';
 import { NotificationsService } from 'angular2-notifications';
 import * as moment from 'moment';
 import { AllVehicleService } from '../../services/all-vehicle.service';
+import { CompleteVehicleService } from '../../services/complete-vehicle.service'
 
 @Component({
   selector: 'app-indent-list',
@@ -41,7 +40,7 @@ export class IndentListComponent implements OnInit {
   temp: any;
   public options = { position: ["top", "right"] }
 
-  constructor(private router: Router, private allvehicleservice: AllVehicleService, private service: IndentService, private dp: DatePipe, private http: Http, private notif: NotificationsService) { }
+  constructor(private router: Router, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService , private service: IndentService, private dp: DatePipe, private notif: NotificationsService) { }
 
   ngOnInit() {
     let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
@@ -56,38 +55,62 @@ export class IndentListComponent implements OnInit {
       }
     })
 
-    this.allvehicleservice.getColor().subscribe(data => {
-      if (data.json().status == true) {
-        this.colorData = data.json().result;
-      } else {
-        this.colorData = [];
-      }
-    });
+    let _color = this.completevehicle.getColor();
+    if (Object.keys(_color).length) {
+      this.colorData = _color
+    } else {
+      this.allvehicleservice.getColor().subscribe(data => {
+        if (data.json().status == true) {
+          this.colorData = data.json().result;
+          this.completevehicle.addColor(data.json().result)
+        } else {
+          this.colorData = [];
+        }
+      });
+    }
 
-    this.allvehicleservice.getCategory().subscribe(data => {
-      if (data.json().status == true) {
-        this.typeData = data.json().result;
-      } else {
-        this.typeData = [];
-      }
-    });
+    let _category = this.completevehicle.getType();
+    if (Object.keys(_category).length) {
+      this.typeData = _category
+    } else {
+      this.allvehicleservice.getCategory().subscribe(data => {
+        if (data.json().status == true) {
+          this.typeData = data.json().result;
+          this.completevehicle.addType(data.json().result)
+        } else {
+          this.typeData = [];
+        }
+      });
+    }
 
-    this.allvehicleservice.getModel().subscribe(data => {
-      if (data.json().status == true) {
-        this.modelData = data.json().result;
-      } else {
-        this.modelData = [];
-      }
-    });
+    let _model = this.completevehicle.getModel();
+    if (Object.keys(_model).length) {
+      this.modelData = _model
+    } else {
+      this.allvehicleservice.getModel().subscribe(data => {
+        if (data.json().status == true) {
+          this.modelData = data.json().result;
+          this.completevehicle.addModel(data.json().result)
+        } else {
+          this.modelData = [];
+        }
+      });
+    }
 
-    this.allvehicleservice.getVariant().subscribe(data => {
-      if (data.json().status == true) {
-        this.variantData = data.json().result;
-      } else {
-        this.variantData = [];
-      }
-    })
-
+    let _variant = this.completevehicle.getVariant();
+    if (Object.keys(_variant).length) {
+      this.variantData = _variant
+    } else {
+      this.allvehicleservice.getVariant().subscribe(data => {
+        if (data.json().status == true) {
+          this.variantData = data.json().result;
+          this.completevehicle.addVariant(data.json().result)
+        } else {
+          this.variantData = [];
+        }
+      })
+    }
+    
     this.cols = [
       { field: 'indent_req_id', header: 'Indent Req ID' },
       { field: 'type_name', header: 'Type' },

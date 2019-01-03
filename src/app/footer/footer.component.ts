@@ -43,13 +43,7 @@ export class FooterComponent implements OnInit {
   }
 
   logOutClick() {
-    console.log(sessionStorage);
-    window.sessionStorage.removeItem('userSession');
-    window.sessionStorage.removeItem('secondaryLoginData');
-    window.sessionStorage.removeItem('secondaryLoginData1');
-    window.sessionStorage.removeItem('secondaryLoginData2');
-    window.sessionStorage.removeItem('secondaryLoginData3');
-    window.sessionStorage.clear
+    window.sessionStorage.clear()
     this.router.navigate(['login'])
   }
 

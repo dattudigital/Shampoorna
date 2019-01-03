@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { environment } from '../../../../environments/environment';
-import { Http } from '@angular/http';
 declare var $: any;
 import { NotificationsService } from 'angular2-notifications';
+import { AllVehicleService } from '../../../services/all-vehicle.service';
+import { CompleteVehicleService } from '../../../services/complete-vehicle.service'
+
 @Component({
   selector: 'app-vehicle-color',
   templateUrl: './vehicle-color.component.html',
@@ -23,14 +24,14 @@ export class VehicleColorComponent implements OnInit {
 
   public options = { position: ["top", "right"] }
 
-  constructor(private router: Router, private http: Http, private notif: NotificationsService) { }
+  constructor(private router: Router, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService, private notif: NotificationsService) { }
 
   ngOnInit() {
     this.cols = [
       { field: 'color_name', header: 'Color' }
     ];
 
-    this.http.get(environment.host + 'vehicle-colors').subscribe(data => {
+    this.allvehicleservice.getModel().subscribe(data => {
       if (data.json().status == true) {
         this.colorData = data.json().result;
       } else {
@@ -48,8 +49,11 @@ export class VehicleColorComponent implements OnInit {
       color_name: this.colorName,
       status: 1
     }
-    this.http.post(environment.host + 'vehicle-colors', data).subscribe(res => {
+    this.allvehicleservice.addColor(data).subscribe(res => {
       if (res.json().status == true) {
+        this.completevehicle.addColor([])
+        $('#addcolor').modal('hide');
+        this.colorData.push(res.json().result);
         this.notif.success(
           'Success',
           'Color Added Successfully',
@@ -62,14 +66,13 @@ export class VehicleColorComponent implements OnInit {
           }
         )
       }
-      this.colorData.push(res.json().result);
-      $('#addcolor').modal('hide');
     })
   }
 
   removeFields() {
     this.color_name = '';
   }
+
   editColor(data, index) {
     this.editcolorData = data;
     data.index = index;
@@ -85,8 +88,9 @@ export class VehicleColorComponent implements OnInit {
       color_name: this.color_name,
       status: this.status
     }
-    this.http.post(environment.host + 'vehicle-colors', data).subscribe(res => {
+    this.allvehicleservice.addColor(data).subscribe(res => {
       if (res.json().status == true) {
+        this.completevehicle.addColor([])
         this.notif.success(
           'Success',
           'Color Updated Successfully',
@@ -114,13 +118,14 @@ export class VehicleColorComponent implements OnInit {
   }
 
   yesVehicleColor() {
-    this.colorData.splice(this.temp1, 1)
     var data = {
       vehicle_color_id: this.vehicle_color_id,
       status: "0"
     }
-    this.http.post(environment.host + 'vehicle-colors', data).subscribe(res => {
+    this.allvehicleservice.addColor(data).subscribe(res => {
       if (res.json().status == true) {
+        this.colorData.splice(this.temp1, 1)
+        this.completevehicle.addColor([])
         this.notif.success(
           'Success',
           'Model Deleted Successfully',

@@ -7,6 +7,7 @@ import { environment } from '../../../environments/environment';
 import * as moment from 'moment';
 import { NotificationsService } from 'angular2-notifications';
 import { AllVehicleService } from '../../services/all-vehicle.service';
+import { CompleteVehicleService } from '../../services/complete-vehicle.service'
 
 @Component({
   selector: 'app-inventory-acknowledge',
@@ -32,7 +33,7 @@ export class InventoryAcknowledgeComponent implements OnInit {
   toDate = "";
   public options = { position: ["top", "right"] }
 
-  constructor(private router: Router, private allvehicleservice: AllVehicleService, private service: InventoryAssigningService, private invAssignService: InventoryListPipe, private http: Http, private notif: NotificationsService) { }
+  constructor(private router: Router, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService, private service: InventoryAssigningService, private invAssignService: InventoryListPipe, private http: Http, private notif: NotificationsService) { }
 
   ngOnInit() {
     let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
@@ -46,38 +47,62 @@ export class InventoryAcknowledgeComponent implements OnInit {
         this.inventoryData = [];
       }
     });
-    
-    this.allvehicleservice.getColor().subscribe(data => {
-      if (data.json().status == true) {
-        this.colorData = data.json().result;
-      } else {
-        this.colorData = [];
-      }
-    });
 
-    this.allvehicleservice.getCategory().subscribe(data => {
-      if (data.json().status == true) {
-        this.typeData = data.json().result;
-      } else {
-        this.typeData = [];
-      }
-    });
+    let _color = this.completevehicle.getColor();
+    if (Object.keys(_color).length) {
+      this.colorData = _color
+    } else {
+      this.allvehicleservice.getColor().subscribe(data => {
+        if (data.json().status == true) {
+          this.colorData = data.json().result;
+          this.completevehicle.addColor(data.json().result)
+        } else {
+          this.colorData = [];
+        }
+      });
+    }
 
-    this.allvehicleservice.getModel().subscribe(data => {
-      if (data.json().status == true) {
-        this.modelData = data.json().result;
-      } else {
-        this.modelData = [];
-      }
-    });
+    let _category = this.completevehicle.getType();
+    if (Object.keys(_category).length) {
+      this.typeData = _category
+    } else {
+      this.allvehicleservice.getCategory().subscribe(data => {
+        if (data.json().status == true) {
+          this.typeData = data.json().result;
+          this.completevehicle.addType(data.json().result)
+        } else {
+          this.typeData = [];
+        }
+      });
+    }
 
-    this.allvehicleservice.getVariant().subscribe(data => {
-      if (data.json().status == true) {
-        this.variantData = data.json().result;
-      } else {
-        this.variantData = [];
-      }
-    })
+    let _model = this.completevehicle.getModel();
+    if (Object.keys(_model).length) {
+      this.modelData = _model
+    } else {
+      this.allvehicleservice.getModel().subscribe(data => {
+        if (data.json().status == true) {
+          this.modelData = data.json().result;
+          this.completevehicle.addModel(data.json().result)
+        } else {
+          this.modelData = [];
+        }
+      });
+    }
+
+    let _variant = this.completevehicle.getVariant();
+    if (Object.keys(_variant).length) {
+      this.variantData = _variant
+    } else {
+      this.allvehicleservice.getVariant().subscribe(data => {
+        if (data.json().status == true) {
+          this.variantData = data.json().result;
+          this.completevehicle.addVariant(data.json().result)
+        } else {
+          this.variantData = [];
+        }
+      })
+    }
 
     this.cols = [
       { field: 'branch_name', header: 'Branch' },

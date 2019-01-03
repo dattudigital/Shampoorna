@@ -7,6 +7,8 @@ import { NotificationsService } from 'angular2-notifications';
 import { Router } from '@angular/router';
 import { ReversalInventoryService } from '../../services/reversal-inventory.service'
 import * as moment from 'moment';
+import { CompleteVehicleService } from '../../services/complete-vehicle.service'
+
 
 @Component({
   selector: 'app-inventory-reversal',
@@ -33,7 +35,7 @@ export class InventoryReversalComponent implements OnInit {
   reqQuantity = '';
   reqDate = '';
 
-  constructor(private http: Http, private allvehicleservice: AllVehicleService , private formBuilder: FormBuilder, private notif: NotificationsService, private router: Router, private reverseservice: ReversalInventoryService ) { }
+  constructor(private http: Http, private allvehicleservice: AllVehicleService , private completevehicle: CompleteVehicleService , private formBuilder: FormBuilder, private notif: NotificationsService, private router: Router, private reverseservice: ReversalInventoryService ) { }
 
   ngOnInit() {
 
@@ -45,37 +47,61 @@ export class InventoryReversalComponent implements OnInit {
       }
     });
 
-    this.allvehicleservice.getColor().subscribe(data => {
-      if (data.json().status == true) {
-        this.colorData = data.json().result;
-      } else {
-        this.colorData = [];
-      }
-    });
+    let _color = this.completevehicle.getColor();
+    if (Object.keys(_color).length) {
+      this.colorData = _color
+    } else {
+      this.allvehicleservice.getColor().subscribe(data => {
+        if (data.json().status == true) {
+          this.colorData = data.json().result;
+          this.completevehicle.addColor(data.json().result)
+        } else {
+          this.colorData = [];
+        }
+      });
+    }
 
-    this.allvehicleservice.getCategory().subscribe(data => {
-      if (data.json().status == true) {
-        this.typeData = data.json().result;
-      } else {
-        this.typeData = [];
-      }
-    });
+    let _category = this.completevehicle.getType();
+    if (Object.keys(_category).length) {
+      this.typeData = _category
+    } else {
+      this.allvehicleservice.getCategory().subscribe(data => {
+        if (data.json().status == true) {
+          this.typeData = data.json().result;
+          this.completevehicle.addType(data.json().result)
+        } else {
+          this.typeData = [];
+        }
+      });
+    }
 
-    this.allvehicleservice.getModel().subscribe(data => {
-      if (data.json().status == true) {
-        this.modelData = data.json().result;
-      } else {
-        this.modelData = [];
-      }
-    });
+    let _model = this.completevehicle.getModel();
+    if (Object.keys(_model).length) {
+      this.modelData = _model
+    } else {
+      this.allvehicleservice.getModel().subscribe(data => {
+        if (data.json().status == true) {
+          this.modelData = data.json().result;
+          this.completevehicle.addModel(data.json().result)
+        } else {
+          this.modelData = [];
+        }
+      });
+    }
 
-    this.allvehicleservice.getVariant().subscribe(data => {
-      if (data.json().status == true) {
-        this.variantData = data.json().result;
-      } else {
-        this.variantData = [];
-      }
-    })
+    let _variant = this.completevehicle.getVariant();
+    if (Object.keys(_variant).length) {
+      this.variantData = _variant
+    } else {
+      this.allvehicleservice.getVariant().subscribe(data => {
+        if (data.json().status == true) {
+          this.variantData = data.json().result;
+          this.completevehicle.addVariant(data.json().result)
+        } else {
+          this.variantData = [];
+        }
+      })
+    }
 
     this.InventoryReversalForm = this.formBuilder.group({
       branchId: ['', Validators.required],

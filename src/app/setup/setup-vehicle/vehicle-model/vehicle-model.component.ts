@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { environment } from '../../../../environments/environment';
-import { Http } from '@angular/http';
 import { NotificationsService } from 'angular2-notifications';
 declare var $: any;
+import { AllVehicleService } from '../../../services/all-vehicle.service';
+import { CompleteVehicleService } from '../../../services/complete-vehicle.service'
+
 @Component({
   selector: 'app-vehicle-model',
   templateUrl: './vehicle-model.component.html',
@@ -22,14 +23,14 @@ export class VehicleModelComponent implements OnInit {
   modeldeleteData: any = [];
   public options = { position: ["top", "right"] }
 
-  constructor(private router: Router, private http: Http, private notif: NotificationsService) { }
+  constructor(private router: Router, private notif: NotificationsService, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService) { }
 
   ngOnInit() {
     this.cols = [
       { field: 'model_name', header: ' Name' }
     ];
 
-    this.http.get(environment.host + 'vehicle-models').subscribe(data => {
+    this.allvehicleservice.getModel().subscribe(data => {
       if (data.json().status == true) {
         this.modelData = data.json().result;
       } else {
@@ -47,8 +48,10 @@ export class VehicleModelComponent implements OnInit {
       model_name: this.modelName,
       status: 1
     }
-    this.http.post(environment.host + 'vehicle-models', data).subscribe(res => {
+    this.allvehicleservice.addModel(data).subscribe(res => {
       if (res.json().status == true) {
+        this.completevehicle.addModel([])
+        this.modelData.push(res.json().result);
         this.notif.success(
           'Success',
           'Model Added Successfully',
@@ -61,7 +64,6 @@ export class VehicleModelComponent implements OnInit {
           }
         )
       }
-      this.modelData.push(res.json().result);
       $('#addNewModel').modal('hide');
     })
   }
@@ -85,8 +87,9 @@ export class VehicleModelComponent implements OnInit {
       model_name: this.model_name,
       status: this.status
     }
-    this.http.post(environment.host + 'vehicle-models', data).subscribe(res => {
+    this.allvehicleservice.addModel(data).subscribe(res => {
       if (res.json().status == true) {
+        this.completevehicle.addModel([])
         this.notif.success(
           'Success',
           'Model Updated Successfully',
@@ -112,14 +115,16 @@ export class VehicleModelComponent implements OnInit {
     val.index = index;
     this.vehicle_model_id = this.modeldeleteData[index].vehicle_model_id;
   }
+
   yesDeleteModel() {
-    this.modelData.splice(this.temp1, 1)
     var data = {
       vehicle_model_id: this.vehicle_model_id,
       status: "0"
     }
-    this.http.post(environment.host + 'vehicle-models', data).subscribe(res => {
+    this.allvehicleservice.addModel(data).subscribe(res => {
       if (res.json().status == true) {
+        this.modelData.splice(this.temp1, 1)
+        this.completevehicle.addModel([])
         this.notif.success(
           'Success',
           'Model Deleted Successfully',

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
-import { environment } from '../../../../environments/environment';
-import { Http } from '@angular/http';
 declare var $: any;
 import { NotificationsService } from 'angular2-notifications';
+import { AllVehicleService } from '../../../services/all-vehicle.service';
+import { CompleteVehicleService } from '../../../services/complete-vehicle.service'
+
 @Component({
   selector: 'app-vehicle-variant',
   templateUrl: './vehicle-variant.component.html',
@@ -22,14 +23,14 @@ export class VehicleVariantComponent implements OnInit {
   variantDeleteData: any = [];
   public options = { position: ["top", "right"] }
 
-  constructor(private router: Router, private http: Http, private notif: NotificationsService) { }
+  constructor(private router: Router, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService, private notif: NotificationsService) { }
 
   ngOnInit() {
     this.cols = [
       { field: 'variant_name', header: 'Variant' }
     ];
 
-    this.http.get(environment.host + 'vehicle-variants').subscribe(data => {
+    this.allvehicleservice.getVariant().subscribe(data => {
       if (data.json().status == true) {
         this.variantData = data.json().result;
       } else {
@@ -47,8 +48,10 @@ export class VehicleVariantComponent implements OnInit {
       variant_name: this.variantName,
       status: 1
     }
-    this.http.post(environment.host + 'vehicle-variants', data).subscribe(res => {
+    this.allvehicleservice.addVariant(data).subscribe(res => {
       if (res.json().status == true) {
+        this.completevehicle.addVariant([])
+        this.variantData.push(res.json().result);
         this.notif.success(
           'Success',
           'Variant Added Successfully',
@@ -61,7 +64,6 @@ export class VehicleVariantComponent implements OnInit {
           }
         )
       }
-      this.variantData.push(res.json().result);
       $('#addVariant').modal('hide');
     })
   }
@@ -85,8 +87,9 @@ export class VehicleVariantComponent implements OnInit {
       variant_name: this.variant_name,
       status: this.status
     }
-    this.http.post(environment.host + 'vehicle-variants', data).subscribe(res => {
+    this.allvehicleservice.addVariant(data).subscribe(res => {
       if (res.json().status == true) {
+        this.completevehicle.addVariant([])
         this.notif.success(
           'Success',
           'Variant Updated Successfully',
@@ -114,13 +117,14 @@ export class VehicleVariantComponent implements OnInit {
   }
 
   yesVehicleVariant() {
-    this.variantData.splice(this.temp1, 1)
     var data = {
       vehicle_variant_id: this.vehicle_variant_id,
       status: "0"
     }
-    this.http.post(environment.host + 'vehicle-variants', data).subscribe(res => {
+    this.allvehicleservice.addVariant(data).subscribe(res => {
       if (res.json().status == true) {
+        this.variantData.splice(this.temp1, 1)
+        this.completevehicle.addVariant([])
         this.notif.success(
           'Success',
           'Variant Deleted Successfully',

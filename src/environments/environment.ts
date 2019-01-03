@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   host:' http://ec2-54-88-194-105.compute-1.amazonaws.com:3005/'
+    //  host:'http://localhost:3005/'
 
 };
 

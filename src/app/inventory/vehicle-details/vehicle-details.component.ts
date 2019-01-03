@@ -1,13 +1,12 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { VehicleDetailService } from '../../services/vehicle-detail.service';
-import { environment } from '../../../environments/environment';
-import { Http } from '@angular/http';
 import { NotificationsService } from 'angular2-notifications';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 declare var $: any;
 import { AllVehicleService } from '../../services/all-vehicle.service';
+import { CompleteVehicleService } from '../../services/complete-vehicle.service'
 
 @Component({
   selector: 'app-vehicle-details',
@@ -66,7 +65,7 @@ export class VehicleDetailsComponent implements OnInit {
   toDate = "";
   public options = { position: ["top", "right"] }
 
-  constructor(private router: Router, private cdr: ChangeDetectorRef, private allvehicleservice: AllVehicleService, private service: VehicleDetailService, private http: Http, private formBuilder: FormBuilder, private notif: NotificationsService) { }
+  constructor(private router: Router, private cdr: ChangeDetectorRef, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService, private service: VehicleDetailService, private formBuilder: FormBuilder, private notif: NotificationsService) { }
 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
@@ -80,8 +79,64 @@ export class VehicleDetailsComponent implements OnInit {
       else{
         this.bikes = [];
       }
-
     });
+
+    let _color = this.completevehicle.getColor();
+    if (Object.keys(_color).length) {
+      this.colorData = _color
+    } else {
+      this.allvehicleservice.getColor().subscribe(data => {
+        if (data.json().status == true) {
+          this.colorData = data.json().result;
+          this.completevehicle.addColor(data.json().result)
+        } else {
+          this.colorData = [];
+        }
+      });
+    }
+
+    let _category = this.completevehicle.getType();
+    if (Object.keys(_category).length) {
+      this.typeData = _category
+    } else {
+      this.allvehicleservice.getCategory().subscribe(data => {
+        if (data.json().status == true) {
+          this.typeData = data.json().result;
+          this.completevehicle.addType(data.json().result)
+        } else {
+          this.typeData = [];
+        }
+      });
+    }
+
+    let _model = this.completevehicle.getModel();
+    if (Object.keys(_model).length) {
+      this.modelData = _model
+    } else {
+      this.allvehicleservice.getModel().subscribe(data => {
+        if (data.json().status == true) {
+          this.modelData = data.json().result;
+          this.completevehicle.addModel(data.json().result)
+        } else {
+          this.modelData = [];
+        }
+      });
+    }
+
+    let _variant = this.completevehicle.getVariant();
+    if (Object.keys(_variant).length) {
+      this.variantData = _variant
+    } else {
+      this.allvehicleservice.getVariant().subscribe(data => {
+        if (data.json().status == true) {
+          this.variantData = data.json().result;
+          this.completevehicle.addVariant(data.json().result)
+        } else {
+          this.variantData = [];
+        }
+      })
+    }
+    
     this.vehicleForm = this.formBuilder.group({
       engineNumber: ['', Validators.required],
       vehicleType: ['', Validators.required],
@@ -103,37 +158,6 @@ export class VehicleDetailsComponent implements OnInit {
       { field: 'Frame No', header: 'Frame No' },
     ];
 
-    this.allvehicleservice.getColor().subscribe(data => {
-      if(data.json().status == true){
-      this.colorData = data.json().result;
-     }else{
-       this.colorData = [];
-     }
-    });
-
-    this.allvehicleservice.getCategory().subscribe(data => {
-      if(data.json().status == true){
-      this.typeData = data.json().result;
-      }else{
-        this.typeData = [];
-      }
-    });
-
-    this.allvehicleservice.getModel().subscribe(data => {
-      if(data.json().status == true){
-      this.modelData = data.json().result;
-      }else{
-        this.modelData = [];
-      }
-    });
-    
-    this.allvehicleservice.getVariant().subscribe(data => {
-      if(data.json().status == true){
-      this.variantData = data.json().result;
-      }else{
-        this.variantData = [];
-      }
-    })
   }
 
   backToInventory() {
@@ -368,7 +392,7 @@ export class VehicleDetailsComponent implements OnInit {
     this.invoiceDate = newdate2;
   }
 
-  detailsGo() {
+  detailsGo()   {
     var url = '';
     if (this.fromDate) {
       url = url + 'startdate=' + this.fromDate;

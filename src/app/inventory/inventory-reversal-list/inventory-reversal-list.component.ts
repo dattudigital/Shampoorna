@@ -4,7 +4,14 @@ import { AllVehicleService } from '../../services/all-vehicle.service';
 import { NotificationsService } from 'angular2-notifications';
 import { ReversalInventoryService } from '../../services/reversal-inventory.service'
 import { DatePipe } from '@angular/common';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { InventoryAssigningService } from '../../services/inventory-assigning.service'
+import { CompleteVehicleService } from '../../services/complete-vehicle.service'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { VehicleDetailService } from '../../services/vehicle-detail.service';
+declare var $: any;
+
+
 
 @Component({
   selector: 'app-inventory-reversal-list',
@@ -20,7 +27,7 @@ export class InventoryReversalListComponent implements OnInit {
   inventoryData: any[];
   cols: any[];
   columns: any[];
-  reversalTo: any[];
+  tempIndex :any
 
   typeData: any[];
   makeData: any[];
@@ -29,6 +36,11 @@ export class InventoryReversalListComponent implements OnInit {
   variantData: any[];
   editData: any = [];
 
+  vehicleEngineNo = '';
+  vehicleFrameNo = '';
+  vehicleColor = '';
+  vehicleModel = '';
+  vehicleVariant = '';
 
   vehicleTypeFilter = "0";
   vehicleModelFilter = "0";
@@ -36,12 +48,25 @@ export class InventoryReversalListComponent implements OnInit {
   vehicleVariantFilter = "0";
   fromDate = "";
   toDate = "";
+  InventoryReturnForm: FormGroup;
+  submitted = false;
+
+  return_inventory_id = '';
+  shippedBy = '';
+  shippedIn = '';
+  managerNote = '';
+  status = '';
+
+  inventory_assign_id = '';
+  vechile_id = '';
+  branch_id = '';
 
   public options = { position: ["top", "right"] }
 
-  constructor(private router: Router, private allvehicleservice: AllVehicleService, private notif: NotificationsService, private reversalservice:ReversalInventoryService , private Invassaignservice: InventoryAssigningService, private dp: DatePipe) { }
+  constructor(private router: Router, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService, private notif: NotificationsService, private reversalservice:ReversalInventoryService , private Invassaignservice: InventoryAssigningService, private vehicleservice: VehicleDetailService, private dp: DatePipe, private spinner: NgxSpinnerService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.spinner.show();
     let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
     var brurl = '';
     brurl = brurl + '?status=1';
@@ -49,58 +74,69 @@ export class InventoryReversalListComponent implements OnInit {
     this.reversalservice.getReversalInventory(brurl).subscribe(reversalData => {
       if (reversalData.json().status == true) {  
       this.reversal = reversalData.json().result
-      this.reversalTo = reversalData.json().result.variant_name
-      console.log(this.reversalTo)
       console.log(this.reversal)
       }else{
         this.reversal = [];
       }
+      this.spinner.hide();
     })
 
-    var url = '';
-    url = url + '&branchid=' + loginData._results.employee_branch_id;
-    // url = url + '&model=' + this.reversalTo;
-    this.Invassaignservice.getInventoryList(url).subscribe(res => {
-      // console.log(res.json())
-      if (res.json().status == true) {
-        this.inventoryData = res.json().result;
-      }else{
-        this.inventoryData = [];
-      }
-    });
+    let _color = this.completevehicle.getColor();
+    if (Object.keys(_color).length) {
+      this.colorData = _color
+    } else {
+      this.allvehicleservice.getColor().subscribe(data => {
+        if (data.json().status == true) {
+          this.colorData = data.json().result;
+          this.completevehicle.addColor(data.json().result)
+        } else {
+          this.colorData = [];
+        }
+      });
+    }
 
-    this.allvehicleservice.getColor().subscribe(data => {
-      if (data.json().status == true) {
-        this.colorData = data.json().result;
-      } else {
-        this.colorData = [];
-      }
-    });
+    let _category = this.completevehicle.getType();
+    if (Object.keys(_category).length) {
+      this.typeData = _category
+    } else {
+      this.allvehicleservice.getCategory().subscribe(data => {
+        if (data.json().status == true) {
+          this.typeData = data.json().result;
+          this.completevehicle.addType(data.json().result)
+        } else {
+          this.typeData = [];
+        }
+      });
+    }
 
-    this.allvehicleservice.getCategory().subscribe(data => {
-      if (data.json().status == true) {
-        this.typeData = data.json().result;
-      } else {
-        this.typeData = [];
-      }
-    });
+    let _model = this.completevehicle.getModel();
+    if (Object.keys(_model).length) {
+      this.modelData = _model
+    } else {
+      this.allvehicleservice.getModel().subscribe(data => {
+        if (data.json().status == true) {
+          this.modelData = data.json().result;
+          this.completevehicle.addModel(data.json().result)
+        } else {
+          this.modelData = [];
+        }
+      });
+    }
 
-    this.allvehicleservice.getModel().subscribe(data => {
-      if (data.json().status == true) {
-        this.modelData = data.json().result;
-      } else {
-        this.modelData = [];
-      }
-    });
-
-    this.allvehicleservice.getVariant().subscribe(data => {
-      if (data.json().status == true) {
-        this.variantData = data.json().result;
-      } else {
-        this.variantData = [];
-      }
-    })
-
+    let _variant = this.completevehicle.getVariant();
+    if (Object.keys(_variant).length) {
+      this.variantData = _variant
+    } else {
+      this.allvehicleservice.getVariant().subscribe(data => {
+        if (data.json().status == true) {
+          this.variantData = data.json().result;
+          this.completevehicle.addVariant(data.json().result)
+        } else {
+          this.variantData = [];
+        }
+      })
+    }
+    
     this.cols = [
       { field: 'branch_name', header: 'Branch Name' },
       { field: 'type_name', header: 'Type' },
@@ -112,84 +148,120 @@ export class InventoryReversalListComponent implements OnInit {
     ];
 
     this.columns = [
-      { field: 'branch_name', header: 'Branch' },
-      { field: 'indent_req_id', header: 'Indent ID' },
-      { field: 'generated_shipping_id', header: 'Shipping ID' },
-      { field: 'shipped_by', header: 'Shipped By' },
-      { field: 'shipped_vechile_no', header: 'Vehicle No.' },
-      { field: 'br_mgr_ack', header: 'Manager ACk' },
-      { field: 'br_mgr_comment', header: 'Manager Comment' },
-      { field: 'color', header: 'Color' },
+      // { field: 'branch_name', header: 'Branch' },
+      // { field: 'indent_req_id', header: 'Indent ID' },
+      // { field: 'generated_shipping_id', header: 'Shipping ID' },
+      // { field: 'shipped_by', header: 'Shipped By' },
+      // { field: 'shipped_vechile_no', header: 'Vehicle No.' },
+      // { field: 'br_mgr_ack', header: 'Manager ACk' },
+      // { field: 'br_mgr_comment', header: 'Manager Comment' },
       { field: 'engineno', header: 'Engine No.' },
       { field: 'frameno', header: 'Frame No.' },
-      { field: 'model', header: 'Model' }
+      { field: 'model_name', header: 'Model' },
+      { field: 'variant_name', header: 'Variant' },
+      { field: 'color_name', header: 'Color' },
     ];
+
+    this.InventoryReturnForm = this.formBuilder.group({
+      shippedBy: ['', Validators.required],
+      shippedIn: ['', Validators.required],
+      managerNote: ['', Validators.required],
+    });
   }
+
+  get f() { return this.InventoryReturnForm.controls; }
+
 
   backToInventory() {
     this.router.navigate(['inventory']);
   }
 
-  
-  status = '';
-  return_inventory_id = '';
-  branch_id = '';
+  inventoryPop(data,index){
+    this.return_inventory_id = data.return_inventory_id
+    this.status = data.status
+    // this.shippedBy = data.shipped_by
+    // this.shippedIn = data.shipped_vechile_no
+    // this.managerNote = data.br_mgr_comment
+    this.tempIndex = index
+    this.spinner.show();
+    let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
+    var url = '';
+    url = url + '&branchid=' + loginData._results.employee_branch_id;
+    url = url + '&model=' + this.reversal[index].veh_model;
+    console.log(url)
+    this.Invassaignservice.getInventoryList(url).subscribe(res => {
+      console.log(res.json())
+      if (res.json().status == true) {
+        this.inventoryData = res.json().result;
+      }else{
+        this.inventoryData = [];
+      }
+      this.spinner.hide();
+    });
+  }
 
+  assaignButtonClick(data){
+    console.log(data)
+    this.inventory_assign_id = data.inventory_assign_id
+    this.vechile_id = data.vechile_id
+    this.branch_id = data.branch_id
+    this.vehicleEngineNo = data.engineno
+    this.vehicleFrameNo = data.frameno
+    this.vehicleColor = data.color_name
+    this.vehicleModel = data.model_name
+    this.vehicleVariant = data.variant_name
+  }
 
+  updateReversalAssaigned(){
+    var revdata = {
+      return_inventory_id:this.return_inventory_id,
+      shipped_by:this.shippedBy,
+      shipped_vechile_no:this.shippedIn,
+      br_mgr_comment:this.managerNote,
+      status:"2"
+    }
+    console.log(this.tempIndex)
+    console.log(revdata)
+    this.reversalservice.addReversalInventory(revdata).subscribe(res => {
+      $('#toInventory').modal('hide');
+      if (res.json().status == true) {
+        this.reversal.splice(this.tempIndex, 1)
+      }
+    });
 
-  // yesReversal(data, index) {
-  //   //this.inventoryData.splice(index,1)
-  //   this.editData = data;
-  //   this.return_inventory_id = this.editData[index].return_inventory_id;
-  //   this.branch_id = this.editData[index].branch_id
-  //   this.status = this.editData[index].status;
-  //   var val = {
-  //     return_inventory_id: this.return_inventory_id,
-  //     status: "2"
-  //   }
-  //   this.reversal.splice(index, 1)
-  //   this.reversalservice.addReversalInventory(val).subscribe(res => {
-  //     if (res.json().status == true) {
-  //       this.notif.success(
-  //         'Success',
-  //         'Added Successfully',
-  //         {
-  //           timeOut: 3000,
-  //           showProgressBar: true,
-  //           pauseOnHover: false,
-  //           clickToClose: true,
-  //           maxLength: 50
-  //         }
-  //       )
-  //     }
-  //   });
-  // }
-
-  // noReversal(data, index) {
-  //   this.editData = data;
-  //   this.return_inventory_id = this.editData[index].return_inventory_id;
-  //   this.branch_id = this.editData[index].branch_id
-  //   this.status = this.editData[index].status;
-  //   var val = {
-  //     return_inventory_id: this.return_inventory_id,
-  //     status: "3"
-  //   }
-  //   this.reversal.splice(index, 1)
-  //   this.reversalservice.addReversalInventory(val).subscribe(res => {
-  //     if (res.json().status == true) {
-  //       this.notif.success(
-  //         'Success',
-  //         'Added Successfully',
-  //         {
-  //           timeOut: 3000,
-  //           showProgressBar: true,
-  //           pauseOnHover: false,
-  //           clickToClose: true,
-  //           maxLength: 50
-  //         }
-  //       )
-  //     }
-  //   });
-  // }
-
+    var invdata = {
+      inventory_assign_id:this.inventory_assign_id,
+      branch_id: null,
+      status:"0"
+    }
+    console.log(invdata)
+    this.Invassaignservice.addInventoryAssign(invdata).subscribe(res =>{
+      console.log(res)
+    })
+    
+    var vehcledata = {
+      vehicle_id:this.vechile_id,
+      status:"1"
+    }
+    this.vehicleservice.addVehicleDetails(vehcledata).subscribe(res => {
+      if (res.json().status == true) {
+        this.notif.success(
+          'Success',
+          'Vehicle Updated Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
+    })
+  }
+  clearEditedData(){
+    this.shippedBy = ' ';
+    this.shippedIn = ' ';
+    this.managerNote = ' ';
+  }
 }

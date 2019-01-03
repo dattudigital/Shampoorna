@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { environment } from '../../../../environments/environment';
-import { Http } from '@angular/http';
 declare var $: any;
 import { NotificationsService } from 'angular2-notifications';
+import { AllVehicleService } from '../../../services/all-vehicle.service';
+import { CompleteVehicleService } from '../../../services/complete-vehicle.service'
+
 @Component({
   selector: 'app-vehicle-type',
   templateUrl: './vehicle-type.component.html',
@@ -22,13 +23,13 @@ export class VehicleTypeComponent implements OnInit {
   typeDeleteData: any = [];
   public options = { position: ["top", "right"] }
 
-  constructor(private router: Router, private http: Http, private notif: NotificationsService) { }
+  constructor(private router: Router, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService, private notif: NotificationsService) { }
 
   ngOnInit() {
     this.cols = [
       { field: 'type_name', header: ' Name' }
     ];
-    this.http.get(environment.host + 'vehicle-types').subscribe(data => {
+    this.allvehicleservice.getCategory().subscribe(data => {
       if (data.json().status == true) {
         this.typeData = data.json().result;
       } else {
@@ -45,8 +46,10 @@ export class VehicleTypeComponent implements OnInit {
       type_name: this.typeName,
       status: 1
     }
-    this.http.post(environment.host + 'vehicle-types', data).subscribe(res => {
+    this.allvehicleservice.addCategory(data).subscribe(res => {
       if (res.json().status == true) {
+        this.typeData.push(res.json().result);
+        this.completevehicle.addType([])
         this.notif.success(
           'Success',
           'Type Added Successfully',
@@ -59,7 +62,6 @@ export class VehicleTypeComponent implements OnInit {
           }
         )
       }
-      this.typeData.push(res.json().result);
       $('#addType').modal('hide');
     })
   }
@@ -83,8 +85,9 @@ export class VehicleTypeComponent implements OnInit {
       type_name: this.type_name,
       status: this.status
     }
-    this.http.post(environment.host + 'vehicle-types', data).subscribe(res => {
+    this.allvehicleservice.addCategory(data).subscribe(res => {
       if (res.json().status == true) {
+        this.completevehicle.addType([])
         this.notif.success(
           'Success',
           'Type Updated Successfully',
@@ -111,13 +114,14 @@ export class VehicleTypeComponent implements OnInit {
     this.vehicle_type_id = this.typeDeleteData[index].vehicle_type_id;
   }
   yesVehicleType() {
-    this.typeData.splice(this.temp1, 1)
     var data = {
       vehicle_type_id: this.vehicle_type_id,
       status: "0"
     }
-    this.http.post(environment.host + 'vehicle-types', data).subscribe(res => {
+    this.allvehicleservice.addCategory(data).subscribe(res => {
       if (res.json().status == true) {
+        this.completevehicle.addType([])
+        this.typeData.splice(this.temp1, 1)
         this.notif.success(
           'Success',
           'Type Deleted Successfully',
