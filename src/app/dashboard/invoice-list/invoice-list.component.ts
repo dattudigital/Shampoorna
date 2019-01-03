@@ -47,11 +47,15 @@ export class InvoiceListComponent implements OnInit {
       branchLocation:'';
       branchContact:'';
 
+      salesBy:'';
+
     constructor(private router: Router,private http:Http) { }
 
     ngOnInit() {
         this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
+        console.log(this.loginData._results.employee_firstname)
         this.branchId = this.loginData._results.employee_branch_id;
+         this.salesBy =this.loginData._results.employee_firstname
 
         this.editPersonalInfo = JSON.parse(sessionStorage.getItem('invoiceData'));
         console.log(this.editPersonalInfo)
