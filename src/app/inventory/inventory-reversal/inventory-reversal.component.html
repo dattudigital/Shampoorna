@@ -107,9 +107,11 @@
           <label for="input" class="col-sm-4 control-label">Expected On Date</label>
           <div class="col-sm-8">
             <div class="input-group">
-              <p-calendar [(ngModel)]="date1" name="reqdate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030"
+              <p-calendar [(ngModel)]="date1" name="reqdate" [maxDate]="dateTime" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2030"
                 [inputStyle]="{'width':'190px'}" [showIcon]="true" [(ngModel)]="reqDate" dateFormat="dd-mm-yy"
                 (ngModelChange)=" getreqDate($event)" [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}"></p-calendar>
+                <!-- <p-calendar  [minDate]="dateTime" [showIcon]="true" showButtonBar="true" [(ngModel)]="dateTime" name="timeOfUse" required #timeOfUse="ngModel" [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}">
+                </p-calendar> -->
             </div>
           </div>
           <div class="clear"></div>

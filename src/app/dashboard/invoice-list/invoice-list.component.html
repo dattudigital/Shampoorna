@@ -338,7 +338,7 @@
     <div class="col-sm-4"></div>
     <div class="col-sm-4"></div>
     <div class="col-sm-2">
-        <button type="button" class="btn btn-warning pull-right" (click)="printInvoice('printlist')">Print</button>
+        <button type="button" class="btn btn-warning pull-right"  (click)="printInvoice('printlist')">Print</button>
     </div>
     <div class="clear"></div>
 </div>
@@ -356,7 +356,8 @@
                             </td>
                             <td>
                                 <h3>
-                                    Vehicle Invoice</h3>
+                                    Vehicle Invoice
+                                </h3>
                             </td>
                         </tr>
                         <tr>
@@ -398,19 +399,19 @@
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Name &</td>
+                                            <td>Name:</td>
                                             <td>{{firstName}} </td>
                                         </tr>
                                         <tr>
-                                            <td> S/W/D</td>
+                                            <td> S/W/D:</td>
                                             <td>{{Relation}}</td>
                                         </tr>
                                         <tr>
-                                            <td> ADDRESS</td>
+                                            <td> Address:</td>
                                             <td>{{Address}}</td>
                                         </tr>
                                         <tr>
-                                            <td>MOBILE</td>
+                                            <td>Mobile:</td>
                                             <td>{{Mobile}}</td>
                                         </tr>
                                         <tr>
@@ -438,20 +439,20 @@
                     <td colspan="2">
                         <table width="100%" style="border:1px solid black">
                             <tr>
-                                <th width="10%">Particulars</th>
-                                <th width="10%">Category</th>
-                                <th width="10%">Unit Cost with Tax</th>
-                                <th width="10%">Unit Cost</th>
-                                <th width="10%">HSN Code</th>
-                                <th width="10%">Qty</th>
-                                <th width="10%"> Total</th>
+                                <th>Particulars</th>
+                                <th>Category</th>
+                                <th>Unit Cost<br> with Tax</th>
+                                <th>Unit Cost</th>
+                                <th>HSN Code</th>
+                                <th>Qty</th>
+                                <th>Total</th>
                             </tr>
                             <tr>
-                                <td>SPORT KS MATTE BLUE</td>
-                                <td>SCOOTERETT</td>
+                                <td width="10%">SPORT KS MATTE BLUE</td>
+                                <td >SCOOTERETT</td>
                                 <td>{{totalAmount}}</td>
                                 <td>{{basciPrice}}</td>
-                                <td></td>
+                                <td>-</td>
                                 <td>1</td>
                                 <td>{{totalAmount}}</td>
                             </tr>
@@ -489,7 +490,7 @@
                                 <td></td>
                                 <td></td>
                                 <td>CGST-14%</td>
-                                <td>4,074.22</td>
+                                <td>{{cgst}}</td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -498,7 +499,7 @@
                                 <td></td>
                                 <td></td>
                                 <td>SGST-14%</td>
-                                <td>4,074.22</td>
+                                <td>{{sgst}}</td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -507,12 +508,12 @@
                                 <td></td>
                                 <td></td>
                                 <td>Round off</td>
-                                <td>37,250.22</td>
+                                <td>{{totalRoundOff}}</td>
                             </tr>
                             <tr>
                                 <td colspan="5">{{words}}</td>
                                 <td>Grand Total</td>
-                                <td>{{totalAmount}}</td>
+                                <td>{{totalWithTax}}</td>
                             </tr>
 
                         </table>

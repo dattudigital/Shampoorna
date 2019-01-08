@@ -194,6 +194,7 @@ export class DashboardComponent implements OnInit {
   bookingVehicleModel = '';
   bookingVehicleColor = '';
   bookingAdvanceAmount:number;
+  forCsd:'';
 
   constructor(private saleUserService: SaleUserService, private vehicledetails: VehicleDetailService, private notif: NotificationsService, private spinner: NgxSpinnerService, private invetoryAssign: InventoryAssigningService, private formBuilder: FormBuilder, private http: Http, private router: Router) { }
 
@@ -329,19 +330,25 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  newUserClick() {
+  newUserClick(val) {
+    this.forCsd=val
+    console.log(this.forCsd)
     this.newUser = true;
     this.exchangeUser = false;
     this.csdUser = false;
   }
 
-  exchangeUserClick() {
+  exchangeUserClick(val) {
+    this.forCsd=val
+    console.log(this.forCsd)
     this.newUser = false;
     this.exchangeUser = true;
     this.csdUser = false;
   }
 
-  csdUserClick() {
+  csdUserClick(val) {
+    this.forCsd=val
+    console.log(this.forCsd)
     this.newUser = false;
     this.exchangeUser = false;
     this.csdUser = true;
@@ -665,7 +672,7 @@ export class DashboardComponent implements OnInit {
     this.vehicleColor = this.selectedOption.color_name;
     this.vehicleModel = this.selectedOption.model_name;
     if (this.selectedOption.vehicle_variant) {
-      this.saleUserService.getPriceList(this.selectedOption.vehicle_variant).subscribe(res => {
+      this.saleUserService.getPriceListType(this.selectedOption.vehicle_variant,this.forCsd).subscribe(res => {
         this.vehicleVariant = res.json().result[0].variant_name;
         this.vehicleBasic = res.json().result[0]["EX.PRICE"];
         this.lifeTax = res.json().result[0]["LTAX & TR"];

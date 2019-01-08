@@ -40,6 +40,10 @@ export class InvoiceListComponent implements OnInit {
     editPersonalInfo: any = [];
     newIndex: '';
     words: any;
+    sgst: any;
+    cgst: any;
+    totalRoundOff: any;
+    totalWithTax: any;
 
     InvoiceBranchId: '';
       branchAddress:'';
@@ -93,10 +97,19 @@ export class InvoiceListComponent implements OnInit {
         this.Discount = this.editPersonalInfo.discount;
         this.totalAmount = this.editPersonalInfo.total_amt;
         if (this.totalAmount) {
-            this.words = this.convertNumberToWords(this.totalAmount)
+            this.sgst = 0;
+            this.cgst = 0;
+            this.totalWithTax = 0;
+            this.sgst = Math.floor(this.sgst + this.totalAmount * (14 / 100))
+            console.log(this.sgst)
+            this.cgst = Math.floor(this.cgst + this.totalAmount * (14 / 100))
+            this.totalWithTax = this.totalAmount * 1 + this.sgst * 1 + this.cgst * 1;
+            this.totalRoundOff = Math.round(this.totalAmount * 1 + this.sgst * 1 + this.cgst * 1)
+            this.words = this.convertNumberToWords(this.totalWithTax)
         }
 
     }
+
     backsaleDetails() {
         sessionStorage.removeItem('invoiceData');
         this.router.navigate(['sale-details'])

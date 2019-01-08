@@ -17,6 +17,8 @@ import { CompleteVehicleService } from '../../services/complete-vehicle.service'
 })
 export class InventoryReversalComponent implements OnInit {
 
+  // dateTime = new Date();
+
   InventoryReversalForm: FormGroup;
   branchData: any = [];
   typeData: any = [];
@@ -35,7 +37,9 @@ export class InventoryReversalComponent implements OnInit {
   reqQuantity = '';
   reqDate = '';
 
-  constructor(private http: Http, private allvehicleservice: AllVehicleService , private completevehicle: CompleteVehicleService , private formBuilder: FormBuilder, private notif: NotificationsService, private router: Router, private reverseservice: ReversalInventoryService ) { }
+  constructor(private http: Http, private allvehicleservice: AllVehicleService , private completevehicle: CompleteVehicleService , private formBuilder: FormBuilder, private notif: NotificationsService, private router: Router, private reverseservice: ReversalInventoryService ) {
+    // this.dateTime.setDate(this.dateTime.getDate() - 3); 
+   }
 
   ngOnInit() {
 
