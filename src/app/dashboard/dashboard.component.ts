@@ -10,6 +10,7 @@ import { InventoryAssigningService } from '../services/inventory-assigning.servi
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NotificationsService } from 'angular2-notifications';
 import { VehicleDetailService } from '../services/vehicle-detail.service';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -626,6 +627,12 @@ export class DashboardComponent implements OnInit {
       }
     }
     window.sessionStorage.removeItem('salesdata');
+
+    var bookingData={
+      booking_form_id:this._bookingData.booking_form_id,
+      status:0,
+    }
+    this.saleUserService.saveBookingForm(bookingData).subscribe(res=>{})
   }
 
   engineSearch(val) {
