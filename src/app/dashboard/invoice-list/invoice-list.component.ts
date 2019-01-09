@@ -52,10 +52,17 @@ export class InvoiceListComponent implements OnInit {
       branchContact:'';
 
       salesBy:'';
+      today: number;
+      invoiceNumber:any;
 
     constructor(private router: Router,private http:Http) { }
 
     ngOnInit() {
+        this.getCurrentDate();
+        setInterval(() => {
+          this.getCurrentDate();
+        }, 1000);
+        this.invoiceNumber = Math.floor(Math.random() * 899999 + 100000);
         this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
         console.log(this.loginData._results.employee_firstname)
         this.branchId = this.loginData._results.employee_branch_id;
@@ -114,6 +121,9 @@ export class InvoiceListComponent implements OnInit {
         sessionStorage.removeItem('invoiceData');
         this.router.navigate(['sale-details'])
     }
+    getCurrentDate() {
+        this.today = Date.now();
+      }
 
     value: any;
     convertNumberToWords(amount) {
