@@ -108,20 +108,14 @@ export class BookingFormComponent implements OnInit {
   }
 
   estimationPrice() {
-    console.log(this.vehicleVariant);
     if (this.vehicleVariant) {
-      this.saleUserService.getPriceList(this.vehicleVariant).subscribe(res => {
-        console.log(res.json())
-        console.log(res.json().result);
-        console.log(res.json().result[0]);
-        console.log(res.json().result[0]["TOTAL"]);
+      this.saleUserService.getPriceListType(this.vehicleVariant,0).subscribe(res => {
         this.priceEstimation = res.json().result[0]["TOTAL"];
       })
     }
   }
 
   addBookingForm() {
-    console.log("212121212121")
     if (this.bookingForm.invalid) {
       return;
     }

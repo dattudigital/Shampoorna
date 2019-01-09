@@ -44,9 +44,9 @@ export class SaleUserService {
     return this.http.get(environment.host + 'setup-price-lists/' + id+'/'+type)
   }
 
-  public getPriceList(id: any) {
-    return this.http.get(environment.host + 'setup-price-lists/' + id)
-  }
+  // public getPriceList(id: any) {
+  //   return this.http.get(environment.host + 'setup-price-lists/' + id)
+  // }
 
   public sendOtpToManager(data: any) {
     return this.http.post(environment.host + 'get-otp-number', data)

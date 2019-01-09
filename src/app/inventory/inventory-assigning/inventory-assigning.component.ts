@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import _ from 'lodash';
-import { FormControl } from '@angular/forms';
 import { environment } from '../../../environments/environment';
 import { Http } from '@angular/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -202,7 +201,8 @@ export class InventoryAssigningComponent implements OnInit {
           }
         )
       }
-    })
+    }) 
+    
   }
   omit_special_char(event) {
     var k;

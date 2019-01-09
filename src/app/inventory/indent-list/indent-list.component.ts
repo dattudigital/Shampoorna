@@ -112,6 +112,7 @@ export class IndentListComponent implements OnInit {
     }
     
     this.cols = [
+      { field: 'branch_name', header: 'Branch' },
       { field: 'indent_req_id', header: 'Indent Req ID' },
       { field: 'type_name', header: 'Type' },
       { field: 'model_name', header: 'Model' },
@@ -120,7 +121,6 @@ export class IndentListComponent implements OnInit {
       { field: 'req_qty', header: 'Required Qty' },
       { field: 'req_on_date', header: 'Req. On Date', type: this.dp },
       { field: 'createdemp', header: 'Assaigned By' },
-      { field: 'updatedemp', header: 'Updated By' },
     ];
   }
 

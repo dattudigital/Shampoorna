@@ -194,7 +194,7 @@ export class DashboardComponent implements OnInit {
   bookingVehicleModel = '';
   bookingVehicleColor = '';
   bookingAdvanceAmount:number;
-  forCsd:'';
+  forCsd=0;
 
   constructor(private saleUserService: SaleUserService, private vehicledetails: VehicleDetailService, private notif: NotificationsService, private spinner: NgxSpinnerService, private invetoryAssign: InventoryAssigningService, private formBuilder: FormBuilder, private http: Http, private router: Router) { }
 
@@ -671,6 +671,8 @@ export class DashboardComponent implements OnInit {
     this.vehicleKeyNo = this.selectedOption.vechile_gatepass;
     this.vehicleColor = this.selectedOption.color_name;
     this.vehicleModel = this.selectedOption.model_name;
+    console.log(this.selectedOption.vehicle_variant)
+    console.log(this.forCsd)
     if (this.selectedOption.vehicle_variant) {
       this.saleUserService.getPriceListType(this.selectedOption.vehicle_variant,this.forCsd).subscribe(res => {
         this.vehicleVariant = res.json().result[0].variant_name;
