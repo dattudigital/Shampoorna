@@ -10,6 +10,7 @@ import { InventoryAddPipe } from '../../pipe/inventory-add.pipe';
 import { NotificationsService } from 'angular2-notifications';
 import * as moment from 'moment';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
+import { IndentService } from '../../services/indent.service'
 
 @Component({
   selector: 'app-inventory-assigning',
@@ -52,7 +53,7 @@ export class InventoryAssigningComponent implements OnInit {
       model: "",
     }
   ];
-  constructor(private router: Router, private http: Http, private service: InventoryAssigningService, private formBuilder: FormBuilder, private pipe: InventoryListPipe, private addInvPipe: InventoryAddPipe, private notif: NotificationsService) {
+  constructor(private router: Router, private http: Http, private service: InventoryAssigningService, private formBuilder: FormBuilder, private pipe: InventoryListPipe, private addInvPipe: InventoryAddPipe, private notif: NotificationsService, private indentservice: IndentService) {
   }
   ngOnInit() {
     this._indentData = JSON.parse(sessionStorage.getItem('indentData'));
@@ -184,7 +185,7 @@ export class InventoryAssigningComponent implements OnInit {
       br_mgr_comment: this.managerNote,
       generated_shipping_id: this.generatedShippedId,
       status: this.status,
-      vechile_details: JSON.stringify(this.vehicles)
+      vechile_details: JSON.stringify(this.vehicles) 
     }
     var finalData = this.addInvPipe.transform(data);
     this.service.addInventoryAssign(finalData).subscribe(res => {
@@ -202,7 +203,7 @@ export class InventoryAssigningComponent implements OnInit {
         )
       }
     }) 
-    
+    this.indentservice.addIndent({indent_id:this.indentId,status: "0"}).subscribe(res => {})
   }
   omit_special_char(event) {
     var k;

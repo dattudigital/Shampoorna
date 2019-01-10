@@ -196,7 +196,7 @@ export class IndentListComponent implements OnInit {
       shipped_by: this.shipped_by,
       shipped_vechile_no: this.shipped_vechile_no,
       shipping_status: this.shipping_status,
-      status: "0"
+      status: "1"
     }
     this.service.addIndent(data).subscribe(res => {      
       if (res.json().status == true) {
@@ -215,7 +215,7 @@ export class IndentListComponent implements OnInit {
         setTimeout(() => {
           this.router.navigate(['inventory/inventory-assigning']);
         }, 1000);
-        this.indents.splice(this.temp, 1)
+        // this.indents.splice(this.temp, 1)
       }
     })
   }

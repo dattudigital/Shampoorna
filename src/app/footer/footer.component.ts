@@ -25,7 +25,7 @@ export class FooterComponent implements OnInit {
     this.cols = [
       { field: 'EX.PRICE', header: 'EX Price' },
       { field: 'LTAX & TR', header: 'Life Tax' },
-      { field: 'INS - 1 Yr Comprehensive and 5 Yr Third Party', header: 'Insurence' },
+      { field: 'INS - 1 Yr Comprehensive and 5 Yr Third Party', header: 'Insurance' },
       { field: 'FACILIATION CHARGES', header: 'HandlingC' },
       { field: 'STD ACC', header: 'Standard Accessories' },
       { field: 'Permantent Registation Cost', header: 'Registation' },
@@ -58,7 +58,6 @@ export class FooterComponent implements OnInit {
         } else {
           this.noResult = false;
           this.variantData = this.temp1.pop();
-          console.log(this.variantData)
         }
       })
     } else {
@@ -70,7 +69,6 @@ export class FooterComponent implements OnInit {
   onSelectVariant(event: TypeaheadMatch): void {
     this.selectedOption1 = event.item;
     this.selectedVariantId = this.selectedOption1.vehicle_variant_id;
-    console.log(this.selectedVariantId);
   }
 
   searchVehicleDetails() {
