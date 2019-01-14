@@ -61,8 +61,12 @@ export class AddVehicleBulkComponent implements OnInit {
       var worksheet = workbook.Sheets[first_sheet_name];
       this.list = XLSX.utils.sheet_to_json(worksheet, { raw: false })
       this.list.map(item => {
-        item["TVS-M Invoice Date"] = item["TVS-M Invoice Date"].replace("/","-")
-        item["TVS-M Invoice Date"] = item["TVS-M Invoice Date"].replace("/","-")
+        item["TVS-M Invoice Date"] = item["TVS-M Invoice Date"].replace("/", "-")
+        item["TVS-M Invoice Date"] = item["TVS-M Invoice Date"].replace("/", "-")
+        item["Engine No"] = item["Engine No"].toUpperCase();
+        item["Frame No"] = item["Frame No"].toUpperCase();
+        console.log(item["Frame No"].length);
+        console.log(item["Engine No"].length);
         this.colorData.map(color => {
           if (item["Colour"] == color.color_name) {
             item["vehicle_color"] = color.vehicle_color_id;

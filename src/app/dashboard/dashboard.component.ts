@@ -10,6 +10,8 @@ import { InventoryAssigningService } from '../services/inventory-assigning.servi
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NotificationsService } from 'angular2-notifications';
 import { VehicleDetailService } from '../services/vehicle-detail.service';
+// import { $ } from 'protractor';
+declare var $: any;
 
 @Component({
   selector: 'app-dashboard',
@@ -20,6 +22,11 @@ import { VehicleDetailService } from '../services/vehicle-detail.service';
 export class DashboardComponent implements OnInit {
   selectedOption: any = '';
   selectedRadio = '';
+  inventoryData: any;
+  cols: any[];
+  _selectVec: any;
+  tempAcce: any;
+  optionalNilDip:any;
   newUser = true;
   noResult = false;
   exchangeUser = false;
@@ -163,6 +170,7 @@ export class DashboardComponent implements OnInit {
   empTypeId: '';
   prYesChecked = '';
   accessriesYes = '';
+  optionalAccessriesYes = '';
   branchId = '';
   fieldsData: any = [];
   exchange: '';
@@ -188,16 +196,31 @@ export class DashboardComponent implements OnInit {
   csdStatus: any;
 
   //from booking Form
-  _bookingData:any;
+  _bookingData: any;
   bookingApprovedAmount = '';
   bookingApprovedby = '';
   bookingVehicleVariant = '';
   bookingVehicleModel = '';
   bookingVehicleColor = '';
-  bookingAdvanceAmount:number;
-  forCsd=0;
+  bookingAdvanceAmount: number;
+  forCsd = 0;
 
-  constructor(private saleUserService: SaleUserService, private vehicledetails: VehicleDetailService, private notif: NotificationsService, private spinner: NgxSpinnerService, private invetoryAssign: InventoryAssigningService, private formBuilder: FormBuilder, private http: Http, private router: Router) { }
+  constructor(private saleUserService: SaleUserService, private vehicledetails: VehicleDetailService, private notif: NotificationsService, private spinner: NgxSpinnerService, private invetoryAssign: InventoryAssigningService, private formBuilder: FormBuilder, private http: Http, private router: Router) {
+    this.cols = [
+      { field: 'branch_name', header: 'Branch' },
+      { field: 'indent_req_id', header: 'Indent ID' },
+      { field: 'generated_shipping_id', header: 'Shipping ID' },
+      { field: 'shipped_by', header: 'Shipped By' },
+      { field: 'shipped_vechile_no', header: 'Vehicle No.' },
+      { field: 'br_mgr_ack', header: 'Manager ACk' },
+      { field: 'br_mgr_comment', header: 'Manager Comment' },
+      { field: 'engineno', header: 'Engine No.' },
+      { field: 'frameno', header: 'Frame No.' },
+      { field: 'model_name', header: 'Model' },
+      { field: 'variant_name', header: 'Variant' },
+      { field: 'color_name', header: 'Color' }
+    ];
+  }
 
   ngOnInit() {
     this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
@@ -222,13 +245,13 @@ export class DashboardComponent implements OnInit {
       this.addressProofNo = this.fieldsData.addressProofNo
     }
 
-    if(sessionStorage.bookingData){
+    if (sessionStorage.bookingData) {
       this.name = " ";
       this.dob = " ";
       this.address = " ";
       this.mobile = " ";
       this.email = " ";
-    // if(this._bookingData){
+      // if(this._bookingData){
       this._bookingData = JSON.parse(sessionStorage.getItem('bookingData'));
       console.log(this._bookingData)
       setTimeout(() => {
@@ -245,7 +268,7 @@ export class DashboardComponent implements OnInit {
         this.bookingAdvanceAmount = this._bookingData.advance_payment;
         // this.status = '1';
       }, 1);
-    }else{
+    } else {
       this.name = " ";
       this.dob = " ";
       this.address = " ";
@@ -332,7 +355,7 @@ export class DashboardComponent implements OnInit {
   }
 
   newUserClick(val) {
-    this.forCsd=val
+    this.forCsd = val
     console.log(this.forCsd)
     this.newUser = true;
     this.exchangeUser = false;
@@ -340,7 +363,7 @@ export class DashboardComponent implements OnInit {
   }
 
   exchangeUserClick(val) {
-    this.forCsd=val
+    this.forCsd = val
     console.log(this.forCsd)
     this.newUser = false;
     this.exchangeUser = true;
@@ -348,7 +371,7 @@ export class DashboardComponent implements OnInit {
   }
 
   csdUserClick(val) {
-    this.forCsd=val
+    this.forCsd = val
     console.log(this.forCsd)
     this.newUser = false;
     this.exchangeUser = false;
@@ -388,8 +411,37 @@ export class DashboardComponent implements OnInit {
   }
   accessriesChecked() {
     console.log(this.accessriesYes)
+    // this.tempOnRoadPrice = this.onRoadPrice;
+    if (this.accessriesYes == '0' && this.optionalAccessriesYes == '0') {
+      this.vehicleAcc = 0;
+    } else if (this.accessriesYes == '1' && this.optionalAccessriesYes == '1') {
+      this.vehicleAcc = parseInt(this.tempAcce.standacc) + parseInt(this.tempAcce.optionalAtandacc);
+    } else if (this.accessriesYes == '1') {
+      this.vehicleAcc = this.tempAcce.standacc;
+    } else if (this.optionalAccessriesYes == '1' && this.accessriesYes == '0') {
+      this.vehicleAcc = this.tempAcce.optionalAtandacc
+    }
   }
 
+  optionalAccessriesChecked() {
+    console.log(this.optionalAccessriesYes)
+    // this.tempOnRoadPrice = this.onRoadPrice;
+    if (this.accessriesYes == '0' && this.optionalAccessriesYes == '0') {
+      this.vehicleAcc = 0;
+    } else if (this.accessriesYes == '1' && this.optionalAccessriesYes == '1') {
+      this.vehicleAcc = parseInt(this.tempAcce.standacc) + parseInt(this.tempAcce.optionalAtandacc);
+    } else if (this.optionalAccessriesYes == '1') {
+      this.vehicleAcc = this.tempAcce.optionalAtandacc;
+    } if (this.optionalAccessriesYes == '0' && this.accessriesYes == '1') {
+      this.vehicleAcc = this.tempAcce.standacc;
+    }
+  }
+
+  optionalNilDipChecked(){
+    if(this.optionalNilDip== '1'){
+
+    }
+  }
   //complete sale details
   get f() { return this.personalinfoForm.controls; }
 
@@ -628,11 +680,11 @@ export class DashboardComponent implements OnInit {
     }
     window.sessionStorage.removeItem('salesdata');
 
-    var bookingData={
-      booking_form_id:this._bookingData.booking_form_id,
-      status:0,
+    var bookingData = {
+      booking_form_id: this._bookingData.booking_form_id,
+      status: 0,
     }
-    this.saleUserService.saveBookingForm(bookingData).subscribe(res=>{})
+    this.saleUserService.saveBookingForm(bookingData).subscribe(res => { })
   }
 
   engineSearch(val) {
@@ -640,12 +692,15 @@ export class DashboardComponent implements OnInit {
       this.saleUserService.searchEngine(this.branchId, val).subscribe(data => {
         this.temp = [];
         this.temp.push(data.json().result);
+        console.log("check here ")
+        console.log(data.json())
         if (data.json().status == false) {
           this.vehicleInfo = [];
           this.noResult = true;
         } else {
           this.noResult = false;
           this.vehicleInfo = this.temp.pop();
+          console.log(this.vehicleInfo);
         }
       })
     } else {
@@ -678,11 +733,12 @@ export class DashboardComponent implements OnInit {
     this.vehicleKeyNo = this.selectedOption.vechile_gatepass;
     this.vehicleColor = this.selectedOption.color_name;
     this.vehicleModel = this.selectedOption.model_name;
-    console.log(this.selectedOption.vehicle_variant)
+    console.log(this.selectedOption)
     console.log(this.forCsd)
     if (this.selectedOption.vehicle_variant) {
-      this.saleUserService.getPriceListType(this.selectedOption.vehicle_variant,this.forCsd).subscribe(res => {
+      this.saleUserService.getPriceListType(this.selectedOption.vehicle_variant, this.forCsd).subscribe(res => {
         this.vehicleVariant = res.json().result[0].variant_name;
+        this.tempAcce = { standacc: res.json().result[0]["STD ACC"], optionalAtandacc: res.json().result[0]["OptionalACC"] };
         this.vehicleBasic = res.json().result[0]["EX.PRICE"];
         this.lifeTax = res.json().result[0]["LTAX & TR"];
         this.VehicleInsu = res.json().result[0]["INS - 1 Yr Comprehensive and 5 Yr Third Party"];
@@ -711,7 +767,7 @@ export class DashboardComponent implements OnInit {
         if (this.onRoadPrice) {
           this.onRoadPrice = this.onRoadPrice * 1 + this.VehicleHp * 1
         }
-        if (this.bookingAdvanceAmount){
+        if (this.bookingAdvanceAmount) {
           this.onRoadPrice = this.onRoadPrice * 1 - this.bookingAdvanceAmount * 1
         }
         this.tempOnRoadPrice = this.onRoadPrice;
@@ -977,5 +1033,75 @@ export class DashboardComponent implements OnInit {
     this.saleUserService.sendOtpToManager(data).subscribe(res => {
       this.otpNumber = res.json().result
     })
+  }
+
+  getCurrentBranchVechiles() {
+    let loginData = JSON.parse(sessionStorage.getItem('userSession'));
+    var brurl = '';
+    brurl = brurl + '&branchid=' + loginData._results.employee_branch_id;
+    this.spinner.show();
+    this.saleUserService.getInventoryList(brurl).subscribe(res => {
+      this.spinner.hide();
+      if (res.json().status == true) {
+        this.inventoryData = res.json().result;
+      }
+    });
+  }
+  selectedVechile(val) {
+    this._selectVec = val;
+  }
+  selectedSubmite() {
+    $('#showEngineNo').modal('hide');
+    // this.engineSearch(this._selectVec.engineno)
+    // this.vehicleEngineNo = this._selectVec.engineno;
+    console.log(this._selectVec)
+    this.onRoadPrice = 0
+    this.selectedValue = this._selectVec.engineno;
+    this.selectedVehicleNo = this._selectVec.vehicle_id;
+    this.SelectedAssignNo = this._selectVec.inventory_assign_id;
+    this.vehicleFrameNo = this._selectVec.frameno;
+    this.vehicleDcNo = this._selectVec["DC No"];
+    this.vehicleKeyNo = this._selectVec["Gate Pass"];
+    this.vehicleColor = this._selectVec.color_name;
+    this.vehicleModel = this._selectVec.model_name;
+    if (this._selectVec.variant) {
+      this.saleUserService.getPriceListType(this._selectVec.variant, this.forCsd).subscribe(res => {
+        console.log(res.json())
+        this.tempAcce = { standacc: res.json().result[0]["STD ACC"], optionalAtandacc: res.json().result[0]["OptionalACC"],optinalNildp:res.json().result[0]["Optional NIL DIP"] };
+        this.vehicleVariant = res.json().result[0].variant_name;
+        this.vehicleBasic = res.json().result[0]["EX.PRICE"];
+        this.lifeTax = res.json().result[0]["LTAX & TR"];
+        this.VehicleInsu = res.json().result[0]["INS - 1 Yr Comprehensive and 5 Yr Third Party"];
+        this.HandlingC = res.json().result[0]["FACILIATION CHARGES"];
+        this.Registration = res.json().result[0]["Permantent Registation Cost"];
+        this.StandardAcc = res.json().result[0]["STD ACC"];
+        this.VehicleHp = res.json().result[0][" HP Charges"];
+        if (this.vehicleBasic) {
+          this.onRoadPrice = this.onRoadPrice + this.vehicleBasic;
+        }
+        if (this.onRoadPrice) {
+          this.onRoadPrice = this.onRoadPrice * 1 + this.lifeTax * 1
+        }
+        if (this.onRoadPrice) {
+          this.onRoadPrice = this.onRoadPrice * 1 + this.VehicleInsu * 1
+        }
+        if (this.onRoadPrice) {
+          this.onRoadPrice = this.onRoadPrice * 1 + this.Registration * 1
+        }
+        if (this.onRoadPrice) {
+          this.onRoadPrice = this.onRoadPrice * 1 + this.HandlingC * 1
+        }
+        if (this.onRoadPrice) {
+          this.onRoadPrice = this.onRoadPrice * 1 + this.StandardAcc * 1
+        }
+        if (this.onRoadPrice) {
+          this.onRoadPrice = this.onRoadPrice * 1 + this.VehicleHp * 1
+        }
+        if (this.bookingAdvanceAmount) {
+          this.onRoadPrice = this.onRoadPrice * 1 - this.bookingAdvanceAmount * 1
+        }
+        this.tempOnRoadPrice = this.onRoadPrice;
+      });
+    }
   }
 } 

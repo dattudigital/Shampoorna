@@ -60,4 +60,8 @@ export class SaleUserService {
     return this.http.get(environment.host + 'booking-form');
   }
 
+  public getInventoryList(brurl:any){
+    console.log( environment.host + 'invassigns?status=2'+brurl)
+    return this.http.get( environment.host + 'invassigns?status=2'+brurl);
+  }
 }

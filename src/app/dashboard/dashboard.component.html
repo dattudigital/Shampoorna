@@ -229,6 +229,10 @@
 						 [(ngModel)]="vehicleEngineNo" (ngModelChange)='engineSearch($event)' [typeahead]="vehicleInfo"
 						 typeaheadOptionField="Engine No" (typeaheadOnSelect)="onSelect($event)" class="form-control">
 					</div>
+					<span class="input-group-addon" (click)="getCurrentBranchVechiles()" data-toggle="modal" data-target="#showEngineNo"
+					 style="width: 0%;">
+						<i class="fas fa-motorcycle"></i>
+					</span>
 					<div style="color:red" *ngIf="noResult">No Results Found</div>
 				</div>
 				<div class="row form-group">
@@ -325,6 +329,28 @@
 						&nbsp;&nbsp;
 					</div>
 				</div>
+				<div class="row form-group">
+						<label class="col-sm-4 col-form-label required">Optional Accessories
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-5">
+							<input type="radio" name="op-acc" value="1" [(ngModel)]="optionalAccessriesYes" (change)="optionalAccessriesChecked()">Yes
+							&nbsp;&nbsp;
+							<input type="radio" name="op-acc" value="0" [(ngModel)]="optionalAccessriesYes" (change)="optionalAccessriesChecked()">No
+							&nbsp;&nbsp;
+						</div>
+					</div>
+					<div class="row form-group">
+						<label class="col-sm-4 col-form-label required">Optional NIL DIP
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-5">
+							<input type="radio" name="op-acc" value="1" [(ngModel)]="optionalNilDip" (change)="optionalNilDipChecked()">Yes
+							&nbsp;&nbsp;
+							<input type="radio" name="op-acc" value="0" [(ngModel)]="optionalNilDip" (change)="optionalNilDipChecked()">No
+							&nbsp;&nbsp;
+						</div>
+					</div>
 				<div class="row form-group">
 					<div class="col-sm-12">
 						<h3>Pricing</h3>
@@ -664,7 +690,7 @@
 						 (ngModelChange)="addTotalAmount()">
 							<option value="select" disabled select>Select</option>
 							<option value="0">Cash</option>
-							<option value="1">EMI</option>
+							<option value="1">Finance</option>
 						</select>
 					</div>
 				</div>
@@ -919,6 +945,59 @@
 		<div claas="container">
 			<button type="submit" [disabled]=" finalSubmit" class="btn btn-warning" style="float:right;margin-right: 20%"
 			 (click)="saveUserDeatils('1')">Submit</button>
+		</div>
+	</div>
+</div>
+
+
+<div id="showEngineNo" class="modal fade" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="price-info">
+				<h2>Inventory List</h2>
+			</div>
+			<p-table #dt [value]="inventoryData" [columns]="cols" [paginator]="true" [rows]="5">
+				<ng-template pTemplate="caption">
+					<div style="text-align: right">
+						<i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+						<input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
+						 style="width:auto">
+					</div>
+				</ng-template>
+				<ng-template pTemplate="header" let-cols>
+					<tr>
+						<th *ngFor="let col of cols" [pSortableColumn]="col.field">
+							{{col.header}}
+							<p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+							 ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+						</th>
+						<th>Select</th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-car>
+					<tr>
+						<td *ngFor="let col of cols">
+							{{car[col.field]}}
+						</td>
+						<td> <input type="radio" name="select" id="select" (click)="selectedVechile(car)" /> </td>
+					</tr>
+				</ng-template>
+			</p-table>
+			<hr>
+			<div class="select-stylist-footer-right">
+				<ul>
+					<li>
+						<a data-dismiss="modal" *ngIf="_selectVec" (click)="selectedSubmite()">
+							<i class="fas fa-check" style="color: green"></i>
+							<br>Submite</a>
+					</li>
+					<li>
+						<a data-dismiss="modal">
+							<i class="fas fa-times"></i>
+							<br>Cancel</a>
+					</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 </div>
