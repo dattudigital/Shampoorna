@@ -1094,6 +1094,7 @@ export class DashboardComponent implements OnInit {
         this.Registration = res.json().result[0]["Permantent Registation Cost"];
         this.StandardAcc = res.json().result[0]["STD ACC"];
         this.VehicleHp = res.json().result[0][" HP Charges"];
+        this.nilDip = res.json().result[0]["Optional NIL DIP"]
         if (this.vehicleBasic) {
           this.onRoadPrice = this.onRoadPrice + this.vehicleBasic;
         }

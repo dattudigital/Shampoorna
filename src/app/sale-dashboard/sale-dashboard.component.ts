@@ -26,13 +26,10 @@ export class SaleDashboardComponent implements OnInit {
     // sessionStorage.removeItem('salesdata');
     
     this.loginData = JSON.parse(sessionStorage.getItem('userSession'));
-    console.log(this.loginData);
     var branchId = this.loginData._results.employee_branch_id;
-    console.log(branchId)
     this.service.getSaleAndInventoryCount(branchId).subscribe(res => {
       if (res.json().status == true) {
         this.todaySaleCount = res.json().result.todaysale;
-        console.log(this.todaySaleCount)
       } else {
         this.todaySaleCount = "0";
       }
