@@ -65,6 +65,7 @@ import { BookingFormComponent } from './footer/booking-form/booking-form.compone
 import { ListBookingFormComponent } from './footer/list-booking-form/list-booking-form.component';
 import { InventoryReversalComponent } from './inventory/inventory-reversal/inventory-reversal.component';
 import { InventoryReversalListComponent } from './inventory/inventory-reversal-list/inventory-reversal-list.component';
+import { DiscountOtpNoComponent } from './setup/discount-otp-no/discount-otp-no.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -103,6 +104,7 @@ const routes: Routes = [
   { path: 'setup/vehicle-variant', component: VehicleVariantComponent, canActivate: [AuthGuard] },
   { path: 'setup/vehicle-color', component: VehicleColorComponent, canActivate: [AuthGuard] },
   { path: 'setup/vehicle-make', component: VehicleMadeComponent, canActivate: [AuthGuard] },
+  { path: 'setup/send-otp-no', component: DiscountOtpNoComponent, canActivate: [AuthGuard] },
   { path: 'setup/price-list/add-list', component: AddPriceListComponent, canActivate: [AuthGuard] },
   { path: 'booking-form', component: BookingFormComponent, canActivate: [AuthGuard] },
   { path: 'list-bookings', component: ListBookingFormComponent, canActivate: [AuthGuard] }
@@ -151,7 +153,8 @@ const routes: Routes = [
     BookingFormComponent,
     ListBookingFormComponent,
     InventoryReversalComponent,
-    InventoryReversalListComponent
+    InventoryReversalListComponent,
+    DiscountOtpNoComponent
     
 
   ],

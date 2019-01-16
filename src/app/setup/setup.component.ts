@@ -57,6 +57,10 @@ export class SetupComponent implements OnInit {
     });
 
   }
+
+  redirectToSendOTPNo(){
+    this.router.navigate(['setup/send-otp-no'])    
+  }
   redirectToBranch() {
     this.router.navigate(['setup/branch'])
   }
