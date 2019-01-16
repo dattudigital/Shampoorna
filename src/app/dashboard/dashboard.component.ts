@@ -279,15 +279,12 @@ export class DashboardComponent implements OnInit {
 
     }
 
-
-    this.http.get(environment.host + 'employees').subscribe(employeedata => {
-      this.employeedata = employeedata.json().result;
-      for (var i = 0; i < this.employeedata.length; i++) {
-        if (this.employeedata[i].emp_type_id == 2) {
-          this.branchManagerData.push(this.employeedata[i])
-        }
+    this.http.get(environment.host + 'discount-otp-no').subscribe(res => {
+      if (res.json().status == true) {
+        this.branchManagerData = res.json().result;
       }
-    });
+    })
+
     this.personalinfoForm = this.formBuilder.group({
       FirstName: ['', Validators.required],
       nameRc: ['', Validators.required],
@@ -914,10 +911,10 @@ export class DashboardComponent implements OnInit {
     this.withAcc = 0;
     temp1 = this.tempOnRoadPrice;
     if (this.isNumber(this.vehicleAcc)) {
-      sum = sum + this.vehicleAcc*1;
+      sum = sum + this.vehicleAcc * 1;
     }
     if (this.isNumber(this.nilDipValue)) {
-      sum = sum + this.nilDipValue*1;
+      sum = sum + this.nilDipValue * 1;
     }
     if (this.isNumber(this.total)) {
       temp1 = temp1 - this.lifeTax;

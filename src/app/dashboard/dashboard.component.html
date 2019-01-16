@@ -478,7 +478,7 @@
 						<div class="col-sm-5">
 							<select name="emp" class="form-control" [(ngModel)]="discountApprovedBy" (ngModelChange)="selectedManager()">
 								<option value="0">select</option>
-								<option *ngFor="let manager of branchManagerData" [ngValue]="manager">{{manager.employee_firstname}}</option>
+								<option *ngFor="let manager of branchManagerData" [ngValue]="manager">{{manager.name}}</option>
 							</select>
 						</div>
 						<div class="col-sm-1"></div>
