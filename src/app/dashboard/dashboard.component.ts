@@ -678,7 +678,6 @@ export class DashboardComponent implements OnInit {
       }
     }
     window.sessionStorage.removeItem('salesdata');
-
     var bookingData = {
       booking_form_id: this._bookingData.booking_form_id,
       status: 0,

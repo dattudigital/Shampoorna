@@ -11,6 +11,7 @@ export class CompleteVehicleService {
   modelData: any = [];
   variantData: any = [];
   colorData: any = [];
+  numbersData:any=[];
 
   public addType(message) {
     this.typeData = message;
@@ -26,6 +27,14 @@ export class CompleteVehicleService {
 
   public getModel() {
     return this.modelData;
+  }
+
+  public addNumbers(number){
+    this.numbersData =number;
+  }
+
+  public getNumbers(){
+    return this.numbersData
   }
 
   public addVariant(message) {
