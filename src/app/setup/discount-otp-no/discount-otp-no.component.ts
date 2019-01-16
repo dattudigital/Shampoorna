@@ -20,14 +20,12 @@ export class DiscountOtpNoComponent implements OnInit {
   discountsendotp_id: '';
   name: '';
   number: '';
-  status: '';
+  status: any;
   temp1: any;
   modeldeleteData: any = [];
   public options = { position: ["top", "right"] }
 
-
   constructor(private router: Router, private notif: NotificationsService, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService) { }
-
 
   ngOnInit() {
     this.cols = [
@@ -96,6 +94,9 @@ export class DiscountOtpNoComponent implements OnInit {
     }
     this.allvehicleservice.addOtpNumber(data).subscribe(res => {
       if (res.json().status == true) {
+        if (this.status == '0') {
+          this.numbersData.splice(this.temp, 1)
+        }
         this.completevehicle.addNumbers([])
         this.notif.success(
           'Success',
