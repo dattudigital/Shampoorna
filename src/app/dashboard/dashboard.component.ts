@@ -26,7 +26,7 @@ export class DashboardComponent implements OnInit {
   cols: any[];
   _selectVec: any;
   tempAcce: any;
-  optionalNilDip:any;
+  optionalNilDip: any;
   newUser = true;
   noResult = false;
   exchangeUser = false;
@@ -437,8 +437,8 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  optionalNilDipChecked(){
-    if(this.optionalNilDip== '1'){
+  optionalNilDipChecked() {
+    if (this.optionalNilDip == '1') {
 
     }
   }
@@ -1037,10 +1037,22 @@ export class DashboardComponent implements OnInit {
 
   getCurrentBranchVechiles() {
     let loginData = JSON.parse(sessionStorage.getItem('userSession'));
-    var brurl = '';
-    brurl = brurl + '&branchid=' + loginData._results.employee_branch_id;
+    var URL = '';
+    URL = URL + '&branchid=' + loginData._results.employee_branch_id;
+    let _booking = JSON.parse(sessionStorage.getItem('bookingData'));
+    if (_booking) {
+      if (_booking.vehicle_color) {
+        URL = URL + '&color=' + _booking.vehicle_color
+      }
+      if (_booking.vehicle_model) {
+        URL = URL + '&model=' + _booking.vehicle_model
+      }
+      if (_booking.vehicle_variant) {
+        URL = URL + '&variant=' + _booking.vehicle_variant;
+      }
+    }
     this.spinner.show();
-    this.saleUserService.getInventoryList(brurl).subscribe(res => {
+    this.saleUserService.getInventoryList(URL).subscribe(res => {
       this.spinner.hide();
       if (res.json().status == true) {
         this.inventoryData = res.json().result;
@@ -1067,7 +1079,7 @@ export class DashboardComponent implements OnInit {
     if (this._selectVec.variant) {
       this.saleUserService.getPriceListType(this._selectVec.variant, this.forCsd).subscribe(res => {
         console.log(res.json())
-        this.tempAcce = { standacc: res.json().result[0]["STD ACC"], optionalAtandacc: res.json().result[0]["OptionalACC"],optinalNildp:res.json().result[0]["Optional NIL DIP"] };
+        this.tempAcce = { standacc: res.json().result[0]["STD ACC"], optionalAtandacc: res.json().result[0]["OptionalACC"], optinalNildp: res.json().result[0]["Optional NIL DIP"] };
         this.vehicleVariant = res.json().result[0].variant_name;
         this.vehicleBasic = res.json().result[0]["EX.PRICE"];
         this.lifeTax = res.json().result[0]["LTAX & TR"];
