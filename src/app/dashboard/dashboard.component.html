@@ -318,7 +318,7 @@
 					</div>
 				</div>
 
-				<div class="row form-group">
+				<!-- <div class="row form-group">
 					<label class="col-sm-4 col-form-label required">Accessories
 						<span style="color:red">*</span>
 					</label>
@@ -328,15 +328,15 @@
 						<input type="radio" name="acc" value="0" [(ngModel)]="accessriesYes" (change)="accessriesChecked()">No
 						&nbsp;&nbsp;
 					</div>
-				</div>
+				</div> -->
 				<div class="row form-group">
 					<label class="col-sm-4 col-form-label required">Optional Accessories
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<input type="radio" name="op-acc" value="1" [(ngModel)]="optionalAccessriesYes" (change)="optionalAccessriesChecked()">Yes
+						<input type="radio" name="op-acc" value="1" [(ngModel)]="optionalAccessriesYes" (change)="optionalAccessriesChecked();addTotalTax()">Yes
 						&nbsp;&nbsp;
-						<input type="radio" name="op-acc" value="0" [(ngModel)]="optionalAccessriesYes" (change)="optionalAccessriesChecked()">No
+						<input type="radio" name="op-acc" value="0" [(ngModel)]="optionalAccessriesYes" (change)="optionalAccessriesChecked();addTotalTax()">No
 						&nbsp;&nbsp;
 					</div>
 				</div>
@@ -346,6 +346,14 @@
 					</label>
 					<div class="col-sm-5">
 						<input type="checkbox" name="op-acc" value="1" [(ngModel)]="optionalNilDip" (change)="optionalNilDipChecked();addTotalTax()">Yes
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-4 col-form-label required">Hp
+						<span style="color:red">*</span>
+					</label>
+					<div class="col-sm-5">
+						<input type="checkbox" name="hp-charges" value="1" [(ngModel)]="hpSelect" (change)="hpChargeshecked();addTotalTax()">Yes
 					</div>
 				</div>
 				<div class="row form-group">
@@ -439,8 +447,8 @@
 					</div>
 					<div class="col-sm-2">
 						<div class="input-group">
-							<input type="number" min="0" name="basic" maxlength="50" (keypress)="only_allow_number($event)" class="form-control"
-							 [(ngModel)]="vehicleAcc" (ngModelChange)="addTotalTax()">
+							<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="vehicleAcc" (ngModelChange)="addTotalTax()"
+							 readonly>
 							<span>Accessories</span>
 						</div>
 					</div>
@@ -449,8 +457,8 @@
 					</div>
 					<div class="col-sm-2">
 						<div class="input-group">
-							<input type="number" min="0" name="basic" maxlength="50" (keypress)="only_allow_number($event)" class="form-control"
-							 [(ngModel)]="VehicleHp" readonly>
+							<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="VehicleHp" (ngModelChange)="addTotalTax()"
+							 readonly>
 							<span> HP</span>
 						</div>
 					</div>
@@ -559,9 +567,6 @@
 <div class="csd-form" *ngIf="csdUser">
 	<div class="container">
 		<div class="col-sm-8" style="padding-top:20px">
-
-
-
 			<div class=" row form-group">
 				<label class="col-sm-4 col-form-label required">Pay Order
 					<span style="color:red">*</span>
@@ -691,7 +696,7 @@
 				<h3>Payment Mode</h3>
 			</div>
 			<div class="col-sm-12">
-				<div class="row form-group">
+				<!-- <div class="row form-group">
 					<label class="col-sm-3 col-form-label required">Payment Mode
 						<span style="color:red">*</span>
 					</label>
@@ -703,9 +708,9 @@
 							<option value="1">Finance</option>
 						</select>
 					</div>
-				</div>
-				<div class="cash-form" *ngIf="selectedAmountOption == '0'">
-
+				</div> -->
+				<div *ngIf="hpSelect == '0'">
+				<!-- <div class="cash-form" *ngIf="selectedAmountOption == '0'"> -->
 					<div class="col-sm-12">
 						<div class="row form-group">
 							<div class="col-sm-4">
@@ -856,8 +861,11 @@
 					</div>
 					<br>
 					<br>
+					
+				<!-- </div> -->
 				</div>
-				<div class="emi-form" *ngIf="selectedAmountOption == '1'">
+				<div *ngIf="hpSelect == '1'">
+				<!-- <div class="emi-form" *ngIf="selectedAmountOption == '1'"> -->
 					<div class=" row form-group">
 						<label class="col-sm-3 col-form-label required">Financial Name
 							<span style="color:red">*</span>
@@ -937,6 +945,7 @@
 							<br />
 						</div>
 					</div>
+				<!-- </div> -->
 				</div>
 			</div>
 		</div>

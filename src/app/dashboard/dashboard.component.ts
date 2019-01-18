@@ -27,6 +27,7 @@ export class DashboardComponent implements OnInit {
   _selectVec: any;
   tempAcce: any;
   optionalNilDip: any;
+  hpSelect:any =0;
   newUser = true;
   noResult = false;
   exchangeUser = false;
@@ -85,13 +86,13 @@ export class DashboardComponent implements OnInit {
   HandlingC: number;
   Registration: number;
   StandardAcc: number;
-  VehicleHp: number;
+  VehicleHp: any;
   nilDip: number
   discountApprovedBy: any;
   handlingC: number;
   vehicleReg: '';
   vehicleWarranty: '';
-  vehicleAcc: number;
+  vehicleAcc: any;
   Hp: '';
   discount = 0;
   totalAmount: '';
@@ -165,7 +166,7 @@ export class DashboardComponent implements OnInit {
   roadTax: number = 0;
   tempAmount: number = 0;
   taxCount: number = 0
-  nilDipValue: number;
+  nilDipValue: any;
   bankStatemet: any;
   loginData: any = [];
   branchName: '';
@@ -408,37 +409,49 @@ export class DashboardComponent implements OnInit {
   prChecked() {
     console.log(this.prYesChecked);
   }
-  accessriesChecked() {
-    console.log(this.accessriesYes)
-    // this.tempOnRoadPrice = this.onRoadPrice;
-    if (this.accessriesYes == '0' && this.optionalAccessriesYes == '0') {
-      this.vehicleAcc = 0;
-    } else if (this.accessriesYes == '1' && this.optionalAccessriesYes == '1') {
-      this.vehicleAcc = parseInt(this.tempAcce.standacc) + parseInt(this.tempAcce.optionalAtandacc);
-    } else if (this.accessriesYes == '1') {
-      this.vehicleAcc = this.tempAcce.standacc;
-    } else if (this.optionalAccessriesYes == '1' && this.accessriesYes == '0') {
-      this.vehicleAcc = this.tempAcce.optionalAtandacc
-    }
-  }
+  // accessriesChecked() {
+  //   console.log(this.accessriesYes)
+  //   // this.tempOnRoadPrice = this.onRoadPrice;
+  //   if (this.accessriesYes == '0' && this.optionalAccessriesYes == '0') {
+  //     this.vehicleAcc = 0;
+  //   } else if (this.accessriesYes == '1' && this.optionalAccessriesYes == '1') {
+  //     this.vehicleAcc = parseInt(this.tempAcce.standacc) + parseInt(this.tempAcce.optionalAtandacc);
+  //   } else if (this.accessriesYes == '1') {
+  //     this.vehicleAcc = this.tempAcce.standacc;
+  //   } else if (this.optionalAccessriesYes == '1' && this.accessriesYes == '0') {
+  //     this.vehicleAcc = this.tempAcce.optionalAtandacc
+  //   }
+  // }
 
   optionalAccessriesChecked() {
     console.log(this.optionalAccessriesYes)
-    // this.tempOnRoadPrice = this.onRoadPrice;
-    if (this.accessriesYes == '0' && this.optionalAccessriesYes == '0') {
-      this.vehicleAcc = 0;
-    } else if (this.accessriesYes == '1' && this.optionalAccessriesYes == '1') {
-      this.vehicleAcc = parseInt(this.tempAcce.standacc) + parseInt(this.tempAcce.optionalAtandacc);
-    } else if (this.optionalAccessriesYes == '1') {
+
+    if (this.optionalAccessriesYes == '1') {
       this.vehicleAcc = this.tempAcce.optionalAtandacc;
-    } if (this.optionalAccessriesYes == '0' && this.accessriesYes == '1') {
-      this.vehicleAcc = this.tempAcce.standacc;
+    }
+    if (this.optionalAccessriesYes == '0') {
+      this.vehicleAcc = '';
     }
   }
 
   optionalNilDipChecked() {
+    console.log(this.optionalNilDip)
     if (this.optionalNilDip == '1') {
       this.nilDipValue = this.nilDip;
+    }
+    if (this.optionalNilDip == '0') {
+      this.nilDipValue = '';
+    }
+  }
+
+  hpChargeshecked() {
+    console.log(this.hpSelect)
+    if (this.hpSelect == '1') {
+      this.VehicleHp = this.tempAcce.hp;
+      console.log(this.VehicleHp)
+    }
+    if (this.hpSelect == '0') {
+      this.VehicleHp = ''
     }
   }
   //complete sale details
@@ -738,14 +751,13 @@ export class DashboardComponent implements OnInit {
       this.saleUserService.getPriceListType(this.selectedOption.vehicle_variant, this.forCsd).subscribe(res => {
         console.log(res.json());
         this.vehicleVariant = res.json().result[0].variant_name;
-        this.tempAcce = { standacc: res.json().result[0]["STD ACC"], optionalAtandacc: res.json().result[0]["OptionalACC"] };
+        this.tempAcce = { standacc: res.json().result[0]["STD ACC"], optionalAtandacc: res.json().result[0]["OptionalACC"], hp: res.json().result[0][" HP Charges"] };
         this.vehicleBasic = res.json().result[0]["EX.PRICE"];
         this.lifeTax = res.json().result[0]["LTAX & TR"];
         this.VehicleInsu = res.json().result[0]["INS - 1 Yr Comprehensive and 5 Yr Third Party"];
         this.HandlingC = res.json().result[0]["FACILIATION CHARGES"];
         this.Registration = res.json().result[0]["Permantent Registation Cost"];
         this.StandardAcc = res.json().result[0]["STD ACC"];
-        this.VehicleHp = res.json().result[0][" HP Charges"];
         this.nilDip = res.json().result[0]["Optional NIL DIP"]
         if (this.vehicleBasic) {
           this.onRoadPrice = this.onRoadPrice + this.vehicleBasic;
@@ -765,9 +777,9 @@ export class DashboardComponent implements OnInit {
         if (this.onRoadPrice) {
           this.onRoadPrice = this.onRoadPrice * 1 + this.StandardAcc * 1
         }
-        if (this.onRoadPrice) {
-          this.onRoadPrice = this.onRoadPrice * 1 + this.VehicleHp * 1
-        }
+        // if (this.onRoadPrice) {
+        //   this.onRoadPrice = this.onRoadPrice * 1 + this.VehicleHp * 1
+        // }
         if (this.bookingAdvanceAmount) {
           this.onRoadPrice = this.onRoadPrice * 1 - this.bookingAdvanceAmount * 1
         }
@@ -910,10 +922,14 @@ export class DashboardComponent implements OnInit {
     this.withAcc = 0;
     temp1 = this.tempOnRoadPrice;
     if (this.isNumber(this.vehicleAcc)) {
+      console.log(this.vehicleAcc)
       sum = sum + this.vehicleAcc * 1;
     }
     if (this.isNumber(this.nilDipValue)) {
       sum = sum + this.nilDipValue * 1;
+    }
+    if (this.isNumber(this.VehicleHp)) {
+      sum = sum + this.VehicleHp * 1
     }
     if (this.isNumber(this.total)) {
       temp1 = temp1 - this.lifeTax;
