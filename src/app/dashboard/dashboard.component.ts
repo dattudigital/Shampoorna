@@ -1101,7 +1101,7 @@ export class DashboardComponent implements OnInit {
     if (this._selectVec.variant) {
       this.saleUserService.getPriceListType(this._selectVec.variant, this.forCsd).subscribe(res => {
         console.log(res.json())
-        this.tempAcce = { standacc: res.json().result[0]["STD ACC"], optionalAtandacc: res.json().result[0]["OptionalACC"], optinalNildp: res.json().result[0]["Optional NIL DIP"] };
+        this.tempAcce = { standacc: res.json().result[0]["STD ACC"], optionalAtandacc: res.json().result[0]["OptionalACC"], hp: res.json().result[0][" HP Charges"] };
         this.vehicleVariant = res.json().result[0].variant_name;
         this.vehicleBasic = res.json().result[0]["EX.PRICE"];
         this.lifeTax = res.json().result[0]["LTAX & TR"];
@@ -1109,7 +1109,6 @@ export class DashboardComponent implements OnInit {
         this.HandlingC = res.json().result[0]["FACILIATION CHARGES"];
         this.Registration = res.json().result[0]["Permantent Registation Cost"];
         this.StandardAcc = res.json().result[0]["STD ACC"];
-        this.VehicleHp = res.json().result[0][" HP Charges"];
         this.nilDip = res.json().result[0]["Optional NIL DIP"]
         if (this.vehicleBasic) {
           this.onRoadPrice = this.onRoadPrice + this.vehicleBasic;
@@ -1128,9 +1127,6 @@ export class DashboardComponent implements OnInit {
         }
         if (this.onRoadPrice) {
           this.onRoadPrice = this.onRoadPrice * 1 + this.StandardAcc * 1
-        }
-        if (this.onRoadPrice) {
-          this.onRoadPrice = this.onRoadPrice * 1 + this.VehicleHp * 1
         }
         if (this.bookingAdvanceAmount) {
           this.onRoadPrice = this.onRoadPrice * 1 - this.bookingAdvanceAmount * 1
