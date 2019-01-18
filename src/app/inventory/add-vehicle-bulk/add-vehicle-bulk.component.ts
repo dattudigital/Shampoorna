@@ -126,6 +126,18 @@ export class AddVehicleBulkComponent implements OnInit {
             maxLength: 50
           }
         )
+      }else{
+        this.notif.alert(
+          'Error',
+          'Failed To Add',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
       }
     })
   }
