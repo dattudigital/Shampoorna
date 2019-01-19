@@ -10,6 +10,7 @@ import { InventoryAssigningService } from '../services/inventory-assigning.servi
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NotificationsService } from 'angular2-notifications';
 import { VehicleDetailService } from '../services/vehicle-detail.service';
+import { DISABLED } from '@angular/forms/src/model';
 // import { $ } from 'protractor';
 declare var $: any;
 
@@ -27,7 +28,7 @@ export class DashboardComponent implements OnInit {
   _selectVec: any;
   tempAcce: any;
   optionalNilDip: any;
-  hpSelect:any =0;
+  hpSelect: any = 0;
   newUser = true;
   noResult = false;
   exchangeUser = false;
@@ -86,9 +87,13 @@ export class DashboardComponent implements OnInit {
   HandlingC: number;
   Registration: number;
   StandardAcc: number;
-  VehicleHp: any;
+  VehicleHp: any = null;
   nilDip: number
-  discountApprovedBy: any;
+  discountApprovedBy: any = {
+    'discountsendotp_id': null,
+    'name': '',
+    'number': ''
+  }
   handlingC: number;
   vehicleReg: '';
   vehicleWarranty: '';
@@ -188,7 +193,7 @@ export class DashboardComponent implements OnInit {
   userimagePreview: any;
   payOrderPerview: any;
   deliveryFormPreview: any;
-
+  finalSubmit: boolean = true;
   userId: '';
 
   //to check status of api's
@@ -283,6 +288,7 @@ export class DashboardComponent implements OnInit {
     this.http.get(environment.host + 'discount-otp-no').subscribe(res => {
       if (res.json().status == true) {
         this.branchManagerData = res.json().result;
+        console.log(this.branchManagerData)
       }
     })
 
@@ -489,6 +495,10 @@ export class DashboardComponent implements OnInit {
       }
       // vehicle information send to sale-user api
       if (response.json().status == true) {
+        // if (this.discountApprovedBy == undefined) {
+        //   console.log('****************')
+        //   this.discountApprovedBy.discountsendotp_id = null
+        // }
         var vehicledetails = {
           vech_sale_user_id: response.json().result.sale_user_id,
           eng_no: this.vehicleEngineNo,
@@ -511,9 +521,11 @@ export class DashboardComponent implements OnInit {
           hp: this.VehicleHp,
           discount: this.discount,
           total_amt: this.onRoadPrice,
-          discount_approved_by: this.discountApprovedBy.employee_id,
+          discount_approved_by: this.discountApprovedBy.discountsendotp_id,
           sale_user_vechile_status: 1
         }
+
+        console.log(vehicledetails);
         this.saleUserService.saveSalesVehicle(vehicledetails).subscribe(vehicle => {
           console.log(vehicle.json().result);
           if (vehicle.json().status == true) {
@@ -551,7 +563,7 @@ export class DashboardComponent implements OnInit {
           exc_vechile_mode: this.exchangeVehicleModel,
           exc_customer_name: this.vehiclecustomerName,
           exchange_amt: this.exchangeAmount,
-          exchange_amt_approval_by: this.discountApprovedBy.employee_id,
+          exchange_amt_approval_by: this.discountApprovedBy.discountsendotp_id,
           exc_sale_exchange_status: 1
         }
         this.saleUserService.saveExchangeVehicle(exchangeDetails).subscribe(res => {
@@ -691,13 +703,14 @@ export class DashboardComponent implements OnInit {
       }
     }
     window.sessionStorage.removeItem('salesdata');
-    var bookingData = {
-      booking_form_id: this._bookingData.booking_form_id,
-      status: 0,
+    if (this._bookingData) {
+      var bookingData = {
+        booking_form_id: this._bookingData.booking_form_id,
+        status: 0,
+      }
+      this.saleUserService.saveBookingForm(bookingData).subscribe(res => { })
     }
-    this.saleUserService.saveBookingForm(bookingData).subscribe(res => { })
   }
-
   engineSearch(val) {
     if (val.length > 2) {
       this.saleUserService.searchEngine(this.branchId, val).subscribe(data => {
@@ -790,6 +803,7 @@ export class DashboardComponent implements OnInit {
 
   approvedEmpEnable() {
     if (this.discount >= 1) {
+      console.log('***********')
       this.disableApprovedBy = 'visible'
     } else {
       this.disableApprovedBy = 'hidden'
@@ -949,7 +963,6 @@ export class DashboardComponent implements OnInit {
       this.onRoadPrice = this.tempOnRoadPrice;
     }
   }
-  finalSubmit: boolean = true;
   addTotalAmount() {
     this.cashTotal = 0;
     if (this.paymentEmi.chequeAmount && this.paymentEmi.chequeSelect) {
@@ -969,22 +982,16 @@ export class DashboardComponent implements OnInit {
     }
 
     if (this.nomineeName && this.nomineeDob) {
-      if (this.selectedAmountOption == 1) {
-        this.finalSubmit = false;
+      console.log(this.otp);
+      if (this.disableApprovedBy == 'visible') {
+        if (this.otpNumber == this.otp) {
+          this.finalSubmit = false;
+        } else {
+          this.finalSubmit = true;
+        }
       }
-      if (this.selectedAmountOption == 0) {
-        this.finalSubmit = true;
-      }
-      if (this.onRoadPrice == this.cashTotal && this.otpNumber == this.otp) {
-        this.finalSubmit = false;
-      }
-      // console.log(this.otp);
-      // if (this.otpNumber == this.otp) {
-      //   this.finalSubmit = false;
-      // } else {
-      //   this.finalSubmit = true;
-      // }
-
+    }else{
+      this.finalSubmit = false;
     }
   }
   //this method  allow alphabets 
@@ -1044,10 +1051,10 @@ export class DashboardComponent implements OnInit {
     let newDate1 = moment(this.otpDate).format('YYYY-MM-DD').toString();
     this.otpDate = newDate1;
     var data = {
-      branch_id: this.discountApprovedBy.employee_branch_id,
-      employee_id: this.discountApprovedBy.employee_id,
+      // branch_id: this.discountApprovedBy.employee_branch_id,
+      employee_id: this.discountApprovedBy.discountsendotp_id,
       sale_user_id: this.userId,
-      mobile: this.discountApprovedBy.phone,
+      mobile: this.discountApprovedBy.number,
       discount_amount: this.discount,
       otp_date: this.otpDate,
       status: 1
