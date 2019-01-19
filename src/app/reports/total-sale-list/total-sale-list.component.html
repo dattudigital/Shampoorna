@@ -31,9 +31,9 @@
       <label for="input" class="col-md-3 control-label">From</label>
       <div class="col-md-7">
         <div class="input-group">
-          <p-calendar [(ngModel)]="date1" name="fromdate" placeholder="select from date" [monthNavigator]="true" [yearNavigator]="true"
-            yearRange="1950:2030" [inputStyle]="{'width':'190px'}" [showIcon]="true" [(ngModel)]="fromDate" dateFormat="dd-mm-yy"
-            (ngModelChange)="fromDa($event)"></p-calendar>
+          <p-calendar [(ngModel)]="date1" name="fromdate" placeholder="select from date" [monthNavigator]="true"
+            [yearNavigator]="true" yearRange="1950:2030" [inputStyle]="{'width':'190px'}" [showIcon]="true" [(ngModel)]="fromDate"
+            dateFormat="dd-mm-yy" (ngModelChange)="fromDa($event)"></p-calendar>
         </div>
       </div>
       <div class="clear"></div>
@@ -45,9 +45,9 @@
       <label for="input" class="col-md-3 control-label">To</label>
       <div class="col-md-7">
         <div class="input-group">
-          <p-calendar [(ngModel)]="date2" name="todate" placeholder="select to date" [monthNavigator]="true" [yearNavigator]="true"
-            yearRange="1950:2030" [inputStyle]="{'width':'190px'}" [showIcon]="true" [(ngModel)]="toDate" dateFormat="dd-mm-yy"
-            (ngModelChange)="toDa($event)"></p-calendar>
+          <p-calendar [(ngModel)]="date2" name="todate" placeholder="select to date" [monthNavigator]="true"
+            [yearNavigator]="true" yearRange="1950:2030" [inputStyle]="{'width':'190px'}" [showIcon]="true" [(ngModel)]="toDate"
+            dateFormat="dd-mm-yy" (ngModelChange)="toDa($event)"></p-calendar>
         </div>
       </div>
       <div class="clear"></div>
@@ -64,18 +64,18 @@
   </div>
 
 </div>
-<br/>
-<br/>
+<br />
+<br />
 
 <div class="row">
   <div class="container">
     <span (click)="xlDownload();" class="printOptions" title="Export to Excel">
       <i class="far fa-file-excel"></i>
     </span>
-
+    <!-- 
     <span (click)="pdfDownload()" class="printOptions" title="Export to PDF">
       <i class="fas fa-file-pdf"></i>
-    </span>
+    </span> -->
   </div>
 </div>
 
@@ -91,7 +91,8 @@
     <tr>
       <th *ngFor="let col of cols" [pSortableColumn]="col.field">
         {{col.header}}
-        <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+        <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+          ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
       </th>
     </tr>
   </ng-template>
@@ -105,10 +106,10 @@
 </p-table>
 
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#f5c585" type="ball-scale-multiple">
-    <p style="font-size: 20px; color: white">Loading...</p>
-  </ngx-spinner>
-  <style>
-    .alertRed {
-      color: red;
-    }
-  </style>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+<style>
+  .alertRed {
+    color: red;
+  }
+</style>

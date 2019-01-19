@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 declare var $: any;
 import { NotificationsService } from 'angular2-notifications';
 import { AllVehicleService } from '../../../services/all-vehicle.service';
-import { CompleteVehicleService } from '../../../services/complete-vehicle.service'
+import { CompleteVehicleService } from '../../../services/complete-vehicle.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-vehicle-color',
@@ -24,19 +25,20 @@ export class VehicleColorComponent implements OnInit {
 
   public options = { position: ["top", "right"] }
 
-  constructor(private router: Router, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService, private notif: NotificationsService) { }
+  constructor(private router: Router, private spinner: NgxSpinnerService, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService, private notif: NotificationsService) { }
 
   ngOnInit() {
     this.cols = [
       { field: 'color_name', header: 'Color' }
     ];
-
-    this.allvehicleservice.getModel().subscribe(data => {
+    this.spinner.show();
+    this.allvehicleservice.getColor().subscribe(data => {
       if (data.json().status == true) {
         this.colorData = data.json().result;
       } else {
         this.colorData = [];
       }
+      this.spinner.hide()
     });
   }
 

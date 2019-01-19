@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 declare var $: any;
 import { NotificationsService } from 'angular2-notifications';
 import { AllVehicleService } from '../../../services/all-vehicle.service';
-import { CompleteVehicleService } from '../../../services/complete-vehicle.service'
+import { CompleteVehicleService } from '../../../services/complete-vehicle.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-vehicle-type',
@@ -23,18 +24,20 @@ export class VehicleTypeComponent implements OnInit {
   typeDeleteData: any = [];
   public options = { position: ["top", "right"] }
 
-  constructor(private router: Router, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService, private notif: NotificationsService) { }
+  constructor(private router: Router, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService, private notif: NotificationsService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.cols = [
       { field: 'type_name', header: ' Name' }
     ];
+    this.spinner.show();
     this.allvehicleservice.getCategory().subscribe(data => {
       if (data.json().status == true) {
         this.typeData = data.json().result;
       } else {
         this.typeData = [];
       }
+      this.spinner.hide();
     });
   }
 

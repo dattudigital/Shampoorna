@@ -5,7 +5,8 @@ import { DatePipe } from '@angular/common';
 import { NotificationsService } from 'angular2-notifications';
 import * as moment from 'moment';
 import { AllVehicleService } from '../../services/all-vehicle.service';
-import { CompleteVehicleService } from '../../services/complete-vehicle.service'
+import { CompleteVehicleService } from '../../services/complete-vehicle.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-indent-list',
@@ -40,19 +41,21 @@ export class IndentListComponent implements OnInit {
   temp: any;
   public options = { position: ["top", "right"] }
 
-  constructor(private router: Router, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService , private service: IndentService, private dp: DatePipe, private notif: NotificationsService) { }
+  constructor(private router: Router, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService, private service: IndentService, private dp: DatePipe, private notif: NotificationsService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
     var brurl = '';
     brurl = brurl + '?status=1';
     brurl = brurl + '&branchid=' + loginData._results.employee_branch_id;
+    this.spinner.show();
     this.service.getIndentList(brurl).subscribe(res => {
-      if (res.json().status == true) {  
-      this.indents = res.json().result
-      }else{
+      if (res.json().status == true) {
+        this.indents = res.json().result
+      } else {
         this.indents = [];
       }
+      this.spinner.hide();
     })
 
     let _color = this.completevehicle.getColor();
@@ -110,7 +113,7 @@ export class IndentListComponent implements OnInit {
         }
       })
     }
-    
+
     this.cols = [
       { field: 'branch_name', header: 'Branch' },
       { field: 'indent_req_id', header: 'Indent Req ID' },
@@ -198,7 +201,7 @@ export class IndentListComponent implements OnInit {
       shipping_status: this.shipping_status,
       status: "1"
     }
-    this.service.addIndent(data).subscribe(res => {      
+    this.service.addIndent(data).subscribe(res => {
       if (res.json().status == true) {
         this.notif.success(
           'Success',
@@ -210,8 +213,8 @@ export class IndentListComponent implements OnInit {
             clickToClose: true,
             maxLength: 50
           }
-        )        
-        sessionStorage.setItem('indentData',JSON.stringify(this.indents[this.temp]))
+        )
+        sessionStorage.setItem('indentData', JSON.stringify(this.indents[this.temp]))
         setTimeout(() => {
           this.router.navigate(['inventory/inventory-assigning']);
         }, 1000);
@@ -230,7 +233,7 @@ export class IndentListComponent implements OnInit {
     if (this.toDate) {
       url = url + '&enddate=' + this.toDate;
     }
-    if (this.vehicleTypeFilter != "0" ) {
+    if (this.vehicleTypeFilter != "0") {
       url = url + '&type=' + this.vehicleTypeFilter;
     }
     if (this.vehicleVariantFilter != "0") {
@@ -294,7 +297,7 @@ export class IndentListComponent implements OnInit {
             maxLength: 50
           }
         )
-      }else{
+      } else {
         this.indents = [];
       }
     });

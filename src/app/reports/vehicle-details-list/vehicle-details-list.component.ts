@@ -3,6 +3,8 @@ import { Router } from '@angular/router'
 import { VehicleDetailService } from '../../services/vehicle-detail.service';
 declare var jsPDF: any;
 import { ExcelServiceService } from '../../services/excel-service.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+
 @Component({
   selector: 'app-vehicle-details-list',
   templateUrl: './vehicle-details-list.component.html',
@@ -13,29 +15,27 @@ export class VehicleDetailsListComponent implements OnInit {
   bikes: any[];
   cols: any[];
 
-  constructor(private router: Router, private service: VehicleDetailService, private excelService: ExcelServiceService) { }
+  constructor(private router: Router, private service: VehicleDetailService, private excelService: ExcelServiceService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.cols = [
-      { field: 'vehicle_engineno', header: 'Engine No.' },
-      { field: 'vehicle_name', header: 'Name' },
-      { field: 'color_name', header: 'Color' },
+      { field: 'TVS-M Invoice No', header: 'Invoice No.' },
+      { field: 'Sourced from', header: 'DC No.' },
+      { field: 'Engine No', header: 'Engine No.' },
+      { field: 'Frame No', header: 'Frame No.' },
       { field: 'type_name', header: 'Type' },
-      { field: 'make_name', header: 'Make' },
       { field: 'model_name', header: 'Model' },
-      { field: 'vehicle_cost', header: 'Cost' },
-      { field: 'vechile_key', header: 'Key No.' },
-      { field: 'vechicle_dcno', header: 'DC No.' },
-      { field: 'vehicle_frameno', header: 'Frame No.' },
-      { field: 'vechicle_invoiceno', header: 'Invoice No.' },
+      { field: 'variant_name', header: 'Variant' },
+      { field: 'color_name', header: 'Color' }
     ];
-
+    this.spinner.show()
     this.service.getVehicleDetails().subscribe(res => {
       if (res.json().status == true) {
         this.bikes = res.json().result
       } else {
         this.bikes = [];
       }
+      this.spinner.hide()
     });
   }
 

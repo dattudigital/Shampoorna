@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 declare var $: any;
 import { AllVehicleService } from '../../../services/all-vehicle.service';
-import { CompleteVehicleService } from '../../../services/complete-vehicle.service'
+import { CompleteVehicleService } from '../../../services/complete-vehicle.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-vehicle-model',
@@ -23,19 +24,20 @@ export class VehicleModelComponent implements OnInit {
   modeldeleteData: any = [];
   public options = { position: ["top", "right"] }
 
-  constructor(private router: Router, private notif: NotificationsService, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService) { }
+  constructor(private router: Router, private notif: NotificationsService, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.cols = [
       { field: 'model_name', header: ' Name' }
     ];
-
+    this.spinner.show();
     this.allvehicleservice.getModel().subscribe(data => {
       if (data.json().status == true) {
         this.modelData = data.json().result;
       } else {
         this.modelData = [];
       }
+      this.spinner.hide();
     });
   }
 

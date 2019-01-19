@@ -4,6 +4,7 @@ declare var $: any;
 import { NotificationsService } from 'angular2-notifications';
 import { AllVehicleService } from '../../../services/all-vehicle.service';
 import { CompleteVehicleService } from '../../../services/complete-vehicle.service'
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-vehicle-variant',
@@ -23,19 +24,20 @@ export class VehicleVariantComponent implements OnInit {
   variantDeleteData: any = [];
   public options = { position: ["top", "right"] }
 
-  constructor(private router: Router, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService, private notif: NotificationsService) { }
+  constructor(private router: Router, private spinner: NgxSpinnerService, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService, private notif: NotificationsService) { }
 
   ngOnInit() {
     this.cols = [
       { field: 'variant_name', header: 'Variant' }
     ];
-
+    this.spinner.show();
     this.allvehicleservice.getVariant().subscribe(data => {
       if (data.json().status == true) {
         this.variantData = data.json().result;
       } else {
         this.variantData = [];
       }
+      this.spinner.hide();
     });
   }
 

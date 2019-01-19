@@ -7,7 +7,8 @@ import * as moment from 'moment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotificationsService } from 'angular2-notifications';
 import { AllVehicleService } from '../../services/all-vehicle.service';
-import { CompleteVehicleService } from '../../services/complete-vehicle.service'
+import { CompleteVehicleService } from '../../services/complete-vehicle.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-indent-raising',
@@ -35,13 +36,12 @@ export class IndentRaisingComponent implements OnInit {
   modelData: any[];
   colorData: any[];
   variantData: any[];
-  empData: any[];
+  // empData: any[];
   public options = { position: ["top", "right"] }
 
-  constructor(private router: Router, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService, private http: Http, private service: IndentService, private formBuilder: FormBuilder, private notif: NotificationsService) { }
+  constructor(private router: Router, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService, private http: Http, private service: IndentService, private formBuilder: FormBuilder, private notif: NotificationsService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
-
     let _color = this.completevehicle.getColor();
     if (Object.keys(_color).length) {
       this.colorData = _color
@@ -88,6 +88,7 @@ export class IndentRaisingComponent implements OnInit {
     if (Object.keys(_variant).length) {
       this.variantData = _variant
     } else {
+      this.spinner.show();
       this.allvehicleservice.getVariant().subscribe(data => {
         if (data.json().status == true) {
           this.variantData = data.json().result;
@@ -95,16 +96,16 @@ export class IndentRaisingComponent implements OnInit {
         } else {
           this.variantData = [];
         }
+        this.spinner.hide();
       })
     }
-
-    this.http.get(environment.host + 'employees').subscribe(data => {
-      if (data.json().status == true) {
-        this.empData = data.json().result;
-      } else {
-        this.empData = [];
-      }
-    });
+    // this.http.get(environment.host + 'employees').subscribe(data => {
+    //   if (data.json().status == true) {
+    //     this.empData = data.json().result;
+    //   } else {
+    //     this.empData = [];
+    //   }
+    // });
 
     this.IndentRaisingForm = this.formBuilder.group({
       vehicleColor: ['', Validators.required],

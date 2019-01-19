@@ -33,7 +33,8 @@
         <tr>
             <th *ngFor="let col of cols" [pSortableColumn]="col.field">
                 {{col.header}}
-                <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+                    ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
             </th>
         </tr>
     </ng-template>
@@ -45,3 +46,7 @@
         </tr>
     </ng-template>
 </p-table>
+
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#f5c585" type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

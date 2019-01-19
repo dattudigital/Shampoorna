@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as XLSX from 'xlsx';
-import { environment } from '../../../environments/environment';
 import { Http } from '@angular/http';
 import { map } from 'rxjs/operators';
 import { AllVehicleService } from '../../services/all-vehicle.service';
@@ -23,6 +22,7 @@ export class AddVehicleBulkComponent implements OnInit {
   typeData: any[];
   modelData: any[];
   variantData: any[];
+  public options = { position: ["top", "right"] }
   incomingfile(event) {
     this.file = event.target.files[0];
   }
@@ -67,15 +67,11 @@ export class AddVehicleBulkComponent implements OnInit {
         console.log(item["Frame No"].length);
         console.log(item["Engine No"].length);
         console.log(item)
-
-        // for( var i=0; i< item.length; i++){
-          var engineMoreCount :any =[]
-          if (item["Engine No"].length > 12){
-            engineMoreCount = item["Engine No"]
-            console.log(engineMoreCount)
-          }
-        // }
-
+        var engineMoreCount: any = []
+        if (item["Engine No"].length > 12) {
+          engineMoreCount = item["Engine No"]
+          console.log(engineMoreCount)
+        }
         this.colorData.map(color => {
           if (item["Colour"] == color.color_name) {
             item["vehicle_color"] = color.vehicle_color_id;
@@ -94,7 +90,6 @@ export class AddVehicleBulkComponent implements OnInit {
         });
         this.modelData.map(model => {
           if (item["Model"] == null) {
-
           } else {
             if (item["Model"].toLowerCase() == model.model_name.toLowerCase()) {
               item["vehicle_model"] = model.vehicle_model_id;
@@ -118,6 +113,17 @@ export class AddVehicleBulkComponent implements OnInit {
       console.log(this.list)
     }
     fileReader.readAsArrayBuffer(this.file);
+    this.notif.success(
+      'Success',
+      'uploaded',
+      {
+        timeOut: 3000,
+        showProgressBar: true,
+        pauseOnHover: false,
+        clickToClose: true,
+        maxLength: 50
+      }
+    )
   }
 
   addBulkVehicles() {
@@ -135,7 +141,7 @@ export class AddVehicleBulkComponent implements OnInit {
             maxLength: 50
           }
         )
-      }else{
+      } else {
         this.notif.alert(
           'Error',
           'Failed To Add',

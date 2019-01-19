@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { Http } from '@angular/http';
 declare var $: any;
+import { NgxSpinnerService } from 'ngx-spinner';
+
 @Component({
   selector: 'app-vehicle-made',
   templateUrl: './vehicle-made.component.html',
@@ -20,20 +22,21 @@ export class VehicleMadeComponent implements OnInit {
   temp1: any
   typeDeleteData: any = [];
 
-  constructor(private router: Router, private http: Http) { }
+  constructor(private router: Router, private spinner: NgxSpinnerService, private http: Http) { }
 
   ngOnInit() {
     this.cols = [
       { field: 'vehicle_make_id', header: ' Id' },
       { field: 'make_name', header: ' Name' }
     ];
-
+    this.spinner.show();
     this.http.get(environment.host + 'vehicle-makes').subscribe(data => {
       if (data.json().status == true) {
         this.madeData = data.json().result;
       } else {
         this.madeData = [];
       }
+      this.spinner.hide();
     });
   }
 

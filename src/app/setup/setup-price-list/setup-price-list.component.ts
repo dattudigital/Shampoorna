@@ -3,6 +3,7 @@ import { Router } from '@angular/router'
 import { environment } from '../../../environments/environment';
 import { DatePipe } from '@angular/common';
 import { Http } from '@angular/http';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-setup-price-list',
@@ -17,15 +18,17 @@ export class SetupPriceListComponent implements OnInit {
   addList: any[];
   cols: any[];
 
-  constructor(private router: Router, private http: Http, private dp: DatePipe) { }
+  constructor(private router: Router, private http: Http, private spinner: NgxSpinnerService, private dp: DatePipe) { }
 
   ngOnInit() {
+    this.spinner.show();
     this.http.get(environment.host + 'setup-price-lists').subscribe(res => {
       if (res.json().status == true) {
         this.addList = res.json().result
       } else {
         this.addList = [];
       }
+      this.spinner.hide();
     });
 
     this.cols = [

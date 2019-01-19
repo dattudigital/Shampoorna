@@ -2,12 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { InventoryAssigningService } from '../../services/inventory-assigning.service'
 import { InventoryListPipe } from '../../pipe/inventory-list.pipe';
-import { Http } from '@angular/http'
-import { environment } from '../../../environments/environment';
 import * as moment from 'moment';
 import { NotificationsService } from 'angular2-notifications';
 import { AllVehicleService } from '../../services/all-vehicle.service';
-import { CompleteVehicleService } from '../../services/complete-vehicle.service'
+import { CompleteVehicleService } from '../../services/complete-vehicle.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-inventory-acknowledge',
@@ -33,12 +32,13 @@ export class InventoryAcknowledgeComponent implements OnInit {
   toDate = "";
   public options = { position: ["top", "right"] }
 
-  constructor(private router: Router, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService, private service: InventoryAssigningService, private invAssignService: InventoryListPipe, private http: Http, private notif: NotificationsService) { }
+  constructor(private router: Router, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService, private service: InventoryAssigningService, private invAssignService: InventoryListPipe, private notif: NotificationsService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     let loginData = JSON.parse(sessionStorage.getItem('secondaryLoginData'));
     var brurl = '';
     brurl = brurl + '&branchid=' + loginData._results.employee_branch_id;
+    this.spinner.show();
     this.service.getAcknowledgeList(brurl).subscribe(res => {
       if (res.json().status == true) {
         //this.inventoryData = this.invAssignService.transform(res.json().result);
@@ -46,6 +46,7 @@ export class InventoryAcknowledgeComponent implements OnInit {
       } else {
         this.inventoryData = [];
       }
+      this.spinner.hide();
     });
 
     let _color = this.completevehicle.getColor();
@@ -154,7 +155,7 @@ export class InventoryAcknowledgeComponent implements OnInit {
     if (this.vehicleColorFilter != "0") {
       url = url + '&color=' + this.vehicleColorFilter;
     }
-    this.service.getAcknowledgeFilter(url).subscribe(res => {
+    this.service.getAcknowledgeList(url).subscribe(res => {
       if (res.json().status == true) {
         this.inventoryData = res.json().result;
         this.notif.success(

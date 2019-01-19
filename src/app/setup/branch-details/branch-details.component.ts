@@ -4,6 +4,8 @@ import { Http } from '@angular/http';
 import { environment } from '../../../environments/environment';
 declare var $: any;
 import { NotificationsService } from 'angular2-notifications';
+import { NgxSpinnerService } from 'ngx-spinner';
+
 @Component({
   selector: 'app-branch-details',
   templateUrl: './branch-details.component.html',
@@ -29,7 +31,7 @@ export class BranchDetailsComponent implements OnInit {
   branch_contact_number: '';
 
   public options = { position: ["top", "right"] }
-  constructor(private router: Router, private http: Http, private notif: NotificationsService) { }
+  constructor(private router: Router, private http: Http, private notif: NotificationsService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
 
@@ -39,13 +41,14 @@ export class BranchDetailsComponent implements OnInit {
       { field: 'branch_location', header: 'Location' },
       { field: 'branch_contact_number', header: 'Contact Number' }
     ];
-
+    this.spinner.show();
     this.http.get(environment.host + 'branches').subscribe(res => {
       if (res.json().status == true) {
         this.branchData = res.json().result;
       } else {
         this.branchData = [];
       }
+      this.spinner.hide();
     });
   }
 

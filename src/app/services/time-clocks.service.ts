@@ -8,10 +8,10 @@ export class TimeClocksService {
   constructor(private http:Http) { }
 
   public saveInandOutTime(time: any) {
-    return this.http.post('http://ec2-54-88-194-105.compute-1.amazonaws.com:3001/time-clocks', time)
+    return this.http.post('http://ec2-54-88-194-105.compute-1.amazonaws.com:3005/time-clocks', time)
   }
 
   public loginEmployee(data:any){
-    return this.http.post('http://ec2-54-88-194-105.compute-1.amazonaws.com:3001/time-clocks/login', data)
+    return this.http.post('http://ec2-54-88-194-105.compute-1.amazonaws.com:3005/time-clocks/login', data)
   }
 }

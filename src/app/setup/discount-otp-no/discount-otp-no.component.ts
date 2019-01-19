@@ -4,6 +4,7 @@ import { NotificationsService } from 'angular2-notifications';
 declare var $: any;
 import { AllVehicleService } from '../../services/all-vehicle.service';
 import { CompleteVehicleService } from '../../services/complete-vehicle.service'
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-discount-otp-no',
@@ -25,23 +26,26 @@ export class DiscountOtpNoComponent implements OnInit {
   modeldeleteData: any = [];
   public options = { position: ["top", "right"] }
 
-  constructor(private router: Router, private notif: NotificationsService, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService) { }
+  constructor(private router: Router, private notif: NotificationsService, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.cols = [
       { field: 'name', header: ' Name' },
       { field: 'number', header: 'No.' }
     ];
-
+    this.spinner.show();
     this.allvehicleservice.getOtpNumbers().subscribe(data => {
       if (data.json().status == true) {
         this.numbersData = data.json().result;
+      }else{
+        this.numbersData = [];
       }
+      this.spinner.hide();
     });
   }
 
   backToSetup() {
-    this.router.navigate(['vehicle-setup'])
+    this.router.navigate(['setup'])
   }
 
   addNumber() {

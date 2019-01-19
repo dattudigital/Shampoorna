@@ -21,15 +21,5 @@ export class InventoryAssigningService {
     console.log( environment.host + 'invassigns?status=2'+brurl)
     return this.http.get( environment.host + 'invassigns?status=2'+brurl);
   }
-
-  public getInventoryFilter(url:any){
-    console.log(environment.host + 'invassigns?status=2'+url)
-    return this.http.get(environment.host + 'invassigns?status=2'+url );
-  }
-
-  public getAcknowledgeFilter(url:any){
-    console.log(environment.host + 'invassigns?status=1'+url)
-    return this.http.get(environment.host + 'invassigns?status=1&'+url );
-  }
 }
 
