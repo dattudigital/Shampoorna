@@ -5,6 +5,7 @@ import { NotificationsService } from 'angular2-notifications';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 declare var $: any;
+import { NgxSpinnerService } from 'ngx-spinner';
 import { AllVehicleService } from '../../services/all-vehicle.service';
 import { CompleteVehicleService } from '../../services/complete-vehicle.service'
 
@@ -65,13 +66,14 @@ export class VehicleDetailsComponent implements OnInit {
   toDate = "";
   public options = { position: ["top", "right"] }
 
-  constructor(private router: Router, private cdr: ChangeDetectorRef, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService, private service: VehicleDetailService, private formBuilder: FormBuilder, private notif: NotificationsService) { }
+  constructor(private router: Router, private cdr: ChangeDetectorRef, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService, private service: VehicleDetailService, private formBuilder: FormBuilder, private notif: NotificationsService,private spinner: NgxSpinnerService) { }
 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
   }
 
   ngOnInit() {
+    this.spinner.show();
     this.service.getVehicleDetails().subscribe(res => {
       if (res.json().status == true) {
         this.bikes = res.json().result
@@ -79,6 +81,7 @@ export class VehicleDetailsComponent implements OnInit {
       else{
         this.bikes = [];
       }
+      this.spinner.hide();
     });
 
     let _color = this.completevehicle.getColor();

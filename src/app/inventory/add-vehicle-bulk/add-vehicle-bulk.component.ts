@@ -40,7 +40,6 @@ export class AddVehicleBulkComponent implements OnInit {
     });
     this.service.getVariant().subscribe(data => {
       this.variantData = data.json().result;
-      console.log(this.variantData)
     })
   }
 
@@ -67,6 +66,16 @@ export class AddVehicleBulkComponent implements OnInit {
         item["Frame No"] = item["Frame No"].toUpperCase();
         console.log(item["Frame No"].length);
         console.log(item["Engine No"].length);
+        console.log(item)
+
+        // for( var i=0; i< item.length; i++){
+          var engineMoreCount :any =[]
+          if (item["Engine No"].length > 12){
+            engineMoreCount = item["Engine No"]
+            console.log(engineMoreCount)
+          }
+        // }
+
         this.colorData.map(color => {
           if (item["Colour"] == color.color_name) {
             item["vehicle_color"] = color.vehicle_color_id;
