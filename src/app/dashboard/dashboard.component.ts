@@ -215,13 +215,6 @@ export class DashboardComponent implements OnInit {
 
   constructor(private saleUserService: SaleUserService, private vehicledetails: VehicleDetailService, private notif: NotificationsService, private spinner: NgxSpinnerService, private invetoryAssign: InventoryAssigningService, private formBuilder: FormBuilder, private http: Http, private router: Router) {
     this.cols = [
-      { field: 'branch_name', header: 'Branch' },
-      { field: 'indent_req_id', header: 'Indent ID' },
-      { field: 'generated_shipping_id', header: 'Shipping ID' },
-      { field: 'shipped_by', header: 'Shipped By' },
-      { field: 'shipped_vechile_no', header: 'Vehicle No.' },
-      { field: 'br_mgr_ack', header: 'Manager ACk' },
-      { field: 'br_mgr_comment', header: 'Manager Comment' },
       { field: 'engineno', header: 'Engine No.' },
       { field: 'frameno', header: 'Frame No.' },
       { field: 'model_name', header: 'Model' },
