@@ -94,6 +94,9 @@ export class DashboardComponent implements OnInit {
     'name': '',
     'number': ''
   }
+  exchangeApprovedBy: any = {
+    'discountsendotp_id': null
+  }
   handlingC: number;
   vehicleReg: '';
   vehicleWarranty: '';
@@ -144,6 +147,7 @@ export class DashboardComponent implements OnInit {
     'mobileWallet': null,
     'othersAmount': 0,
   }
+  walletData:any = [];
 
   submitted = false;
   banks: any = [
@@ -162,10 +166,10 @@ export class DashboardComponent implements OnInit {
   exchangeVehicleModel: '';
   vehiclecustomerName: '';
   exchangeAmount: any;
-  exchangeAmountApprovedBy: '';
   taxData: any;
   employeedata: any;
   branchManagerData: any = [];
+  financierData:any = [];
   amount: number;
   onRoadPrice: number;
   roadTax: number = 0;
@@ -285,6 +289,20 @@ export class DashboardComponent implements OnInit {
       }
     })
 
+    this.http.get(environment.host + 'finance-name').subscribe(res => {
+      if (res.json().status == true) {
+        this.financierData = res.json().result;
+        console.log(this.financierData)
+      }
+    })
+
+    this.http.get(environment.host + 'payment-types').subscribe(res => {
+      if (res.json().status == true) {
+        this.walletData = res.json().result;
+        console.log(this.walletData)
+      }
+    })
+    
     this.personalinfoForm = this.formBuilder.group({
       FirstName: ['', Validators.required],
       nameRc: ['', Validators.required],
@@ -445,6 +463,7 @@ export class DashboardComponent implements OnInit {
 
   hpChargeshecked() {
     console.log(this.hpSelect)
+    if(this.forCsd == 0){
     if (this.hpSelect == '1') {
       this.VehicleHp = this.tempAcce.hp;
       console.log(this.VehicleHp)
@@ -452,6 +471,7 @@ export class DashboardComponent implements OnInit {
     if (this.hpSelect == '0') {
       this.VehicleHp = ''
     }
+  }
   }
   //complete sale details
   get f() { return this.personalinfoForm.controls; }
@@ -556,7 +576,7 @@ export class DashboardComponent implements OnInit {
           exc_vechile_mode: this.exchangeVehicleModel,
           exc_customer_name: this.vehiclecustomerName,
           exchange_amt: this.exchangeAmount,
-          exchange_amt_approval_by: this.discountApprovedBy.discountsendotp_id,
+          exchange_amt_approval_by: this.exchangeApprovedBy.discountsendotp_id,
           exc_sale_exchange_status: 1
         }
         this.saleUserService.saveExchangeVehicle(exchangeDetails).subscribe(res => {
@@ -635,9 +655,9 @@ export class DashboardComponent implements OnInit {
           emi_bank_stmt: '',
           bank_statement: this.banks
         }
-        if (this.paymentEmi.mobileWallet) {
-          delete paymentDetails.others_type;
-        }
+        // if (this.paymentEmi.mobileWallet) {
+        //   delete paymentDetails.others_type;
+        // }
         this.saleUserService.addPaymentEmi(paymentDetails).subscribe(response => {
           this.spinner.hide();
           if (response.json().status == true) {
@@ -1089,9 +1109,11 @@ export class DashboardComponent implements OnInit {
     // this.engineSearch(this._selectVec.engineno)
     // this.vehicleEngineNo = this._selectVec.engineno;
     console.log(this._selectVec)
+    console.log(this._selectVec.vechile_id)
     this.onRoadPrice = 0
+    this.vehicleEngineNo = this._selectVec.engineno;
     this.selectedValue = this._selectVec.engineno;
-    this.selectedVehicleNo = this._selectVec.vehicle_id;
+    this.selectedVehicleNo = this._selectVec.vechile_id;
     this.SelectedAssignNo = this._selectVec.inventory_assign_id;
     this.vehicleFrameNo = this._selectVec.frameno;
     this.vehicleDcNo = this._selectVec["DC No"];

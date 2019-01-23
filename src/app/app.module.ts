@@ -66,6 +66,8 @@ import { ListBookingFormComponent } from './footer/list-booking-form/list-bookin
 import { InventoryReversalComponent } from './inventory/inventory-reversal/inventory-reversal.component';
 import { InventoryReversalListComponent } from './inventory/inventory-reversal-list/inventory-reversal-list.component';
 import { DiscountOtpNoComponent } from './setup/discount-otp-no/discount-otp-no.component';
+import { FinanceNamesComponent } from './setup/finance-names/finance-names.component';
+import { WalletComponent } from './setup/wallet/wallet.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -106,6 +108,8 @@ const routes: Routes = [
   { path: 'setup/vehicle-make', component: VehicleMadeComponent, canActivate: [AuthGuard] },
   { path: 'setup/send-otp-no', component: DiscountOtpNoComponent, canActivate: [AuthGuard] },
   { path: 'setup/price-list/add-list', component: AddPriceListComponent, canActivate: [AuthGuard] },
+  { path: 'setup/finance-name', component: FinanceNamesComponent, canActivate: [AuthGuard] },
+  { path: 'setup/wallet', component: WalletComponent, canActivate: [AuthGuard] },
   { path: 'booking-form', component: BookingFormComponent, canActivate: [AuthGuard] },
   { path: 'list-bookings', component: ListBookingFormComponent, canActivate: [AuthGuard] }
 ];
@@ -154,9 +158,10 @@ const routes: Routes = [
     ListBookingFormComponent,
     InventoryReversalComponent,
     InventoryReversalListComponent,
-    DiscountOtpNoComponent
+    DiscountOtpNoComponent,
+    FinanceNamesComponent,
+    WalletComponent
     
-
   ],
   imports: [
     BrowserModule,

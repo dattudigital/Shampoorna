@@ -40,4 +40,12 @@ export class AllVehicleService {
   public addOtpNumber(data: any) {
     return this.http.post(environment.host + 'discount-otp-no', data);
   }
+
+  public getFinance() {
+    return this.http.get(environment.host + 'finance-name');
+  }
+
+  public addFinance(data: any) {
+    return this.http.post(environment.host + 'finance-name',data);
+  }
 }

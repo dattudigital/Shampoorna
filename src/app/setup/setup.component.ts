@@ -30,37 +30,9 @@ export class SetupComponent implements OnInit {
     sessionStorage.removeItem('secondaryLoginData');
     sessionStorage.removeItem('secondaryLoginData1');
     sessionStorage.removeItem('secondaryLoginData2');
-
     this.loginPopUp()
-    this.http.get(environment.host + 'vehicle-models').subscribe(data => {
-      if (data.json().status == true) {
-        this.modelData = data.json().result;
-      } else {
-        this.modelData = [];
-      }
-    });
-
-    this.http.get(environment.host + 'vehicle-colors').subscribe(data => {
-      if (data.json().status == true) {
-        this.colorData = data.json().result;
-      } else {
-        this.colorData = [];
-      }
-    });
-
-    this.http.get(environment.host + 'vehicle-types').subscribe(data => {
-      if (data.json().status == true) {
-        this.typeData = data.json().result;
-      } else {
-        this.typeData = [];
-      }
-    });
-
   }
 
-  redirectToSendOTPNo(){
-    this.router.navigate(['setup/send-otp-no'])    
-  }
   redirectToBranch() {
     this.router.navigate(['setup/branch'])
   }
@@ -70,7 +42,16 @@ export class SetupComponent implements OnInit {
   redirectToPriceList() {
     this.router.navigate(['setup/price-list'])
   }
-  RedirectToHome() {
+  redirectToSendOTPNo(){
+    this.router.navigate(['setup/send-otp-no'])    
+  }
+  redirectToFinance(){
+    this.router.navigate(['setup/finance-name'])    
+  }
+  redirectToWallet(){
+    this.router.navigate(['setup/wallet'])    
+  }
+  redirectToHome() {
     this.router.navigate(['sale-dashboard'])
   }
 

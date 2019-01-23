@@ -348,12 +348,14 @@
 						<input type="checkbox" name="op-acc" value="1" [(ngModel)]="optionalNilDip" (change)="optionalNilDipChecked();addTotalTax()">Yes
 					</div>
 				</div>
-				<div class="row form-group">
-					<label class="col-sm-4 col-form-label required">Hp
-						<span style="color:red">*</span>
-					</label>
-					<div class="col-sm-5">
-						<input type="checkbox" name="hp-charges" value="1" [(ngModel)]="hpSelect" (change)="hpChargeshecked();addTotalTax()">Yes
+				<div *ngIf="newUser || exchangeUser">
+					<div class="row form-group">
+						<label class="col-sm-4 col-form-label required">Hp
+							<span style="color:red">*</span>
+						</label>
+						<div class="col-sm-5">
+							<input type="checkbox" name="hp-charges" value="1" [(ngModel)]="hpSelect" (change)="hpChargeshecked();addTotalTax()">Yes
+						</div>
 					</div>
 				</div>
 				<div class="row form-group">
@@ -452,14 +454,16 @@
 							<span>Accessories</span>
 						</div>
 					</div>
-					<div class="col-sm-1">
-						<span>+</span>
-					</div>
-					<div class="col-sm-2">
-						<div class="input-group">
-							<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="VehicleHp" (ngModelChange)="addTotalTax()"
-							 readonly>
-							<span> HP</span>
+					<div *ngIf="newUser || exchangeUser">
+						<div class="col-sm-1">
+							<span>+</span>
+						</div>
+						<div class="col-sm-2">
+							<div class="input-group">
+								<input type="number" name="basic" maxlength="50" class="form-control" [(ngModel)]="VehicleHp" (ngModelChange)="addTotalTax()"
+								 readonly>
+								<span> HP</span>
+							</div>
 						</div>
 					</div>
 					<div class="col-sm-1">
@@ -679,9 +683,9 @@
 						<span style="color:red">*</span>
 					</label>
 					<div class="col-sm-5">
-						<select name="state" class="form-control" [(ngModel)]="exchangeAmountApprovedBy">
+						<select name="state" class="form-control" [(ngModel)]="exchangeApprovedBy">
 							<option value="" disabled select>select</option>
-							<option *ngFor="let manager of branchManagerData" [ngValue]="manager.employee_id">{{manager.employee_firstname}}</option>
+							<option *ngFor="let manager of branchManagerData" [ngValue]="manager">{{manager.name}}</option>
 						</select>
 					</div>
 				</div>
@@ -830,13 +834,9 @@
 											<span style="color:red">*</span>
 										</span>
 										<div class="col-sm-5">
-											<select name="state" class="form-control" [(ngModel)]="addressProof">
+											<select name="state" class="form-control" [(ngModel)]="paymentEmi.mobileWallet" (ngModelChange)="selectedManager()">
 												<option value="" disabled select>Select</option>
-												<option value="Paytm">Paytm</option>
-												<option value="Mobikwik ">Mobikwik </option>
-												<option value="PayUmoney">PayUmoney</option>
-												<option value="phone">phone pe </option>
-												<option value="gpay">gpay</option>
+												<option *ngFor="let data of walletData" [ngValue]="data.payment_type_id">{{data.payment_name}}</option>
 											</select>
 										</div>
 									</div>
@@ -867,12 +867,18 @@
 				<div *ngIf="hpSelect == '1'">
 					<!-- <div class="emi-form" *ngIf="selectedAmountOption == '1'"> -->
 					<div class=" row form-group">
-						<label class="col-sm-3 col-form-label required">Financial Name
+						<label class="col-sm-3 col-form-label required">Financer Name
 							<span style="color:red">*</span>
 						</label>
-						<div class="col-sm-3">
+						<!-- <div class="col-sm-3">
 							<input type="text" (keypress)="omit_special_char($event)" placeholder="Financial Name" name="cost" maxlength="50"
-							 class="form-control" [(ngModel)]="paymentEmi.financialName">
+							 class="form-control" [(ngModel)]=">
+						</div> -->
+						<div class="col-sm-3">
+							<select name="state" class="form-control" [(ngModel)]="paymentEmi.financialName">
+								<option value="" disabled select>select</option>
+								<option *ngFor="let data of financierData" [ngValue]="data.finance_name">{{data.finance_name}}</option>
+							</select>
 						</div>
 					</div>
 					<div class=" row form-group">
@@ -1023,9 +1029,9 @@
 	</div>
 </div>
 
-<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#f5c585" type="ball-scale-multiple">
+<!-- <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#f5c585" type="ball-scale-multiple">
 	<p style="font-size: 20px; color: white">Loading...</p>
-</ngx-spinner>
+</ngx-spinner> -->
 <style>
 	.alertRed {
 		color: red;

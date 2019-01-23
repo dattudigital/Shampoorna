@@ -7,37 +7,36 @@ import { CompleteVehicleService } from '../../services/complete-vehicle.service'
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
-  selector: 'app-discount-otp-no',
-  templateUrl: './discount-otp-no.component.html',
-  styleUrls: ['./discount-otp-no.component.css']
+  selector: 'app-finance-names',
+  templateUrl: './finance-names.component.html',
+  styleUrls: ['./finance-names.component.css']
 })
-export class DiscountOtpNoComponent implements OnInit {
+export class FinanceNamesComponent implements OnInit {
 
-  numbersData: any = []
+  public options = { position: ["top", "right"] }
+  financeData: any = []
   cols: any = [];
-  editNumberData: any = [];
+  editFinanceData: any = [];
   temp: any;
-  discountsendotp_id: '';
-  name: '';
-  number: '';
+  finance_name_id: '';
+  financeName: '';
   status: any;
   temp1: any;
-  modeldeleteData: any = [];
-  public options = { position: ["top", "right"] }
+  financedeleteData: any = [];
+
 
   constructor(private router: Router, private notif: NotificationsService, private allvehicleservice: AllVehicleService, private completevehicle: CompleteVehicleService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.cols = [
-      { field: 'name', header: ' Name' },
-      { field: 'number', header: 'No.' }
+      { field: 'finance_name', header: 'Name' },
     ];
     this.spinner.show();
-    this.allvehicleservice.getOtpNumbers().subscribe(data => {
+    this.allvehicleservice.getFinance().subscribe(data => {
       if (data.json().status == true) {
-        this.numbersData = data.json().result;
+        this.financeData = data.json().result;
       }else{
-        this.numbersData = [];
+        this.financeData = [];
       }
       this.spinner.hide();
     });
@@ -47,16 +46,15 @@ export class DiscountOtpNoComponent implements OnInit {
     this.router.navigate(['setup'])
   }
 
-  addNumber() {
+  addFinance() {
     var data = {
-      name: this.name,
-      number: this.number,
+      finance_name: this.financeName,
       status: 1
     }
-    this.allvehicleservice.addOtpNumber(data).subscribe(res => {
+    this.allvehicleservice.addFinance(data).subscribe(res => {
       if (res.json().status == true) {
-        this.completevehicle.addNumbers([])
-        this.numbersData.push(res.json().result);
+        this.completevehicle.addFinance([])
+        this.financeData.push(res.json().result);
         this.notif.success(
           'Success',
           'Model Added Successfully',
@@ -69,41 +67,38 @@ export class DiscountOtpNoComponent implements OnInit {
           }
         )
       }
-      $('#addNewModel').modal('hide');
+      $('#addNewFinance').modal('hide');
     })
   }
 
   removeFields() {
-    this.name = '';
-    this.number = '';
+    this.financeName = '';
   }
 
-  editNumbers(data, index) {
-    this.editNumberData = data;
+  editFinances(data, index) {
+    this.editFinanceData = data;
     data.index = index;
     this.temp = index;
-    this.discountsendotp_id = this.editNumberData[index].discountsendotp_id;
-    this.name = this.editNumberData[index].name;
-    this.number = this.editNumberData[index].number;
-    this.status = this.editNumberData[index].status;
+    this.finance_name_id = this.editFinanceData[index].finance_name_id;
+    this.financeName = this.editFinanceData[index].finance_name;
+    this.status = this.editFinanceData[index].status;
   }
 
-  updateNumber() {
+  updateFinance() {
     var data = {
-      discountsendotp_id: this.discountsendotp_id,
-      name: this.name,
-      number: this.number,
+      finance_name_id: this.finance_name_id,
+      finance_name: this.financeName,
       status: this.status
     }
-    this.allvehicleservice.addOtpNumber(data).subscribe(res => {
+    this.allvehicleservice.addFinance(data).subscribe(res => {
       if (res.json().status == true) {
         if (this.status == '0') {
-          this.numbersData.splice(this.temp, 1)
+          this.financeData.splice(this.temp, 1)
         }
-        this.completevehicle.addNumbers([])
+        this.completevehicle.addFinance([])
         this.notif.success(
           'Success',
-          'Model Updated Successfully',
+          'Finance Updated Successfully',
           {
             timeOut: 3000,
             showProgressBar: true,
@@ -113,34 +108,34 @@ export class DiscountOtpNoComponent implements OnInit {
           }
         )
       }
-      this.editNumberData[this.temp].name = data.name;
-      this.editNumberData[this.temp].number = data.number;
-
+      if(this.status == '1'){
+      this.editFinanceData[this.temp].finance_name = data.finance_name;
+      }
       this.temp = " ";
     });
     this.removeFields();
-    $('#editNumberModel').modal('hide')
+    $('#editFinance').modal('hide')
   }
 
-  deleteNumber(val, index) {
+  deleteFinances(val, index) {
     this.temp1 = index;
-    this.modeldeleteData = val;
+    this.financedeleteData = val;
     val.index = index;
-    this.discountsendotp_id = this.modeldeleteData[index].discountsendotp_id;
+    this.finance_name_id = this.financedeleteData[index].finance_name_id;
   }
 
-  yesDeleteModel() {
+  yesDeleteFinance() {
     var data = {
-      discountsendotp_id: this.discountsendotp_id,
+      finance_name_id: this.finance_name_id,
       status: "0"
     }
-    this.allvehicleservice.addOtpNumber(data).subscribe(res => {
+    this.allvehicleservice.addFinance(data).subscribe(res => {
       if (res.json().status == true) {
-        this.numbersData.splice(this.temp1, 1)
-        this.completevehicle.addNumbers([])
+        this.financeData.splice(this.temp1, 1)
+        this.completevehicle.addFinance([])
         this.notif.success(
           'Success',
-          'Model Deleted Successfully',
+          'Fianance Deleted Successfully',
           {
             timeOut: 3000,
             showProgressBar: true,
@@ -152,4 +147,5 @@ export class DiscountOtpNoComponent implements OnInit {
       }
     })
   }
+
 }

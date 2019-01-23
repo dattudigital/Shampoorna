@@ -12,6 +12,7 @@ export class CompleteVehicleService {
   variantData: any = [];
   colorData: any = [];
   numbersData:any=[];
+  financeData:any=[];
 
   public addType(message) {
     this.typeData = message;
@@ -51,6 +52,14 @@ export class CompleteVehicleService {
 
   public getColor() {
     return this.colorData;
+  }
+
+  public addFinance(data){
+    this.financeData =data;
+  }
+
+  public getFinance(){
+    return this.financeData
   }
   
 }
