@@ -54,6 +54,7 @@ export class VehicleModelComponent implements OnInit {
       if (res.json().status == true) {
         this.completevehicle.addModel([])
         this.modelData.push(res.json().result);
+        this.modelData = this.modelData.slice();
         this.notif.success(
           'Success',
           'Model Added Successfully',

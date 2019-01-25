@@ -26,24 +26,24 @@ export class WalletComponent implements OnInit {
   temp: any;
   temp1: any;
 
-  constructor(private router: Router, private spinner: NgxSpinnerService, private notif: NotificationsService, private setupservice:SetupServiceService ) { }
+  constructor(private router: Router, private spinner: NgxSpinnerService, private notif: NotificationsService, private setupservice: SetupServiceService) { }
 
   ngOnInit() {
     this.spinner.show();
     this.setupservice.getWallet().subscribe(res => {
-      this.spinner.hide();
       if (res.json().status == true) {
         this.walletData = res.json().result;
       } else {
-        this.walletData  = [];
+        this.walletData = [];
       }
+      this.spinner.hide();
     });
     this.cols = [
       { field: 'payment_name', header: 'Wallet Name' }
     ];
   }
 
-  backToSetup(){
+  backToSetup() {
     this.router.navigate(['setup'])
   }
 
@@ -59,18 +59,21 @@ export class WalletComponent implements OnInit {
       payment_status: 1
     }
     this.setupservice.saveWallet(data).subscribe(res => {
-      this.walletData.push(res.json().result);
-      this.notif.success(
-        'Success',
-        'Wallet Added Successfully',
-        {
-          timeOut: 3000,
-          showProgressBar: true,
-          pauseOnHover: false,
-          clickToClose: true,
-          maxLength: 50
-        }
-      )
+      if (res.json().status == true) {
+        this.walletData.push(res.json().result);
+        this.walletData = this.walletData.slice();
+        this.notif.success(
+          'Success',
+          'Wallet Added Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+      }
       $('#addWallet').modal('hide');
     });
   }
@@ -83,8 +86,8 @@ export class WalletComponent implements OnInit {
     data.index = index;
     this.temp = index;
     this.wallet.walId = this.editData[index].payment_type_id,
-    this.wallet.name = this.editData[index].payment_name,
-    this.wallet.status = this.editData[index].payment_status
+      this.wallet.name = this.editData[index].payment_name,
+      this.wallet.status = this.editData[index].payment_status
   }
 
   updateWallets() {
@@ -95,9 +98,9 @@ export class WalletComponent implements OnInit {
     }
     this.setupservice.saveWallet(data).subscribe(res => {
       this.walletData[this.temp].payment_type_id = data.payment_type_id,
-      this.walletData[this.temp].payment_name = data.payment_name,
-      this.walletData[this.temp].payment_status = data.payment_status,
-      this.temp = " "
+        this.walletData[this.temp].payment_name = data.payment_name,
+        this.walletData[this.temp].payment_status = data.payment_status,
+        this.temp = " "
     });
     $('#addWallet').modal('hide')
   }
@@ -110,12 +113,26 @@ export class WalletComponent implements OnInit {
   }
 
   yesWalletDelete() {
-    this.walletData.splice(this.temp1, 1)
     var data = {
       payment_type_id: this.wallet.walId,
       payment_status: "0"
     }
     this.setupservice.saveWallet(data).subscribe(res => {
+      if (res.json().status == true) {
+        this.walletData.splice(this.temp1, 1)
+        this.notif.success(
+          'Success',
+          'Wallet Deleted Successfully',
+          {
+            timeOut: 3000,
+            showProgressBar: true,
+            pauseOnHover: false,
+            clickToClose: true,
+            maxLength: 50
+          }
+        )
+        // this.walletData = this.walletData.slice();
+      }
     })
   }
 

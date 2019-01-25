@@ -57,6 +57,7 @@ export class DiscountOtpNoComponent implements OnInit {
       if (res.json().status == true) {
         this.completevehicle.addNumbers([])
         this.numbersData.push(res.json().result);
+        this.numbersData = this.numbersData.slice();
         this.notif.success(
           'Success',
           'Model Added Successfully',

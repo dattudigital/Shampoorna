@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as XLSX from 'xlsx';
-import { Http } from '@angular/http';
-import { map } from 'rxjs/operators';
 import { AllVehicleService } from '../../services/all-vehicle.service';
 import { VehicleDetailService } from '../../services/vehicle-detail.service';
 import { NotificationsService } from 'angular2-notifications';
+import { NgxSpinnerService } from 'ngx-spinner';
+
 
 
 @Component({
@@ -15,14 +15,17 @@ import { NotificationsService } from 'angular2-notifications';
 })
 export class AddVehicleBulkComponent implements OnInit {
 
-  constructor(private router: Router, private http: Http, private service: AllVehicleService, private vehicleservice: VehicleDetailService, private notif: NotificationsService) { }
+  constructor(private router: Router, private service: AllVehicleService, private vehicleservice: VehicleDetailService, private notif: NotificationsService, private spinner: NgxSpinnerService) { }
   arrayBuffer: any;
   file: File;
   colorData: any[];
   typeData: any[];
   modelData: any[];
   variantData: any[];
+  errorData: any[];
+  cols: any[];
   public options = { position: ["top", "right"] }
+  enableErrorData = 'hidden';
   incomingfile(event) {
     this.file = event.target.files[0];
   }
@@ -41,6 +44,17 @@ export class AddVehicleBulkComponent implements OnInit {
     this.service.getVariant().subscribe(data => {
       this.variantData = data.json().result;
     })
+
+    this.cols = [
+      { field: 'TVS-M Invoice No', header: 'Invoice No' },
+      { field: 'Sourced from', header: 'Sorce From' },
+      { field: 'Category', header: 'Category' },
+      { field: 'Model', header: 'Model' },
+      { field: 'Colour', header: 'Color' },
+      { field: 'Variant', header: 'Variant' },
+      { field: 'Engine No', header: 'Engine No' },
+      { field: 'Frame No', header: 'Frame No' },
+    ];
   }
 
   backToVehicleDetails() {
@@ -64,9 +78,6 @@ export class AddVehicleBulkComponent implements OnInit {
         item["TVS-M Invoice Date"] = item["TVS-M Invoice Date"].replace("/", "-")
         item["Engine No"] = item["Engine No"].toUpperCase();
         item["Frame No"] = item["Frame No"].toUpperCase();
-        console.log(item["Frame No"].length);
-        console.log(item["Engine No"].length);
-        console.log(item)
         var engineMoreCount: any = []
         if (item["Engine No"].length > 12) {
           engineMoreCount = item["Engine No"]
@@ -75,7 +86,7 @@ export class AddVehicleBulkComponent implements OnInit {
         this.colorData.map(color => {
           if (item["Colour"] == color.color_name) {
             item["vehicle_color"] = color.vehicle_color_id;
-            delete item["Colour"];
+            // delete item["Colour"];
           }
         });
         this.typeData.map(type => {
@@ -84,7 +95,7 @@ export class AddVehicleBulkComponent implements OnInit {
           } else {
             if (item["Category"].toLowerCase() == type.type_name.toLowerCase()) {
               item["vehicle_type"] = type.vehicle_type_id;
-              delete item["Category"];
+              // delete item["Category"];
             }
           }
         });
@@ -93,7 +104,7 @@ export class AddVehicleBulkComponent implements OnInit {
           } else {
             if (item["Model"].toLowerCase() == model.model_name.toLowerCase()) {
               item["vehicle_model"] = model.vehicle_model_id;
-              delete item["Model"];
+              // delete item["Model"];
             }
           }
         });
@@ -103,7 +114,7 @@ export class AddVehicleBulkComponent implements OnInit {
           } else {
             if (item["Variant"].toLowerCase() == variant.variant_name.toLowerCase()) {
               item["vehicle_variant"] = variant.vehicle_variant_id;
-              delete item["Variant"]
+              // delete item["Variant"]
             }
           }
           // item["vehicle_variant"] = 1;
@@ -127,9 +138,29 @@ export class AddVehicleBulkComponent implements OnInit {
   }
 
   addBulkVehicles() {
+    this.spinner.show();
     this.vehicleservice.addVehicleDetailBulk(this.list).subscribe(res => {
-      console.log(res.json().result);
+      this.spinner.hide();
+      console.log(res.json());
+      console.log(res.json().errdata);
+      console.log(Object.keys(res.json().errdata).length)
       if (res.json().status == true) {
+        if (Object.keys(res.json().errdata).length > 0) {
+          this.enableErrorData = 'visible';
+          this.errorData = res.json().errdata
+          console.log(this.errorData)
+          this.notif.alert(
+                'Error',
+                'Failed To Add below Fields',
+                {
+                  timeOut: 3000,
+                  showProgressBar: true,
+                  pauseOnHover: false,
+                  clickToClose: true,
+                  maxLength: 50
+                }
+          )
+        }else{
         this.notif.success(
           'Success',
           'Added Bulk Successfully',
@@ -141,19 +172,24 @@ export class AddVehicleBulkComponent implements OnInit {
             maxLength: 50
           }
         )
-      } else {
-        this.notif.alert(
-          'Error',
-          'Failed To Add',
-          {
-            timeOut: 3000,
-            showProgressBar: true,
-            pauseOnHover: false,
-            clickToClose: true,
-            maxLength: 50
-          }
-        )
-      }
+        setTimeout(() => {
+          this.router.navigate(['inventory/vehicle-details']);
+        }, 1000);
+        }
+      } 
+      // else {
+      //   this.notif.alert(
+      //     'Error',
+      //     'Failed To Add',
+      //     {
+      //       timeOut: 3000,
+      //       showProgressBar: true,
+      //       pauseOnHover: false,
+      //       clickToClose: true,
+      //       maxLength: 50
+      //     }
+      //   )
+      // }
     })
   }
 

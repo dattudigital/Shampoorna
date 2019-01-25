@@ -21,7 +21,7 @@
   </div>
 
 
-  <p-table #dt [columns]="cols" [value]="walletData" [paginator]="true" [rows]="4">
+  <p-table #dt [columns]="cols" [value]="walletData" [paginator]="true" [rows]="4" [rowsPerPageOptions]='[4,8,12]'>
     <ng-template pTemplate="caption">
       <div style="text-align: right">
         <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
@@ -111,3 +111,7 @@
     </div>
   </div>
 </div>
+
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#f5c585" type="ball-scale-multiple">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

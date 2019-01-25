@@ -54,6 +54,7 @@ export class VehicleVariantComponent implements OnInit {
       if (res.json().status == true) {
         this.completevehicle.addVariant([])
         this.variantData.push(res.json().result);
+        this.variantData = this.variantData.slice();
         this.notif.success(
           'Success',
           'Variant Added Successfully',

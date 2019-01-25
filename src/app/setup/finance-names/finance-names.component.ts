@@ -55,6 +55,7 @@ export class FinanceNamesComponent implements OnInit {
       if (res.json().status == true) {
         this.completevehicle.addFinance([])
         this.financeData.push(res.json().result);
+        this.financeData = this.financeData.slice();
         this.notif.success(
           'Success',
           'Model Added Successfully',

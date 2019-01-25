@@ -52,6 +52,7 @@ export class VehicleTypeComponent implements OnInit {
     this.allvehicleservice.addCategory(data).subscribe(res => {
       if (res.json().status == true) {
         this.typeData.push(res.json().result);
+        this.typeData = this.typeData.slice();
         this.completevehicle.addType([])
         this.notif.success(
           'Success',

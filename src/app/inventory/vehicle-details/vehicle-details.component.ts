@@ -224,6 +224,8 @@ export class VehicleDetailsComponent implements OnInit {
     }
     this.service.addVehicleDetails(data).subscribe(res => {
       if (res.json().status == true) {
+        this.bikes.push(res.json().result)
+        this.bikes = this.bikes.slice();
         this.notif.success(
           'Success',
           'Vehicle Added Successfully',
@@ -236,7 +238,6 @@ export class VehicleDetailsComponent implements OnInit {
           }
         )
       }
-      this.bikes.push(res.json().result)
       $('#addVehicle').modal('hide');
     });
   }

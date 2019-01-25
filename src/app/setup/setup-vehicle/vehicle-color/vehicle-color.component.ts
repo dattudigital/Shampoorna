@@ -56,6 +56,7 @@ export class VehicleColorComponent implements OnInit {
         this.completevehicle.addColor([])
         $('#addcolor').modal('hide');
         this.colorData.push(res.json().result);
+        this.colorData = this.colorData.slice();
         this.notif.success(
           'Success',
           'Color Added Successfully',

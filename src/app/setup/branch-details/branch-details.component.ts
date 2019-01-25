@@ -67,6 +67,8 @@ export class BranchDetailsComponent implements OnInit {
     console.log(data);
     this.http.post(environment.host + 'branches', data).subscribe(res => {
       if (res.json().status == true) {
+        this.branchData.push(res.json().result)
+        this.branchData = this.branchData.slice();
         this.notif.success(
           'Success',
           'Branch Added Successfully',
@@ -79,8 +81,6 @@ export class BranchDetailsComponent implements OnInit {
           }
         )
       }
-      this.branchData.push(res.json().result)
-      console.log(this.branchData);
       $('#addBranch').modal('hide');
     })
   }
@@ -147,6 +147,7 @@ export class BranchDetailsComponent implements OnInit {
     val.index = index;
     this.branch_id = this.deleteData[index].branch_id;
   }
+  
   yesBranchDelete() {
     this.branchData.splice(this.temp1, 1)
     var data = {

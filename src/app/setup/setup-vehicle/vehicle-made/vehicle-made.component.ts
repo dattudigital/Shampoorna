@@ -51,6 +51,7 @@ export class VehicleMadeComponent implements OnInit {
     }
     this.http.post(environment.host + 'vehicle-makes', data).subscribe(res => {
       this.madeData.push(res.json().result);
+      this.madeData = this.madeData.slice();
       $('#addMade').modal('hide');
     })
   }

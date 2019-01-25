@@ -205,6 +205,7 @@ export class AddEmployeeComponent implements OnInit {
     this.service.saveEmployeeDetails(data).subscribe(res => {
       console.log(res.json());
       this.employees.push(res.json().result);
+      this.employees = this.employees.slice();
       console.log(this.employees);
       $('#addEmployee').modal('hide');
     });

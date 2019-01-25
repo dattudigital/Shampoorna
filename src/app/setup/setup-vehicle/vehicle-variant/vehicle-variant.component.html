@@ -23,7 +23,7 @@
   </div>
 </div>&nbsp;
 
-<p-table #dt [columns]="cols" [value]="variantData" [paginator]="true" [rows]="4">
+<p-table #dt [columns]="cols" [value]="variantData" [paginator]="true" [rows]="4" [rowsPerPageOptions]='[4,8,12]'>
   <ng-template pTemplate="caption">
     <div style="text-align: right">
       <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
